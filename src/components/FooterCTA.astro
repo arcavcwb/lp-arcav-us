@@ -1,0 +1,25 @@
+---
+import ContactForm from './ContactForm.astro';
+import NeuButton from './NeuButton.astro';
+
+const { title, subtitle, buttonText } = Astro.props;
+---
+<section class="section">
+  <div class="cta-wrapper">
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
+      <h2 class="section-title" style="margin-bottom: 0;">{title}</h2>
+      <p class="section-subtitle" style="margin-bottom: 1rem;">{subtitle}</p>
+    </div>
+    
+    <ContactForm>
+      <div style="display: flex; justify-content: center; width: 100%; margin-top: 1rem;">
+        <NeuButton type="submit" class="submit-btn">
+          {buttonText}
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </NeuButton>
+      </div>
+    </ContactForm>
+  </div>
+</section>

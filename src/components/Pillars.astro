@@ -1,0 +1,18 @@
+---
+const { pillars } = Astro.props;
+---
+<section class="section">
+  <div class="pillars-grid">
+    {pillars.map(pillar => (
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={pillar.iconPath}></path>
+          </svg>
+        </div>
+        <h3 class="pillar-title">{pillar.title}</h3>
+        <p class="pillar-desc">{pillar.desc}</p>
+      </div>
+    ))}
+  </div>
+</section>

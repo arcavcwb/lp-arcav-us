@@ -1,0 +1,419 @@
+---
+// src/components/ComingSoon.astro — Página "Próximamente" multilingüe (ES/EN/PT).
+import { translations, BRAND, LANGS, type Lang } from "../i18n/translations";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translations[lang];
+
+// URLs absolutas para canonical + hreflang
+const site = (Astro.site?.href ?? "https://arcav.us/").replace(/\/$/, "");
+const abs = (p: string) => (p === "/" ? `${site}/` : `${site}${p}`);
+const currentPath = LANGS.find((l) => l.code === lang)?.path ?? "/";
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{t.metaTitle}</title>
+    <meta name="description" content={t.metaDescription} />
+    <meta name="theme-color" content="#060809" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Canonical + alternativas por idioma (SEO) -->
+    <link rel="canonical" href={abs(currentPath)} />
+    {LANGS.map((l) => <link rel="alternate" hreflang={l.code} href={abs(l.path)} />)}
+    <link rel="alternate" hreflang="x-default" href={abs("/")} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={t.metaTitle} />
+    <meta property="og:description" content={t.metaDescription} />
+    <meta property="og:url" content={abs(currentPath)} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Fondos animados (resplandores + textura) -->
+    <div class="bg" aria-hidden="true">
+      <div class="glow glow-1"></div>
+      <div class="glow glow-2"></div>
+      <div class="grid"></div>
+      <div class="noise"></div>
+      <div class="vignette"></div>
+    </div>
+
+    <!-- Selector de idioma -->
+    <nav class="lang-switch" aria-label="Idioma">
+      {
+        LANGS.map((l) => (
+          <a href={l.path} class={l.code === lang ? "active" : ""} hreflang={l.code} lang={l.code}>
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <main class="stage">
+      <div class="badge">
+        <span class="dot"></span>
+        {t.badge}
+      </div>
+
+      <h1 class="brand">{BRAND.name}<span class="suffix">{BRAND.suffix}</span></h1>
+
+      <div class="divider"></div>
+
+      <p class="tagline">{t.tagline}</p>
+
+      <span class="launch">{t.launch}</span>
+
+      <footer class="footer">
+        <a class="email" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+
+        <nav class="social" aria-label="Social">
+          {
+            BRAND.social.map((s) => (
+              <a
+                href={s.href}
+                class="social-link"
+                aria-label={s.name}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                  <path d={s.path} />
+                </svg>
+              </a>
+            ))
+          }
+        </nav>
+
+        <small class="copyright">{t.copyright}</small>
+      </footer>
+    </main>
+
+    <style>
+      :root {
+        --bg: #060809;
+        --text: #e8edf2;
+        --muted: #8b97a3;
+        --accent: #10b981;
+        --accent-light: #34d399;
+        --accent-soft: #6ee7b7;
+        --font: "Inter", system-ui, sans-serif;
+        --mono: "JetBrains Mono", monospace;
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        line-height: 1.6;
+        min-height: 100svh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ─── Fondo ─────────────────────────────────────────────── */
+      .bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(110px);
+        opacity: 0.55;
+        will-change: transform;
+      }
+
+      .glow-1 {
+        width: 50vmax;
+        height: 50vmax;
+        top: -15vmax;
+        left: -10vmax;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.45), transparent 70%);
+        animation: float-1 22s ease-in-out infinite;
+      }
+
+      .glow-2 {
+        width: 45vmax;
+        height: 45vmax;
+        bottom: -18vmax;
+        right: -12vmax;
+        background: radial-gradient(circle, rgba(20, 184, 166, 0.35), transparent 70%);
+        animation: float-2 26s ease-in-out infinite;
+      }
+
+      @keyframes float-1 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(8vmax, 6vmax) scale(1.15); }
+      }
+      @keyframes float-2 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-7vmax, -5vmax) scale(1.1); }
+      }
+
+      .grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: radial-gradient(circle at center, #000 0%, transparent 75%);
+        -webkit-mask-image: radial-gradient(circle at center, #000 0%, transparent 75%);
+      }
+
+      .noise {
+        position: absolute;
+        inset: 0;
+        opacity: 0.035;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      .vignette {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+      }
+
+      /* ─── Selector de idioma ────────────────────────────────── */
+      .lang-switch {
+        position: fixed;
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 3;
+        display: flex;
+        gap: 0.25rem;
+        padding: 0.3rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(8px);
+      }
+
+      .lang-switch a {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+        text-decoration: none;
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        transition: all 0.2s var(--ease);
+      }
+      .lang-switch a:hover {
+        color: #fff;
+      }
+      .lang-switch a.active {
+        color: var(--bg);
+        background: var(--accent-light);
+        font-weight: 700;
+      }
+
+      /* ─── Contenido ─────────────────────────────────────────── */
+      .stage {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 720px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.75rem;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.5rem 1.1rem;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        border-radius: 999px;
+        background: rgba(16, 185, 129, 0.07);
+        backdrop-filter: blur(8px);
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--accent-soft);
+        animation: rise 0.8s var(--ease) both;
+      }
+
+      .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent-light);
+        box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.6);
+        animation: pulse 2.4s infinite;
+      }
+
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); }
+        70% { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+      }
+
+      .brand {
+        font-size: clamp(3.25rem, 15vw, 8rem);
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        line-height: 0.95;
+        background: linear-gradient(180deg, #ffffff 0%, #b9f5da 55%, var(--accent) 130%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 80px rgba(16, 185, 129, 0.25);
+        animation: rise 0.8s var(--ease) 0.1s both;
+      }
+
+      .suffix {
+        -webkit-text-fill-color: var(--accent-light);
+        color: var(--accent-light);
+        opacity: 0.5;
+        font-weight: 900;
+      }
+
+      .divider {
+        width: 64px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        animation: rise 0.8s var(--ease) 0.2s both;
+      }
+
+      .tagline {
+        font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+        color: var(--muted);
+        max-width: 46ch;
+        text-wrap: balance;
+        animation: rise 0.8s var(--ease) 0.3s both;
+      }
+
+      .launch {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent-soft);
+        opacity: 0.85;
+        animation: rise 0.8s var(--ease) 0.4s both;
+      }
+
+      .footer {
+        margin-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        animation: rise 0.8s var(--ease) 0.5s both;
+      }
+
+      .email {
+        font-family: var(--mono);
+        font-size: 0.9rem;
+        color: var(--text);
+        text-decoration: none;
+        padding-bottom: 2px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+      }
+      .email:hover {
+        color: var(--accent-light);
+        border-color: var(--accent-light);
+      }
+
+      .social {
+        display: flex;
+        gap: 0.85rem;
+      }
+
+      .social-link {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.25s var(--ease);
+      }
+      .social-link:hover {
+        color: #fff;
+        border-color: var(--accent);
+        background: rgba(16, 185, 129, 0.12);
+        transform: translateY(-2px);
+      }
+
+      .copyright {
+        font-size: 0.75rem;
+        color: rgba(139, 151, 163, 0.6);
+        letter-spacing: 0.02em;
+      }
+
+      @keyframes rise {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      *:focus-visible {
+        outline: 2px solid var(--accent-light);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+
+    <script>
+      // Recuerda el idioma elegido manualmente (1 año) para futuras visitas a "/".
+      document.querySelectorAll(".lang-switch a").forEach((link) => {
+        link.addEventListener("click", () => {
+          const lang = link.getAttribute("lang");
+          if (lang) {
+            document.cookie = `arcav_lang=${lang}; path=/; max-age=31536000; samesite=lax`;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

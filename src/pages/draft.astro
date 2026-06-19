@@ -1,0 +1,78 @@
+---
+// src/pages/draft.astro — Landing page completa EN DESARROLLO (privada / noindex).
+// Tu sitio público es "/" (Próximamente). Sigue iterando aquí hasta definir tu LP.
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SocialProof from '../components/SocialProof.astro';
+import Metrics from '../components/Metrics.astro';
+import Pillars from '../components/Pillars.astro';
+import FooterCTA from '../components/FooterCTA.astro';
+
+const CONTENT = {
+  meta: {
+    title: "Soluciones Web Modernas | Rapidez, Calidad y Seguridad",
+    description: "Eleva tu producto con diseños modernos y tecnología de punta. Rendimiento 100 Lighthouse, seguridad robusta y calidad a medida garantizada."
+  },
+  hero: {
+    badge: "Soluciones Frontend de Alta Tecnología",
+    title: "DISEÑO MODERNO. RENDIMIENTO PERFECTO.",
+    subtitle: "Soluciones a medida que combinan estética vanguardista, seguridad corporativa y rapidez inigualable validada por Google Lighthouse."
+  },
+  proof: {
+    text: "Tecnología auditada y de confianza para grandes marcas"
+  },
+  metrics: {
+    title: "Métricas Perfectas. Cero Excusas.",
+    subtitle: "No prometemos velocidad, la demostramos. Nuestra arquitectura Edge garantiza una puntuación de 100/100 en Google Lighthouse para que no pierdas ningún cliente por latencia."
+  },
+  pillars: [
+    {
+      title: "Velocidad Extrema",
+      desc: "Desplegamos en el Edge para garantizar latencia cero y tiempos de carga instantáneos a nivel global.",
+      iconPath: "M13 10V3L4 14h7v7l9-11h-7z"
+    },
+    {
+      title: "Calidad a Medida",
+      desc: "Diseños pixel-perfect, tipografía fluida y motores de temas dinámicos diseñados exclusivamente para tu marca.",
+      iconPath: "M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"
+    },
+    {
+      title: "Seguridad Corporativa",
+      desc: "Arquitectura robusta con las últimas prácticas de seguridad, validación del lado del servidor y protección anti-ataques.",
+      iconPath: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+    }
+  ],
+  cta: {
+    title: "¿Listo para elevar tu producto?",
+    subtitle: "Agenda una consultoría gratuita y descubre cómo podemos transformar tu aplicación.",
+    buttonText: "Solicitar Consultoría"
+  }
+};
+---
+<Layout title={CONTENT.meta.title} description={CONTENT.meta.description} noindex={true}>
+
+  <div class="page-wrapper">
+    <Hero
+      title={CONTENT.hero.title}
+      subtitle={CONTENT.hero.subtitle}
+      badge={CONTENT.hero.badge}
+    />
+
+    <SocialProof text={CONTENT.proof.text} />
+
+    <Metrics
+      title={CONTENT.metrics.title}
+      subtitle={CONTENT.metrics.subtitle}
+    />
+
+    <Pillars pillars={CONTENT.pillars} />
+
+    <FooterCTA
+      title={CONTENT.cta.title}
+      subtitle={CONTENT.cta.subtitle}
+      buttonText={CONTENT.cta.buttonText}
+    />
+  </div>
+</Layout>

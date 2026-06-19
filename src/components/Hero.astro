@@ -1,0 +1,14 @@
+---
+const { title, subtitle, badge } = Astro.props;
+---
+<section class="section" style="padding-top: 10rem; padding-bottom: 4rem;">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="status-badge">{badge}</div>
+      <h1 class="hero-title">{title}</h1>
+      <h2 class="hero-subtitle">{subtitle}</h2>
+    </div>
+    <!-- Right side empty or for abstract shapes, keeping focus on typography -->
+    <div></div>
+  </div>
+</section>

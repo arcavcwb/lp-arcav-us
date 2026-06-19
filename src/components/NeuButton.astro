@@ -1,0 +1,6 @@
+---
+const { type = "button", class: className = "" } = Astro.props;
+---
+<button type={type} class={`neu-btn ${className}`}>
+  <slot />
+</button>

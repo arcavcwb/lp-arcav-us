@@ -1,0 +1,34 @@
+---
+// src/pages/index.astro — Router de idioma.
+// Detecta el idioma del visitante y redirige a /es, /en o /pt.
+// Prioridad: 1) cookie (elección manual previa)  2) idioma del navegador  3) español.
+export const prerender = false; // necesita ejecutarse en el servidor para leer la petición
+
+const LOCALES = ["es", "en", "pt"];
+const DEFAULT_LOCALE = "es";
+
+// 1) ¿El usuario ya eligió un idioma antes? (cookie)
+const cookieLang = Astro.cookies.get("arcav_lang")?.value;
+let target: string | null =
+  cookieLang && LOCALES.includes(cookieLang) ? cookieLang : null;
+
+// 2) Idioma preferido del navegador (cabecera Accept-Language)
+if (!target) {
+  const header = Astro.request.headers.get("accept-language") ?? "";
+  const prefs = header
+    .split(",")
+    .map((part) => part.split(";")[0].trim().toLowerCase());
+  for (const pref of prefs) {
+    const base = pref.split("-")[0]; // "es-MX" -> "es"
+    if (LOCALES.includes(base)) {
+      target = base;
+      break;
+    }
+  }
+}
+
+// 3) Por defecto, español
+target = target ?? DEFAULT_LOCALE;
+
+return Astro.redirect(`/${target}`, 302);
+---

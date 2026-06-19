@@ -1,0 +1,43 @@
+---
+const FORM_DICT = {
+  emailLabel: "Email Corporativo",
+  emailPlaceholder: "ceo@tuempresa.com",
+  messageLabel: "¿En qué te ayudamos?",
+  messagePlaceholder: "Mejorar latencia y UX...",
+  errorMissing: "Por favor, completa todos los campos.",
+  errorServer: "Hubo un error al procesar tu solicitud.",
+  successMsg: "¡Gracias! Hemos recibido tu solicitud. Te contactaremos pronto."
+};
+
+let statusMessage = "";
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const email = data.get("email");
+    const message = data.get("message");
+    
+    if (!email || !message) {
+      statusMessage = FORM_DICT.errorMissing;
+    } else {
+      console.log("Nuevo contacto recibido (SSR Edge):", { email, message });
+      statusMessage = FORM_DICT.successMsg;
+    }
+  } catch (error) {
+    console.error("Error al procesar el formulario:", error);
+    statusMessage = FORM_DICT.errorServer;
+  }
+}
+---
+<form method="POST" class="contact-form">
+  {statusMessage && <div class="status-msg" role="alert">{statusMessage}</div>}
+  <div class="input-group">
+    <label for="email">{FORM_DICT.emailLabel}</label>
+    <input type="email" id="email" name="email" required placeholder={FORM_DICT.emailPlaceholder} autocomplete="email" />
+  </div>
+  <div class="input-group">
+    <label for="message">{FORM_DICT.messageLabel}</label>
+    <textarea id="message" name="message" rows="3" required placeholder={FORM_DICT.messagePlaceholder}></textarea>
+  </div>
+  <slot />
+</form>
