@@ -1,8 +1,7 @@
 # Sprint 1 — ARCAV Landing Page & Engine
 
 Estado: activo (Sprint 1)
-Proyecto Vikunja: `lp-arcav-us` (https://vikunja.arcav.us/projects/2)
-Tablero Kanban: [Kanban Board](https://vikunja.arcav.us/projects/2/views/12)
+Proyecto Vikunja: [lp-arcav-us](https://vikunja.arcav.us/projects/2)
 PRD de referencia: [PRD.md](PRD.md)
 Responsable operativo: `scrum-master-agent`
 
