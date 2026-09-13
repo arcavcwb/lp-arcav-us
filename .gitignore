@@ -26,3 +26,11 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+.agents/mcp_config.json
+.env.*
+!.env.example
+__pycache__/
+.agyflow-backups/
+pr_diff.txt
+review_report.md
+review_result.json

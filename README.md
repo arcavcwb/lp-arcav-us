@@ -1,43 +1,60 @@
-# Astro Starter Kit: Minimal
+# ARCAV Landing Page (lp-arcav-us)
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Sitio web landing page y portafolio multilenguaje (ES / EN / PT) para ARCAV, desarrollado con **Astro** y configurado para despliegue en **Cloudflare Workers**.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
 
-## 🚀 Project Structure
+## 🤖 Flujo Agéntico y Gobernanza (agyFlow Squad)
 
-Inside of your Astro project, you'll see the following folders and files:
+Este repositorio incorpora la infraestructura del squad agéntico **agyFlow**, diseñado para coordinar el ciclo de vida de desarrollo de software mediante roles de IA especializados:
+
+* **Índice Maestro del Squad:** [`AGENTS.md`](AGENTS.md)
+* **Estrategia de Contexto:** [`docs/context-strategy.md`](docs/context-strategy.md)
+* **Protocolo de Handoff:** [`docs/protocolo.md`](docs/protocolo.md)
+* **Requerimientos y PRD:** [`PRD.md`](PRD.md)
+* **Espejo del Sprint:** [`sprint_actual.md`](sprint_actual.md) *(integrado con **Vikunja** en VPS para la gestión operativa de tareas)*
+
+### Agentes del Squad
+| Agente | Rol / Dominio |
+|---|---|
+| `po-agent` | `PRD.md` e historias de usuario con 4 escenarios |
+| `scrum-master-agent` | Planificación, gestión en Vikunja y espejo del sprint |
+| `designer-agent` | Diseño, tokens y recursos visuales |
+| `frontend-dev-agent` | Desarrollo e interfaz con Astro, React y TypeScript |
+| `backend-dev-agent` | Servicios, APIs y contratos de datos |
+| `qa-agent` | Evaluación de criterios de aceptación y `bug_report.md` |
+| `devops-agent` | Preparación de build/CI y despliegue a Staging |
+| `automation-agent` | Sincronización de workflows y estado operativo |
+
+---
+
+## 🚀 Estructura del Proyecto
 
 ```text
 /
-├── public/
-├── src/
+├── .agents/              # Roles, skills y configuración MCP del squad
+├── config/               # Asignación de skills por agente
+├── docs/                 # Estrategia de contexto, protocolos y diagramas
+├── public/               # Assets estáticos
+├── scripts/              # Herramientas de validación y simulación de pipeline
+├── src/                  # Componentes, i18n, layouts y páginas Astro
 │   └── pages/
-│       └── index.astro
+│       ├── index.astro   # Detección y redirección de idioma
+│       ├── es/, en/, pt/ # Páginas por idioma (Coming Soon)
+│       └── draft.astro   # Borrador de la landing completa
+├── AGENTS.md             # Gobernanza y manual maestro del squad
+├── PRD.md                # Requerimientos vigentes
+├── sprint_actual.md      # Estado operativo del sprint
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+---
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 🛠️ Comandos Disponibles
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Comando | Descripción |
+| :--- | :--- |
+| `npm run dev` | Inicia el servidor de desarrollo local |
+| `npm run build` | Genera la build de producción en `./dist/` |
+| `npm run preview` | Previsualiza la build localmente |
+| `python3 scripts/validate_squad.py` | Valida la estructura e integridad del squad agyFlow |
