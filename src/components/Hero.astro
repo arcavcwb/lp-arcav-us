@@ -1,14 +1,327 @@
 ---
-const { title, subtitle, badge } = Astro.props;
+import type { Copy } from '../i18n/translations';
+
+interface Props {
+  copy: Copy['hero'];
+}
+
+const { copy } = Astro.props;
 ---
-<section class="section" style="padding-top: 10rem; padding-bottom: 4rem;">
-  <div class="hero-grid">
-    <div class="hero-content">
-      <div class="status-badge">{badge}</div>
-      <h1 class="hero-title">{title}</h1>
-      <h2 class="hero-subtitle">{subtitle}</h2>
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-grid">
+
+      <!-- Text Column -->
+      <div class="hero-content">
+        <div class="mono-label hero-eyebrow">{copy.eyebrow}</div>
+
+        <h1 class="hero-title">{copy.title}</h1>
+
+        <p class="hero-subtitle">{copy.subtitle}</p>
+
+        <div class="hero-ctas">
+          <a href="#trabajo" class="btn-primary">{copy.primaryCta}</a>
+          <a href="#contacto" class="btn-secondary">{copy.secondaryCta}</a>
+        </div>
+
+        <div class="hero-statement">
+          <span class="statement-dot"></span>
+          <span class="statement-text">{copy.statement}</span>
+        </div>
+      </div>
+
+      <!-- Process Diagram Column -->
+      <div class="hero-diagram-card">
+        <div class="diagram-header">
+          <span class="diagram-dot red"></span>
+          <span class="diagram-dot yellow"></span>
+          <span class="diagram-dot green"></span>
+          <span class="diagram-title">process_evolution.sys</span>
+        </div>
+
+        <div class="diagram-body">
+
+          <!-- Input Node -->
+          <div class="node-box input-node">
+            <span class="node-status">INPUT / DISPERSO</span>
+            <div class="node-tags">
+              <span class="mono-tag">WhatsApp</span>
+              <span class="mono-tag">Sheets</span>
+              <span class="mono-tag">Formularios</span>
+              <span class="mono-tag">Emails</span>
+            </div>
+          </div>
+
+          <!-- Connection Line -->
+          <div class="connection-line">
+            <svg viewBox="0 0 24 24" class="connector-arrow">
+              <path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="var(--coral)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- Process Node (ARCAV) -->
+          <div class="node-box arcav-node">
+            <div class="arcav-badge">
+              <span class="arcav-icon">⚡</span>
+              <span class="arcav-text">ARCAV ENGINE</span>
+            </div>
+            <p class="arcav-desc">Arquitectura simple, conectores y lógica de negocio</p>
+          </div>
+
+          <!-- Connection Line -->
+          <div class="connection-line">
+            <svg viewBox="0 0 24 24" class="connector-arrow">
+              <path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="var(--blue-light)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- Output Node -->
+          <div class="node-box output-node">
+            <span class="node-status output-status">OUTPUT / CONTROLADO</span>
+            <div class="node-tags">
+              <span class="mono-tag active-tag">Sistema Simple</span>
+              <span class="mono-tag active-tag">Automatizado</span>
+              <span class="mono-tag active-tag">Control Operativo</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="diagram-footer">
+          <span class="trajectory-label">TRAYECTORIA:</span>
+          <span class="trajectory-path">{copy.trajectory}</span>
+        </div>
+      </div>
+
     </div>
-    <!-- Right side empty or for abstract shapes, keeping focus on typography -->
-    <div></div>
   </div>
 </section>
+
+<style>
+.hero-section {
+  padding: clamp(3rem, 6vw, 6rem) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 4rem;
+  }
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--text-main);
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.hero-statement {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.statement-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--emerald-glow);
+}
+
+.statement-text {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* Diagram Card */
+.hero-diagram-card {
+  background: var(--surface-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.diagram-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--bg-deep);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.diagram-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.diagram-dot.red { background: #FF5F56; }
+.diagram-dot.yellow { background: #FFBD2E; }
+.diagram-dot.green { background: #27C93F; }
+
+.diagram-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  margin-left: 0.5rem;
+}
+
+.diagram-body {
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.node-box {
+  width: 100%;
+  background: var(--bg-deep);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.node-status {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--coral);
+  letter-spacing: 0.1em;
+}
+
+.node-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.connection-line {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.connector-arrow {
+  width: 20px;
+  height: 20px;
+  animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.arcav-node {
+  background: var(--surface-elevated);
+  border-color: var(--border-active);
+  text-align: center;
+  align-items: center;
+  box-shadow: 0 4px 20px var(--blue-glow);
+}
+
+.arcav-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.arcav-icon {
+  font-size: 1.2rem;
+}
+
+.arcav-text {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--blue-light);
+  letter-spacing: 0.05em;
+}
+
+.arcav-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.output-status {
+  color: var(--emerald);
+}
+
+.active-tag {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+  color: var(--emerald-light) !important;
+}
+
+.diagram-footer {
+  padding: 1rem 1.25rem;
+  background: var(--bg-deep);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.trajectory-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-subtle);
+  letter-spacing: 0.1em;
+}
+
+.trajectory-path {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--coral-light);
+  font-weight: 600;
+}
+</style>

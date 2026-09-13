@@ -1,7 +1,30 @@
 ---
-// src/pages/pt/index.astro — Português (rota "/pt")
 export const prerender = true;
-import ComingSoon from "../../components/ComingSoon.astro";
----
 
-<ComingSoon lang="pt" />
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import Problem from '../../components/Problem.astro';
+import Services from '../../components/Services.astro';
+import Cases from '../../components/Cases.astro';
+import Method from '../../components/Method.astro';
+import About from '../../components/About.astro';
+import Contact from '../../components/Contact.astro';
+import Footer from '../../components/Footer.astro';
+import { translations } from '../../i18n/translations';
+
+const copy = translations.pt;
+---
+<Layout title={copy.metaTitle} description={copy.metaDescription} lang="pt">
+  <Header currentLang="pt" copy={copy.nav} />
+  <main>
+    <Hero copy={copy.hero} />
+    <Problem copy={copy.problem} />
+    <Services copy={copy.services} />
+    <Cases copy={copy.cases} />
+    <Method copy={copy.method} />
+    <About copy={copy.about} />
+    <Contact copy={copy.contact} />
+  </main>
+  <Footer copy={copy.footer} />
+</Layout>

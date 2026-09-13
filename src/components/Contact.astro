@@ -1,0 +1,208 @@
+---
+import type { Copy } from '../i18n/translations';
+
+interface Props {
+  copy: Copy['contact'];
+}
+
+const { copy } = Astro.props;
+---
+<section id="contacto" class="section contact-section">
+  <div class="container">
+
+    <div class="contact-wrapper">
+
+      <div class="contact-info">
+        <div class="mono-label">CONTACTO & CONSULTORÍA</div>
+        <h2 class="contact-title">{copy.title}</h2>
+        <p class="contact-subtitle">{copy.subtitle}</p>
+
+        <div class="direct-contact">
+          <span class="mono-label">EMAIL DIRECTO:</span>
+          <a href="mailto:hola@arcav.us" class="email-link">hola@arcav.us</a>
+        </div>
+      </div>
+
+      <!-- Interactive Contact Form -->
+      <div class="card contact-card">
+        <form id="contactForm" class="contact-form">
+
+          <div class="input-group">
+            <label for="name">{copy.nameLabel}</label>
+            <input type="text" id="name" name="name" placeholder="Ej: Maria Silva / Empresa XYZ" required />
+          </div>
+
+          <div class="input-group">
+            <label for="email">{copy.emailLabel}</label>
+            <input type="email" id="email" name="email" placeholder="maria@empresa.com" required />
+          </div>
+
+          <div class="input-group">
+            <label for="message">{copy.msgLabel}</label>
+            <textarea id="message" name="message" rows="4" placeholder="Cuéntanos brevemente sobre tu proceso manual o requerimiento..." required></textarea>
+          </div>
+
+          <div id="statusMsg" class="status-msg" style="display: none;"></div>
+
+          <button type="submit" id="submitBtn" class="btn-primary submit-btn">
+            <span>{copy.submit}</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contactForm') as HTMLFormElement;
+  const statusMsg = document.getElementById('statusMsg') as HTMLElement;
+  const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = (document.getElementById('name') as HTMLInputElement).value.trim();
+      const email = (document.getElementById('email') as HTMLInputElement).value.trim();
+      const message = (document.getElementById('message') as HTMLTextAreaElement).value.trim();
+
+      if (!name || !email || !message) {
+        statusMsg.style.display = 'block';
+        statusMsg.style.background = 'rgba(239, 68, 68, 0.15)';
+        statusMsg.style.color = '#EF4444';
+        statusMsg.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+        statusMsg.innerText = 'Por favor completa todos los campos.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Enviando...';
+
+      // Simular respuesta exitosa de captura
+      setTimeout(() => {
+        statusMsg.style.display = 'block';
+        statusMsg.style.background = 'rgba(16, 185, 129, 0.15)';
+        statusMsg.style.color = '#34D399';
+        statusMsg.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+        statusMsg.innerText = '¡Mensaje recibido con éxito! Armando se pondrá en contacto muy pronto.';
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Enviar mensaje →';
+      }, 1000);
+    });
+  }
+</script>
+
+<style>
+.contact-section {
+  background: var(--bg-main);
+}
+
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .contact-wrapper {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-title {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800;
+}
+
+.contact-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.direct-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.email-link {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--coral-light);
+  transition: color var(--transition-fast);
+}
+
+.email-link:hover {
+  color: var(--coral);
+}
+
+.contact-card {
+  background: var(--surface-main);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input-group input,
+.input-group textarea {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  color: var(--text-main);
+  font-family: var(--font-base);
+  font-size: 0.95rem;
+  transition: border-color var(--transition-fast);
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: var(--coral);
+}
+
+.status-msg {
+  padding: 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.submit-btn {
+  width: 100%;
+}
+</style>

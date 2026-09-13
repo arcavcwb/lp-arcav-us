@@ -1,0 +1,138 @@
+---
+import type { Copy } from '../i18n/translations';
+
+interface Props {
+  copy: Copy['services'];
+}
+
+const { copy } = Astro.props;
+---
+<section id="servicios" class="section services-section">
+  <div class="container">
+
+    <div class="section-header">
+      <div class="mono-label">{copy.label}</div>
+      <h2 class="section-title">{copy.title}</h2>
+      <p class="section-subtitle">{copy.subtitle}</p>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="services-grid">
+
+      <!-- Service 01 -->
+      <div class="card service-card">
+        <div class="service-icon-box">
+          <svg viewBox="0 0 24 24" class="service-icon">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="service-title">{copy.s1.title}</h3>
+        <p class="service-desc">{copy.s1.desc}</p>
+        <div class="flow-pill">
+          <span class="flow-arrow">⚡</span>
+          <span>{copy.s1.flow}</span>
+        </div>
+      </div>
+
+      <!-- Service 02 -->
+      <div class="card service-card highlighted-service">
+        <div class="service-icon-box coral-icon">
+          <svg viewBox="0 0 24 24" class="service-icon">
+            <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+            <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+            <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+            <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <h3 class="service-title">{copy.s2.title}</h3>
+        <p class="service-desc">{copy.s2.desc}</p>
+        <div class="flow-pill coral-flow">
+          <span class="flow-arrow">⚡</span>
+          <span>{copy.s2.flow}</span>
+        </div>
+      </div>
+
+      <!-- Service 03 -->
+      <div class="card service-card">
+        <div class="service-icon-box">
+          <svg viewBox="0 0 24 24" class="service-icon">
+            <path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <circle cx="5" cy="19" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3 class="service-title">{copy.s3.title}</h3>
+        <p class="service-desc">{copy.s3.desc}</p>
+        <div class="flow-pill">
+          <span class="flow-arrow">⚡</span>
+          <span>{copy.s3.flow}</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+.services-section {
+  background: var(--bg-main);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+}
+
+.highlighted-service {
+  border-color: var(--border-accent);
+  box-shadow: 0 10px 30px var(--coral-glow);
+}
+
+.service-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: rgba(47, 128, 255, 0.1);
+  border: 1px solid rgba(47, 128, 255, 0.25);
+  color: var(--blue-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coral-icon {
+  background: rgba(255, 107, 82, 0.1);
+  border-color: rgba(255, 107, 82, 0.3);
+  color: var(--coral);
+}
+
+.service-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.service-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.service-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.coral-flow {
+  background: rgba(255, 107, 82, 0.1);
+  border-color: rgba(255, 107, 82, 0.25);
+  color: var(--coral-light);
+}
+</style>

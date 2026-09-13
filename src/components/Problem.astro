@@ -1,0 +1,176 @@
+---
+import type { Copy } from '../i18n/translations';
+
+interface Props {
+  copy: Copy['problem'];
+}
+
+const { copy } = Astro.props;
+---
+<section id="problema" class="section problem-section">
+  <div class="container">
+
+    <div class="section-header">
+      <div class="mono-label">{copy.label}</div>
+      <h2 class="section-title">{copy.title}</h2>
+      <p class="section-subtitle">{copy.copy}</p>
+    </div>
+
+    <!-- Transformation Comparison Cards -->
+    <div class="transformation-grid">
+
+      <!-- Before Card (Dispersed / Manual) -->
+      <div class="card transform-card before-card">
+        <div class="card-status status-before">ANTES DE ARCAV</div>
+        <h3 class="transform-title">{copy.from}</h3>
+        <ul class="problem-list">
+          <li>⚠️ Información fragmentada en WhatsApp, Sheets y correos</li>
+          <li>⚠️ Dependencia de personas específicas para tareas repetitivas</li>
+          <li>⚠️ Falta de visibilidad y control sobre el estado de la operación</li>
+        </ul>
+      </div>
+
+      <!-- Arrow Indicator -->
+      <div class="transform-arrow">
+        <span class="arrow-symbol">➔</span>
+        <span class="arrow-text">EVOLUCIÓN</span>
+      </div>
+
+      <!-- After Card (Connected / Automated) -->
+      <div class="card transform-card after-card">
+        <div class="card-status status-after">CON ARCAV</div>
+        <h3 class="transform-title">{copy.to}</h3>
+        <ul class="problem-list success-list">
+          <li>✅ Datos centralizados y flujos automáticos conectores</li>
+          <li>✅ Operación guiada por reglas y alertas en tiempo real</li>
+          <li>✅ Control, reportes claros y escalabilidad real</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Statement Box -->
+    <div class="quote-box">
+      <p class="quote-text">"{copy.quote}"</p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.problem-section {
+  background: var(--bg-deep);
+}
+
+.transformation-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 3.5rem;
+}
+
+@media (min-width: 900px) {
+  .transformation-grid {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2rem;
+  }
+}
+
+.transform-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+}
+
+.before-card {
+  border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.03);
+}
+
+.after-card {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.04);
+  box-shadow: 0 10px 30px var(--emerald-glow);
+}
+
+.card-status {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  width: fit-content;
+}
+
+.status-before {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+}
+
+.status-after {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--emerald-light);
+}
+
+.transform-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.problem-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.success-list {
+  color: var(--text-main);
+}
+
+.transform-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 1rem;
+}
+
+.arrow-symbol {
+  font-size: 1.8rem;
+  color: var(--coral);
+}
+
+.arrow-text {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--coral-light);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.quote-box {
+  background: var(--surface-main);
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--coral);
+  border-radius: var(--radius-md);
+  padding: 1.75rem 2rem;
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.quote-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  font-style: italic;
+  color: var(--text-main);
+  font-weight: 500;
+}
+</style>

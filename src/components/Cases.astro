@@ -1,0 +1,173 @@
+---
+import type { Copy } from '../i18n/translations';
+
+interface Props {
+  copy: Copy['cases'];
+}
+
+const { copy } = Astro.props;
+---
+<section id="trabajo" class="section cases-section">
+  <div class="container">
+
+    <div class="section-header">
+      <div class="mono-label">{copy.label}</div>
+      <h2 class="section-title">{copy.title}</h2>
+    </div>
+
+    <div class="cases-grid">
+
+      <!-- Case 01 -->
+      <article class="card case-card">
+        <div class="case-header">
+          <span class="mono-tag">{copy.c1.tag}</span>
+          <span class="case-number">CASE / 01</span>
+        </div>
+
+        <h3 class="case-title">{copy.c1.title}</h3>
+        <p class="case-desc">{copy.c1.desc}</p>
+
+        <div class="insight-box">
+          <span class="insight-label">INSIGHT DE INGENIERÍA:</span>
+          <p class="insight-text">"{copy.c1.insight}"</p>
+        </div>
+      </article>
+
+      <!-- Case 02 -->
+      <article class="card case-card">
+        <div class="case-header">
+          <span class="mono-tag">{copy.c2.tag}</span>
+          <span class="case-number">CASE / 02</span>
+        </div>
+
+        <h3 class="case-title">{copy.c2.title}</h3>
+        <p class="case-desc">{copy.c2.desc}</p>
+
+        <div class="insight-box">
+          <span class="insight-label">INSIGHT DE INGENIERÍA:</span>
+          <p class="insight-text">"{copy.c2.insight}"</p>
+        </div>
+      </article>
+
+      <!-- Case 03 (arcav-ia-flow) -->
+      <article class="card case-card featured-case">
+        <div class="case-header">
+          <span class="mono-tag coral-tag">{copy.c3.tag}</span>
+          <span class="case-number">CASE / 03</span>
+        </div>
+
+        <h3 class="case-title">{copy.c3.title}</h3>
+        <p class="case-desc">{copy.c3.desc}</p>
+
+        <div class="insight-box">
+          <span class="insight-label">INSIGHT DE INGENIERÍA:</span>
+          <p class="insight-text">"{copy.c3.insight}"</p>
+        </div>
+
+        {copy.c3.repo && (
+          <a href={copy.c3.repo} target="_blank" rel="noopener noreferrer" class="repo-link">
+            <span>Ver repositorio agéntico (GitHub)</span>
+            <span>↗</span>
+          </a>
+        )}
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+.cases-section {
+  background: var(--bg-deep);
+}
+
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.case-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 100%;
+}
+
+.featured-case {
+  border-color: var(--border-accent);
+}
+
+.case-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.case-number {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  font-weight: 700;
+}
+
+.case-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.case-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.insight-box {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: auto;
+}
+
+.insight-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--coral-light);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.insight-text {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-main);
+}
+
+.coral-tag {
+  background: rgba(255, 107, 82, 0.15) !important;
+  border-color: rgba(255, 107, 82, 0.3) !important;
+  color: var(--coral-light) !important;
+}
+
+.repo-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--blue-light);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-subtle);
+  transition: color var(--transition-fast);
+}
+
+.repo-link:hover {
+  color: var(--coral);
+}
+</style>

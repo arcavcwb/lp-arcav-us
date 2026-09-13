@@ -1,0 +1,64 @@
+---
+import type { Copy } from '../i18n/translations';
+
+interface Props {
+  copy: Copy['method'];
+}
+
+const { copy } = Astro.props;
+---
+<section id="metodo" class="section method-section">
+  <div class="container">
+
+    <div class="section-header">
+      <div class="mono-label">{copy.label}</div>
+      <h2 class="section-title">{copy.title}</h2>
+    </div>
+
+    <!-- Steps Timeline / Grid -->
+    <div class="steps-grid">
+      {copy.steps.map((step) => {
+        const [numTitle, desc] = step.split(' — ');
+        return (
+          <div class="card step-card">
+            <div class="step-num-title">{numTitle}</div>
+            <p class="step-desc">{desc}</p>
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>
+
+<style>
+.method-section {
+  background: var(--bg-main);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.75rem;
+}
+
+.step-num-title {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--blue-light);
+}
+
+.step-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+</style>

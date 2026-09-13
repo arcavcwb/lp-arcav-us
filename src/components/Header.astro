@@ -1,0 +1,158 @@
+---
+import { BRAND, LANGS, type Copy, type Lang } from '../i18n/translations';
+
+interface Props {
+  currentLang: Lang;
+  copy: Copy['nav'];
+}
+
+const { currentLang, copy } = Astro.props;
+---
+<header class="header">
+  <div class="container header-content">
+    <a href={`/${currentLang}`} class="brand-logo">
+      <span class="brand-name">{BRAND.name}</span>
+      <span class="brand-by">by {BRAND.author}</span>
+    </a>
+
+    <nav class="nav-menu">
+      <a href="#servicios" class="nav-link">{copy.services}</a>
+      <a href="#trabajo" class="nav-link">{copy.work}</a>
+      <a href="#metodo" class="nav-link">{copy.method}</a>
+      <a href="#sobre-mi" class="nav-link">{copy.about}</a>
+      <a href="#contacto" class="nav-link">{copy.contact}</a>
+    </nav>
+
+    <div class="header-actions">
+      <!-- Language Switcher -->
+      <div class="lang-switcher">
+        {LANGS.map(l => (
+          <a
+            href={l.path}
+            class={`lang-btn ${currentLang === l.code ? 'active' : ''}`}
+            data-lang={l.code}
+          >
+            {l.label}
+          </a>
+        ))}
+      </div>
+
+      <a href="#contacto" class="btn-primary header-cta">{copy.cta}</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Save language selection preference in cookie
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const lang = (e.currentTarget as HTMLElement).getAttribute('data-lang');
+      if (lang) {
+        document.cookie = `arcav_lang=${lang}; path=/; max-age=31536000; SameSite=Lax`;
+      }
+    });
+  });
+</script>
+
+<style>
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(3, 20, 38, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1rem 0;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: var(--text-main);
+}
+
+.brand-by {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+}
+
+.nav-menu {
+  display: none;
+  align-items: center;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .nav-menu {
+    display: flex;
+  }
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--text-main);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--surface-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem;
+}
+
+.lang-btn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  color: var(--text-subtle);
+  transition: all var(--transition-fast);
+}
+
+.lang-btn:hover {
+  color: var(--text-main);
+}
+
+.lang-btn.active {
+  background: var(--surface-elevated);
+  color: var(--coral);
+  border: 1px solid var(--border-subtle);
+}
+
+.header-cta {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+</style>
