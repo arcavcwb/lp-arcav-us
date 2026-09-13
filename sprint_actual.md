@@ -11,7 +11,7 @@ Vikunja es la fuente de verdad. Este archivo es un espejo local actualizado seg√
 
 | Ticket / ID | Clave estable | Responsable | Estado | Reaperturas |
 |---|---|---|---|---|
-| VK-2 | `lp-arcav-us:US-01` | `po-agent` | *por iniciar* | 0 |
+| VK-2 | `lp-arcav-us:US-01` | `po-agent` | `en_progreso` | 0 |
 | VK-3 | `lp-arcav-us:US-02` | `designer-agent` | *por iniciar* | 0 |
 | VK-4 | `lp-arcav-us:US-03` | `frontend-agent` | *por iniciar* | 0 |
 | VK-5 | `lp-arcav-us:US-04` | `frontend-agent` | *por iniciar* | 0 |
