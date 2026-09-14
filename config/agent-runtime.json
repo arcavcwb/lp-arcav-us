@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "executor": "agy",
+  "executor": "codex",
   "working_branch_required": true,
   "agents": {
     "po-agent": {"model": "gpt-5.6-terra", "model_env": "AGY_MODEL_PO_AGENT", "session_env": "AGY_SESSION_PO_AGENT"},

@@ -16,7 +16,7 @@ class OrchestratorTests(unittest.TestCase):
         self.assertEqual(set(cfg["agents"]), orchestrator.ROLES)
         self.assertTrue(all(item["model"].startswith("gpt-") for item in cfg["agents"].values()))
 
-    def test_missing_model_fails_closed(self):
+    def test_declared_codex_model_is_used_by_default(self):
         result = subprocess.run([sys.executable, str(ROOT / "scripts/agent_orchestrator.py"),
                                 "po-agent", "--ticket", "HARDENING", "--routes", "docs/"],
                                capture_output=True, text=True)

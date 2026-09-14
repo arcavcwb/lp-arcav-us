@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Gate and launch an agyFlow role without silently skipping phases.
+"""Gate and launch an agyFlow role with Codex without silently skipping phases.
 
-The dispatcher never invents model names or credentials. Set the model/session
-environment variables named in config/agent-runtime.json and invoke one role at
-a time. By default it prints the command; --execute is required to launch agy.
+The dispatcher never invents model names or credentials. Models are declared in
+config/agent-runtime.json and may be overridden by environment variables. By
+default it prints the command; --execute is required to launch Codex.
 """
 import argparse
 import json
@@ -20,7 +20,7 @@ ROLES = {"po-agent", "scrum-master-agent", "designer-agent", "backend-dev-agent"
 
 def load_config():
     data = json.loads(CONFIG.read_text(encoding="utf-8"))
-    if data.get("schema_version") != 1 or data.get("executor") != "agy":
+    if data.get("schema_version") != 1 or data.get("executor") != "codex":
         raise ValueError("configuración de runtime incompatible")
     if set(data.get("agents", {})) != ROLES:
         raise ValueError("el runtime debe declarar exactamente los roles conocidos")
@@ -55,7 +55,7 @@ def main():
     parser.add_argument("--ticket", required=True)
     parser.add_argument("--routes", required=True)
     parser.add_argument("--context", default="")
-    parser.add_argument("--execute", action="store_true", help="lanzar agy; por defecto solo preparar el handoff")
+    parser.add_argument("--execute", action="store_true", help="lanzar Codex; por defecto solo preparar el handoff")
     args = parser.parse_args()
     try:
         cfg = load_config()
@@ -72,7 +72,7 @@ def main():
         if not model:
             raise RuntimeError(f"falta modelo Codex para {args.role}")
         handoff = prompt(args.role, args.ticket, args.routes, args.context)
-        command = ["agy", "--agent", args.role, "--model", model, "--prompt", handoff]
+        command = ["codex", "exec", "--model", model, handoff]
         print(json.dumps({"role": args.role, "model": model, "session": session,
                           "branch": current, "command": command, "execute": args.execute}, ensure_ascii=False, indent=2))
         if not args.execute:

@@ -16,7 +16,7 @@ Una dependencia no aplicable debe justificarse; no se salta una fase sin esa evi
 
 ## Orquestación de agentes
 
-`config/agent-runtime.json` declara el executor `agy`, los roles del squad y
+`config/agent-runtime.json` declara el executor `codex`, los roles del squad y
 `DrBrief84`, usando únicamente modelos Codex. La asignación base es Terra para
 PO/Scrum, Luna para Diseño, Sol para Frontend/QA/DevOps y Astra para Backend,
 Automation y revisión independiente. Cada entrada también admite sobrescritura
@@ -29,10 +29,10 @@ python3 scripts/agent_orchestrator.py po-agent --ticket TICKET --routes PRD.md
 ```
 
 Sin `--execute` solo genera el handoff y muestra la orden. Con `--execute` lanza
-`agy --agent <rol> --model <modelo> --prompt <handoff>`. Verifica branch y gates
+`codex exec --model <modelo> <handoff>`. Verifica branch y gates
 antes de activar roles técnicos. Para `DrBrief84` genera un prompt de revisión;
 su sesión necesita credenciales propias de GitHub para emitir una review. Si
-`agy` o una credencial no están disponibles, devuelve `BLOCKED`. El modelo Codex
+`codex` o una credencial no están disponibles, devuelve `BLOCKED`. El modelo Codex
 base ya queda definido en la configuración y solo debe cambiarse con una decisión
 explícita de mantenimiento.
 
