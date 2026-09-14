@@ -4,6 +4,8 @@ Fecha del encargo: 2026-09-13 (America/Sao_Paulo). Lecturas y comprobaciones té
 incluyen 2026-09-14 UTC. Revisión inicial:
 `81dc82d5887f97bb7a39a9dff3b91b0a7bbf91c3`.
 Branch de trabajo: `chore/agent-flow-hardening`.
+PR en borrador: [#2](https://github.com/arcavcwb/lp-arcav-us/pull/2).
+Commit de implementación: `09a49cc`; el historial del PR identifica revisiones posteriores de evidencia.
 Alcance: documentación, configuración, controles del flujo y cliente de Vikunja.
 No se modificó producto, UI, assets, dependencias ni configuración de ARCAV.
 
@@ -22,6 +24,7 @@ No se modificó producto, UI, assets, dependencias ni configuración de ARCAV.
 | Éxito de sync no verificable | Script anterior convertía fallos en listas vacías, no paginaba, imprimía éxito sin comprobar mutaciones, deduplicaba por título, usaba IDs previos y escribía el espejo sin reemplazo atómico | GET paginado, respuestas estrictas, doble lectura, ID remoto, bloqueo de escritor y reemplazo atómico; error conserva espejo |
 | Reaperturas inventadas | Generación asignaba siempre 0 sin consultar historial | Proyectar `no verificado`; procedimiento manual exige historial por ejecución |
 | Arquitectura / QA faltantes | No hay `architecture.md` ni `bug_report.md`; `architecture.proposed.md` está explícitamente pendiente | Bloquear futuras fases técnicas dependientes; no completar documentos de gobernanza humana ni simular QA |
+| Preview automática fuera del orden de fases | Publicar `09a49cc` disparó `Workers Builds: lp-arcav-us`; check 104163345560 informa una versión y URL preview sin review/QA previos | No realizar nuevos pushes; desactivar builds de branches en Cloudflare y verificar trigger de producción antes de cerrar el gate DevOps |
 | Falso negativo del PRD | Parser incluía métricas numeradas externas a US-09 entre sus escenarios | Limitar cada historia antes del siguiente encabezado de nivel 2; regresión probada |
 
 No se afirma que la implementación satisfaga US-02…US-07: el historial prueba
@@ -59,10 +62,12 @@ Los respaldos temporales no son artefactos versionados ni evidencia de aceptaci�
 | `python3 -m unittest discover tests -q` | 96 pruebas correctas en Python 3.12.3; incluye regresiones de PRD, gates, QA y sync |
 | `python3 scripts/pipeline.py status` | `1_PO_GATE`: falta aprobación del contenido exacto; siguiente actor humano |
 | `python3 scripts/governance_gate.py start` | Código 1; bloquea producto porque la base no tiene autorización verificable |
-| `python3 scripts/governance_gate.py commit` | Código 0 sobre branch de hardening sin cambios de producto staged; no acredita revisión |
+| `python3 scripts/governance_gate.py commit` | Código 0 ejecutado por pre-commit sobre los 36 archivos staged de hardening; no acredita revisión |
+| Hook `pre-push` y gate `ci` contra `origin/main` | Correctos en publicación de branch; sin push a main |
 | `tools/vikunja_sync.py --sync` seguido de `--check` | Lectura real completa y espejo verificado; ninguna mutación remota |
 | API Vikunja | v2.6.0; proyecto 2; vista Table 11 sin filtros; 9 tareas de Sprint 1; Kanban 12 observado |
 | `git diff --check` | Sin errores de whitespace |
+| CI de PR #2 en `09a49cc` | `governance-gate` y `validate (3.10/3.11/3.12)` correctos; AI review omitido por su configuración, no cuenta como review |
 | Diff de `src`, `public`, manifests y configuración de producto | Vacío |
 
 Casos negativos probados: main/HEAD separado, ruta de producto/desconocida,
@@ -74,7 +79,7 @@ redirección de credenciales. Estos casos usan fixtures; no acreditan QA del pro
 
 `agy --version`: 1.2.2; `agy --help` confirma comandos `agents` y `--agent`.
 El primer `agy agents` falló por restricciones de log/socket del sandbox. El
-reintento autorizado terminó con código 0 y salida vacía: **no acredita discovery
+reintento autorizado, también con TTY, terminó con código 0 y salida vacía: **no acredita discovery
 ni carga efectiva de AGENTS.md**. Se verificaron estáticamente ocho roles y su
 frontmatter. Hace falta confirmar discovery/carga dentro de una sesión agy real;
 no se inventó una ejecución de agentes ni se delegaron fases.
@@ -95,11 +100,37 @@ La primera solicitud venció en revisión automática y la comprobación remota
 posterior fue rechazada por límite de uso. Tras la instrucción humana de continuar,
 el reintento autorizado y la relectura confirmaron instalación y sincronización.
 
-La branch no se publicó y no existe PR de este hardening. Workflow nuevo no
-ejecutado en GitHub; matriz 3.10/3.11 pendiente de CI. No se hizo merge ni deploy.
+La branch se publicó y el PR #2 está en borrador. La revisión independiente y
+QA final siguen pendientes. No se hizo merge. CI remoto pasó sobre `09a49cc`:
+[gate](https://github.com/arcavcwb/lp-arcav-us/actions/runs/34899924348) y
+[matriz Python](https://github.com/arcavcwb/lp-arcav-us/actions/runs/34899924258).
+No se confunde con aprobación de fase.
+
+Publicar la branch activó la integración externa de Cloudflare: build
+`586edaf7-e2ac-48f0-9a51-2bc8b8f5a228`, check `104163345560`, resultado success,
+versión preview `c735e1eb-2445-4705-845f-5d3ef4b0ee3f`. La respuesta del check
+incluye Preview URL y Preview Alias URL. Esto acredita una preview automática;
+no demuestra promoción a producción. No se invocó un comando de deploy y el diff
+de producto es vacío, pero **el orden review → QA → deploy aún tiene este bypass
+externo**. No considerar cerrado el hardening.
+
+No hay variables Cloudflare ni credenciales Wrangler en las ubicaciones locales
+comprobadas, ni conector Cloudflare disponible. Para resolverlo, el responsable
+con acceso debe desactivar **Non-production branch builds** en Settings → Build
+del Worker `lp-arcav-us`, comprobar que no quedan triggers de preview activos y
+revisar que producción espere el handoff y la autorización de DevOps. No borrar
+versiones ni cambiar el Worker activo. Después, publicar la evidencia pendiente
+y verificar que un cambio de documentación no genera otra preview. Referencias:
+[build branches](https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/)
+y [configuración](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/).
+Hasta disponer de ese acceso, se detuvieron nuevos pushes; el informe final queda
+actualizado localmente y su publicación pendiente. Los cambios de implementación
+ya están en el PR; no se imputa la evidencia local posterior al SHA del CI.
 
 | Pendiente | Evidencia necesaria antes de cerrar |
 |---|---|
+| Gate externo de Cloudflare | Acceso al Worker, builds de branches desactivados y trigger de producción revisado; no basta proteger main |
+| Publicar evidencia posterior al PR | Resolver primero el disparador de preview; después push del informe y revalidar checks sobre el nuevo SHA |
 | Revisión independiente del hardening | PR y aprobación por identidad distinta del autor sobre SHA vigente |
 | QA final del hardening | Ejecución posterior a review y reporte trazable; `qa-evidence` sin pendientes |
 | Integración del flujo | Checks remotos correctos y merge; verificar instalación del workflow desde main |

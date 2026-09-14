@@ -158,3 +158,13 @@ pendientes bloquean merges. No considerar la sola existencia de YAML como CI eje
 
 Referencias: [API de Vikunja](https://try.vikunja.io/api/v1/docs) y
 [protección de branches de GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
+
+## Integración externa de Cloudflare: bloqueo observado
+
+El PR de hardening confirmó que publicar una branch genera una preview mediante
+Workers Builds antes de revisión y QA. Las protecciones de GitHub no gobiernan
+esos disparadores externos. No publicar nuevos commits hasta desactivar
+**Non-production branch builds** en Cloudflare y verificar que producción respete
+el handoff de DevOps. No modificar ni borrar el Worker activo para corregirlo.
+La sesión actual carece de acceso autenticado a esa configuración. Ver IDs,
+evidencia y criterio de cierre en `docs/hardening/audit.md`.
