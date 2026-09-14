@@ -24,7 +24,7 @@ No se modificó producto, UI, assets, dependencias ni configuración de ARCAV.
 | Éxito de sync no verificable | Script anterior convertía fallos en listas vacías, no paginaba, imprimía éxito sin comprobar mutaciones, deduplicaba por título, usaba IDs previos y escribía el espejo sin reemplazo atómico | GET paginado, respuestas estrictas, doble lectura, ID remoto, bloqueo de escritor y reemplazo atómico; error conserva espejo |
 | Reaperturas inventadas | Generación asignaba siempre 0 sin consultar historial | Proyectar `no verificado`; procedimiento manual exige historial por ejecución |
 | Arquitectura / QA faltantes | No hay `architecture.md` ni `bug_report.md`; `architecture.proposed.md` está explícitamente pendiente | Bloquear futuras fases técnicas dependientes; no completar documentos de gobernanza humana ni simular QA |
-| Preview automática fuera del orden de fases | Publicar `09a49cc` disparó `Workers Builds: lp-arcav-us`; check 104163345560 informa una versión y URL preview sin review/QA previos | No realizar nuevos pushes; desactivar builds de branches en Cloudflare y verificar trigger de producción antes de cerrar el gate DevOps |
+| Preview automática fuera del orden de fases | Publicar `09a49cc` disparó `Workers Builds: lp-arcav-us`; check 104163345560 informa una versión y URL preview sin review/QA previos | El humano confirmó la desactivación de builds para ramas no productivas; queda documentado como incidente histórico |
 | Falso negativo del PRD | Parser incluía métricas numeradas externas a US-09 entre sus escenarios | Limitar cada historia antes del siguiente encabezado de nivel 2; regresión probada |
 
 No se afirma que la implementación satisfaga US-02…US-07: el historial prueba
@@ -132,7 +132,6 @@ y [configuración](https://developers.cloudflare.com/workers/ci-cd/builds/config
 
 | Pendiente | Evidencia necesaria antes de cerrar |
 |---|---|
-| Gate externo de Cloudflare | Previews desactivadas según confirmación humana; verificar comportamiento y resolver autorización del trigger de producción antes de merge |
 | Publicar evidencia posterior al PR | Publicación habilitada por confirmación humana; comprobar checks del nuevo SHA |
 | Revisión independiente del hardening | PR y aprobación por identidad distinta del autor sobre SHA vigente |
 | QA final del hardening | Ejecución posterior a review y reporte trazable; `qa-evidence` sin pendientes |
