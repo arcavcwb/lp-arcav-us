@@ -27,7 +27,7 @@ entrada obligatoria ni límites que justifiquen inventar información.
 Aplicá estas capas en orden y detené la expansión cuando ya exista evidencia
 suficiente para ejecutar o reportar un bloqueo:
 
-1. `AGENTS.md`, `.agents/agents/<rol>/agent.md` y la skill principal del rol.
+1. `AGENTS.md`, `docs/governance.md` para gates de ARCAV, `.agents/agents/<rol>/agent.md` y la skill principal del rol.
 2. Ticket o encargo, revisión candidata y handoff recibido.
 3. Secciones relevantes del PRD, arquitectura, protocolo, stack y sprint.
 4. Archivos asignados y sus dependencias directas: contratos, imports, pruebas,
@@ -46,7 +46,7 @@ Después agregan únicamente este paquete:
 | Rol | Contexto inicial de la tarea |
 |---|---|
 | PO | Brief, PRD vigente si existe y restricciones de negocio referenciadas. Stack solo cuando condiciona una restricción ya decidida. |
-| Scrum Master | Revisión aprobada del PRD, historias afectadas, sprint, tickets de Plane y mapa de dependencias/rutas. Arquitectura solo para planificar dependencias técnicas. |
+| Scrum Master | Revisión aprobada del PRD, historias afectadas, sprint, tickets de Vikunja y mapa de dependencias/rutas. Arquitectura solo para planificar dependencias técnicas. |
 | Designer | Historia y flujo asignados, superficie relevante de arquitectura, sistema visual vigente y referencias concretas de Figma/Pencil. |
 | Backend | Historia y criterios afectados, arquitectura del servicio, contratos actuales y archivos/migraciones directamente relacionados. |
 | Frontend | Historia y criterios afectados, arquitectura de la superficie, contratos consumidos, entrega visual y componentes/pruebas relacionados. |
@@ -120,3 +120,10 @@ comprobaciones ejecutadas, resultado, ampliaciones de contexto relevantes y
 pendientes. Compará por tipo de tarea el número de archivos, tamaño enviado al
 reviewer, repeticiones y bloqueos. La meta es reducir relecturas y llamadas sin
 convertir el conteo en otra fase del proceso.
+
+## Gate y evidencia en ARCAV
+
+Antes de producto, leer política vigente en `config/governance.json`, aprobación
+del hash exacto del PRD, ticket y branch. La lectura acotada nunca permite omitir
+la revisión independiente ni QA. El mirror no acredita aceptación: consultar la
+evidencia original de la revisión correspondiente. Ver `docs/governance.md`.

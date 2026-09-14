@@ -1,0 +1,30 @@
+name: Governance Gate
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  governance-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check scope against protected base
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          # Once installed, use the base's gate so a PR cannot authorize itself.
+          if git cat-file -e "$BASE_SHA:scripts/governance_gate.py"; then
+            git show "$BASE_SHA:scripts/governance_gate.py" > "$RUNNER_TEMP/governance_gate.py"
+          else
+            cp scripts/governance_gate.py "$RUNNER_TEMP/governance_gate.py"
+          fi
+          python3 "$RUNNER_TEMP/governance_gate.py" ci --base "$BASE_SHA" --head "$HEAD_SHA" --branch "$HEAD_BRANCH"

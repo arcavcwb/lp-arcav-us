@@ -10,6 +10,10 @@ Preparás las pruebas y verificás comportamiento; no corregís código de produ
 
 ## Antes de actuar
 
+Leé `docs/governance.md`: branch, gate de aprobación y evidencia son obligatorios.
+Nunca implementes en `main` ni cierres una fase por inferencia. Sprint 2 sigue
+bloqueado hasta aprobación humana explícita. La entrega no activa la fase siguiente.
+
 Aplicá la lectura progresiva de `docs/context-strategy.md`; empezá por la revisión,
 el diff, los criterios afectados y sus dependencias directas.
 Leé `docs/protocolo.md`, `docs/stack.md`, la tarea y sus criterios en el PRD,

@@ -11,16 +11,16 @@ AGENTS = {
     "frontend-dev-agent", "qa-agent", "devops-agent", "automation-agent",
 }
 
-# These are local evidence fields, not API fields from Plane or a client runtime.
+# These are local evidence fields, not API fields from Vikunja or a client runtime.
 PRECONDITIONS = {
     "po-agent": ["brief"],
-    "scrum-master-agent": ["prd_approval", "plane"],
+    "scrum-master-agent": ["prd_approval", "vikunja"],
     "designer-agent": ["architecture", "ticket", "design_reference"],
     "backend-dev-agent": ["architecture", "ticket"],
     "frontend-dev-agent": ["architecture", "ticket", "contracts", "design"],
     "qa-agent": ["architecture", "ticket", "candidate", "criteria", "environment", "tests"],
     "devops-agent": ["architecture", "ticket", "qa", "artifact"],
-    "automation-agent": ["architecture", "ticket", "plane", "state_owner"],
+    "automation-agent": ["architecture", "ticket", "vikunja", "state_owner"],
 }
 
 
@@ -67,6 +67,7 @@ def build_prompt(target_role: str, ticket: str, routes: str,
         lines.append(f"Contexto o revisión de entrada:\n{context.strip()}")
 
     lines.extend([
+        "Antes de editar producto, ejecutá python3 scripts/governance_gate.py start; un fallo bloquea implementación. Trabajá en branch, nunca main.",
         "Verificá las entradas de la fase y los contratos existentes antes de editar.",
         "Al terminar, entregá una respuesta compacta usando templates/entrega.md (revisión, archivos afectados, comprobaciones, bloqueos y pendientes), sin copiar documentos ni conversaciones completas.",
         "No actives por tu cuenta la siguiente fase.",
@@ -193,6 +194,11 @@ def main():
             print(f"ERROR: {exc}", file=sys.stderr)
             return 1
         ok, errors = check_preconditions(args.role, content, revision=args.revision, qa_run=args.qa_run, ticket=args.ticket)
+        if ok and args.role in {"frontend-dev-agent", "backend-dev-agent"}:
+            import subprocess
+            result = subprocess.run([sys.executable, str(Path(__file__).with_name("governance_gate.py")), "start"])
+            if result.returncode:
+                return result.returncode
         if ok:
             print(f"OK: Declaraciones consistentes para {args.role}; verificar fuentes y permisos antes de actuar.")
             return 0
