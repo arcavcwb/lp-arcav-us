@@ -1,16 +1,16 @@
 # Sprint actual
 
 Estado: sin inicializar
-Proyecto y ciclo de Plane: pendiente
+Proyecto y ciclo de Vikunja: pendiente
 PRD aprobado (revisión y evidencia): pendiente
 Responsable de estado operativo y espejo: por asignar (Scrum manual o Automation)
 Evidencia de asignación humana: pendiente
 Responsable de integración y revisión candidata: por asignar
 Última sincronización UTC: nunca
 Resultado de sincronización: no ejecutada
-Correspondencia entre estados lógicos y estados reales de Plane: pendiente
+Correspondencia entre estados lógicos y estados reales de Vikunja: pendiente
 
-Plane es la fuente de verdad. Este archivo es un espejo local actualizado según `docs/protocolo.md`.
+Vikunja es la fuente de verdad. Este archivo es un espejo local actualizado según `docs/protocolo.md`.
 
 ## Resumen del sprint
 
@@ -22,7 +22,7 @@ Plane es la fuente de verdad. Este archivo es un espejo local actualizado según
 
 ### [ID-o-Clave] Título de la tarea
 - **Clave estable**: `proyecto:historia:tarea`
-- **ID y enlace de Plane**: [Pendiente]
+- **ID y enlace de Vikunja**: [Pendiente]
 - **Historia asociada**: [ID historia en PRD]
 - **Responsable**: [rol-agent]
 - **Estado (remoto / lógico)**: [estado_remoto / estado_logico]

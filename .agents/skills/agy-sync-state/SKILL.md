@@ -1,6 +1,6 @@
 ---
 name: agy-sync-state
-description: Sincronizar estado autorizado desde Plane al sprint y reconciliar eventos de QA para el responsable operativo (Scrum manual o Automation) en agyFlow, con n8n solo si el proyecto lo utiliza.
+description: Sincronizar estado autorizado desde Vikunja al sprint y reconciliar eventos de QA para el responsable operativo (Scrum manual o Automation) en agyFlow, con n8n solo si el proyecto lo utiliza.
 ---
 
 # Sincronización y reconciliación
@@ -11,7 +11,7 @@ Usá `templates/sprint_actual.md` como referencia de la proyección local.
 
 ## Procedimiento
 
-1. Confirmá quién escribe el espejo, alcance autorizado y conexión de Plane.
+1. Confirmá quién escribe el espejo, alcance autorizado y conexión de Vikunja.
    Descubrí herramientas, campos y estados remotos reales. Las claves del
    protocolo son convenciones documentales, no un esquema supuesto de su API.
 2. Leé el estado remoto antes de generar la proyección local y registrá fecha

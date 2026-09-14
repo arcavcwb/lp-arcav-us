@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "executor": "codex",
+  "working_branch_required": true,
+  "agents": {
+    "po-agent": {"model": "gpt-5.6-terra", "model_env": "AGY_MODEL_PO_AGENT", "session_env": "AGY_SESSION_PO_AGENT"},
+    "scrum-master-agent": {"model": "gpt-5.6-terra", "model_env": "AGY_MODEL_SCRUM_MASTER_AGENT", "session_env": "AGY_SESSION_SCRUM_MASTER_AGENT"},
+    "designer-agent": {"model": "gpt-5.6-luna", "model_env": "AGY_MODEL_DESIGNER_AGENT", "session_env": "AGY_SESSION_DESIGNER_AGENT"},
+    "backend-dev-agent": {"model": "gpt-6-astra", "model_env": "AGY_MODEL_BACKEND_DEV_AGENT", "session_env": "AGY_SESSION_BACKEND_DEV_AGENT"},
+    "frontend-dev-agent": {"model": "gpt-5.6-sol", "model_env": "AGY_MODEL_FRONTEND_DEV_AGENT", "session_env": "AGY_SESSION_FRONTEND_DEV_AGENT"},
+    "qa-agent": {"model": "gpt-5.6-sol", "model_env": "AGY_MODEL_QA_AGENT", "session_env": "AGY_SESSION_QA_AGENT"},
+    "devops-agent": {"model": "gpt-5.6-sol", "model_env": "AGY_MODEL_DEVOPS_AGENT", "session_env": "AGY_SESSION_DEVOPS_AGENT"},
+    "automation-agent": {"model": "gpt-6-astra", "model_env": "AGY_MODEL_AUTOMATION_AGENT", "session_env": "AGY_SESSION_AUTOMATION_AGENT"},
+    "DrBrief84": {"model": "gpt-6-astra", "model_env": "AGY_MODEL_DRBRIEF84", "session_env": "AGY_SESSION_DRBRIEF84", "github_identity": "DrBrief84"}
+  }
+}

@@ -2,7 +2,7 @@
 
 Esta guía sirve tanto para mantener agyFlow como para desarrollar un producto que
 adopte la plantilla. Para mantener agyFlow, asigná tareas y rutas en el encargo y
-la entrega de cada sesión; no hace falta un sprint ni Plane. Para desarrollar un
+la entrega de cada sesión; no hace falta un sprint ni Vikunja. Para desarrollar un
 producto, aplicá los roles, entradas y fuentes de estado de `docs/protocolo.md`.
 
 agy y Codex son dos sesiones que pueden ejecutar los roles del squad. Asigná
@@ -29,7 +29,7 @@ modelo. No hace falta ejecutar los ocho roles simultáneamente.
    se aplican su dictamen y evidencia obligatorios de `docs/protocolo.md`.
 
 La revisión informal puede comenzar antes del sprint. No acredita QA ni permite
-saltarse las entradas del flujo de producto. Mientras Plane no esté configurado,
+saltarse las entradas del flujo de producto. Mientras Vikunja no esté configurado,
 se pueden revisar esta plantilla y preparar documentos; no se simula un sprint
 sincronizado ni se crean IDs remotos ficticios.
 
@@ -54,7 +54,7 @@ qué instrucciones y herramientas cargó agy. [Documentación de OpenAI](https:/
 
 ## Paralelismo cuando haya tareas independientes
 
-- Para trabajo de producto, registrá en los tickets de Plane el rol, una etiqueta de sesión elegida por el
+- Para trabajo de producto, registrá en los tickets de Vikunja el rol, una etiqueta de sesión elegida por el
   humano (por ejemplo, `agy-1` o `codex-1`), alcance, dependencias y rutas. El
   escritor autorizado refleja esa asignación en el sprint; no se crea otro tablero.
 - En una misma carpeta, cada archivo tiene un solo escritor. Incluí archivos

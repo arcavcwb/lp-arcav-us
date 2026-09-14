@@ -1,6 +1,6 @@
 ---
 name: agy-planning
-description: Descomponer un PRD aprobado en tareas y dependencias para el Scrum Master de agyFlow, preparar la planificación en Plane y el espejo inicial del sprint.
+description: Descomponer un PRD aprobado en tareas y dependencias para el Scrum Master de agyFlow, preparar la planificación en Vikunja y el espejo inicial del sprint.
 ---
 
 # Planificación con dependencias
@@ -22,7 +22,7 @@ inicial. Esta skill no amplía el acceso del rol al código de la aplicación.
    referencia visual o tokens. Marcá una dependencia no aplicable con motivo.
    Dos tareas pueden correr juntas solo si sus entradas están disponibles y
    sus rutas de escritura no se superponen.
-5. Con acceso y alcance autorizados en Plane, descubrí las herramientas y los
+5. Con acceso y alcance autorizados en Vikunja, descubrí las herramientas y los
    identificadores reales de proyecto, ciclo y estado antes de usarlos.
    Buscá la clave documental `proyecto:historia:tarea` antes de crear un ticket.
 6. Incorporá criterios, responsable, dependencias y rutas confirmadas al ticket.
@@ -30,7 +30,7 @@ inicial. Esta skill no amplía el acceso del rol al código de la aplicación.
 7. Generá el espejo inicial desde la lectura remota confirmada y registrá la
    elección humana del responsable de estado: Scrum manual o Automation. Si
    te corresponde el modo manual, leé `.agents/skills/agy-sync-state/SKILL.md`.
-   La asignación incluye espejo, transiciones, contador y reconciliación. Sin acceso a Plane,
+   La asignación incluye espejo, transiciones, contador y reconciliación. Sin acceso a Vikunja,
    entregá el desglose documental como borrador, sin IDs remotos inventados.
 
 ## Ejemplo de desglose
