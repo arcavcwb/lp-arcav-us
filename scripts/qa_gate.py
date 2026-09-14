@@ -64,9 +64,11 @@ def main():
     try:
         endpoint = f'repos/{args.repo}/pulls/{args.pr}'
         pr = gh('api', endpoint)
-        pages = gh('api', '--paginate', '--slurp', endpoint + '/reviews')
+        # GitHub's reviews endpoint is small for this gate; direct JSON avoids
+        # the shape ambiguity introduced by --paginate/--slurp.
+        pages = gh('api', endpoint + '/reviews')
         report = json.loads(args.report.read_text())
-        errors = validate(pr, [r for page in pages for r in page], report)
+        errors = validate(pr, pages, report)
         if errors:
             raise ValueError('; '.join(errors))
         if args.publish:
