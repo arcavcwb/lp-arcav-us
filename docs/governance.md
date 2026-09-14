@@ -14,6 +14,24 @@ siguiente fase. Producción requiere autorización específica de artefacto/dest
 Arquitectura la aporta el humano; ningún agente modifica `architecture.md`.
 Una dependencia no aplicable debe justificarse; no se salta una fase sin esa evidencia.
 
+## Orquestación de agentes
+
+`config/agent-runtime.json` declara el executor `agy`, los roles del squad y
+`DrBrief84`. Cada entrada exige un modelo y una etiqueta de sesión mediante
+variables `AGY_MODEL_*` y `AGY_SESSION_*`; no hay modelos por defecto ni secretos
+versionados. `scripts/agent_orchestrator.py` es el punto único de activación:
+
+```bash
+AGY_MODEL_PO_AGENT="MODELO_VERIFICADO" AGY_SESSION_PO_AGENT="po-1" \
+python3 scripts/agent_orchestrator.py po-agent --ticket TICKET --routes PRD.md
+```
+
+Sin `--execute` solo genera el handoff y muestra la orden. Con `--execute` lanza
+`agy --agent <rol> --model <modelo> --prompt <handoff>`. Verifica branch y gates
+antes de activar roles técnicos. Para `DrBrief84` genera un prompt de revisión;
+su sesión necesita credenciales propias de GitHub para emitir una review. Si
+`agy`, el modelo o una credencial no están disponibles, devuelve `BLOCKED`.
+
 ## Gate antes de implementar
 
 1. Leer índice, rol, skill, encargo y entradas del ticket. Comprobar branch y

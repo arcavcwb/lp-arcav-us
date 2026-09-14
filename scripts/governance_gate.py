@@ -10,16 +10,16 @@ import sys
 # Exact maintenance surface. Unknown paths are product and require approval.
 MAINTENANCE_FILES = {
     'AGENTS.md', 'PRD.md', 'sprint_actual.md', 'architecture.md',
-    'config/governance.json', 'config/main-protection.json', 'config/skills.json',
+    'config/governance.json', 'config/main-protection.json', 'config/agent-runtime.json', 'config/skills.json',
     'scripts/governance_gate.py', 'scripts/handoff.py', 'scripts/pipeline.py',
-    'scripts/validate_squad.py', 'scripts/demo_workflow.py',
+    'scripts/validate_squad.py', 'scripts/demo_workflow.py', 'scripts/agent_orchestrator.py',
     'tools/vikunja_sync.py', '.github/workflows/governance-gate.yml',
     '.github/workflows/validate-squad.yml', '.github/pull_request_template.md',
     'docs/protocolo.md', 'docs/context-strategy.md', 'docs/agy-codex.md',
     'docs/herramientas-locales.md', 'docs/governance.md',
     'templates/handoff.json', 'templates/sprint_actual.md',
     'tests/test_governance_gate.py', 'tests/test_vikunja_sync.py',
-    'tests/test_handoff.py', 'tests/test_pipeline.py', 'scripts/qa_gate.py', 'tests/test_qa_gate.py',
+    'tests/test_handoff.py', 'tests/test_pipeline.py', 'scripts/qa_gate.py', 'tests/test_qa_gate.py', 'tests/test_agent_orchestrator.py',
 }
 MAINTENANCE_PREFIXES = ('.agents/agents/', '.agents/skills/', '.githooks/', 'docs/hardening/', '.agyflow/approvals/')
 

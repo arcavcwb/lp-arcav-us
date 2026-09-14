@@ -43,6 +43,8 @@ nombre de Worker); no se modificó ese PR ni se usó como evidencia de la entreg
   stage, push y PR; cambios de producto requieren política y aprobación en la base.
 - `scripts/qa_gate.py`: validar revisión independiente, candidata y reporte QA
   antes de emitir el status requerido. No se emitió ningún status de éxito QA.
+- `config/agent-runtime.json` y `scripts/agent_orchestrator.py`: punto único para
+  activar agy por rol, modelo y sesión, con preparación y ejecución explícitas.
 - `tools/vikunja_sync.py`: proyección remota → local, sin escrituras a Vikunja;
   `sprint_actual.md` conserva discrepancia entre cierre remoto y aceptación no verificada.
 - Pruebas de regresión para gates, QA y sincronización. Reglas de operación en
@@ -136,7 +138,7 @@ y [configuración](https://developers.cloudflare.com/workers/ci-cd/builds/config
 | Revisión independiente del hardening | PR y aprobación por identidad distinta del autor sobre SHA vigente |
 | QA final del hardening | Ejecución posterior a review y reporte trazable; `qa-evidence` sin pendientes |
 | Integración del flujo | Checks remotos correctos y merge; verificar instalación del workflow desde main |
-| Discovery agy | Listado efectivo y evidencia de carga del índice en sesión real |
+| Discovery/ejecución agy | Listado efectivo, modelos/sesiones configurados y evidencia de una ejecución real |
 | Reconciliar aceptación de Sprint 1 | Dictámenes y criterios originales por revisión; no basta `done=true` |
 | Segunda iteración de producto | PRD y arquitectura revisados por humano; aprobación del hash y activación explícita de Sprint 2 |
 
