@@ -163,8 +163,9 @@ Referencias: [API de Vikunja](https://try.vikunja.io/api/v1/docs) y
 
 El PR de hardening confirmó que publicar una branch genera una preview mediante
 Workers Builds antes de revisión y QA. Las protecciones de GitHub no gobiernan
-esos disparadores externos. No publicar nuevos commits hasta desactivar
-**Non-production branch builds** en Cloudflare y verificar que producción respete
-el handoff de DevOps. No modificar ni borrar el Worker activo para corregirlo.
+esos disparadores externos. El humano confirmó la desactivación de
+**Non-production branch builds**, habilitando la publicación del informe.
+Antes de merge, verificar que producción respete el handoff de DevOps y su
+aprobación específica; el comando automático de producción sigue configurado. No modificar ni borrar el Worker activo para corregirlo.
 La sesión actual carece de acceso autenticado a esa configuración. Ver IDs,
 evidencia y criterio de cierre en `docs/hardening/audit.md`.

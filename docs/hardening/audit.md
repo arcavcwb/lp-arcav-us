@@ -111,26 +111,29 @@ Publicar la branch activó la integración externa de Cloudflare: build
 versión preview `c735e1eb-2445-4705-845f-5d3ef4b0ee3f`. La respuesta del check
 incluye Preview URL y Preview Alias URL. Esto acredita una preview automática;
 no demuestra promoción a producción. No se invocó un comando de deploy y el diff
-de producto es vacío, pero **el orden review → QA → deploy aún tiene este bypass
-externo**. No considerar cerrado el hardening.
+de producto es vacío, y evidenció un disparador externo que omitía review y QA. No considerar cerrado el hardening.
 
-No hay variables Cloudflare ni credenciales Wrangler en las ubicaciones locales
-comprobadas, ni conector Cloudflare disponible. Para resolverlo, el responsable
-con acceso debe desactivar **Non-production branch builds** en Settings → Build
-del Worker `lp-arcav-us`, comprobar que no quedan triggers de preview activos y
-revisar que producción espere el handoff y la autorización de DevOps. No borrar
-versiones ni cambiar el Worker activo. Después, publicar la evidencia pendiente
-y verificar que un cambio de documentación no genera otra preview. Referencias:
+El humano mostró la configuración del Worker: rama de producción `main`,
+comando `npx wrangler deploy`, comando de versión `npx wrangler versions upload`
+y compilaciones para ramas de no producción habilitadas. Tras indicar que debía
+desmarcar esa opción y guardar, confirmó «listo» en esta sesión (2026-09-14).
+Se registra como confirmación humana de desactivación, no como lectura de API.
+Esta instrucción habilita publicar el informe pendiente y observar los checks
+del nuevo commit. La ausencia de un check durante esa observación no constituye
+una auditoría completa de los triggers externos.
+
+La configuración de producción conserva despliegue automático de `main` según
+la captura. Antes de merge debe resolverse cómo exige el handoff de DevOps y la
+aprobación específica de producción; desactivar previews no resuelve ese gate.
+No se modificó producción ni se aprobó un merge. No hay acceso autenticado a
+Cloudflare en esta sesión. Referencias:
 [build branches](https://developers.cloudflare.com/workers/ci-cd/builds/build-branches/)
 y [configuración](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/).
-Hasta disponer de ese acceso, se detuvieron nuevos pushes; el informe final queda
-actualizado localmente y su publicación pendiente. Los cambios de implementación
-ya están en el PR; no se imputa la evidencia local posterior al SHA del CI.
 
 | Pendiente | Evidencia necesaria antes de cerrar |
 |---|---|
-| Gate externo de Cloudflare | Acceso al Worker, builds de branches desactivados y trigger de producción revisado; no basta proteger main |
-| Publicar evidencia posterior al PR | Resolver primero el disparador de preview; después push del informe y revalidar checks sobre el nuevo SHA |
+| Gate externo de Cloudflare | Previews desactivadas según confirmación humana; verificar comportamiento y resolver autorización del trigger de producción antes de merge |
+| Publicar evidencia posterior al PR | Publicación habilitada por confirmación humana; comprobar checks del nuevo SHA |
 | Revisión independiente del hardening | PR y aprobación por identidad distinta del autor sobre SHA vigente |
 | QA final del hardening | Ejecución posterior a review y reporte trazable; `qa-evidence` sin pendientes |
 | Integración del flujo | Checks remotos correctos y merge; verificar instalación del workflow desde main |
