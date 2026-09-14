@@ -60,10 +60,11 @@ Checks obligatorios: `governance-gate`, `validate (3.10)`, `validate (3.11)`,
 `validate (3.12)` y `qa-evidence`. El AI PR Reviewer es una ayuda opcional; su
 comentario no sustituye una aprobación independiente ni QA.
 
-El revisor no puede ser el autor del cambio. Si un agente revisa, debe ser una
-sesión independiente con identidad y alcance registrados; la aprobación requerida
-por GitHub debe realizarla otra identidad humana autorizada. No usar dos sesiones
-bajo la misma cuenta para simular independencia. Si no hay revisor, el PR espera.
+El revisor no puede ser el autor del cambio. Puede ser una persona o un agente
+revisor como `DrBrief84`, siempre que opere en una sesión independiente, con
+identidad y alcance registrados y permiso Write. No usar dos sesiones bajo la
+misma identidad para simular independencia. Si no hay revisor independiente,
+el PR espera.
 
 QA actúa después de esa revisión y sobre el SHA vigente. El operador asignado
 prepara evidencia con este contrato local (no es un esquema de Vikunja):
