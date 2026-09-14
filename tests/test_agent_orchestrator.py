@@ -11,17 +11,17 @@ spec.loader.exec_module(orchestrator)
 
 
 class OrchestratorTests(unittest.TestCase):
-    def test_runtime_declares_all_roles_without_model_defaults(self):
+    def test_runtime_declares_all_roles_with_codex_models(self):
         cfg = orchestrator.load_config()
         self.assertEqual(set(cfg["agents"]), orchestrator.ROLES)
-        self.assertTrue(all(item["model_env"] for item in cfg["agents"].values()))
+        self.assertTrue(all(item["model"].startswith("gpt-") for item in cfg["agents"].values()))
 
     def test_missing_model_fails_closed(self):
         result = subprocess.run([sys.executable, str(ROOT / "scripts/agent_orchestrator.py"),
                                 "po-agent", "--ticket", "HARDENING", "--routes", "docs/"],
                                capture_output=True, text=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("falta AGY_MODEL_PO_AGENT", result.stderr)
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("gpt-5.6-terra", result.stdout)
 
     def test_main_is_rejected_before_model_launch(self):
         result = subprocess.run([sys.executable, str(ROOT / "scripts/agent_orchestrator.py"),

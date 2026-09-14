@@ -44,7 +44,7 @@ nombre de Worker); no se modificó ese PR ni se usó como evidencia de la entreg
 - `scripts/qa_gate.py`: validar revisión independiente, candidata y reporte QA
   antes de emitir el status requerido. No se emitió ningún status de éxito QA.
 - `config/agent-runtime.json` y `scripts/agent_orchestrator.py`: punto único para
-  activar agy por rol, modelo y sesión, con preparación y ejecución explícitas.
+  activar agy por rol, modelo Codex y sesión, con preparación y ejecución explícitas.
 - `tools/vikunja_sync.py`: proyección remota → local, sin escrituras a Vikunja;
   `sprint_actual.md` conserva discrepancia entre cierre remoto y aceptación no verificada.
 - Pruebas de regresión para gates, QA y sincronización. Reglas de operación en

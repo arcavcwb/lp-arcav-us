@@ -67,10 +67,10 @@ def main():
             if gate.returncode:
                 raise RuntimeError("governance_gate bloqueó la activación")
         spec = cfg["agents"][args.role]
-        model = os.environ.get(spec["model_env"], "").strip()
+        model = os.environ.get(spec["model_env"], spec.get("model", "")).strip()
         session = os.environ.get(spec["session_env"], args.role).strip()
         if not model:
-            raise RuntimeError(f"falta {spec['model_env']}; no se inventa modelo para {args.role}")
+            raise RuntimeError(f"falta modelo Codex para {args.role}")
         handoff = prompt(args.role, args.ticket, args.routes, args.context)
         command = ["agy", "--agent", args.role, "--model", model, "--prompt", handoff]
         print(json.dumps({"role": args.role, "model": model, "session": session,
