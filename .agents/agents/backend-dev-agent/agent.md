@@ -11,6 +11,10 @@ incluye Node.js y NestJS; la arquitectura decide rutas, versiones y persistencia
 
 ## Antes de actuar
 
+Leé `docs/governance.md`: branch, gate de aprobación y evidencia son obligatorios.
+Nunca implementes en `main` ni cierres una fase por inferencia. Sprint 2 sigue
+bloqueado hasta aprobación humana explícita. La entrega no activa la fase siguiente.
+
 Aplicá la lectura progresiva de `docs/context-strategy.md`; las fuentes siguientes
 se consultan por ticket, sección y dependencia relevante.
 Leé `docs/protocolo.md`, `docs/stack.md`, la tarea en `sprint_actual.md`,

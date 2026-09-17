@@ -44,6 +44,11 @@ class PipelineTests(unittest.TestCase):
         self.assertTrue(ok)
         self.assertEqual(errors, [])
 
+    def test_numbered_metrics_after_story_are_not_acceptance_scenarios(self):
+        prd = self.root / "PRD.md"
+        prd.write_text(PRD + "\n## Métricas\n1. Velocidad\n2. Calidad\n3. Cobertura\n")
+        self.assertEqual(pipeline.check_prd_gherkin(prd), (True, []))
+
     def test_check_prd_gherkin_missing_scenarios(self):
         prd = self.root / "PRD.md"
         prd.write_text("""# PRD

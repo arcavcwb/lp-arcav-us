@@ -1,14 +1,14 @@
 # AGENTS.md — Índice Maestro del Squad
 
 Este archivo es el índice del squad. Verificá su carga en la versión instalada
-de Antigravity CLI (`agy`). El resto del contexto se lee bajo demanda.
+de Antigravity CLI (`agy`); ver limitaciones comprobadas en `docs/hardening/audit.md`. El resto del contexto se lee bajo demanda.
 
 ## Alcance: plantilla y proyecto receptor
 
 En agyFlow se mantienen roles, protocolos, ejemplos y el validador reutilizables.
 Las fases de producto que siguen se aplican al usar la plantilla en un proyecto
 receptor. Mantener esta plantilla no requiere crear un PRD, un sprint, contratos
-de aplicación ni conectar Plane. No reportes su ausencia aquí como un defecto.
+de aplicación ni conectar Vikunja. No reportes su ausencia aquí como un defecto.
 
 En el proyecto receptor, leé su arquitectura y requerimientos reales antes de
 ejecutar una fase. Adaptá las referencias de stack y rutas a las decisiones
@@ -43,7 +43,7 @@ Cada uno vive en `.agents/agents/<nombre>/agent.md` y se invoca con
 | Agente | Dominio |
 |---|---|
 | `po-agent` | `PRD.md` e historias de usuario |
-| `scrum-master-agent` | Plane, planificación y estado operativo manual si se asigna |
+| `scrum-master-agent` | Vikunja, planificación y estado operativo manual si se asigna |
 | `designer-agent` | Diseño, tokens y recursos de Figma/Pencil según proyecto |
 | `frontend-dev-agent` | Astro, React y Next.js en las rutas de la arquitectura |
 | `backend-dev-agent` | Contratos compartidos y servicios Node.js/NestJS; persistencia según proyecto |
@@ -75,14 +75,19 @@ protocolo de handoff (abajo) sigue siendo gatillado explícitamente.
 ## Protocolo de handoff (resumen)
 
 ```
-Humano → PO → validación humana del PRD → Scrum Master
-  → [Diseño + definición de contratos por Backend]
-  → contratos y tokens listos → [implementación Backend + Frontend]
-  → integración de producto, pruebas y build/CI preparados por QA/DevOps
-  → QA final → DevOps despliega a Staging → aprobación humana para Producción
-  QA → responsable de estado (Scrum o Automation) registra dictamen
-  QA rechazado → reapertura → activación explícita de corrección
+Humano → PO → aprobación humana del PRD → Scrum
+  → Diseño / Arquitectura humana / Contratos cuando corresponda
+  → Desarrollo en branch → PR → revisión independiente → QA → merge
+  → DevOps / deploy (Producción con aprobación humana específica)
 ```
+
+En ARCAV rige `docs/governance.md` y `config/governance.json`. Este encargo
+habilita únicamente hardening del flujo; Sprint 2 permanece bloqueado.
+Antes de editar producto: `python3 scripts/governance_gate.py start` y verificar
+handoff/ticket. Un error detiene implementación. Instalar hooks con
+`git config core.hooksPath .githooks`; `main` exige PR, revisión y QA en GitHub.
+El gate documental o un test verde no prueban una fase completada.
+
 
 El protocolo operativo está en `docs/protocolo.md`. `architecture.md` define
 el stack y las decisiones del proyecto y sigue siendo de gobernanza humana.

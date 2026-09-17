@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "product_iteration": "sprint-2",
+  "product_status": "blocked_pending_human_approval",
+  "activation_evidence": null,
+  "state_provider": "vikunja",
+  "state_owner": "scrum-master-agent",
+  "project_id": 2,
+  "snapshot_view_id": 11,
+  "sprint_label": "sprint-1",
+  "role_labels": {
+    "role:po": "po-agent",
+    "role:designer": "designer-agent",
+    "role:frontend": "frontend-dev-agent",
+    "role:backend": "backend-dev-agent",
+    "role:qa": "qa-agent",
+    "role:devops": "devops-agent",
+    "role:scrum": "scrum-master-agent"
+  },
+  "task_keys": {
+    "2": "lp-arcav-us:US-01",
+    "3": "lp-arcav-us:US-02",
+    "4": "lp-arcav-us:US-03",
+    "5": "lp-arcav-us:US-04",
+    "6": "lp-arcav-us:US-05",
+    "7": "lp-arcav-us:US-06",
+    "8": "lp-arcav-us:US-07",
+    "9": "lp-arcav-us:US-08",
+    "10": "lp-arcav-us:US-09"
+  }
+}

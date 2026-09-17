@@ -1,10 +1,10 @@
 # Herramientas locales y recorrido de ejemplo
 
 Estos comandos ayudan a preparar y revisar declaraciones de evidencia. No ejecutan
-agentes, no consultan Plane, no autentican la identidad del aprobador y no despliegan.
+agentes, no consultan Vikunja, no autentican la identidad del aprobador y no despliegan.
 La activación humana, la comprobación de fuentes y los límites de `docs/protocolo.md`
 continúan siendo obligatorios. Los JSON siguientes son convenciones locales de
-agyFlow; no representan campos de API de Plane ni configuración de MCP.
+agyFlow; no representan campos de API de Vikunja ni configuración de MCP.
 
 ## Ver la demostración
 
@@ -83,13 +83,13 @@ Cada entrada requiere `status`, `reference` y `revision` identificables:
 | Rol | Claves requeridas en `inputs` |
 |---|---|
 | PO | `brief` |
-| Scrum | `prd_approval`, `plane` |
+| Scrum | `prd_approval`, `vikunja` |
 | Designer | `architecture`, `ticket`, `design_reference` |
 | Backend | `architecture`, `ticket` |
 | Frontend | `architecture`, `ticket`, `contracts`, `design` |
 | QA final | `architecture`, `ticket`, `candidate`, `criteria`, `environment`, `tests` |
 | DevOps: entrega | `architecture`, `ticket`, `qa`, `artifact` |
-| Automation | `architecture`, `ticket`, `plane`, `state_owner` |
+| Automation | `architecture`, `ticket`, `vikunja`, `state_owner` |
 
 `status` debe ser `ready`, excepto `qa` y `prd_approval`, que requieren `approved`.
 Un `pending`, `rejected` o `blocked` impide la entrega que lo requiere. Las entradas
@@ -146,3 +146,10 @@ vigente: estos archivos son snapshots locales, no una sincronización automátic
 Un reporte narrativo viejo no determina la siguiente fase. El comando devuelve 1
 ante evidencia malformada/inconsistente; las fases pendientes normales se muestran
 con su actor propuesto. No usar el código de salida de `status` como permiso de deploy.
+
+## Controles obligatorios de ARCAV
+
+Los asistentes anteriores siguen siendo diagnósticos. El permiso para empezar
+producto depende de `python3 scripts/governance_gate.py start`, la base protegida
+y las entradas del handoff. Ver instalación, CI y límite de confianza en
+`docs/governance.md`. Un `status` con código 0 nunca autoriza implementación.

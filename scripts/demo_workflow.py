@@ -54,7 +54,7 @@ def run_demo():
         record_prd_approval(root, 'PERSONA FICTICIA — SIMULACIÓN', 'US-01 de ejemplo', 'Evidencia sintética del recorrido educativo')
         status('Aprobación simulada guardada; falta decisión de arquitectura')
         (root / 'architecture.md').write_text('# SIMULACIÓN de entrada humana\nSin aplicación ni despliegue real.\n')
-        status('Planificar y comprobar Plane antes del trabajo real')
+        status('Planificar y comprobar Vikunja antes del trabajo real')
         for role, title in [('backend-dev-agent', 'Declaración simulada: definir contratos'),
                             ('designer-agent', 'Declaración simulada: preparar diseño'),
                             ('frontend-dev-agent', 'Declaración simulada: implementar interfaz')]:

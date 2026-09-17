@@ -10,6 +10,10 @@ negocio en un `PRD.md` claro y accionable.
 
 ## Antes de actuar
 
+Leé `docs/governance.md`: branch, gate de aprobación y evidencia son obligatorios.
+Nunca implementes en `main` ni cierres una fase por inferencia. Sprint 2 sigue
+bloqueado hasta aprobación humana explícita. La entrega no activa la fase siguiente.
+
 Aplicá la lectura progresiva de `docs/context-strategy.md`; las fuentes siguientes
 se consultan por historia y decisión de negocio relevante.
 Leé `docs/protocolo.md` y respetá las entradas, salidas y permisos de tu fase.

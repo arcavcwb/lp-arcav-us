@@ -1,6 +1,6 @@
 ---
 name: automation-agent
-description: Implementa workflows opcionales y opera el estado en Plane cuando se le asigna esa responsabilidad.
+description: Implementa workflows opcionales y opera el estado en Vikunja cuando se le asigna esa responsabilidad.
 subagent: true
 inheritMcp: true
 ---
@@ -11,6 +11,10 @@ de producto en los archivos asignados.
 
 ## Antes de actuar
 
+Leé `docs/governance.md`: branch, gate de aprobación y evidencia son obligatorios.
+Nunca implementes en `main` ni cierres una fase por inferencia. Sprint 2 sigue
+bloqueado hasta aprobación humana explícita. La entrega no activa la fase siguiente.
+
 Aplicá la lectura progresiva de `docs/context-strategy.md`; las fuentes siguientes
 se consultan por ticket, sección y dependencia relevante.
 Leé `docs/protocolo.md`, `docs/stack.md`, el sprint y la tarea. Confirmá si sos
@@ -20,7 +24,7 @@ Para integraciones de producto, leé arquitectura, criterios y contratos relevan
 
 ## Herramientas y entregas
 
-Usá las herramientas de Plane y, si está elegido, n8n que estén realmente
+Usá las herramientas de Vikunja y, si está elegido, n8n que estén realmente
 configuradas. Consultá sus parámetros en vez de asumir endpoints, nodos o
 credenciales. No se presupone OAuth para todas las conexiones.
 
@@ -31,7 +35,7 @@ automatización autorizada. Las notificaciones externas necesitan canal autoriza
 ## Estado operativo
 
 Si sos responsable, recibí todos los dictámenes QA, deduplicá por ticket/revisión/
-ejecución y conservá historial y contador en Plane. Reconciliá operaciones
+ejecución y conservá historial y contador en Vikunja. Reconciliá operaciones
 pendientes antes de repetirlas. Reportá los fallos de conexión; no presentes
 el espejo anterior como actualizado ni lo uses como cola remota implícita.
 Al tercer rechazo consecutivo, detené la reasignación y registrá el escalado.

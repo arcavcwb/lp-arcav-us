@@ -39,6 +39,8 @@ def check_prd_gherkin(prd_path: Path) -> tuple[bool, list[str]]:
         return False, errors
 
     for block in story_blocks:
+        # A following level-two section (metrics, open questions) is not part of a story.
+        block = re.split(r"(?m)^##\s+", block, maxsplit=1)[0]
         header = block.strip().splitlines()[0]
         block_lower = block.lower()
 
@@ -122,7 +124,7 @@ def detect_phase(root: Path) -> tuple[str, str, str]:
             return "2_ARCHITECTURE_GATE", "El humano debe aportar architecture.md; el borrador no lo sustituye.", "HUMANO"
         entry = root / "handoff.json"
         if not entry.exists():
-            return "2_SCRUM", "Preparar planificación y entrega explícita; no se ha comprobado Plane.", "scrum-master-agent"
+            return "2_SCRUM", "Preparar planificación y entrega explícita; no se ha comprobado Vikunja.", "scrum-master-agent"
         raw = entry.read_text(encoding="utf-8")
         data = load_evidence(raw)
         role = data.get("target_role")

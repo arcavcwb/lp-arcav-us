@@ -4,6 +4,12 @@ Estado: listo_para_aprobacion
 Revisión: v1.0.0
 Aprobación humana (persona, fecha, alcance y evidencia): pendiente
 
+Nota de auditoría de gobernanza (2026-09-13): existe implementación en
+`81dc82d5887f97bb7a39a9dff3b91b0a7bbf91c3` sin registro verificable de aprobación
+humana del PRD en el repositorio. No se presume ni se otorga aprobación retroactiva.
+Sprint 2 bloqueado hasta aprobación humana explícita del alcance y activación.
+Ver `docs/hardening/audit.md` y `docs/governance.md`.
+
 ---
 
 ## Contexto y problema
@@ -210,11 +216,11 @@ Aprobación humana (persona, fecha, alcance y evidencia): pendiente
 1. **Happy Path (Camino ideal)**:
    - **Dado** una versión candidata implementada por el frontend/backend
    - **Cuando** el `qa-agent` ejecuta el plan de pruebas e inspección
-   - **Entonces** emite dictamen `approved` registrando evidencia en `sprint_actual.md`.
+   - **Entonces** emite dictamen `approved` con evidencia en `bug_report.md`; el responsable operativo lo registra en Vikunja y sincroniza `sprint_actual.md`.
 2. **Sad Path (Error / Validación)**:
    - **Dado** un fallo en los criterios de aceptación o un error visual/funcional
    - **Cuando** QA evalúa la entrega
-   - **Entonces** emite dictamen `rejected`, genera `bug_report.md` con pasos de reproducción y suma +1 al contador de reaperturas.
+   - **Entonces** emite dictamen `rejected`, genera `bug_report.md` con pasos de reproducción; el responsable operativo registra una reapertura por ejecución rechazada vigente, sin duplicar reintentos.
 3. **Edge Case (Límite / Tiempo)**:
    - **Dado** 3 rechazos consecutivos en una misma tarea
    - **Cuando** se alcanza el límite de reaperturas
@@ -233,9 +239,9 @@ Aprobación humana (persona, fecha, alcance y evidencia): pendiente
 
 #### Criterios de Aceptación (4 Escenarios Obligatorios):
 1. **Happy Path (Camino ideal)**:
-   - **Dado** una entrega aprobada por QA
+   - **Dado** una entrega con PR revisado independientemente, aprobada por QA e integrada mediante merge
    - **Cuando** DevOps ejecuta `npm run build` y la validación de `wrangler.jsonc`
-   - **Entonces** la build finaliza en 0 errores y se publica la versión candidata a Staging/Producción.
+   - **Entonces** la build finaliza en 0 errores y se publica el artefacto validado a Staging; Producción requiere aprobación humana específica del artefacto y destino.
 2. **Sad Path (Error / Validación)**:
    - **Dado** un fallo en la compilación de Astro o TypeScript
    - **Cuando** se ejecuta el comando de build
@@ -268,4 +274,6 @@ Aprobación humana (persona, fecha, alcance y evidencia): pendiente
 
 ## Preguntas abiertas
 
-- Ninguna por el momento. Toda la especificación fue contrastada con los documentos en `docs/`.
+- Pendiente: aprobación humana verificable del PRD vigente y activación explícita de Sprint 2.
+- Pendiente: arquitectura humana en `architecture.md` y reconciliación de aceptación de Sprint 1.
+- El hardening de gobernanza no certifica criterios visuales o funcionales implementados.
