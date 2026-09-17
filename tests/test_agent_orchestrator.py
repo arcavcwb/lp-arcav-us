@@ -1,8 +1,10 @@
 import importlib.util
+import io
+import json
 from pathlib import Path
-import subprocess
 import sys
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("orchestrator", ROOT / "scripts/agent_orchestrator.py")
@@ -17,19 +19,29 @@ class OrchestratorTests(unittest.TestCase):
         self.assertTrue(all(item["model"].startswith("gpt-") for item in cfg["agents"].values()))
 
     def test_declared_codex_model_is_used_by_default(self):
-        result = subprocess.run([sys.executable, str(ROOT / "scripts/agent_orchestrator.py"),
-                                "po-agent", "--ticket", "HARDENING", "--routes", "docs/"],
-                               capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0)
-        self.assertIn("gpt-5.6-terra", result.stdout)
+        stdout = io.StringIO()
+        argv = ["agent_orchestrator.py", "po-agent", "--ticket", "HARDENING",
+                "--routes", "docs/"]
+        with mock.patch.object(sys, "argv", argv), \
+             mock.patch.object(orchestrator, "branch", return_value="chore/test"), \
+             mock.patch.object(orchestrator, "prompt", return_value="handoff"), \
+             mock.patch("sys.stdout", stdout):
+            result = orchestrator.main()
+        self.assertEqual(result, 0)
+        self.assertEqual(json.loads(stdout.getvalue())["model"], "gpt-5.6-terra")
 
     def test_main_is_rejected_before_model_launch(self):
-        result = subprocess.run([sys.executable, str(ROOT / "scripts/agent_orchestrator.py"),
-                                "po-agent", "--ticket", "HARDENING", "--routes", "docs/"],
-                               capture_output=True, text=True, env={**__import__('os').environ,
-                                                                      "AGY_MODEL_PO_AGENT": "fixture-model"})
-        # This repository checkout is a hardening branch; test the invariant directly.
-        self.assertIn("fixture-model", result.stdout)
+        stderr = io.StringIO()
+        argv = ["agent_orchestrator.py", "po-agent", "--ticket", "HARDENING",
+                "--routes", "docs/"]
+        with mock.patch.object(sys, "argv", argv), \
+             mock.patch.object(orchestrator, "branch", return_value="main"), \
+             mock.patch.object(orchestrator, "prompt") as prompt, \
+             mock.patch("sys.stderr", stderr):
+            result = orchestrator.main()
+        self.assertEqual(result, 1)
+        self.assertIn("branch distinta de main/master", stderr.getvalue())
+        prompt.assert_not_called()
 
 
 if __name__ == "__main__":
