@@ -1,44 +1,41 @@
-# Sprint actual
+# Sprint <n> — ARCAV Landing
 
-Estado: sin inicializar
-Proyecto y ciclo de Plane: pendiente
-PRD aprobado (revisión y evidencia): pendiente
-Responsable de estado operativo y espejo: por asignar (Scrum manual o Automation)
-Evidencia de asignación humana: pendiente
-Responsable de integración y revisión candidata: por asignar
+Proyecto Vikunja: https://vikunja.arcav.us/projects/2
+PRD de referencia: PRD.md (commit pendiente de aprobación)
+Responsable del espejo: `producto`
 Última sincronización UTC: nunca
-Resultado de sincronización: no ejecutada
-Correspondencia entre estados lógicos y estados reales de Plane: pendiente
+Resultado de la sincronización: no ejecutada
 
-Plane es la fuente de verdad. Este archivo es un espejo local actualizado según `docs/protocolo.md`.
+Vikunja es la fuente de verdad; este archivo es un espejo que solo regenera
+`producto` desde una lectura remota confirmada (ver `docs/protocolo.md`). Este
+archivo es el formato del espejo; la correspondencia con columnas y etiquetas
+de Vikunja está en `docs/vikunja.md`. El repositorio es público: sin datos
+personales ni información privada.
 
-## Resumen del sprint
+## Resumen
 
-| Ticket / ID | Clave estable | Responsable | Estado | Reaperturas |
+| Vikunja | Clave estable | Rol | Estado (Vikunja / lógico) | Reaperturas |
 |---|---|---|---|---|
-| *ej. PROJ-1* | `proyecto:historia:tarea` | *rol-agent* | *listo* | 0 |
+| #<id> | `lp-arcav-us:US-xx:<slug>` | `<rol>` | <columna> / pendiente | 0/3 |
 
-## Detalle de tareas
+## Detalle por tarea
 
-### [ID-o-Clave] Título de la tarea
-- **Clave estable**: `proyecto:historia:tarea`
-- **ID y enlace de Plane**: [Pendiente]
-- **Historia asociada**: [ID historia en PRD]
-- **Responsable**: [rol-agent]
-- **Estado (remoto / lógico)**: [estado_remoto / estado_logico]
-- **Dependencias**: [ninguna / ticket o contrato previo]
-- **Rutas asignadas**: [rutas de escritura exclusivas]
-- **Contratos / tokens listos**: [ruta@revisión o no aplica con motivo]
-- **Revisión de producto**: [hash / commit / pendiente]
-- **Evidencia QA**: [aprobado / rechazado / bloqueado en bug_report.md]
-- **Reaperturas**: 0 (máx. 3 antes de escalado a humano)
-- **Último evento**: `ticket:revision:ejecucion-qa` (fecha UTC)
+### [#<id>] <título>
+- Clave estable: `lp-arcav-us:US-xx:<slug>`
+- Enlace: https://vikunja.arcav.us/tasks/<id>
+- Historia y escenarios: US-xx (1, 2, 3, 4)
+- Rol responsable: `<producto | frontend | integraciones | qa-revisor | release>`
+- Estado (Vikunja / lógico): <columna> / <estado lógico>
+- Dependencias: <clave> | ninguna
+- Rutas de escritura previstas: <carpetas o archivos>
+- Commit candidato: <hash> | pendiente
+- Dictamen QA vigente: approved | rejected (fallo | bloqueo) | sin ejecutar — ver bug_report.md
+- Reaperturas: n/3 (escalado: sí/no)
 
-## Bloqueos y entregas
+Estados lógicos: `pendiente`, `en_curso`, `en_qa`, `correccion`, `bloqueado`,
+`escalado`, `qa_aprobado`, `en_pr`, `en_produccion`.
 
-Registrar ticket, dato faltante, responsable de resolverlo y evidencia de entrega.
+## Bloqueos y escalados
 
-## Cambios de responsable de estado operativo
-
-Registrar fecha, evidencia humana, responsable saliente y entrante y reconciliación
-de operaciones pendientes. La transferencia incluye espejo, estados y reaperturas.
+| Tarea | Motivo | Dato o decisión faltante | Responsable | Desde (UTC) |
+|---|---|---|---|---|

@@ -27,7 +27,7 @@ Aprobación humana (persona, fecha, alcance y evidencia): pendiente
 ## Historias de usuario
 
 ### [US-01] Definición del Brief y PRD
-- **Como** Product Owner (`po-agent`)
+- **Como** Product Owner (`producto`)
 - **Quiero** formalizar las historias de usuario y criterios de aceptación del proyecto
 - **Para** garantizar alineación clara entre negocio, diseño, desarrollo y control de calidad.
 
@@ -52,7 +52,7 @@ Aprobación humana (persona, fecha, alcance y evidencia): pendiente
 ---
 
 ### [US-02] Sistema de Diseño y Tokens ARCAV
-- **Como** Diseñador / Frontend (`designer-agent` / `frontend-dev-agent`)
+- **Como** Diseñador / Frontend (`frontend`)
 - **Quiero** un sistema de diseño con tokens CSS bien estructurados (paleta oscura, acentos esmeralda y tipografía moderna)
 - **Para** lograr una estética premium, moderna y cohesiva en todas las vistas.
 
@@ -202,14 +202,14 @@ Aprobación humana (persona, fecha, alcance y evidencia): pendiente
 ---
 
 ### [US-08] Verificación de QA, Criterios y Bug Report
-- **Como** QA Agent (`qa-agent`)
+- **Como** Revisor QA (`qa-revisor`)
 - **Quiero** auditar los criterios de aceptación, accesibilidad y rendimiento en cada entrega
 - **Para** prevenir regresiones y garantizar cero defectos antes de desplegar a producción.
 
 #### Criterios de Aceptación (4 Escenarios Obligatorios):
 1. **Happy Path (Camino ideal)**:
    - **Dado** una versión candidata implementada por el frontend/backend
-   - **Cuando** el `qa-agent` ejecuta el plan de pruebas e inspección
+   - **Cuando** `qa-revisor` ejecuta el plan de pruebas e inspección
    - **Entonces** emite dictamen `approved` registrando evidencia en `sprint_actual.md`.
 2. **Sad Path (Error / Validación)**:
    - **Dado** un fallo en los criterios de aceptación o un error visual/funcional
@@ -227,14 +227,14 @@ Aprobación humana (persona, fecha, alcance y evidencia): pendiente
 ---
 
 ### [US-09] Build y Despliegue en Cloudflare Workers
-- **Como** DevOps Agent (`devops-agent`)
+- **Como** Release (`release`)
 - **Quiero** validar el bundle de Astro y desplegar la aplicación en Cloudflare Workers
 - **Para** asegurar entregas continuas, rápidas y estables.
 
 #### Criterios de Aceptación (4 Escenarios Obligatorios):
 1. **Happy Path (Camino ideal)**:
    - **Dado** una entrega aprobada por QA
-   - **Cuando** DevOps ejecuta `npm run build` y la validación de `wrangler.jsonc`
+   - **Cuando** `release` ejecuta `npm run build` y la validación de `wrangler.jsonc`
    - **Entonces** la build finaliza en 0 errores y se publica la versión candidata a Staging/Producción.
 2. **Sad Path (Error / Validación)**:
    - **Dado** un fallo en la compilación de Astro o TypeScript

@@ -9,16 +9,23 @@ repos:
 
   - repo: local
     hooks:
-      - id: validate-squad
-        name: Validate agyFlow squad
+      - id: validar-flujo-claude
+        name: Validar flujo Claude Code
         entry: python3 scripts/validate_squad.py
         language: system
         pass_filenames: false
         always_run: true
 
-      - id: unittest-squad
-        name: Run agyFlow unit tests
+      - id: tests-flujo-claude
+        name: Tests del tooling del flujo Claude Code
         entry: python3 -m unittest discover tests -v
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: tests-contacto
+        name: Tests del endpoint de contacto (node --test)
+        entry: node --test tests/contact.test.mjs
         language: system
         pass_filenames: false
         always_run: true

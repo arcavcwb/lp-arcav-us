@@ -1,0 +1,188 @@
+---
+import type { Copy } from '../i18n/translations';
+import Roundel from './Roundel.astro';
+
+interface Props {
+  lines: Copy['lines'];
+}
+
+const { lines } = Astro.props;
+---
+<section id="servicios" class="lines" aria-labelledby="lines-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="lines-title">{lines.title}</h2>
+      <p>{lines.intro}</p>
+    </div>
+
+    <div class="lines__list">
+      {lines.items.map((item) => (
+        <article class="line-row" id={`servicio-${item.id}`} data-line={item.id} aria-labelledby={`servicio-${item.id}-name`}>
+          <header class="line-row__head">
+            <Roundel line={item.id} label={item.name} size="lg" />
+            <div>
+              <h3 id={`servicio-${item.id}-name`}>{item.name}</h3>
+              <p class="line-row__when">{item.when}</p>
+            </div>
+          </header>
+
+          <ol class="line-row__track">
+            {item.stops.map((stop) => <li>{stop}</li>)}
+          </ol>
+
+          <p class="line-row__runs">{lines.runsOnLabel} {item.runsOn}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .lines {
+    padding-block: var(--space-7) var(--space-8);
+  }
+
+  .lines__list {
+    display: grid;
+    gap: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .line-row {
+    scroll-margin-top: 6rem;
+    transition: opacity 240ms var(--ease-out);
+    display: grid;
+    gap: var(--space-5) var(--space-7);
+    align-items: start;
+  }
+
+  @media (min-width: 960px) {
+    .line-row {
+      grid-template-columns: minmax(0, 21rem) minmax(0, 1fr);
+      grid-template-rows: auto auto;
+    }
+
+    .line-row__head {
+      grid-row: span 2;
+    }
+  }
+
+  .line-row__head {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .line-row__when {
+    margin-top: var(--space-2);
+    color: var(--ink-soft);
+  }
+
+  /* Recorrido de la línea */
+  .line-row__track {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    padding: 0;
+    list-style: none;
+    margin-top: 0.4rem;
+  }
+
+  .line-row__track::before {
+    content: '';
+    position: absolute;
+    left: 0.6rem;
+    right: 0.6rem;
+    top: 0.55rem;
+    height: 12px;
+    background: var(--line);
+    border-radius: 6px;
+  }
+
+  .line-row__track li {
+    position: relative;
+    padding-top: 2.4rem;
+    padding-right: var(--space-3);
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 1.15;
+  }
+
+  .line-row__track li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 4px solid var(--ink);
+  }
+
+  .line-row__track li:last-child::before {
+    width: 1.6rem;
+    height: 1.6rem;
+    top: -0.12rem;
+    background: var(--ink);
+    box-shadow: inset 0 0 0 4px var(--paper);
+  }
+
+  .line-row__runs {
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+  }
+
+  /* Resaltar una línea atenúa las otras dos */
+  .lines__list:has(.line-row:hover) .line-row:not(:hover) {
+    opacity: 0.3;
+  }
+
+  .lines__list:has(.line-row:target) .line-row:not(:target) {
+    animation: line-dim 2.8s var(--ease-out) both;
+  }
+
+  @keyframes line-dim {
+    0%,
+    65% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 719px) {
+    .line-row__track {
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      gap: 0;
+      margin-left: 0.3rem;
+    }
+
+    .line-row__track::before {
+      left: 0.4rem;
+      right: auto;
+      top: 0.6rem;
+      bottom: 0.6rem;
+      width: 12px;
+      height: auto;
+    }
+
+    .line-row__track li {
+      padding: 0.55rem 0 0.55rem 2.6rem;
+    }
+
+    .line-row__track li::before {
+      top: 50%;
+      translate: 0 -50%;
+    }
+
+    .line-row__track li:last-child::before {
+      top: 50%;
+    }
+  }
+</style>

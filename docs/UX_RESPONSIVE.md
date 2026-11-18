@@ -1,168 +1,59 @@
-# ARCAV — UX, Responsive, Accessibility & Performance
+# UX, responsive, accesibilidad y rendimiento
 
-## Responsive principle
+Reglas transversales que toda pantalla debe cumplir, independientes de la
+composición de cada sección.
 
-Do not merely shrink the desktop design.
+La composición por sección (bandas, mapa de red, tracks, journey, nameboard,
+pie) y los breakpoints reales de la build están en `DESIGN.md`, en la raíz:
+secciones «Layout» y «Do's and Don'ts». Los tokens implementados, en el `:root`
+de `src/styles/global.css`. Si esas fuentes y este documento se contradicen,
+prevalecen `DESIGN.md` y el código, y hay que corregir este archivo.
 
-Recompose the experience by breakpoint.
+## Principio
 
----
+No encojas el diseño de escritorio: recompón la experiencia por breakpoint.
+Las listas y rutas horizontales se vuelven verticales en pantallas estrechas;
+no se convierten en carruseles ni se reducen a puntos.
 
-## Desktop
+## Requisitos responsive
 
-Approximate range:
+- Sin desbordamiento horizontal a 320, 360, 390 y 430 px.
+- Objetivos táctiles de al menos 44 px.
+- Tipografía fluida con `clamp()` donde aplique.
+- Jerarquía preservada en tablet: dos columnas solo mientras el texto siga
+  siendo cómodo; si no, apila.
+- Menú accesible en móvil, con foco y cierre por teclado.
 
-`>= 1200px`
+## Accesibilidad
 
-Hero:
-- two major columns
-- copy ~40–45%
-- system/map visual ~55–60%
-- full labels
-- visible navigation
+Obligatorio:
 
-Method:
-- horizontal structured flow
+- HTML semántico y landmarks.
+- Un solo `h1` por página y jerarquía de encabezados lógica.
+- Navegación completa por teclado y foco visible.
+- Etiquetas asociadas a cada campo; errores anunciados
+  (`aria-live`, `aria-invalid`, `aria-describedby`).
+- Contraste suficiente; ningún estado comunicado solo por color.
+- SVG decorativos ocultos a lectores de pantalla; los informativos con
+  alternativa textual.
+- `lang` correcto por idioma y todo texto visible desde
+  `src/i18n/translations.ts` en `es`, `en` y `pt`.
+- Respeta `prefers-reduced-motion`: con movimiento reducido se muestra el
+  estado final, no la animación.
 
-Cases:
-- editorial feature layout or controlled multi-column composition
+## Rendimiento
 
----
+Prefiere renderizado nativo de Astro, CSS, SVG, JavaScript de cliente mínimo e
+imágenes responsive. Evita librerías de mapas, frameworks de animación, vídeo
+de fondo, hidratación innecesaria y assets de imagen enormes. La página debe
+seguir siendo comprensible y navegable sin JavaScript siempre que sea posible.
 
-## Tablet
+## Movimiento
 
-Approximate range:
+El movimiento comunica estructura: trazado de rutas, activación de nodos,
+conexiones del diagrama, revelado sutil de secciones y microinteracciones de
+botones y enlaces.
 
-`768px–1199px`
-
-- preserve hierarchy
-- use two columns only when text remains comfortable
-- otherwise stack hero copy above the visual
-- reduce decorative geometry
-- keep system labels readable
-- no compressed desktop UI
-
----
-
-## Mobile
-
-Approximate range:
-
-`< 768px`
-
-Hero order:
-
-1. Brand / eyebrow
-2. H1
-3. Supporting copy
-4. CTAs
-5. "Pequeños en alcance..."
-6. Simplified process diagram
-7. Professional trajectory
-
-Process diagram:
-
-**Inputs  
-↓  
-ARCAV  
-↓  
-Outputs**
-
-Do not squeeze a desktop network diagram into a tiny horizontal space.
-
-Trajectory:
-
-Prefer a vertical route:
-
-**Venezuela  
-↓  
-México  
-↓  
-San Diego  
-↓  
-Curitiba**
-
-Services:
-- one per row
-- flows simplified but complete
-- no forced horizontal scrolling
-
-Method:
-- vertical timeline
-
-Cases:
-- one per row
-- preserve aspect ratios
-
-No horizontal overflow at:
-- 320px
-- 360px
-- 390px
-- 430px
-
-Touch targets:
-- at least ~44px
-
-Use `clamp()` for fluid typography where appropriate.
-
----
-
-## Accessibility
-
-Mandatory:
-
-- semantic HTML
-- one H1
-- logical heading hierarchy
-- keyboard navigation
-- visible focus states
-- accessible mobile menu
-- meaningful labels
-- sufficient contrast
-- no state communicated only by color
-- decorative SVGs hidden from screen readers
-- respect `prefers-reduced-motion`
-
----
-
-## Performance
-
-Prefer:
-
-- Astro-native rendering
-- CSS
-- SVG
-- minimal client JavaScript
-- responsive images
-
-Avoid:
-
-- Three.js
-- full map libraries
-- heavy animation frameworks unless already justified
-- background video
-- unnecessary hydration
-- giant image assets
-
-The site should remain strong and understandable with JavaScript disabled wherever possible.
-
----
-
-## Motion
-
-Motion must communicate structure.
-
-Good uses:
-- route drawing
-- node activation
-- diagram connections
-- subtle section reveal
-- button/link micro-interactions
-
-Bad uses:
-- scroll hijacking
-- bouncing
-- cursor followers
-- excessive parallax
-- large 3D movement
-- animation that delays reading/navigation
+Evita: secuestro del scroll, rebotes, seguidores de cursor, parallax excesivo,
+movimiento 3D grande y cualquier animación que retrase la lectura o la
+navegación.

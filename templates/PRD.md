@@ -2,7 +2,10 @@
 
 Estado: borrador
 Revisión: pendiente
-Aprobación humana (persona, fecha, alcance y evidencia): pendiente
+Aprobación humana (persona, fecha UTC, alcance y commit o hash aprobado): pendiente
+
+Lo redacta y mantiene `producto`. Solo una persona aprueba; un cambio de alcance
+posterior exige una aprobación nueva (ver `docs/protocolo.md`).
 
 ## Contexto y problema
 
@@ -14,29 +17,29 @@ Pendiente.
 
 ## Historias de usuario
 
-Para cada historia: ID estable (`US-XX`), Como [rol], quiero [acción], para [beneficio].
-Cada historia DEBE incluir obligatoriamente los 4 escenarios de aceptación Given/When/Then:
+Cada historia tiene un ID estable (`US-XX`) y los 4 escenarios obligatorios con
+Dado/Cuando/Entonces. Reemplaza todos los campos entre corchetes.
 
 ### [US-XX] Título de la historia
 - **Como** [rol de usuario]
 - **Quiero** [acción o capacidad concreta]
 - **Para** [beneficio o valor observable]
 
-#### Criterios de Aceptación (4 Escenarios Obligatorios):
-1. **Happy Path (Camino ideal)**:
+#### Criterios de aceptación (4 escenarios obligatorios):
+1. **Camino feliz**:
    - **Dado** [contexto inicial válido]
    - **Cuando** [acción principal del usuario]
    - **Entonces** [resultado exitoso esperado]
-2. **Sad Path (Error / Validación)**:
-   - **Dado** [condición de entrada inválida o fallo del servicio]
+2. **Error / validación**:
+   - **Dado** [entrada inválida o fallo del servicio]
    - **Cuando** [el usuario intenta la acción]
    - **Entonces** [mensaje de error claro y acción de recuperación]
-3. **Edge Case (Límite / Tiempo)**:
-   - **Dado** [caso extremo, valor límite o expiración de tiempo]
+3. **Caso límite**:
+   - **Dado** [valor límite, repetición o expiración de tiempo]
    - **Cuando** [ocurre el evento]
    - **Entonces** [comportamiento determinista esperado]
-4. **Estado Vacío / Carga (UI / UX)**:
-   - **Dado** [ausencia de datos iniciales o consulta en progreso]
+4. **Estado vacío / carga**:
+   - **Dado** [ausencia de datos o consulta en progreso]
    - **Cuando** [el usuario accede a la vista]
    - **Entonces** [indicador de carga o estado vacío con llamada a la acción]
 
@@ -50,4 +53,4 @@ Pendiente.
 
 ## Preguntas abiertas
 
-Registrar las ambigüedades; no convertirlas en decisiones aprobadas.
+Registra las ambigüedades; no las conviertas en decisiones aprobadas.

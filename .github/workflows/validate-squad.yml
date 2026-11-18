@@ -1,4 +1,4 @@
-name: Validate Squad
+name: Validar flujo Claude
 
 on:
   push:
@@ -6,7 +6,12 @@ on:
   pull_request:
     branches: [main, master]
 
+permissions:
+  contents: read
+
 jobs:
+  # El id "validate" y la matriz generan los checks requeridos en main:
+  # validate (3.10), validate (3.11) y validate (3.12). No los renombres.
   validate:
     runs-on: ubuntu-latest
     strategy:
@@ -21,10 +26,21 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Run Squad Validator
+      # Node >= 22.18 elimina los tipos de .ts de forma nativa, que es lo que
+      # necesita tests/contact.test.mjs para importar src/lib/contact*.ts.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validar estructura del flujo
         run: |
           python3 scripts/validate_squad.py
 
-      - name: Run Test Suite
+      - name: Ejecutar tests
         run: |
           python3 -m unittest discover tests -v
+
+      - name: Ejecutar tests del endpoint de contacto
+        run: |
+          node --test tests/contact.test.mjs

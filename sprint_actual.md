@@ -3,23 +3,32 @@
 Estado: activo (Sprint 1)
 Proyecto Vikunja: [lp-arcav-us](https://vikunja.arcav.us/projects/2)
 PRD de referencia: [PRD.md](PRD.md)
-Responsable operativo: `scrum-master-agent`
+Responsable del espejo: `producto`
+Última sincronización UTC: sin registro
+Resultado de la sincronización: sin verificar — regenera con `python3 tools/vikunja_sync.py espejo --apply`
 
-Vikunja es la fuente de verdad. Este archivo es un espejo local actualizado según `docs/protocolo.md`.
+Vikunja es la fuente de verdad; este archivo es un espejo que solo regenera
+`producto` desde una lectura remota confirmada (ver `docs/protocolo.md` y
+`docs/vikunja.md`). El formato es el de `templates/sprint_actual.md`. El
+repositorio es público: sin datos personales ni información privada.
 
 ## Resumen del sprint
 
-| Ticket / ID | Clave estable | Responsable | Estado | Reaperturas |
+> Contenido heredado de una sincronización anterior sin fecha registrada: no
+> corresponde a una lectura remota confirmada y puede no coincidir con Vikunja.
+> `producto` lo regenera con `python3 tools/vikunja_sync.py espejo --apply`.
+
+| Vikunja | Clave estable | Rol | Estado (Vikunja / lógico) | Reaperturas |
 |---|---|---|---|---|
-| VK-2 | `lp-arcav-us:US-01` | `po-agent` | *por iniciar* | 0 |
-| VK-3 | `lp-arcav-us:US-02` | `designer-agent` | *por iniciar* | 0 |
-| VK-4 | `lp-arcav-us:US-03` | `frontend-agent` | *por iniciar* | 0 |
-| VK-5 | `lp-arcav-us:US-04` | `frontend-agent` | *por iniciar* | 0 |
-| VK-6 | `lp-arcav-us:US-05` | `frontend-agent` | *por iniciar* | 0 |
-| VK-7 | `lp-arcav-us:US-06` | `frontend-agent` | *por iniciar* | 0 |
-| VK-8 | `lp-arcav-us:US-07` | `backend-agent` | *por iniciar* | 0 |
-| VK-9 | `lp-arcav-us:US-08` | `qa-agent` | *por iniciar* | 0 |
-| VK-10 | `lp-arcav-us:US-09` | `devops-agent` | *por iniciar* | 0 |
+| VK-2 | `lp-arcav-us:US-01` | `producto` | todo / por iniciar | 0/3 |
+| VK-3 | `lp-arcav-us:US-02` | `frontend` | todo / por iniciar | 0/3 |
+| VK-4 | `lp-arcav-us:US-03` | `frontend` | todo / por iniciar | 0/3 |
+| VK-5 | `lp-arcav-us:US-04` | `frontend` | todo / por iniciar | 0/3 |
+| VK-6 | `lp-arcav-us:US-05` | `frontend` | todo / por iniciar | 0/3 |
+| VK-7 | `lp-arcav-us:US-06` | `frontend` | todo / por iniciar | 0/3 |
+| VK-8 | `lp-arcav-us:US-07` | `integraciones` | todo / por iniciar | 0/3 |
+| VK-9 | `lp-arcav-us:US-08` | `qa-revisor` | todo / por iniciar | 0/3 |
+| VK-10 | `lp-arcav-us:US-09` | `release` | todo / por iniciar | 0/3 |
 
 ## Detalle de tareas
 
@@ -27,7 +36,7 @@ Vikunja es la fuente de verdad. Este archivo es un espejo local actualizado seg�
 - **Clave estable**: `lp-arcav-us:US-01`
 - **ID y enlace de Vikunja**: [VK-2](https://vikunja.arcav.us/tasks/2)
 - **Historia asociada**: US-01
-- **Responsable**: `po-agent`
+- **Responsable**: `producto`
 - **Estado (remoto / lógico)**: todo / por iniciar
 - **Prioridad**: 5
 - **Dependencias**: ninguna
@@ -38,7 +47,7 @@ Definir y estructurar el archivo PRD.md para la marca **ARCAV — Digital produc
 #### Criterios de Aceptación (4 Escenarios Obligatorios):
 1. **Happy Path (Camino ideal)**:
    - **Dado** un brief completo de producto y arquitectura
-   - **Cuando** el `po-agent` redacta las Historias de Usuario US-01 a US-09
+   - **Cuando** `producto` redacta las Historias de Usuario US-01 a US-09
    - **Entonces** cada historia contiene sus 4 escenarios Given/When/Then.
 2. **Sad Path (Validación)**:
    - **Dado** una ambigüedad o falta de especificación en el brief
@@ -57,11 +66,19 @@ Definir y estructurar el archivo PRD.md para la marca **ARCAV — Digital produc
 - **Clave estable**: `lp-arcav-us:US-02`
 - **ID y enlace de Vikunja**: [VK-3](https://vikunja.arcav.us/tasks/3)
 - **Historia asociada**: US-02
-- **Responsable**: `designer-agent`
+- **Responsable**: `frontend`
 - **Estado (remoto / lógico)**: todo / por iniciar
 - **Prioridad**: 4
 - **Dependencias**: ninguna
 - **Descripción & Criterios**:
+
+> Descripción obsoleta, copiada de Vikunja antes del cambio de sistema visual:
+> `docs/DESIGN_SYSTEM.md` está archivado, `index.css` no existe y la paleta y
+> las fuentes que menciona no son las del sitio. El sistema vigente es
+> `DESIGN.md` con los tokens de `src/styles/global.css` (fuentes Barlow y
+> Barlow Condensed autoalojadas, sin Google Fonts). No edites esta copia:
+> corrige la descripción de la tarea en Vikunja y regenera el espejo.
+
 ### Sistema de Diseño & Tokens CSS
 Implementar tokens visuales en `src/styles/` y `index.css` siguiendo `docs/DESIGN_SYSTEM.md`.
 
@@ -74,7 +91,7 @@ Implementar tokens visuales en `src/styles/` y `index.css` siguiendo `docs/DESIG
 - **Clave estable**: `lp-arcav-us:US-03`
 - **ID y enlace de Vikunja**: [VK-4](https://vikunja.arcav.us/tasks/4)
 - **Historia asociada**: US-03
-- **Responsable**: `frontend-agent`
+- **Responsable**: `frontend`
 - **Estado (remoto / lógico)**: todo / por iniciar
 - **Prioridad**: 4
 - **Dependencias**: ninguna
@@ -91,7 +108,7 @@ Desarrollar el componente Hero interactivo para ARCAV en Astro.
 - **Clave estable**: `lp-arcav-us:US-04`
 - **ID y enlace de Vikunja**: [VK-5](https://vikunja.arcav.us/tasks/5)
 - **Historia asociada**: US-04
-- **Responsable**: `frontend-agent`
+- **Responsable**: `frontend`
 - **Estado (remoto / lógico)**: todo / por iniciar
 - **Prioridad**: 3
 - **Dependencias**: ninguna
@@ -105,7 +122,7 @@ Desarrollar el componente Hero interactivo para ARCAV en Astro.
 - **Clave estable**: `lp-arcav-us:US-05`
 - **ID y enlace de Vikunja**: [VK-6](https://vikunja.arcav.us/tasks/6)
 - **Historia asociada**: US-05
-- **Responsable**: `frontend-agent`
+- **Responsable**: `frontend`
 - **Estado (remoto / lógico)**: todo / por iniciar
 - **Prioridad**: 3
 - **Dependencias**: ninguna
@@ -117,7 +134,7 @@ Presentación clara de problemas de negocio resueltos sin inventar métricas ni 
 - **Clave estable**: `lp-arcav-us:US-06`
 - **ID y enlace de Vikunja**: [VK-7](https://vikunja.arcav.us/tasks/7)
 - **Historia asociada**: US-06
-- **Responsable**: `frontend-agent`
+- **Responsable**: `frontend`
 - **Estado (remoto / lógico)**: todo / por iniciar
 - **Prioridad**: 3
 - **Dependencias**: ninguna
@@ -129,7 +146,7 @@ Rutas `/es`, `/en`, `/pt` con detección automática de idioma y cookie de prefe
 - **Clave estable**: `lp-arcav-us:US-07`
 - **ID y enlace de Vikunja**: [VK-8](https://vikunja.arcav.us/tasks/8)
 - **Historia asociada**: US-07
-- **Responsable**: `backend-agent`
+- **Responsable**: `integraciones`
 - **Estado (remoto / lógico)**: todo / por iniciar
 - **Prioridad**: 3
 - **Dependencias**: ninguna
@@ -141,7 +158,7 @@ Contratos de datos en TypeScript e integración con backend de notificaciones (n
 - **Clave estable**: `lp-arcav-us:US-08`
 - **ID y enlace de Vikunja**: [VK-9](https://vikunja.arcav.us/tasks/9)
 - **Historia asociada**: US-08
-- **Responsable**: `qa-agent`
+- **Responsable**: `qa-revisor`
 - **Estado (remoto / lógico)**: todo / por iniciar
 - **Prioridad**: 4
 - **Dependencias**: ninguna
@@ -153,7 +170,7 @@ Pruebas de aceptación, accesibilidad, respuestas responsive y generación de `b
 - **Clave estable**: `lp-arcav-us:US-09`
 - **ID y enlace de Vikunja**: [VK-10](https://vikunja.arcav.us/tasks/10)
 - **Historia asociada**: US-09
-- **Responsable**: `devops-agent`
+- **Responsable**: `release`
 - **Estado (remoto / lógico)**: todo / por iniciar
 - **Prioridad**: 4
 - **Dependencias**: ninguna

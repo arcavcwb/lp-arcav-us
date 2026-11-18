@@ -1,412 +1,808 @@
-// src/i18n/translations.ts — Contenido multilingüe oficial para ARCAV
+// src/i18n/translations.ts — Todo el texto visible de la landing, en es / en / pt.
 
 export type Lang = "es" | "en" | "pt";
+export type LineId = "landing" | "sistema" | "auto";
 
 export const BRAND = {
   name: "ARCAV",
-  tagline: "Digital products & process evolution",
   author: "Armando Castro",
-  location: "Curitiba, Brasil",
-  email: "hola@arcav.us",
   github: "https://github.com/arcavcwb",
   linkedin: "https://www.linkedin.com/in/armando-castro",
-  social: [
-    { name: "GitHub", href: "https://github.com/arcavcwb" },
-    { name: "LinkedIn", href: "https://www.linkedin.com/in/armando-castro" }
-  ]
+  method: "https://github.com/arcavcwb/arcav-ia-flow",
 };
 
-export const LANGS: { code: Lang; label: string; path: string }[] = [
-  { code: "es", label: "ES", path: "/es" },
-  { code: "en", label: "EN", path: "/en" },
-  { code: "pt", label: "PT", path: "/pt" }
+export const LANGS: { code: Lang; label: string; name: string; path: string; locale: string }[] = [
+  { code: "es", label: "ES", name: "Español", path: "/es/", locale: "es" },
+  { code: "pt", label: "PT", name: "Português", path: "/pt/", locale: "pt_BR" },
+  { code: "en", label: "EN", name: "English", path: "/en/", locale: "en_US" },
 ];
 
+type Link = { label: string; href: string };
+export type Shot = { src: string; w: number; h: number; alt: string; caption: string; kind: "desktop" | "phone" | "diagram" };
+
+type Service = {
+  id: LineId;
+  name: string;
+  when: string;
+  stops: string[];
+  runsOn: string;
+};
+
+export type SubProject = {
+  line: LineId;
+  name: string;
+  status: string;
+  text: string;
+  scope?: string;
+  links?: Link[];
+};
+
+export type Project = {
+  id: string;
+  name: string;
+  client: string;
+  lines: LineId[];
+  status?: string;
+  before?: string;
+  built?: string[];
+  parts?: SubProject[];
+  links?: Link[];
+  shots: Shot[];
+};
+
 export type Copy = {
-  metaTitle: string;
-  metaDescription: string;
-  nav: {
-    work: string;
-    services: string;
-    method: string;
-    about: string;
-    contact: string;
-    cta: string;
-  };
+  meta: { title: string; description: string };
+  skip: string;
+  nav: { lines: string; work: string; start: string; about: string; cta: string; menu: string; language: string };
   hero: {
-    eyebrow: string;
     title: string;
-    subtitle: string;
-    primaryCta: string;
-    secondaryCta: string;
-    statement: string;
-    trajectory: string;
+    lead: string;
+    cta: string;
+    ctaNote: string;
+    secondary: string;
+    map: {
+      label: string;
+      here: string;
+      today: [string, string, string, string];
+      hub: string;
+      dest: Record<LineId, string>;
+      legend: string;
+    };
   };
-  problem: {
-    label: string;
+  lines: { title: string; intro: string; runsOnLabel: string; items: Service[] };
+  work: {
     title: string;
-    copy: string;
-    from: string;
-    to: string;
-    quote: string;
+    intro: string;
+    before: string;
+    built: string;
+    visit: string;
+    projects: Project[];
   };
-  services: {
-    label: string;
-    title: string;
-    subtitle: string;
-    s1: { title: string; desc: string; flow: string };
-    s2: { title: string; desc: string; flow: string };
-    s3: { title: string; desc: string; flow: string };
-  };
-  cases: {
-    label: string;
-    title: string;
-    c1: { title: string; tag: string; desc: string; insight: string };
-    c2: { title: string; tag: string; desc: string; insight: string };
-    c3: { title: string; tag: string; desc: string; insight: string; repo?: string };
-  };
-  method: {
-    label: string;
-    title: string;
-    steps: string[];
-  };
+  start: { title: string; intro: string; here: string; steps: { title: string; text: string }[]; cta: string };
   about: {
-    label: string;
     title: string;
-    copy: string;
-    trajectory: string;
-    statement: string;
+    paragraphs: string[];
+    motto: string;
+    routeLabel: string;
+    route: { place: string; note: string }[];
+    method: string;
+    methodLink: string;
   };
   contact: {
     title: string;
-    subtitle: string;
-    nameLabel: string;
-    emailLabel: string;
-    msgLabel: string;
+    lead: string;
+    nombre: { label: string; placeholder: string };
+    contacto: { label: string; placeholder: string };
+    proceso: { label: string; placeholder: string };
+    honeypot: string;
+    privacy: string;
     submit: string;
+    sending: string;
     success: string;
+    errors: {
+      nombre: Record<"required" | "too_short" | "too_long", string>;
+      contacto: Record<"required" | "invalid" | "too_long", string>;
+      proceso: Record<"required" | "too_short" | "too_long", string>;
+      generic: string;
+      network: string;
+    };
   };
-  footer: {
-    location: string;
-    trajectory: string;
-    copyright: string;
-  };
+  footer: { tagline: string; location: string; rights: string; legend: string };
+  lineNames: Record<LineId, string>;
+};
+
+const shots = {
+  centerGas: { src: "/work/center-gas/catalogo.webp", w: 780, h: 1060, kind: "phone" as const },
+  radar: { src: "/work/condor-campanas/radar-ofertas/desktop.webp", w: 1440, h: 900, kind: "desktop" as const },
+  running: { src: "/work/condor-campanas/condor-running/desktop.webp", w: 1440, h: 900, kind: "desktop" as const },
+  monitor: { src: "/work/leadwhats/monitor-decision.webp", w: 1592, h: 706, kind: "diagram" as const },
+  zonta: { src: "/work/grupo-zonta/desktop.webp", w: 1440, h: 900, kind: "desktop" as const },
+  zon: { src: "/work/z-on/desktop.webp", w: 1440, h: 900, kind: "desktop" as const },
+};
+
+const liveLinks = {
+  campaigns: "https://lp.condor.com.br/encontro-de-sabores/",
+  running: "https://condorrunning.condor.com.br/",
+  radar: "https://radardeofertas.condor.com.br/",
+  zonta: "https://grupozonta.com.br/",
 };
 
 export const translations: Record<Lang, Copy> = {
   es: {
-    metaTitle: "ARCAV — Productos Digitales & Evolución de Procesos",
-    metaDescription: "Transformo procesos de negocio en productos digitales simples, automatizados y fáciles de operar. By Armando Castro.",
+    meta: {
+      title: "ARCAV — Sistemas y automatización para negocios que operan por WhatsApp y planillas",
+      description:
+        "Diseño, programo y mantengo el sistema que ordena tu operación: landings conectadas, sistemas a medida y automatizaciones. Armando Castro, desde Curitiba.",
+    },
+    skip: "Saltar al contenido",
     nav: {
-      work: "Trabajo",
-      services: "Servicios",
-      method: "Método",
-      about: "Sobre mí",
-      contact: "Contacto",
-      cta: "Hablemos →"
+      lines: "Servicios",
+      work: "Proyectos",
+      start: "Cómo empezar",
+      about: "Quién soy",
+      cta: "Cuéntame tu proceso",
+      menu: "Menú",
+      language: "Idioma",
     },
     hero: {
-      eyebrow: "DIGITAL PRODUCTS & PROCESS EVOLUTION by Armando Castro",
-      title: "Transformo procesos de negocio en productos digitales simples, automatizados y fáciles de operar.",
-      subtitle: "Landing pages, sistemas pequeños e integraciones para negocios que necesitan ordenar su operación, centralizar información y reducir trabajo manual.",
-      primaryCta: "Ver proyectos →",
-      secondaryCta: "Hablemos",
-      statement: "PEQUEÑOS EN ALCANCE. SERIOS EN INGENIERÍA.",
-      trajectory: "Venezuela → México → San Diego / USA → Curitiba / Brasil"
-    },
-    problem: {
-      label: "02 / EL PROBLEMA",
-      title: "Cuando el negocio crece, el proceso también tiene que evolucionar.",
-      copy: "WhatsApp, hojas de cálculo y formularios pueden funcionar durante mucho tiempo. El problema aparece cuando la demanda aumenta y la operación empieza a depender de información dispersa y tareas manuales.",
-      from: "Manual → Disperso → Difícil de controlar",
-      to: "Conectado → Automatizado → Visible",
-      quote: "No modernizo por modernizar. Primero entiendo qué funciona y qué realmente necesita cambiar."
-    },
-    services: {
-      label: "03 / SERVICIOS",
-      title: "Soluciones enfocadas en resultados reales.",
-      subtitle: "Tres áreas de trabajo, un mismo objetivo: convertir procesos en productos digitales simples, operables y con impacto real.",
-      s1: {
-        title: "01 — Landing pages conectadas",
-        desc: "Diseño y desarrollo landing pages conectadas a formularios, CRM, bases de datos, notificaciones y automatizaciones.",
-        flow: "Visita → Formulario → Lead → Automatización → Seguimiento"
+      title: "Tu negocio no debería depender de WhatsApp, planillas y memoria.",
+      lead:
+        "Diseño, programo y mantengo el sistema que ordena tu operación: pedidos e inscripciones en un solo lugar, formularios que llegan a quien corresponde y avisos que salen solos.",
+      cta: "Cuéntame tu proceso",
+      ctaNote: "Tres campos. Te respondo yo.",
+      secondary: "Ver proyectos en marcha",
+      map: {
+        label:
+          "Mapa de la operación: WhatsApp, planillas, formularios sueltos y email entran a ARCAV y salen como leads en tu CRM, todo en un sistema y avisos automáticos.",
+        here: "Estás aquí",
+        today: ["WhatsApp", "Planilla", "Formulario suelto", "Email"],
+        hub: "ARCAV",
+        dest: { landing: "Leads en tu CRM", sistema: "Todo en un sistema", auto: "Avisos automáticos" },
+        legend: "Líneas",
       },
-      s2: {
-        title: "02 — Sistemas pequeños",
-        desc: "Backoffices, CRM específicos, reservas, gestión de eventos, pedidos, inventario y herramientas internas.",
-        flow: "Problema → Flujo → Sistema → Operación"
-      },
-      s3: {
-        title: "03 — Automatización e integración",
-        desc: "Integro herramientas y automatizo procesos mediante APIs, n8n, webhooks, bases de datos, Sheets y formularios.",
-        flow: "Sistema A → Integración → Datos → Acción / Reporte"
-      }
     },
-    cases: {
-      label: "04 / TRABAJO SELECCIONADO",
-      title: "Ideas que ya operan.",
-      c1: {
-        title: "De operación manual a producto digital",
-        tag: "PRODUCT / FULL STACK / OPERATIONS",
-        desc: "Un producto completo construido para la operación real: flujo, interfaz, backend, base de datos, reglas de negocio y despliegue.",
-        insight: "Construir una interfaz es diferente a hacerse responsable de que el producto completo funcione."
-      },
-      c2: {
-        title: "Integrar sin invadir",
-        tag: "AUTOMATION / APIs / DATA",
-        desc: "Capa de integración independiente para consumir datos autorizados, relacionar registros y automatizar sin destruir el sistema original.",
-        insight: "No todo problema necesita una migración."
-      },
-      c3: {
-        title: "Diseñar el sistema que construye el sistema",
-        tag: "AI / PRODUCT ENGINEERING / GOVERNANCE",
-        desc: "Metodología propia de desarrollo con agentes de IA para gobernar el producto separando arquitectura, dev, QA y release.",
-        insight: "No utilizo IA únicamente para programar más rápido. La utilizo para mejorar todo el proceso de construcción.",
-        repo: "https://github.com/arcavcwb/arcav-ia-flow"
-      }
+    lines: {
+      title: "Tres líneas. Tomas la que tu operación necesita.",
+      intro: "Primero entiendo cómo funciona hoy tu proceso. Después elegimos el tramo más corto que lo resuelve.",
+      runsOnLabel: "Ya corre en",
+      items: [
+        {
+          id: "landing",
+          name: "Landing conectada",
+          when: "Para cuando la gente llega, pero el contacto se pierde entre mensajes.",
+          stops: ["Visita", "Formulario", "Lead guardado", "Aviso al equipo", "Seguimiento"],
+          runsOn: "Rede Condor y Grupo Zonta.",
+        },
+        {
+          id: "sistema",
+          name: "Sistema a medida",
+          when: "Para cuando la operación ya no cabe en una planilla.",
+          stops: ["Pedidos", "Inscripciones y cupos", "Clientes", "Despacho", "Panel del dueño"],
+          runsOn: "Center Gás y Rede Condor.",
+        },
+        {
+          id: "auto",
+          name: "Automatización",
+          when: "Para cuando alguien pasa horas copiando, revisando y avisando a mano.",
+          stops: ["WhatsApp", "APIs", "n8n", "Base de datos", "Alerta o reporte"],
+          runsOn: "Center Gás y Rede Condor.",
+        },
+      ],
     },
-    method: {
-      label: "05 / MÉTODO",
-      title: "Del problema al producto.",
+    work: {
+      title: "Estaciones ya construidas.",
+      intro: "Proyectos reales, cada uno con su estado real.",
+      before: "Antes",
+      built: "Qué se construyó",
+      visit: "Ver en vivo",
+      projects: [
+        {
+          id: "center-gas",
+          name: "Center Gás",
+          client: "Distribuidora de gas y agua · Curitiba",
+          lines: ["sistema", "auto"],
+          status: "Desplegado · antes del lanzamiento con clientes",
+          before:
+            "Todos los pedidos entraban por el WhatsApp del dueño. En cada chat preguntaba producto, dirección y forma de pago, y después repartía los pedidos entre tres repartidores con audios. Si él no contestaba, el pedido se perdía.",
+          built: [
+            "Catálogo web al que el cliente llega desde WhatsApp, con alta de dirección por CEP.",
+            "Panel de despacho en tiempo real: pedidos nuevos, asignados y en camino.",
+            "App para repartidores con la dirección en Google Maps o Waze y el cambio que hay que llevar.",
+            "Automatización con n8n que responde el primer mensaje con el enlace al catálogo.",
+          ],
+          shots: [{ ...shots.centerGas, alt: "Pantalla de entrada del catálogo de Center Gás en el celular", caption: "Catálogo para clientes" }],
+        },
+        {
+          id: "condor",
+          name: "Rede Condor",
+          client: "Supermercados · Paraná y Santa Catarina",
+          lines: ["landing", "sistema", "auto"],
+          parts: [
+            {
+              line: "landing",
+              name: "Landings de campaña",
+              status: "En vivo",
+              text: "Páginas de temporada con inscripción a eventos y cupos en tiempo real, repartidos entre el público de redes y el del CRM.",
+              links: [
+                { label: "Encontro de Sabores", href: liveLinks.campaigns },
+                { label: "Condor Running", href: liveLinks.running },
+              ],
+            },
+            {
+              line: "landing",
+              name: "Radar de Ofertas",
+              status: "En vivo",
+              text: "Cada cliente elige su región y entra a la comunidad de ofertas de WhatsApp que le corresponde.",
+              links: [{ label: "radardeofertas.condor.com.br", href: liveLinks.radar }],
+            },
+            {
+              line: "auto",
+              name: "Monitor de avisos de ofertas",
+              status: "En operación",
+              text: "Antes, alguien abría los enlaces uno por uno y anotaba en una planilla qué aviso no había llegado. Ahora un monitor lo revisa por comunidad y horario y lo muestra en un panel pensado para una sola pregunta: ¿tengo que hacer algo ahora?",
+              scope: "26 comunidades de WhatsApp en 14 regiones (agosto de 2026)",
+            },
+            {
+              line: "sistema",
+              name: "Inscripciones a charlas",
+              status: "En desarrollo",
+              text: "Un formulario que cualquier landing incorpora y que marketing configura desde un panel, sin tocar código. Los cupos no se sobrevenden aunque dos personas se inscriban a la vez.",
+            },
+          ],
+          shots: [
+            { ...shots.radar, alt: "Página del Radar de Ofertas de Condor con el selector de región", caption: "Radar de Ofertas" },
+            { ...shots.running, alt: "Portada de la landing del circuito Condor Running", caption: "Condor Running" },
+            { ...shots.monitor, alt: "Diagrama del monitor: si el aviso no llegó a una comunidad, queda marcado", caption: "Cómo decide el monitor" },
+          ],
+        },
+        {
+          id: "grupo-zonta",
+          name: "Grupo Zonta",
+          client: "Grupo empresarial · Paraná y Santa Catarina",
+          lines: ["landing"],
+          status: "En vivo",
+          before: "El sitio institucional estaba armado en WordPress con Elementor, aunque en la práctica era una página casi estática.",
+          built: [
+            "Sitio nuevo en Astro servido como HTML estático.",
+            "Noticias migradas como contenido propio, con listado y página por nota.",
+            "Carrusel de las 7 marcas del grupo.",
+          ],
+          links: [{ label: "grupozonta.com.br", href: liveLinks.zonta }],
+          shots: [{ ...shots.zonta, alt: "Portada del sitio de Grupo Zonta con foto aérea", caption: "grupozonta.com.br" }],
+        },
+        {
+          id: "z-on",
+          name: "Z-ON Soluções",
+          client: "App financiero del Grupo Zonta",
+          lines: ["landing"],
+          status: "Auditoría y plan entregados · no publicado",
+          before: "Un sitio en WordPress donde cada bloque se arma a mano y un mismo objetivo, como descargar el app, lleva a destinos distintos.",
+          built: [
+            "Auditoría de las 33 páginas públicas del sitio.",
+            "Plan de migración a Astro en 6 fases.",
+            "Prototipo de la página principal.",
+          ],
+          shots: [{ ...shots.zon, alt: "Prototipo de la página principal de Z-ON", caption: "Prototipo, sin publicar" }],
+        },
+      ],
+    },
+    start: {
+      title: "Empezar es una conversación, no un proyecto.",
+      intro: "No necesitas saber qué tecnología usar. Solo contarme qué te quita tiempo.",
+      here: "Estás aquí",
       steps: [
-        "01. Entender — La necesidad real en palabras del cliente.",
-        "02. Mapear — Usuarios, procesos, datos y puntos críticos.",
-        "03. Simplificar — Objetivo principal y alcance claro.",
-        "04. Construir — Producto, integración e infraestructura.",
-        "05. Observar — Logs, métricas, reportes y uso real.",
-        "06. Mejorar — Iterar sobre evidencia empírica."
-      ]
+        { title: "Me cuentas tu proceso", text: "Tres campos: quién eres, cómo contactarte y qué te quita tiempo hoy." },
+        { title: "Lo miramos juntos", text: "Conversamos para entender cómo funciona hoy, qué ya sirve y qué no." },
+        { title: "Te propongo el tramo más corto", text: "El alcance más pequeño que resuelve el problema, por escrito." },
+        { title: "Lo construyo y lo pongo en marcha", text: "Con pruebas, puesta en producción y acompañamiento." },
+      ],
+      cta: "Cuéntame tu proceso",
     },
     about: {
-      label: "06 / SOBRE MÍ",
-      title: "La tecnología tiene más valor cuando resuelve problemas reales.",
-      copy: "Soy Armando Castro, desarrollador de producto y creador de ARCAV. Empecé mi carrera especializado en frontend y amplié mi trabajo hacia backend, bases de datos, infraestructura y automatización.",
-      trajectory: "Venezuela → México → San Diego / USA → Curitiba / Brasil",
-      statement: "Las herramientas cambian. El problema de negocio viene primero."
+      title: "Una sola persona responsable, de punta a punta.",
+      paragraphs: [
+        "Soy Armando Castro. Empecé en frontend y fui sumando backend, bases de datos, infraestructura y automatización.",
+        "Hoy diseño, programo, pongo en producción y mantengo el sistema completo. No hay equipo detrás al que pasarle el problema: si algo no funciona, respondo yo.",
+      ],
+      motto: "Pequeños en alcance. Serios en ingeniería.",
+      routeLabel: "Ruta profesional",
+      route: [
+        { place: "Venezuela", note: "Inicio y formación" },
+        { place: "México", note: "Arkus Nexus · Frontend" },
+        { place: "San Diego, EE. UU.", note: "Drata · Frontend React" },
+        { place: "Curitiba, Brasil", note: "ARCAV" },
+      ],
+      method: "Mi forma de trabajar con IA también es pública: quien programa no aprueba su propia entrega.",
+      methodLink: "Ver arcav-ia-flow",
     },
     contact: {
-      title: "¿Tienes un proceso que puede evolucionar?",
-      subtitle: "Hablemos y exploremos cómo convertirlo en un producto digital simple, conectado y fácil de operar.",
-      nameLabel: "Nombre o Empresa",
-      emailLabel: "Correo Electrónico",
-      msgLabel: "Describe tu proceso o necesidad",
-      submit: "Enviar mensaje →",
-      success: "¡Mensaje recibido! Nos pondremos en contacto pronto."
+      title: "Primera parada: cuéntame tu proceso.",
+      lead: "Lo leo yo y te respondo al contacto que dejes.",
+      nombre: { label: "Tu nombre y tu negocio", placeholder: "Ej.: Ana, Panadería Central" },
+      contacto: { label: "Email o WhatsApp para responderte", placeholder: "ana@negocio.com o +55 41 …" },
+      proceso: {
+        label: "¿Qué proceso te quita más tiempo hoy?",
+        placeholder: "Ej.: los pedidos llegan por WhatsApp, los anoto en una planilla y después aviso a quien reparte.",
+      },
+      honeypot: "No completes este campo",
+      privacy: "Uso estos datos solo para responderte.",
+      submit: "Enviar mi proceso",
+      sending: "Enviando…",
+      success: "Recibido. Te escribo al contacto que dejaste.",
+      errors: {
+        nombre: { required: "Escribe tu nombre.", too_short: "El nombre es demasiado corto.", too_long: "El nombre es demasiado largo." },
+        contacto: {
+          required: "Déjame un email o WhatsApp para responderte.",
+          invalid: "Revisa el email o el número: no parece válido.",
+          too_long: "El contacto es demasiado largo.",
+        },
+        proceso: {
+          required: "Cuéntame brevemente tu proceso.",
+          too_short: "Cuéntame un poco más, al menos una frase.",
+          too_long: "El texto es demasiado largo; resúmelo un poco.",
+        },
+        generic: "No se pudo enviar. Tus datos siguen aquí: inténtalo de nuevo en unos minutos.",
+        network: "Parece que no hay conexión. Tus datos siguen aquí: inténtalo de nuevo.",
+      },
     },
     footer: {
+      tagline: "Productos digitales y evolución de procesos",
       location: "Curitiba, Brasil",
-      trajectory: "Venezuela → México → USA → Brasil",
-      copyright: "© 2026 ARCAV by Armando Castro. Todos los derechos reservados."
-    }
+      rights: "© 2026 ARCAV by Armando Castro",
+      legend: "Líneas",
+    },
+    lineNames: { landing: "Landing conectada", sistema: "Sistema a medida", auto: "Automatización" },
   },
-  en: {
-    metaTitle: "ARCAV — Digital Products & Process Evolution",
-    metaDescription: "Transforming business processes into simple, automated, and easy-to-operate digital products. By Armando Castro.",
-    nav: {
-      work: "Work",
-      services: "Services",
-      method: "Method",
-      about: "About",
-      contact: "Contact",
-      cta: "Let's talk →"
-    },
-    hero: {
-      eyebrow: "DIGITAL PRODUCTS & PROCESS EVOLUTION by Armando Castro",
-      title: "Transforming business processes into simple, automated, and easy-to-operate digital products.",
-      subtitle: "Landing pages, small business systems, and integrations for teams that need operational order and manual work reduction.",
-      primaryCta: "View projects →",
-      secondaryCta: "Let's talk",
-      statement: "SMALL IN SCOPE. SERIOUS IN ENGINEERING.",
-      trajectory: "Venezuela → Mexico → San Diego / USA → Curitiba / Brazil"
-    },
-    problem: {
-      label: "02 / THE PROBLEM",
-      title: "When business grows, the process must evolve.",
-      copy: "Spreadsheets and WhatsApp work well for a while. Problems arise when operations start depending on scattered information and manual tasks.",
-      from: "Manual → Scattered → Hard to control",
-      to: "Connected → Automated → Visible",
-      quote: "I don't modernize for the sake of modernizing. First I understand what works and what truly needs to change."
-    },
-    services: {
-      label: "03 / SERVICES",
-      title: "Solutions focused on real results.",
-      subtitle: "Three work areas, one goal: converting processes into simple, operable digital products.",
-      s1: {
-        title: "01 — Connected Landing Pages",
-        desc: "Designing and developing landing pages connected to forms, CRMs, databases, notifications, and automations.",
-        flow: "Visit → Form → Lead → Automation → Follow-up"
-      },
-      s2: {
-        title: "02 — Small Business Systems",
-        desc: "Custom backoffices, lightweight CRMs, booking systems, event tools, and internal operational portals.",
-        flow: "Problem → Flow → System → Operation"
-      },
-      s3: {
-        title: "03 — Automation & Integration",
-        desc: "Integrating existing tools and automating manual workflows via APIs, n8n, webhooks, and databases.",
-        flow: "System A → Integration → Data → Action / Report"
-      }
-    },
-    cases: {
-      label: "04 / SELECTED WORK",
-      title: "Ideas already in operation.",
-      c1: {
-        title: "From manual task to digital product",
-        tag: "PRODUCT / FULL STACK / OPERATIONS",
-        desc: "A complete product built around real business operations: flow, interface, backend, database, and deployment.",
-        insight: "Building an interface is different from taking responsibility for the complete product."
-      },
-      c2: {
-        title: "Integrate without invading",
-        tag: "AUTOMATION / APIs / DATA",
-        desc: "Independent integration layer to consume authorized data and automate without breaking original systems.",
-        insight: "Not every problem needs a complete migration."
-      },
-      c3: {
-        title: "Designing the system that builds systems",
-        tag: "AI / PRODUCT ENGINEERING / GOVERNANCE",
-        desc: "Proprietary agentic software development methodology separating architecture, dev, QA, and release.",
-        insight: "I don't use AI just to code faster. I use it to improve the entire product building process.",
-        repo: "https://github.com/arcavcwb/arcav-ia-flow"
-      }
-    },
-    method: {
-      label: "05 / METHOD",
-      title: "From problem to product.",
-      steps: [
-        "01. Understand — The real business need.",
-        "02. Map — Users, workflows, data, and critical points.",
-        "03. Simplify — Clear scope and core goal.",
-        "04. Build — Product, integration, and infrastructure.",
-        "05. Observe — Logs, metrics, and actual usage.",
-        "06. Improve — Iterate based on empirical evidence."
-      ]
-    },
-    about: {
-      label: "06 / ABOUT ME",
-      title: "Technology has more value when it solves real problems.",
-      copy: "I'm Armando Castro, product developer and creator of ARCAV. I started my career in frontend and expanded into backend, databases, infrastructure, and automation.",
-      trajectory: "Venezuela → Mexico → San Diego / USA → Curitiba / Brazil",
-      statement: "Tools change. The business problem comes first."
-    },
-    contact: {
-      title: "Have a process that can evolve?",
-      subtitle: "Let's talk and explore how to turn it into a simple, connected, and operable digital product.",
-      nameLabel: "Name or Company",
-      emailLabel: "Email Address",
-      msgLabel: "Describe your process or need",
-      submit: "Send message →",
-      success: "Message received! We'll get back to you soon."
-    },
-    footer: {
-      location: "Curitiba, Brazil",
-      trajectory: "Venezuela → Mexico → USA → Brazil",
-      copyright: "© 2026 ARCAV by Armando Castro. All rights reserved."
-    }
-  },
+
   pt: {
-    metaTitle: "ARCAV — Produtos Digitais & Evolução de Processos",
-    metaDescription: "Transformo processos de negócios em produtos digitais simples, automatizados e fáceis de operar. Por Armando Castro.",
+    meta: {
+      title: "ARCAV — Sistemas e automação para negócios que operam por WhatsApp e planilhas",
+      description:
+        "Projeto, programo e mantenho o sistema que organiza a sua operação: landing pages conectadas, sistemas sob medida e automações. Armando Castro, em Curitiba.",
+    },
+    skip: "Pular para o conteúdo",
     nav: {
-      work: "Trabalho",
-      services: "Serviços",
-      method: "Método",
-      about: "Sobre mim",
-      contact: "Contato",
-      cta: "Falar com Armando →"
+      lines: "Serviços",
+      work: "Projetos",
+      start: "Como começar",
+      about: "Quem sou",
+      cta: "Conte seu processo",
+      menu: "Menu",
+      language: "Idioma",
     },
     hero: {
-      eyebrow: "DIGITAL PRODUCTS & PROCESS EVOLUTION por Armando Castro",
-      title: "Transformo processos de negócios em produtos digitais simples, automatizados e fáceis de operar.",
-      subtitle: "Landing pages, sistemas enxutos e integrações para empresas que precisam organizar sua operação e reduzir trabalho manual.",
-      primaryCta: "Ver projetos →",
-      secondaryCta: "Falar com Armando",
-      statement: "FOCADOS EM ESCOPO. SÉRIOS EM ENGENHARIA.",
-      trajectory: "Venezuela → México → San Diego / EUA → Curitiba / Brasil"
-    },
-    problem: {
-      label: "02 / O PROBLEMA",
-      title: "Quando o negócio cresce, o processo também precisa evoluir.",
-      copy: "Planilhas e WhatsApp funcionam bem por um tempo. O problema surge quando a operação passa a depender de dados dispersos e tarefas manuais.",
-      from: "Manual → Disperso → Difícil de controlar",
-      to: "Conectado → Automatizado → Visível",
-      quote: "Não modernizo por modernizar. Primeiro entendo o que funciona e o que realmente precisa mudar."
-    },
-    services: {
-      label: "03 / SERVIÇOS",
-      title: "Soluções focadas em resultados reais.",
-      subtitle: "Três áreas de atuação, um mesmo objetivo: converter processos em produtos digitais simples e operáveis.",
-      s1: {
-        title: "01 — Landing pages conectadas",
-        desc: "Design e desenvolvimento de landing pages integradas a formulários, CRM, banco de dados e automações.",
-        flow: "Visita → Formulário → Lead → Automação → Acompanhamento"
+      title: "Seu negócio não deveria depender de WhatsApp, planilhas e memória.",
+      lead:
+        "Projeto, programo e mantenho o sistema que organiza a sua operação: pedidos e inscrições em um só lugar, formulários que chegam a quem precisa e avisos que saem sozinhos.",
+      cta: "Conte seu processo",
+      ctaNote: "Três campos. Quem responde sou eu.",
+      secondary: "Ver projetos em andamento",
+      map: {
+        label:
+          "Mapa da operação: WhatsApp, planilhas, formulários soltos e e-mail entram na ARCAV e saem como leads no seu CRM, tudo em um sistema e avisos automáticos.",
+        here: "Você está aqui",
+        today: ["WhatsApp", "Planilha", "Formulário solto", "E-mail"],
+        hub: "ARCAV",
+        dest: { landing: "Leads no seu CRM", sistema: "Tudo em um sistema", auto: "Avisos automáticos" },
+        legend: "Linhas",
       },
-      s2: {
-        title: "02 — Sistemas enxutos",
-        desc: "Backoffices sob medida, CRMs específicos, gestão de agendamentos, eventos e ferramentas internas.",
-        flow: "Problema → Fluxo → Sistema → Operação"
-      },
-      s3: {
-        title: "03 — Automação e integração",
-        desc: "Integro ferramentas e automatizo processos via APIs, n8n, webhooks e bancos de dados existentes.",
-        flow: "Sistema A → Integração → Dados → Ação / Relatório"
-      }
     },
-    cases: {
-      label: "04 / TRABALHO SELECIONADO",
-      title: "Ideias que já operam.",
-      c1: {
-        title: "De tarefa manual a produto digital",
-        tag: "PRODUCT / FULL STACK / OPERATIONS",
-        desc: "Um produto completo construído para operação real: fluxo, interface, backend, banco de dados e deploy.",
-        insight: "Construir uma interface é diferente de se responsabilizar pelo funcionamento completo do produto."
-      },
-      c2: {
-        title: "Integrar sem invadir",
-        tag: "AUTOMATION / APIs / DATA",
-        desc: "Camada de integração independente para consumir dados autorizados e automatizar sem quebrar sistemas legados.",
-        insight: "Nem todo problema precisa de uma migração completa."
-      },
-      c3: {
-        title: "Projetar o sistema que constrói sistemas",
-        tag: "AI / PRODUCT ENGINEERING / GOVERNANCE",
-        desc: "Metodologia própria de desenvolvimento agêntico separando arquitetura, dev, QA e deploy.",
-        insight: "Não uso IA apenas para programar mais rápido. Uso para melhorar todo o processo de construção.",
-        repo: "https://github.com/arcavcwb/arcav-ia-flow"
-      }
+    lines: {
+      title: "Três linhas. Você pega a que a sua operação precisa.",
+      intro: "Primeiro entendo como o seu processo funciona hoje. Depois escolhemos o trecho mais curto que resolve.",
+      runsOnLabel: "Já roda em",
+      items: [
+        {
+          id: "landing",
+          name: "Landing conectada",
+          when: "Para quando as pessoas chegam, mas o contato se perde entre mensagens.",
+          stops: ["Visita", "Formulário", "Lead salvo", "Aviso à equipe", "Acompanhamento"],
+          runsOn: "Rede Condor e Grupo Zonta.",
+        },
+        {
+          id: "sistema",
+          name: "Sistema sob medida",
+          when: "Para quando a operação já não cabe em uma planilha.",
+          stops: ["Pedidos", "Inscrições e vagas", "Clientes", "Despacho", "Painel do dono"],
+          runsOn: "Center Gás e Rede Condor.",
+        },
+        {
+          id: "auto",
+          name: "Automação",
+          when: "Para quando alguém passa horas copiando, conferindo e avisando na mão.",
+          stops: ["WhatsApp", "APIs", "n8n", "Banco de dados", "Alerta ou relatório"],
+          runsOn: "Center Gás e Rede Condor.",
+        },
+      ],
     },
-    method: {
-      label: "05 / MÉTODOS",
-      title: "Do problema ao produto.",
+    work: {
+      title: "Estações já construídas.",
+      intro: "Projetos reais, cada um com o seu status real.",
+      before: "Antes",
+      built: "O que foi construído",
+      visit: "Ver no ar",
+      projects: [
+        {
+          id: "center-gas",
+          name: "Center Gás",
+          client: "Distribuidora de gás e água · Curitiba",
+          lines: ["sistema", "auto"],
+          status: "Publicado · antes do lançamento com clientes",
+          before:
+            "Todos os pedidos entravam pelo WhatsApp do dono. Em cada conversa ele perguntava produto, endereço e forma de pagamento e depois distribuía os pedidos entre três entregadores por áudio. Se ele não respondia, o pedido se perdia.",
+          built: [
+            "Catálogo web que o cliente abre pelo WhatsApp, com cadastro de endereço por CEP.",
+            "Painel de despacho em tempo real: pedidos novos, atribuídos e a caminho.",
+            "App do entregador com o endereço no Google Maps ou Waze e o troco que precisa levar.",
+            "Automação com n8n que responde a primeira mensagem com o link do catálogo.",
+          ],
+          shots: [{ ...shots.centerGas, alt: "Tela de entrada do catálogo da Center Gás no celular", caption: "Catálogo para clientes" }],
+        },
+        {
+          id: "condor",
+          name: "Rede Condor",
+          client: "Supermercados · Paraná e Santa Catarina",
+          lines: ["landing", "sistema", "auto"],
+          parts: [
+            {
+              line: "landing",
+              name: "Landing pages de campanha",
+              status: "No ar",
+              text: "Páginas de temporada com inscrição em eventos e vagas em tempo real, divididas entre o público das redes e o do CRM.",
+              links: [
+                { label: "Encontro de Sabores", href: liveLinks.campaigns },
+                { label: "Condor Running", href: liveLinks.running },
+              ],
+            },
+            {
+              line: "landing",
+              name: "Radar de Ofertas",
+              status: "No ar",
+              text: "Cada cliente escolhe a sua região e entra na comunidade de ofertas do WhatsApp correspondente.",
+              links: [{ label: "radardeofertas.condor.com.br", href: liveLinks.radar }],
+            },
+            {
+              line: "auto",
+              name: "Monitor de avisos de ofertas",
+              status: "Em operação",
+              text: "Antes, alguém abria os links um por um e anotava numa planilha qual aviso não tinha chegado. Agora um monitor confere por comunidade e horário e mostra num painel pensado para uma só pergunta: preciso fazer algo agora?",
+              scope: "26 comunidades de WhatsApp em 14 regiões (agosto de 2026)",
+            },
+            {
+              line: "sistema",
+              name: "Inscrições em palestras",
+              status: "Em desenvolvimento",
+              text: "Um formulário que qualquer landing incorpora e que o marketing configura num painel, sem mexer em código. As vagas não estouram mesmo quando duas pessoas se inscrevem ao mesmo tempo.",
+            },
+          ],
+          shots: [
+            { ...shots.radar, alt: "Página do Radar de Ofertas da Condor com o seletor de região", caption: "Radar de Ofertas" },
+            { ...shots.running, alt: "Capa da landing do circuito Condor Running", caption: "Condor Running" },
+            { ...shots.monitor, alt: "Diagrama do monitor: se o aviso não chegou a uma comunidade, fica marcado", caption: "Como o monitor decide" },
+          ],
+        },
+        {
+          id: "grupo-zonta",
+          name: "Grupo Zonta",
+          client: "Grupo empresarial · Paraná e Santa Catarina",
+          lines: ["landing"],
+          status: "No ar",
+          before: "O site institucional era montado em WordPress com Elementor, embora na prática fosse uma página quase estática.",
+          built: [
+            "Site novo em Astro servido como HTML estático.",
+            "Notícias migradas como conteúdo próprio, com listagem e página por notícia.",
+            "Carrossel das 7 marcas do grupo.",
+          ],
+          links: [{ label: "grupozonta.com.br", href: liveLinks.zonta }],
+          shots: [{ ...shots.zonta, alt: "Capa do site do Grupo Zonta com foto aérea", caption: "grupozonta.com.br" }],
+        },
+        {
+          id: "z-on",
+          name: "Z-ON Soluções",
+          client: "App financeiro do Grupo Zonta",
+          lines: ["landing"],
+          status: "Auditoria e plano entregues · não publicado",
+          before: "Um site em WordPress em que cada bloco é montado à mão e um mesmo objetivo, como baixar o app, leva a destinos diferentes.",
+          built: [
+            "Auditoria das 33 páginas públicas do site.",
+            "Plano de migração para Astro em 6 fases.",
+            "Protótipo da página inicial.",
+          ],
+          shots: [{ ...shots.zon, alt: "Protótipo da página inicial da Z-ON", caption: "Protótipo, não publicado" }],
+        },
+      ],
+    },
+    start: {
+      title: "Começar é uma conversa, não um projeto.",
+      intro: "Você não precisa saber que tecnologia usar. Só me contar o que toma o seu tempo.",
+      here: "Você está aqui",
       steps: [
-        "01. Entender — A necessidade real do negócio.",
-        "02. Mapear — Usuários, fluxos, dados e pontos críticos.",
-        "03. Simplificar — Escopo claro e objetivo principal.",
-        "04. Construir — Produto, integração e infraestrutura.",
-        "05. Observar — Logs, métricas e uso real.",
-        "06. Melhorar — Iterar com base em evidências."
-      ]
+        { title: "Você me conta o seu processo", text: "Três campos: quem você é, como falar com você e o que toma o seu tempo hoje." },
+        { title: "Olhamos juntos", text: "Conversamos para entender como funciona hoje, o que já serve e o que não serve." },
+        { title: "Proponho o trecho mais curto", text: "O menor escopo que resolve o problema, por escrito." },
+        { title: "Construo e coloco para rodar", text: "Com testes, publicação em produção e acompanhamento." },
+      ],
+      cta: "Conte seu processo",
     },
     about: {
-      label: "06 / SOBRE MIM",
-      title: "A tecnologia tem mais valor quando resolve problemas reais.",
-      copy: "Sou Armando Castro, desenvolvedor de produtos e criador da ARCAV. Comecei minha carreira no frontend e expandi minha atuação para backend, banco de dados, infraestrutura e automação.",
-      trajectory: "Venezuela → México → San Diego / EUA → Curitiba / Brasil",
-      statement: "Ferramentas mudam. O problema do negócio vem em primeiro lugar."
+      title: "Uma só pessoa responsável, de ponta a ponta.",
+      paragraphs: [
+        "Sou Armando Castro. Comecei no frontend e fui somando backend, bancos de dados, infraestrutura e automação.",
+        "Hoje projeto, programo, coloco em produção e mantenho o sistema completo. Não existe uma equipe para quem passar o problema: se algo não funciona, quem responde sou eu.",
+      ],
+      motto: "Pequenos no escopo. Sérios na engenharia.",
+      routeLabel: "Trajetória profissional",
+      route: [
+        { place: "Venezuela", note: "Início e formação" },
+        { place: "México", note: "Arkus Nexus · Frontend" },
+        { place: "San Diego, EUA", note: "Drata · Frontend React" },
+        { place: "Curitiba, Brasil", note: "ARCAV" },
+      ],
+      method: "A minha forma de trabalhar com IA também é pública: quem programa não aprova a própria entrega.",
+      methodLink: "Ver arcav-ia-flow",
     },
     contact: {
-      title: "Tem um processo que pode evoluir?",
-      subtitle: "Vamos conversar e explorar como transformá-lo em um produto digital simples e fácil de operar.",
-      nameLabel: "Nome ou Empresa",
-      emailLabel: "E-mail de Contato",
-      msgLabel: "Descreva seu processo ou necessidade",
-      submit: "Enviar mensagem →",
-      success: "Mensagem recebida! Entraremos em contato em breve."
+      title: "Primeira parada: conte o seu processo.",
+      lead: "Eu mesmo leio e respondo no contato que você deixar.",
+      nombre: { label: "Seu nome e o seu negócio", placeholder: "Ex.: Ana, Padaria Central" },
+      contacto: { label: "E-mail ou WhatsApp para eu responder", placeholder: "ana@negocio.com ou +55 41 …" },
+      proceso: {
+        label: "Que processo mais toma o seu tempo hoje?",
+        placeholder: "Ex.: os pedidos chegam pelo WhatsApp, anoto numa planilha e depois aviso quem entrega.",
+      },
+      honeypot: "Não preencha este campo",
+      privacy: "Uso estes dados só para responder você.",
+      submit: "Enviar meu processo",
+      sending: "Enviando…",
+      success: "Recebido. Vou escrever no contato que você deixou.",
+      errors: {
+        nombre: { required: "Escreva o seu nome.", too_short: "O nome está curto demais.", too_long: "O nome está longo demais." },
+        contacto: {
+          required: "Deixe um e-mail ou WhatsApp para eu responder.",
+          invalid: "Confira o e-mail ou o número: não parece válido.",
+          too_long: "O contato está longo demais.",
+        },
+        proceso: {
+          required: "Conte brevemente o seu processo.",
+          too_short: "Conte um pouco mais, pelo menos uma frase.",
+          too_long: "O texto está longo demais; resuma um pouco.",
+        },
+        generic: "Não foi possível enviar. Seus dados continuam aqui: tente de novo em alguns minutos.",
+        network: "Parece que você está sem conexão. Seus dados continuam aqui: tente de novo.",
+      },
     },
     footer: {
+      tagline: "Produtos digitais e evolução de processos",
       location: "Curitiba, Brasil",
-      trajectory: "Venezuela → México → EUA → Brasil",
-      copyright: "© 2026 ARCAV por Armando Castro. Todos os direitos reservados."
-    }
-  }
+      rights: "© 2026 ARCAV by Armando Castro",
+      legend: "Linhas",
+    },
+    lineNames: { landing: "Landing conectada", sistema: "Sistema sob medida", auto: "Automação" },
+  },
+
+  en: {
+    meta: {
+      title: "ARCAV — Systems and automation for businesses that run on WhatsApp and spreadsheets",
+      description:
+        "I design, build and maintain the system that puts your operation in order: connected landing pages, custom systems and automations. Armando Castro, based in Curitiba.",
+    },
+    skip: "Skip to content",
+    nav: {
+      lines: "Services",
+      work: "Projects",
+      start: "How to start",
+      about: "About me",
+      cta: "Tell me your process",
+      menu: "Menu",
+      language: "Language",
+    },
+    hero: {
+      title: "Your business shouldn't run on WhatsApp, spreadsheets and memory.",
+      lead:
+        "I design, build and maintain the system that puts your operation in order: orders and sign-ups in one place, forms that reach the right person and alerts that send themselves.",
+      cta: "Tell me your process",
+      ctaNote: "Three fields. I answer personally.",
+      secondary: "See projects in motion",
+      map: {
+        label:
+          "Operation map: WhatsApp, spreadsheets, loose forms and email go into ARCAV and come out as leads in your CRM, one system for everything and automatic alerts.",
+        here: "You are here",
+        today: ["WhatsApp", "Spreadsheet", "Loose forms", "Email"],
+        hub: "ARCAV",
+        dest: { landing: "Leads in your CRM", sistema: "All in one system", auto: "Automatic alerts" },
+        legend: "Lines",
+      },
+    },
+    lines: {
+      title: "Three lines. Take the one your operation needs.",
+      intro: "First I learn how your process works today. Then we pick the shortest route that solves it.",
+      runsOnLabel: "Already running at",
+      items: [
+        {
+          id: "landing",
+          name: "Connected landing page",
+          when: "For when people show up, but the contact gets lost between messages.",
+          stops: ["Visit", "Form", "Lead saved", "Team alert", "Follow-up"],
+          runsOn: "Rede Condor and Grupo Zonta.",
+        },
+        {
+          id: "sistema",
+          name: "Custom system",
+          when: "For when the operation no longer fits in a spreadsheet.",
+          stops: ["Orders", "Sign-ups and seats", "Customers", "Dispatch", "Owner's dashboard"],
+          runsOn: "Center Gás and Rede Condor.",
+        },
+        {
+          id: "auto",
+          name: "Automation",
+          when: "For when someone spends hours copying, checking and notifying by hand.",
+          stops: ["WhatsApp", "APIs", "n8n", "Database", "Alert or report"],
+          runsOn: "Center Gás and Rede Condor.",
+        },
+      ],
+    },
+    work: {
+      title: "Stations already built.",
+      intro: "Real projects, each with its real status.",
+      before: "Before",
+      built: "What was built",
+      visit: "See it live",
+      projects: [
+        {
+          id: "center-gas",
+          name: "Center Gás",
+          client: "Gas and water distributor · Curitiba",
+          lines: ["sistema", "auto"],
+          status: "Deployed · before launch with customers",
+          before:
+            "Every order came in through the owner's WhatsApp. In each chat he asked for the product, address and payment method, then split the orders among three delivery drivers with voice notes. If he didn't answer, the order was lost.",
+          built: [
+            "A web catalog customers open from WhatsApp, with address sign-up by postal code.",
+            "A real-time dispatch board: new, assigned and on-the-way orders.",
+            "A driver app with the address in Google Maps or Waze and the change to bring.",
+            "An n8n automation that answers the first message with the catalog link.",
+          ],
+          shots: [{ ...shots.centerGas, alt: "Center Gás catalog entry screen on a phone", caption: "Customer catalog" }],
+        },
+        {
+          id: "condor",
+          name: "Rede Condor",
+          client: "Supermarkets · Paraná and Santa Catarina, Brazil",
+          lines: ["landing", "sistema", "auto"],
+          parts: [
+            {
+              line: "landing",
+              name: "Campaign landing pages",
+              status: "Live",
+              text: "Seasonal pages with event sign-ups and real-time seat counts, split between social media and CRM audiences.",
+              links: [
+                { label: "Encontro de Sabores", href: liveLinks.campaigns },
+                { label: "Condor Running", href: liveLinks.running },
+              ],
+            },
+            {
+              line: "landing",
+              name: "Radar de Ofertas",
+              status: "Live",
+              text: "Each customer picks their region and joins the matching WhatsApp deals community.",
+              links: [{ label: "radardeofertas.condor.com.br", href: liveLinks.radar }],
+            },
+            {
+              line: "auto",
+              name: "Deal-announcement monitor",
+              status: "Running",
+              text: "Someone used to open the links one by one and note in a spreadsheet which announcement never arrived. Now a monitor checks every community and time slot and shows it on a board built around one question: do I need to act now?",
+              scope: "26 WhatsApp communities in 14 regions (August 2026)",
+            },
+            {
+              line: "sistema",
+              name: "Talk sign-ups",
+              status: "In development",
+              text: "A form any landing page can embed and marketing configures from a dashboard, with no code changes. Seats never oversell, even when two people sign up at the same moment.",
+            },
+          ],
+          shots: [
+            { ...shots.radar, alt: "Condor's Radar de Ofertas page with the region picker", caption: "Radar de Ofertas" },
+            { ...shots.running, alt: "Condor Running circuit landing page hero", caption: "Condor Running" },
+            { ...shots.monitor, alt: "Monitor diagram: when an announcement didn't reach a community, it gets flagged", caption: "How the monitor decides" },
+          ],
+        },
+        {
+          id: "grupo-zonta",
+          name: "Grupo Zonta",
+          client: "Business group · Paraná and Santa Catarina, Brazil",
+          lines: ["landing"],
+          status: "Live",
+          before: "The corporate site was built in WordPress with Elementor, even though it was really an almost static page.",
+          built: [
+            "A new Astro site served as static HTML.",
+            "News migrated into proper content, with a listing and a page per story.",
+            "A carousel for the group's 7 brands.",
+          ],
+          links: [{ label: "grupozonta.com.br", href: liveLinks.zonta }],
+          shots: [{ ...shots.zonta, alt: "Grupo Zonta site hero with an aerial photo", caption: "grupozonta.com.br" }],
+        },
+        {
+          id: "z-on",
+          name: "Z-ON Soluções",
+          client: "Grupo Zonta's financial app",
+          lines: ["landing"],
+          status: "Audit and plan delivered · not published",
+          before: "A WordPress site where every block is assembled by hand and the same goal, like downloading the app, leads to different places.",
+          built: [
+            "An audit of the site's 33 public pages.",
+            "A 6-phase migration plan to Astro.",
+            "A prototype of the home page.",
+          ],
+          shots: [{ ...shots.zon, alt: "Prototype of the Z-ON home page", caption: "Prototype, not published" }],
+        },
+      ],
+    },
+    start: {
+      title: "Starting is a conversation, not a project.",
+      intro: "You don't need to know which technology to use. Just tell me what eats your time.",
+      here: "You are here",
+      steps: [
+        { title: "You tell me your process", text: "Three fields: who you are, how to reach you and what eats your time today." },
+        { title: "We look at it together", text: "A conversation to understand how it works today, what already works and what doesn't." },
+        { title: "I propose the shortest route", text: "The smallest scope that solves the problem, in writing." },
+        { title: "I build it and put it to work", text: "With tests, production release and follow-up." },
+      ],
+      cta: "Tell me your process",
+    },
+    about: {
+      title: "One person accountable, end to end.",
+      paragraphs: [
+        "I'm Armando Castro. I started in frontend and kept adding backend, databases, infrastructure and automation.",
+        "Today I design, build, release and maintain the whole system. There's no team behind me to hand the problem to: if something doesn't work, I'm the one who answers.",
+      ],
+      motto: "Small in scope. Serious in engineering.",
+      routeLabel: "Professional route",
+      route: [
+        { place: "Venezuela", note: "Start and education" },
+        { place: "Mexico", note: "Arkus Nexus · Frontend" },
+        { place: "San Diego, USA", note: "Drata · React frontend" },
+        { place: "Curitiba, Brazil", note: "ARCAV" },
+      ],
+      method: "How I work with AI is public too: whoever writes the code never approves their own delivery.",
+      methodLink: "See arcav-ia-flow",
+    },
+    contact: {
+      title: "First stop: tell me your process.",
+      lead: "I read it myself and reply to the contact you leave.",
+      nombre: { label: "Your name and your business", placeholder: "E.g. Ana, Central Bakery" },
+      contacto: { label: "Email or WhatsApp so I can reply", placeholder: "ana@business.com or +1 619 …" },
+      proceso: {
+        label: "Which process takes most of your time today?",
+        placeholder: "E.g. orders arrive on WhatsApp, I copy them into a spreadsheet and then tell the driver.",
+      },
+      honeypot: "Leave this field empty",
+      privacy: "I only use this information to reply to you.",
+      submit: "Send my process",
+      sending: "Sending…",
+      success: "Received. I'll write to the contact you left.",
+      errors: {
+        nombre: { required: "Please write your name.", too_short: "The name is too short.", too_long: "The name is too long." },
+        contacto: {
+          required: "Leave an email or WhatsApp so I can reply.",
+          invalid: "Check the email or number: it doesn't look valid.",
+          too_long: "The contact is too long.",
+        },
+        proceso: {
+          required: "Briefly tell me about your process.",
+          too_short: "Tell me a little more, at least one sentence.",
+          too_long: "The text is too long; please shorten it a bit.",
+        },
+        generic: "It couldn't be sent. Your text is still here: try again in a few minutes.",
+        network: "You seem to be offline. Your text is still here: try again.",
+      },
+    },
+    footer: {
+      tagline: "Digital products & process evolution",
+      location: "Curitiba, Brazil",
+      rights: "© 2026 ARCAV by Armando Castro",
+      legend: "Lines",
+    },
+    lineNames: { landing: "Connected landing page", sistema: "Custom system", auto: "Automation" },
+  },
 };

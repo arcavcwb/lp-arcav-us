@@ -26,11 +26,15 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
-.agents/mcp_config.json
 .env.*
 !.env.example
 __pycache__/
-.agyflow-backups/
-pr_diff.txt
-review_report.md
-review_result.json
+
+# claude code (configuración y notas personales)
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Impeccable: material de trabajo local (design.json, preguntas, superficies,
+# capturas de revisión y assets descartados). La fuente versionada del sistema
+# visual es DESIGN.md en la raíz; nada de .impeccable/ se publica.
+.impeccable/
