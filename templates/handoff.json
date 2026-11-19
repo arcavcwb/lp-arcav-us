@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "target_role": "frontend-dev-agent",
+  "target_role": "frontend",
   "phase": "delivery",
   "ticket": "pendiente",
   "revision": "pendiente",
   "inputs": {
-    "architecture": {"status": "pending", "reference": "architecture.md", "revision": "pendiente"},
+    "architecture": {"status": "pending", "reference": "docs/stack.md", "revision": "pendiente"},
     "ticket": {"status": "pending", "reference": "pendiente", "revision": "pendiente"},
     "contracts": {"status": "pending", "reference": "pendiente", "revision": "pendiente"},
-    "design": {"status": "pending", "reference": "pendiente", "revision": "pendiente"}
+    "design": {"status": "pending", "reference": "DESIGN.md", "revision": "pendiente"}
   }
 }

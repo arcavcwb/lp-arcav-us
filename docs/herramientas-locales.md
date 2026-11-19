@@ -1,148 +1,118 @@
-# Herramientas locales y recorrido de ejemplo
+# Herramientas locales
 
-Estos comandos ayudan a preparar y revisar declaraciones de evidencia. No ejecutan
-agentes, no consultan Plane, no autentican la identidad del aprobador y no despliegan.
-La activación humana, la comprobación de fuentes y los límites de `docs/protocolo.md`
-continúan siendo obligatorios. Los JSON siguientes son convenciones locales de
-agyFlow; no representan campos de API de Plane ni configuración de MCP.
+Comandos de apoyo del flujo descrito en `docs/protocolo.md`. Se ejecutan desde la
+raíz del repositorio con Python `>=3.10` (solo biblioteca estándar). Salvo
+`tools/vikunja_sync.py`, no consultan servicios remotos, no invocan agentes y no
+despliegan. Un resultado `OK` es una comprobación local: no sustituye la
+evidencia real de QA ni la aprobación humana.
 
-## Ver la demostración
-
-Abrir [el recorrido visual](demo-flujo.html), o ejecutar:
+## Validación y pruebas
 
 ```bash
-python3 scripts/demo_workflow.py
-```
-
-El ejemplo usa una historia de reserva de citas con camino exitoso, error de datos,
-concurrencia y ausencia de horarios. Genera fixtures en una carpeta temporal que se
-elimina al terminar. Las aprobaciones, referencias de diseño y dictámenes son
-**simulados**, no acreditan entrevistas, implementación, QA o despliegue de un producto.
-El código del comprobador sí se ejecuta y muestra cómo bloquea rechazos, revisiones
-antiguas y cambios de alcance. Para regenerar la vista:
-
-```bash
-python3 scripts/demo_workflow.py --html docs/demo-flujo.html
-```
-
-## Inicializar un proyecto receptor
-
-El m\u00e9todo recomendado es `npx degit` desde GitHub:
-
-```bash
-npx degit arcavcwb/agyFlow mi-proyecto
-cd mi-proyecto
 python3 scripts/validate_squad.py
+python3 -m unittest discover tests -v
+node --test tests/contact.test.mjs
 ```
 
-`degit` copia el contenido del repo sin historial git y omitiendo los archivos
-internos declarados en `.degitignore`. Es equivalente a `setup_receiver.py`
-pero en un solo comando y sin depender de Python ni de una copia local de agyFlow.
+- `validate_squad.py` comprueba la coherencia del flujo: `CLAUDE.md`, los
+  subagentes de `.claude/agents/`, las skills de `.claude/skills/`, los
+  workflows de `.claude/workflows/` y `config/skills.json`. Termina con código
+  1 si encuentra problemas y los lista.
+- `unittest` descubre los `test_*.py` de `tests/`: cubren el tooling Python
+  (`scripts/` y `tools/vikunja_sync.py`), sin red.
+- `node --test tests/contact.test.mjs` cubre el contrato y la validación del
+  formulario de contacto (`src/lib/contact.ts` y `src/lib/contact-server.ts`),
+  también sin red. `unittest` no lo ejecuta: requiere Node `>=22.18` (o
+  `--experimental-strip-types` entre 22.12 y 22.17). Detalle en
+  `docs/contacto.md`.
+- Los tres comandos son los que ejecuta el job `validate` de
+  `.github/workflows/validate-squad.yml` (matriz Python 3.10, 3.11 y 3.12 con
+  Node 22; las tres ejecuciones de esa matriz son los checks requeridos en
+  `main`). Ejecuta los
+  dos primeros antes de entregar cambios en roles, skills, workflows,
+  `config/` o `scripts/`, y el tercero si tocas `src/lib/` o
+  `src/pages/api/`.
+- `.pre-commit-config.yaml` los ejecuta también como hooks si instalas
+  `pre-commit` (`pre-commit install`).
 
-## Inicializar sin perder archivos (alternativa)
-
-Si el proyecto receptor ya existe y prefer\u00eds fusionar los archivos de agyFlow
-en lugar de scaffoldear desde cero, us\u00e1 `setup_receiver.py`:
+## PRD y diagnóstico del flujo
 
 ```bash
-python3 /ruta/a/agyFlow/scripts/setup_receiver.py --target /ruta/al/proyecto --frontend next --backend node --db none --dry-run
-python3 /ruta/a/agyFlow/scripts/setup_receiver.py --target /ruta/al/proyecto --frontend next --backend node --db none
+python3 scripts/pipeline.py check-prd
+python3 scripts/pipeline.py status
+python3 scripts/pipeline.py advance
 ```
 
-Las opciones de stack son preferencias, no instalaciones ni decisiones aprobadas.
-Si se omiten, quedan por definir. Se distribuyen roles, skills, guías, plantillas,
-scripts, tests y configuración de CI. Las reglas de `.gitignore` se integran;
-la configuración MCP activa y las credenciales no se copian.
+- `check-prd` comprueba que cada historia `US-xx` tenga sus cuatro escenarios
+  numerados (camino feliz, error/validación, caso límite, estado vacío/carga),
+  cada uno con Dado/Cuando/Entonces y sin campos de ejemplo entre corchetes. Es
+  un control estructural, no evalúa la calidad de los criterios.
+- `status` y `advance` diagnostican la fase según el PRD, su aprobación y la
+  evidencia de `handoff.json` y `candidate.json`. Solo proponen la siguiente
+  acción; no registran aprobaciones ni activan agentes. Su código de salida no
+  es un permiso para desplegar.
+- `--root <ruta>` permite apuntar a otra raíz (por defecto, el directorio
+  actual).
 
-- Se copian archivos faltantes dentro de directorios existentes.
-- Los conflictos se conservan por defecto y requieren integración manual.
-- `--force` actualiza archivos distribuidos con respaldo previo en
-  `.agyflow-backups/setup-*/`; no elimina directorios ni archivos ajenos al paquete.
-- Los archivos `PRD.md`, `sprint_actual.md` y los borradores generados existentes
-  se conservan incluso con `--force`. `architecture.md` nunca se escribe.
-- Se genera `architecture.proposed.md` para revisión humana. No se inventa
-  `BaseEntity` ni se crean contratos para superar la validación.
-- Los destinos dentro del árbol de la plantilla y los enlaces simbólicos en rutas
-  de escritura se rechazan. La copia es atómica por archivo; no es una transacción
-  del proyecto completo. Ante una interrupción se puede revisar y volver a ejecutar.
-
-El receptor recién inicializado puede pasar el validador de **paquete**. Todavía
-necesita las entradas reales para `--project` y las fases de producto.
-
-## Evidencia explícita de entrega
-
-`handoff.py prompt` prepara instrucciones; `template` mantiene el formato narrativo
-`templates/entrega.md`. `check` ahora recibe JSON, no intenta deducir aprobaciones
-buscando palabras en un reporte.
-
-Copiar `templates/handoff.json` a `handoff.json` del receptor y completar según
-la entrega asignada. Esta exportación opcional la prepara el coordinador dentro de
-su alcance, a partir de las fuentes vigentes; no crea un segundo dueño del estado.
-Cada entrada requiere `status`, `reference` y `revision` identificables:
-
-| Rol | Claves requeridas en `inputs` |
-|---|---|
-| PO | `brief` |
-| Scrum | `prd_approval`, `plane` |
-| Designer | `architecture`, `ticket`, `design_reference` |
-| Backend | `architecture`, `ticket` |
-| Frontend | `architecture`, `ticket`, `contracts`, `design` |
-| QA final | `architecture`, `ticket`, `candidate`, `criteria`, `environment`, `tests` |
-| DevOps: entrega | `architecture`, `ticket`, `qa`, `artifact` |
-| Automation | `architecture`, `ticket`, `plane`, `state_owner` |
-
-`status` debe ser `ready`, excepto `qa` y `prd_approval`, que requieren `approved`.
-Un `pending`, `rejected` o `blocked` impide la entrega que lo requiere. Las entradas
-`contracts`, `design` y `design_reference` permiten `not_applicable` con `reason`.
-Para preparación de QA o DevOps usar `phase: "preparation"`: requiere arquitectura
-y ticket, y no autoriza despliegue. El valor predeterminado es `delivery`.
+Para dejar constancia local de una aprobación humana **ya otorgada**:
 
 ```bash
-python3 scripts/handoff.py check --role frontend-dev-agent --input handoff.json
+python3 scripts/pipeline.py approve-prd --person "PERSONA" --scope "US-01..US-09" --evidence "REFERENCIA A LA INSTRUCCIÓN HUMANA"
 ```
 
-Para QA final o entrega de DevOps se requiere además una candidata independiente:
+Guarda un registro JSON con fecha UTC vinculado al SHA-256 del contenido actual
+de `PRD.md` y no sobrescribe uno existente. Es complementario a la línea de
+aprobación de la cabecera de `PRD.md`, que es el registro principal: escribe
+primero esa línea y después ejecuta el comando, porque cualquier edición
+posterior del PRD cambia el hash y exige una aprobación nueva. El comando no
+autentica la identidad de quien aprueba.
+
+## Handoff entre roles
 
 ```bash
-python3 scripts/handoff.py check --role devops-agent --input handoff.json --ticket PROJ-1 --revision REVISION-VIGENTE --qa-run EJECUCION-VIGENTE
+python3 scripts/handoff.py template --role frontend
+python3 scripts/handoff.py prompt --to frontend --ticket "VK-7 US-06" --routes "src/components/, src/i18n/translations.ts"
+python3 scripts/handoff.py check --role frontend --input handoff.json
 ```
 
-El JSON lleva esos mismos `ticket`, `revision` y `qa_run`. Las entradas `candidate`,
-`artifact` y `qa` deben referenciar la revisión candidata; `qa` además declara su
-`qa_run`, `pending_checks: []` y `blockers: []`. Cambiar la candidata exige actualizar
-la evidencia; escribir `approved` no ejecuta pruebas ni valida el contenido de una URL.
-Antes del despliegue DevOps debe comprobar el artefacto y las fuentes reales como
-establece el protocolo. Los parámetros del comando son declaraciones del operador.
+- `template` imprime `templates/entrega.md` para completar en la respuesta.
+- `prompt` genera un encargo compacto para un rol con historia, tarea y rutas.
+- `check` valida una evidencia JSON con la forma de `templates/handoff.json`:
+  `target_role`, `phase`, `ticket`, `revision` e `inputs`. Cada entrada de
+  `inputs` lleva `status`, `reference` y `revision` identificables. `status`
+  debe ser `ready` (o `approved` para aprobaciones de PRD y dictámenes de QA);
+  contratos y diseño admiten `not_applicable` con `reason`. Las claves
+  requeridas por rol están en `PRECONDITIONS` de `scripts/handoff.py`.
 
-## Diagnóstico del pipeline y aprobación del PRD
+Para `qa-revisor` y `release`, `check` exige además la candidata vigente,
+declarada en `candidate.json` (formato en `templates/candidate.json`):
 
 ```bash
-python3 scripts/pipeline.py --root /ruta/al/proyecto check-prd
-python3 scripts/pipeline.py --root /ruta/al/proyecto status
-python3 scripts/pipeline.py --root /ruta/al/proyecto advance
+python3 scripts/handoff.py check --role release --input handoff.json --ticket VK-10 --revision <commit> --qa-run <ejecucion>
 ```
 
-`check-prd` revisa cuatro secciones numeradas por historia, con Dado/Cuando/Entonces
-en cada una y sin campos de ejemplo entre corchetes. Es un control estructural local,
-no un parser completo de Gherkin ni una evaluación de la calidad de los criterios.
+`handoff.json` y `candidate.json` son declaraciones locales opcionales. Cambiar
+la candidata obliga a actualizar la evidencia; escribir `approved` no ejecuta
+pruebas.
 
-`advance` solo explica la próxima acción. Para registrar una aprobación humana
-**ya otorgada** al contenido actual del PRD:
+## Vikunja
 
 ```bash
-python3 scripts/pipeline.py --root /ruta/al/proyecto approve-prd --person "PERSONA REAL" --scope "ALCANCE APROBADO" --evidence "REFERENCIA A LA INSTRUCCIÓN HUMANA"
+python3 tools/vikunja_sync.py --help
 ```
 
-El registro incluye fecha UTC y SHA-256 del PRD, en
-`.agyflow/approvals/prd-<sha256>.json`. No altera PRD ni arquitectura y no activa
-agentes. No sobrescribe un registro existente. Cambiar el contenido del PRD exige
-una aprobación nueva; la metadata registra la declaración, no autentica la identidad.
+Cliente de Vikunja (https://vikunja.arcav.us, proyecto id 2). Lee
+`VIKUNJA_URL` y `VIKUNJA_API_TOKEN` del entorno o de `.env` local (plantilla en
+`.env.example`); el token nunca se versiona. Lo usa `producto` para planificar,
+registrar transiciones y regenerar `sprint_actual.md`. Opciones, modo lectura,
+confirmaciones antes de escribir y correspondencia de columnas y etiquetas:
+[`docs/vikunja.md`](vikunja.md).
 
-Tras comprobar estructura y registro de PRD, `status` requiere `architecture.md`
-y una entrega explícita en `handoff.json`. Para QA/DevOps compara además
-`candidate.json` (formato en `templates/candidate.json`) con la entrega. El responsable
-de integración identifica la candidata y el coordinador refleja la información
-vigente: estos archivos son snapshots locales, no una sincronización automática.
-Un reporte narrativo viejo no determina la siguiente fase. El comando devuelve 1
-ante evidencia malformada/inconsistente; las fases pendientes normales se muestran
-con su actor propuesto. No usar el código de salida de `status` como permiso de deploy.
+## Herramientas retiradas
+
+Se eliminaron con el paso a Claude Code y no deben volver a usarse:
+
+- `scripts/setup_receiver.py`: inicializaba un proyecto receptor de la
+  plantilla anterior.
+- `scripts/demo_workflow.py` y `docs/demo-flujo.html`: simulación visual del
+  flujo anterior con datos ficticios.

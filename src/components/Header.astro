@@ -1,158 +1,302 @@
 ---
-import { BRAND, LANGS, type Copy, type Lang } from '../i18n/translations';
+import { LANGS, type Copy, type Lang } from '../i18n/translations';
 
 interface Props {
-  currentLang: Lang;
-  copy: Copy['nav'];
+  lang: Lang;
+  nav: Copy['nav'];
 }
 
-const { currentLang, copy } = Astro.props;
+const { lang, nav } = Astro.props;
+const home = LANGS.find((l) => l.code === lang)?.path ?? '/';
+const links = [
+  { href: '#servicios', label: nav.lines },
+  { href: '#proyectos', label: nav.work },
+  { href: '#como-empezar', label: nav.start },
+  { href: '#quien-soy', label: nav.about },
+];
 ---
-<header class="header">
-  <div class="container header-content">
-    <a href={`/${currentLang}`} class="brand-logo">
-      <span class="brand-name">{BRAND.name}</span>
-      <span class="brand-by">by {BRAND.author}</span>
+<header class="masthead">
+  <div class="wrap masthead__row">
+    <a class="lockup" href={home}>
+      <span class="lockup__name">ARCAV</span>
+      <span class="lockup__by">by Armando Castro</span>
     </a>
 
-    <nav class="nav-menu">
-      <a href="#servicios" class="nav-link">{copy.services}</a>
-      <a href="#trabajo" class="nav-link">{copy.work}</a>
-      <a href="#metodo" class="nav-link">{copy.method}</a>
-      <a href="#sobre-mi" class="nav-link">{copy.about}</a>
-      <a href="#contacto" class="nav-link">{copy.contact}</a>
+    <nav class="masthead__nav" aria-label={nav.menu}>
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
     </nav>
 
-    <div class="header-actions">
-      <!-- Language Switcher -->
-      <div class="lang-switcher">
-        {LANGS.map(l => (
-          <a
-            href={l.path}
-            class={`lang-btn ${currentLang === l.code ? 'active' : ''}`}
-            data-lang={l.code}
-          >
-            {l.label}
-          </a>
+    <div class="masthead__end">
+      <ul class="langs" aria-label={nav.language}>
+        {LANGS.map((l) => (
+          <li>
+            <a href={l.path} hreflang={l.code} lang={l.code} data-lang={l.code} aria-current={l.code === lang ? 'page' : undefined}>
+              <span aria-hidden="true">{l.label}</span>
+              <span class="visually-hidden">{l.name}</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
+      <a class="board-button masthead__cta" href="#contacto">{nav.cta}</a>
 
-      <a href="#contacto" class="btn-primary header-cta">{copy.cta}</a>
+      <details class="menu">
+        <summary>{nav.menu}</summary>
+        <ul>
+          {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          <li><a href="#contacto">{nav.cta}</a></li>
+        </ul>
+      </details>
     </div>
   </div>
 </header>
 
 <script>
-  // Save language selection preference in cookie
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const lang = (e.currentTarget as HTMLElement).getAttribute('data-lang');
-      if (lang) {
-        document.cookie = `arcav_lang=${lang}; path=/; max-age=31536000; SameSite=Lax`;
-      }
+  document.querySelectorAll<HTMLAnchorElement>('.langs a[data-lang]').forEach((link) => {
+    link.addEventListener('click', () => {
+      document.cookie = `arcav_lang=${link.dataset.lang}; path=/; max-age=31536000; SameSite=Lax`;
     });
   });
+
+  const menu = document.querySelector<HTMLDetailsElement>('.menu');
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.removeAttribute('open')));
 </script>
 
 <style>
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(3, 20, 38, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 1rem 0;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand-logo {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
-.brand-name {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  color: var(--text-main);
-}
-
-.brand-by {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-subtle);
-}
-
-.nav-menu {
-  display: none;
-  align-items: center;
-  gap: 2rem;
-}
-
-@media (min-width: 768px) {
-  .nav-menu {
-    display: flex;
+  .masthead {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--paper);
+    border-bottom: 4px solid var(--ink);
   }
-}
 
-.nav-link {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  transition: color var(--transition-fast);
-}
+  .masthead__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    min-height: 4.5rem;
+  }
 
-.nav-link:hover {
-  color: var(--text-main);
-}
+  .lockup {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    margin-right: auto;
+    text-decoration: none;
+  }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
+  .lockup__name {
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
 
-.lang-switcher {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  background: var(--surface-main);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 0.2rem;
-}
+  .lockup__by {
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
 
-.lang-btn {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  color: var(--text-subtle);
-  transition: all var(--transition-fast);
-}
+  .masthead__nav ul,
+  .langs,
+  .menu ul {
+    display: flex;
+    padding: 0;
+    list-style: none;
+  }
 
-.lang-btn:hover {
-  color: var(--text-main);
-}
+  /* Navegación como tramo de línea: cada sección es una estación */
+  .masthead__nav ul {
+    position: relative;
+    gap: var(--space-6);
+  }
 
-.lang-btn.active {
-  background: var(--surface-elevated);
-  color: var(--coral);
-  border: 1px solid var(--border-subtle);
-}
+  .masthead__nav ul::before {
+    content: '';
+    position: absolute;
+    left: 0.45rem;
+    right: 0;
+    top: 0.62rem;
+    height: 4px;
+    background: var(--ink);
+  }
 
-.header-cta {
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-}
+  .masthead__nav a {
+    position: relative;
+    display: block;
+    padding-top: 1.45rem;
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.15rem;
+    line-height: 1.1;
+    text-decoration: none;
+  }
+
+  .masthead__nav a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.2rem;
+    width: 0.95rem;
+    height: 0.95rem;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    transition: background-color 160ms var(--ease-out);
+  }
+
+  .masthead__nav a:hover::before,
+  .masthead__nav a:focus-visible::before {
+    background: var(--here);
+  }
+
+  .masthead__nav a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+  }
+
+  .masthead__end {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .langs {
+    border: 2px solid var(--ink);
+    border-radius: 2px;
+  }
+
+  .langs a {
+    display: grid;
+    place-items: center;
+    min-width: 2.6rem;
+    min-height: 2.5rem;
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: none;
+  }
+
+  .langs li + li a {
+    border-left: 2px solid var(--ink);
+  }
+
+  .langs a[aria-current='page'] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .langs a:not([aria-current='page']):hover {
+    background: var(--platform);
+  }
+
+  .masthead__cta {
+    min-height: 2.75rem;
+    padding: 0.45rem 1rem;
+    font-size: 1.15rem;
+  }
+
+  .menu {
+    display: none;
+    position: relative;
+  }
+
+  .menu summary {
+    display: grid;
+    place-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.9rem;
+    border: 2px solid var(--ink);
+    border-radius: 2px;
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .menu[open] summary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .menu ul {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.6rem);
+    flex-direction: column;
+    min-width: 15rem;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    box-shadow: 0 18px 40px -12px rgba(21, 23, 26, 0.35);
+  }
+
+  .menu ul a {
+    display: block;
+    padding: 0.85rem 1rem;
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.25rem;
+    text-decoration: none;
+  }
+
+  .menu ul li + li a {
+    border-top: 2px solid var(--platform-deep);
+  }
+
+  @media (max-width: 1099px) {
+    .masthead__nav {
+      display: none;
+    }
+
+    .menu {
+      display: block;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .masthead__cta {
+      display: none;
+    }
+
+    .lockup {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.1rem;
+    }
+
+    .lockup__name {
+      font-size: 1.65rem;
+    }
+
+    .lockup__by {
+      font-size: 0.9rem;
+    }
+
+    .masthead__row {
+      gap: var(--space-3);
+    }
+
+    .masthead__end {
+      gap: var(--space-2);
+    }
+
+    .langs a {
+      min-width: 2.25rem;
+    }
+
+    .menu summary {
+      padding-inline: 0.7rem;
+    }
+  }
 </style>

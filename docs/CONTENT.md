@@ -1,6 +1,12 @@
 # ARCAV — Homepage Content
 
-This file contains the approved narrative structure.
+> **Estado: pendiente de decisión humana.** Este documento recoge la estructura
+> narrativa aprobada en una etapa anterior y hoy no coincide con el sitio
+> publicado: la navegación y el H1 de `src/i18n/translations.ts` son otros. El
+> copy vigente es el de `src/i18n/translations.ts` (es, en y pt) y el
+> posicionamiento de producto vive en `PRODUCT.md`. No tomes este archivo como
+> fuente de copy sin confirmarlo antes con el humano, que debe decidir si se
+> actualiza o se archiva como histórico.
 
 Copy can be polished during implementation, but do not change the meaning without a reason.
 

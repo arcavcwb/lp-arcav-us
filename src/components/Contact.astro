@@ -1,208 +1,382 @@
 ---
-import type { Copy } from '../i18n/translations';
+import type { Copy, Lang } from '../i18n/translations';
 
 interface Props {
-  copy: Copy['contact'];
+  contact: Copy['contact'];
+  lang: Lang;
 }
 
-const { copy } = Astro.props;
+const { contact, lang } = Astro.props;
+const messages = JSON.stringify({ errors: contact.errors, sending: contact.sending, submit: contact.submit, success: contact.success });
 ---
-<section id="contacto" class="section contact-section">
-  <div class="container">
-
-    <div class="contact-wrapper">
-
-      <div class="contact-info">
-        <div class="mono-label">CONTACTO & CONSULTORÍA</div>
-        <h2 class="contact-title">{copy.title}</h2>
-        <p class="contact-subtitle">{copy.subtitle}</p>
-
-        <div class="direct-contact">
-          <span class="mono-label">EMAIL DIRECTO:</span>
-          <a href="mailto:hola@arcav.us" class="email-link">hola@arcav.us</a>
-        </div>
-      </div>
-
-      <!-- Interactive Contact Form -->
-      <div class="card contact-card">
-        <form id="contactForm" class="contact-form">
-
-          <div class="input-group">
-            <label for="name">{copy.nameLabel}</label>
-            <input type="text" id="name" name="name" placeholder="Ej: Maria Silva / Empresa XYZ" required />
-          </div>
-
-          <div class="input-group">
-            <label for="email">{copy.emailLabel}</label>
-            <input type="email" id="email" name="email" placeholder="maria@empresa.com" required />
-          </div>
-
-          <div class="input-group">
-            <label for="message">{copy.msgLabel}</label>
-            <textarea id="message" name="message" rows="4" placeholder="Cuéntanos brevemente sobre tu proceso manual o requerimiento..." required></textarea>
-          </div>
-
-          <div id="statusMsg" class="status-msg" style="display: none;"></div>
-
-          <button type="submit" id="submitBtn" class="btn-primary submit-btn">
-            <span>{copy.submit}</span>
-          </button>
-        </form>
-      </div>
-
+<section id="contacto" class="contact" aria-labelledby="contact-title">
+  <div class="wrap contact__grid">
+    <div class="contact__intro">
+      <h2 id="contact-title">{contact.title}</h2>
+      <p>{contact.lead}</p>
+      <p class="contact__privacy">{contact.privacy}</p>
     </div>
 
+    <form class="form" data-contact-form data-lang={lang} data-messages={messages} novalidate>
+      <div class="field">
+        <label for="c-nombre">{contact.nombre.label}</label>
+        <input id="c-nombre" name="nombre" type="text" autocomplete="name" maxlength="120" required placeholder={contact.nombre.placeholder} aria-describedby="c-nombre-error" />
+        <p class="field__error" id="c-nombre-error" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="c-contacto">{contact.contacto.label}</label>
+        <input id="c-contacto" name="contacto" type="text" inputmode="email" autocomplete="email" maxlength="160" required placeholder={contact.contacto.placeholder} aria-describedby="c-contacto-error" />
+        <p class="field__error" id="c-contacto-error" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="c-proceso">{contact.proceso.label}</label>
+        <textarea id="c-proceso" name="proceso" rows="5" maxlength="2000" required placeholder={contact.proceso.placeholder} aria-describedby="c-proceso-error"></textarea>
+        <p class="field__error" id="c-proceso-error" hidden></p>
+      </div>
+
+      <div class="field field--trap" aria-hidden="true">
+        <label for="c-sitio">{contact.honeypot}</label>
+        <input id="c-sitio" name="sitio_web" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="form__foot">
+        <button class="form__submit" type="submit">
+          <span data-submit-label>{contact.submit}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" /></svg>
+        </button>
+        <p class="form__status" role="status" aria-live="polite" data-status></p>
+      </div>
+    </form>
   </div>
 </section>
 
 <script>
-  const form = document.getElementById('contactForm') as HTMLFormElement;
-  const statusMsg = document.getElementById('statusMsg') as HTMLElement;
-  const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+  type FieldName = 'nombre' | 'contacto' | 'proceso';
+  type Messages = {
+    errors: {
+      nombre: Record<string, string>;
+      contacto: Record<string, string>;
+      proceso: Record<string, string>;
+      generic: string;
+      network: string;
+    };
+    sending: string;
+    submit: string;
+    success: string;
+  };
+
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
 
   if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const name = (document.getElementById('name') as HTMLInputElement).value.trim();
-      const email = (document.getElementById('email') as HTMLInputElement).value.trim();
-      const message = (document.getElementById('message') as HTMLTextAreaElement).value.trim();
+    const messages = JSON.parse(form.dataset.messages ?? '{}') as Messages;
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const fields: FieldName[] = ['nombre', 'contacto', 'proceso'];
 
-      if (!name || !email || !message) {
-        statusMsg.style.display = 'block';
-        statusMsg.style.background = 'rgba(239, 68, 68, 0.15)';
-        statusMsg.style.color = '#EF4444';
-        statusMsg.style.borderColor = 'rgba(239, 68, 68, 0.3)';
-        statusMsg.innerText = 'Por favor completa todos los campos.';
+    const control = (name: FieldName) => form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+
+    const setError = (name: FieldName, code?: string) => {
+      const input = control(name);
+      const out = form.querySelector<HTMLElement>(`#c-${name}-error`)!;
+      if (code) {
+        input.setAttribute('aria-invalid', 'true');
+        out.textContent = messages.errors[name][code] ?? messages.errors.generic;
+        out.hidden = false;
+      } else {
+        input.removeAttribute('aria-invalid');
+        out.textContent = '';
+        out.hidden = true;
+      }
+    };
+
+    const validate = (name: FieldName, value: string): string | undefined => {
+      const v = value.trim();
+      if (!v) return 'required';
+      if (name === 'nombre') {
+        if (v.length < 2) return 'too_short';
+        if (v.length > 120) return 'too_long';
+      }
+      if (name === 'contacto') {
+        if (v.length > 160) return 'too_long';
+        const email = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+        const phone = v.replace(/\D/g, '').length >= 8;
+        if (v.length < 5 || (!email && !phone)) return 'invalid';
+      }
+      if (name === 'proceso') {
+        if (v.length < 10) return 'too_short';
+        if (v.length > 2000) return 'too_long';
+      }
+      return undefined;
+    };
+
+    fields.forEach((name) => {
+      control(name).addEventListener('blur', () => {
+        const input = control(name);
+        if (input.value.trim() || input.hasAttribute('aria-invalid')) setError(name, validate(name, input.value));
+      });
+    });
+
+    const setBusy = (busy: boolean) => {
+      submit.disabled = busy;
+      submit.setAttribute('aria-busy', String(busy));
+      submitLabel.textContent = busy ? messages.sending : messages.submit;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.textContent = '';
+      form.classList.remove('is-sent', 'has-error');
+
+      const invalid = fields.map((name) => [name, validate(name, control(name).value)] as const).filter(([, code]) => code);
+      fields.forEach((name) => setError(name));
+      if (invalid.length) {
+        invalid.forEach(([name, code]) => setError(name, code));
+        control(invalid[0][0]).focus();
         return;
       }
 
-      submitBtn.disabled = true;
-      submitBtn.innerText = 'Enviando...';
+      setBusy(true);
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            nombre: control('nombre').value.trim(),
+            contacto: control('contacto').value.trim(),
+            proceso: control('proceso').value.trim(),
+            idioma: form.dataset.lang,
+            sitio_web: (form.elements.namedItem('sitio_web') as HTMLInputElement).value,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
 
-      // Simular respuesta exitosa de captura
-      setTimeout(() => {
-        statusMsg.style.display = 'block';
-        statusMsg.style.background = 'rgba(16, 185, 129, 0.15)';
-        statusMsg.style.color = '#34D399';
-        statusMsg.style.borderColor = 'rgba(16, 185, 129, 0.3)';
-        statusMsg.innerText = '¡Mensaje recibido con éxito! Armando se pondrá en contacto muy pronto.';
-        form.reset();
-        submitBtn.disabled = false;
-        submitBtn.innerText = 'Enviar mensaje →';
-      }, 1000);
+        if (res.ok && data.ok) {
+          form.reset();
+          form.classList.add('is-sent');
+          status.textContent = messages.success;
+          return;
+        }
+
+        if (res.status === 400 && data.error === 'validation' && data.fields) {
+          const entries = Object.entries(data.fields) as [FieldName, string][];
+          entries.forEach(([name, code]) => setError(name, code));
+          if (entries[0]) control(entries[0][0]).focus();
+          return;
+        }
+
+        form.classList.add('has-error');
+        status.textContent = messages.errors.generic;
+      } catch {
+        form.classList.add('has-error');
+        status.textContent = messages.errors.network;
+      } finally {
+        setBusy(false);
+      }
     });
   }
 </script>
 
 <style>
-.contact-section {
-  background: var(--bg-main);
-}
-
-.contact-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3.5rem;
-  align-items: center;
-}
-
-@media (min-width: 900px) {
-  .contact-wrapper {
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+  .contact {
+    padding-block: var(--space-9);
+    background: var(--here);
+    border-top: 4px solid var(--ink);
   }
-}
 
-.contact-info {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+  .contact__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
 
-.contact-title {
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 800;
-}
+  @media (min-width: 960px) {
+    .contact__grid {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      align-items: start;
+    }
+  }
 
-.contact-subtitle {
-  font-size: 1.15rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
+  .contact__intro {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 30rem;
+  }
 
-.direct-contact {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  margin-top: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border-subtle);
-}
+  .contact__intro h2 {
+    font-size: clamp(2.6rem, 5vw, 4.4rem);
+  }
 
-.email-link {
-  font-family: var(--font-mono);
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--coral-light);
-  transition: color var(--transition-fast);
-}
+  .contact__intro p {
+    font-size: 1.25rem;
+  }
 
-.email-link:hover {
-  color: var(--coral);
-}
+  .contact__privacy {
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.1rem !important;
+  }
 
-.contact-card {
-  background: var(--surface-main);
-}
+  .form {
+    display: grid;
+    gap: var(--space-5);
+  }
 
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+  .field {
+    display: grid;
+    gap: var(--space-2);
+  }
 
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+  .field label {
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 1.3rem;
+    line-height: 1.1;
+  }
 
-.input-group label {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
+  .field input,
+  .field textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: var(--paper);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 2px;
+    font: inherit;
+    font-size: 1.125rem;
+    line-height: 1.4;
+  }
 
-.input-group input,
-.input-group textarea {
-  background: var(--bg-deep);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 0.85rem 1rem;
-  color: var(--text-main);
-  font-family: var(--font-base);
-  font-size: 0.95rem;
-  transition: border-color var(--transition-fast);
-}
+  .field textarea {
+    resize: vertical;
+    min-height: 9rem;
+  }
 
-.input-group input:focus,
-.input-group textarea:focus {
-  border-color: var(--coral);
-}
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: #5f656c;
+  }
 
-.status-msg {
-  padding: 0.85rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid;
-  font-size: 0.9rem;
-  text-align: center;
-}
+  .field input:focus-visible,
+  .field textarea:focus-visible {
+    outline: 3px solid var(--ink);
+    outline-offset: 2px;
+    box-shadow: none;
+  }
 
-.submit-btn {
-  width: 100%;
-}
+  .field [aria-invalid='true'] {
+    border-color: var(--line-landing);
+    border-width: 4px;
+  }
+
+  .field__error[hidden] {
+    display: none;
+  }
+
+  .field__error {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 600;
+    color: #8f1710;
+  }
+
+  .field__error::before {
+    content: '';
+    flex: none;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--line-landing);
+    box-shadow: 0 0 0 2px var(--ink);
+  }
+
+  .field--trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-5);
+  }
+
+  .form__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 3.5rem;
+    padding: 0.7rem 1.4rem;
+    background: var(--ink);
+    color: var(--here);
+    border: 3px solid var(--ink);
+    border-radius: 2px;
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 180ms var(--ease-out), color 180ms var(--ease-out);
+  }
+
+  .form__submit svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    transition: transform 220ms var(--ease-out);
+  }
+
+  .form__submit:hover {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .form__submit:hover svg {
+    transform: translateX(4px);
+  }
+
+  .form__submit:focus-visible {
+    box-shadow: 0 0 0 9px var(--paper);
+  }
+
+  .form__submit:disabled {
+    cursor: progress;
+    background: var(--ink-soft);
+    border-color: var(--ink-soft);
+    color: var(--paper);
+  }
+
+  .form__status {
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    max-width: 26rem;
+  }
+
+  .form.is-sent .form__status::before,
+  .form.has-error .form__status::before {
+    content: '';
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    vertical-align: 0.05em;
+  }
+
+  .form.is-sent .form__status::before {
+    background: var(--line-sistema);
+    box-shadow: 0 0 0 3px var(--ink);
+  }
+
+  .form.has-error .form__status::before {
+    background: var(--line-landing);
+    box-shadow: 0 0 0 3px var(--ink);
+  }
 </style>

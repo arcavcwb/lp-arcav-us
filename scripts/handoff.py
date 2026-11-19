@@ -1,30 +1,44 @@
 #!/usr/bin/env python3
-"""Assist handoffs between agyFlow squad agents according to protocol and agy-codex guidelines."""
+"""Asiste los traspasos entre los roles del flujo Claude Code de lp-arcav-us.
+
+Genera encargos compactos, comprueba evidencias JSON con la forma de
+templates/handoff.json y emite templates/entrega.md. No lanza agentes, no
+consulta Vikunja ni despliega: un OK es una comprobación local de
+declaraciones, no una autorización.
+"""
 
 import argparse
 import json
 from pathlib import Path
+import re
 import sys
 
-AGENTS = {
-    "po-agent", "scrum-master-agent", "designer-agent", "backend-dev-agent",
-    "frontend-dev-agent", "qa-agent", "devops-agent", "automation-agent",
+# Slugs de los subagentes (.claude/agents/<rol>.md). Deben coincidir con
+# config/skills.json; scripts/validate_squad.py lo comprueba.
+ROLES = ("producto", "frontend", "integraciones", "qa-revisor", "release")
+
+# Evidencias locales requeridas por rol en la fase "delivery". Son campos de
+# templates/handoff.json, no campos de la API de Vikunja ni de Claude Code.
+PRECONDITIONS = {
+    "producto": ["prd_approval", "vikunja"],
+    "frontend": ["architecture", "ticket", "contracts", "design"],
+    "integraciones": ["architecture", "ticket"],
+    "qa-revisor": ["architecture", "ticket", "candidate", "criteria", "environment", "tests"],
+    "release": ["architecture", "ticket", "qa", "artifact"],
 }
 
-# These are local evidence fields, not API fields from Plane or a client runtime.
-PRECONDITIONS = {
-    "po-agent": ["brief"],
-    "scrum-master-agent": ["prd_approval", "plane"],
-    "designer-agent": ["architecture", "ticket", "design_reference"],
-    "backend-dev-agent": ["architecture", "ticket"],
-    "frontend-dev-agent": ["architecture", "ticket", "contracts", "design"],
-    "qa-agent": ["architecture", "ticket", "candidate", "criteria", "environment", "tests"],
-    "devops-agent": ["architecture", "ticket", "qa", "artifact"],
-    "automation-agent": ["architecture", "ticket", "plane", "state_owner"],
-}
+# Roles que trabajan sobre una candidata identificada (commit + ejecución QA).
+CANDIDATE_ROLES = {"qa-revisor", "release"}
+# Entradas que pueden declararse "not_applicable" con motivo.
+OPTIONAL_INPUTS = {"contracts", "design"}
+# Entradas cuyo estado válido es "approved" en lugar de "ready".
+APPROVAL_INPUTS = {"qa", "prd_approval"}
+PREPARATION_INPUTS = ["architecture", "ticket"]
+UNSPECIFIED = {"pendiente", "por asignar", "por definir", "unknown", "todo", "tbd"}
 
 
 def load_evidence(text):
+    """Carga un objeto JSON con schema_version 1 y sin claves duplicadas."""
     def unique(pairs):
         result = {}
         for key, value in pairs:
@@ -32,10 +46,13 @@ def load_evidence(text):
                 raise ValueError(f"Campo JSON duplicado: {key}")
             result[key] = value
         return result
+
     try:
         data = json.loads(text, object_pairs_hook=unique)
     except (ValueError, TypeError) as exc:
-        raise ValueError("Se requiere evidencia JSON explícita; el texto libre no acredita precondiciones.") from exc
+        raise ValueError(
+            "Se requiere evidencia JSON explícita; el texto libre no acredita precondiciones."
+        ) from exc
     if not isinstance(data, dict) or type(data.get("schema_version")) is not int or data["schema_version"] != 1:
         raise ValueError("Se requiere un objeto con schema_version: 1.")
     return data
@@ -43,40 +60,37 @@ def load_evidence(text):
 
 def specified(value):
     return (isinstance(value, str) and bool(value.strip())
-            and value.strip().lower() not in {"pendiente", "por asignar", "unknown", "todo"})
+            and value.strip().lower() not in UNSPECIFIED)
 
 
-def build_prompt(target_role: str, ticket: str, routes: str,
-                 from_role: str = None, session: str = "agy-1",
-                 other_session: str = "Ninguno asignado", context: str = None) -> str:
-    if target_role not in AGENTS:
-        raise ValueError(f"Rol desconocido: {target_role}. Roles válidos: {', '.join(sorted(AGENTS))}")
+def build_prompt(target_role, ticket, routes, from_role=None, session="principal",
+                 other_session="Ninguna asignada", context=None):
+    if target_role not in ROLES:
+        raise ValueError(f"Rol desconocido: {target_role}. Roles válidos: {', '.join(ROLES)}")
+    if not specified(ticket) or not specified(routes):
+        raise ValueError("El encargo requiere tarea y rutas de escritura identificables.")
 
     lines = [
-        f"Leé AGENTS.md, .agents/agents/{target_role}/agent.md y la skill principal indicada por el rol.",
-        "Aplicá docs/context-strategy.md y consultá solo las secciones relevantes de docs/protocolo.md, docs/agy-codex.md y docs/stack.md.",
+        f"Lee CLAUDE.md, .claude/agents/{target_role}.md y las skills declaradas en su frontmatter.",
+        "Aplica docs/context-strategy.md y consulta solo las secciones relevantes de docs/protocolo.md y docs/stack.md.",
         f"Tu rol asignado es [{target_role}].",
-        f"Ejecutá la tarea de tu rol para [{ticket}] en el alcance asignado: [{routes}].",
+        f"Ejecuta la tarea de tu rol para [{ticket}] en el alcance asignado: [{routes}].",
         f"Tu etiqueta de sesión es [{session}]. La otra sesión tiene asignado: [{other_session}].",
     ]
-
     if from_role:
         lines.append(f"Entrega previa procedente de: [{from_role}].")
-
     if context:
         lines.append(f"Contexto o revisión de entrada:\n{context.strip()}")
-
     lines.extend([
-        "Verificá las entradas de la fase y los contratos existentes antes de editar.",
-        "Al terminar, entregá una respuesta compacta usando templates/entrega.md (revisión, archivos afectados, comprobaciones, bloqueos y pendientes), sin copiar documentos ni conversaciones completas.",
-        "No actives por tu cuenta la siguiente fase.",
+        "Verifica las entradas de la fase y los contratos existentes antes de editar; lo no verificado se reporta como bloqueo.",
+        "Al terminar, entrega una respuesta compacta con el formato de templates/entrega.md (commits, archivos afectados, comprobaciones, bloqueos y pendientes), sin copiar documentos ni conversaciones completas.",
+        "No actives por tu cuenta la fase siguiente.",
     ])
-
     return "\n".join(lines)
 
 
-def check_preconditions(role: str, text: str, *, revision=None, qa_run=None, ticket=None) -> tuple[bool, list[str]]:
-    if role not in AGENTS:
+def check_preconditions(role, text, *, revision=None, qa_run=None, ticket=None):
+    if role not in ROLES:
         return False, [f"Rol desconocido: {role}"]
     try:
         data = load_evidence(text)
@@ -95,32 +109,32 @@ def check_preconditions(role: str, text: str, *, revision=None, qa_run=None, tic
     if not isinstance(inputs, dict):
         return False, errors + ["inputs debe ser un objeto."]
     phase = data.get("phase", "delivery")
-    if not isinstance(phase, str) or phase not in {"delivery", "preparation"} or (phase == "preparation" and role not in {"qa-agent", "devops-agent"}):
+    if (not isinstance(phase, str) or phase not in {"delivery", "preparation"}
+            or (phase == "preparation" and role not in CANDIDATE_ROLES)):
         return False, errors + ["phase inválida para el rol."]
-    required = PRECONDITIONS[role]
-    if phase == "preparation":
-        required = ["architecture", "ticket"]
+    required = PREPARATION_INPUTS if phase == "preparation" else PRECONDITIONS[role]
     for name in required:
         item = inputs.get(name)
         if not isinstance(item, dict):
             errors.append(f"Falta evidencia: {name}.")
             continue
-        if name in {"contracts", "design", "design_reference"} and item.get("status") == "not_applicable":
+        if name in OPTIONAL_INPUTS and item.get("status") == "not_applicable":
             if not specified(item.get("reason")):
                 errors.append(f"{name}: no aplica requiere motivo.")
             continue
-        expected = "approved" if name in {"qa", "prd_approval"} else "ready"
+        expected = "approved" if name in APPROVAL_INPUTS else "ready"
         if item.get("status") != expected:
             errors.append(f"{name}: estado requerido {expected}; recibido {item.get('status')!r}.")
         if not specified(item.get("reference")) or not specified(item.get("revision")):
             errors.append(f"{name}: requiere reference y revision identificables.")
-    # Compare with an independent candidate supplied by the caller, never with an old report in the prose.
-    if phase == "delivery" and role in {"qa-agent", "devops-agent"}:
+    # Se compara con una candidata independiente aportada por quien llama,
+    # nunca con un reporte antiguo escrito en prosa.
+    if phase == "delivery" and role in CANDIDATE_ROLES:
         if not specified(revision) or not specified(qa_run) or not specified(ticket):
             errors.append("Se requiere candidata externa: ticket, revision y qa_run vigentes.")
         if data.get("revision") != revision or data.get("qa_run") != qa_run:
             errors.append("Revisión o ejecución QA desactualizada.")
-        for name in (["qa", "artifact"] if role == "devops-agent" else ["candidate"]):
+        for name in (["qa", "artifact"] if role == "release" else ["candidate"]):
             item = inputs.get(name, {})
             if not isinstance(item, dict):
                 continue
@@ -130,15 +144,18 @@ def check_preconditions(role: str, text: str, *, revision=None, qa_run=None, tic
                 if item.get("qa_run") != qa_run:
                     errors.append("qa: ejecución desactualizada.")
                 if item.get("pending_checks") != [] or item.get("blockers") != []:
-                    errors.append("qa: declarar listas vacías de pending_checks y blockers para entregar.")
+                    errors.append("qa: declara listas vacías de pending_checks y blockers para entregar.")
     return not errors, errors
 
 
-def get_template(role: str = None, session: str = "agy-1") -> str:
+def get_template(role=None, session="principal"):
+    if role is not None and role not in ROLES:
+        raise ValueError(f"Rol desconocido: {role}. Roles válidos: {', '.join(ROLES)}")
     template_path = Path(__file__).resolve().parents[1] / "templates/entrega.md"
-    content = template_path.read_text(encoding="utf-8") if template_path.exists() else ""
+    content = template_path.read_text(encoding="utf-8") if template_path.is_file() else ""
     if role:
-        content = content.replace("Rol y etiqueta de sesión:", f"Rol y etiqueta de sesión: {role} ({session})")
+        content = re.sub(r"(?m)^- Rol\b[^:\n]*:.*$",
+                         lambda _: f"- Rol: {role} (sesión {session})", content, count=1)
     return content
 
 
@@ -146,64 +163,55 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    # Subcommand: prompt
-    prompt_parser = subparsers.add_parser("prompt", help="Generar prompt de handoff para activar el siguiente agente")
-    prompt_parser.add_argument("--to", required=True, dest="target_role", help="Rol destinatario (ej. frontend-dev-agent)")
-    prompt_parser.add_argument("--ticket", required=True, help="ID y descripción/enlace del ticket")
-    prompt_parser.add_argument("--routes", required=True, help="Rutas asignadas exclusivamente al agente")
-    prompt_parser.add_argument("--from", dest="from_role", default=None, help="Rol que realizó la entrega previa")
-    prompt_parser.add_argument("--session", default="agy-1", help="Etiqueta de la sesión actual (default: agy-1)")
-    prompt_parser.add_argument("--other-session", default="Ninguno asignado", help="Alcance de la sesión paralela")
+    prompt_parser = subparsers.add_parser("prompt", help="Generar el encargo compacto para un rol")
+    prompt_parser.add_argument("--to", required=True, dest="target_role", choices=ROLES, help="Rol destinatario")
+    prompt_parser.add_argument("--ticket", required=True, help="Historia y tarea de Vikunja (ID o enlace)")
+    prompt_parser.add_argument("--routes", required=True, help="Rutas de escritura asignadas al rol")
+    prompt_parser.add_argument("--from", dest="from_role", default=None, help="Rol que hizo la entrega previa")
+    prompt_parser.add_argument("--session", default="principal", help="Etiqueta de la sesión actual")
+    prompt_parser.add_argument("--other-session", default="Ninguna asignada", help="Alcance de la sesión paralela")
     prompt_parser.add_argument("--context", default=None, help="Contexto adicional o entregas previas")
 
-    # Subcommand: check
     check_parser = subparsers.add_parser("check", help="Verificar precondiciones de entrada para un rol")
-    check_parser.add_argument("--role", required=True, help="Rol que se quiere activar")
+    check_parser.add_argument("--role", required=True, choices=ROLES, help="Rol que se quiere activar")
     check_parser.add_argument("--input", dest="input_file", help="Archivo JSON de evidencias; por defecto stdin")
-    check_parser.add_argument("--revision", help="Revisión candidata vigente (QA y despliegue)")
+    check_parser.add_argument("--revision", help="Commit candidato vigente (qa-revisor y release)")
     check_parser.add_argument("--qa-run", help="Ejecución QA vigente")
     check_parser.add_argument("--ticket", help="Ticket de la candidata vigente")
 
-    # Subcommand: template
-    template_parser = subparsers.add_parser("template", help="Emitir template de entrega.md pre-rellenado")
-    template_parser.add_argument("--role", default=None, help="Rol asignado para pre-completar")
-    template_parser.add_argument("--session", default="agy-1", help="Etiqueta de sesión")
+    template_parser = subparsers.add_parser("template", help="Emitir templates/entrega.md prerrellenado")
+    template_parser.add_argument("--role", default=None, choices=ROLES, help="Rol que entrega")
+    template_parser.add_argument("--session", default="principal", help="Etiqueta de sesión")
 
     args = parser.parse_args()
 
     if args.command == "prompt":
         try:
-            print(build_prompt(
-                target_role=args.target_role,
-                ticket=args.ticket,
-                routes=args.routes,
-                from_role=args.from_role,
-                session=args.session,
-                other_session=args.other_session,
-                context=args.context,
-            ))
+            print(build_prompt(args.target_role, args.ticket, args.routes, from_role=args.from_role,
+                               session=args.session, other_session=args.other_session, context=args.context))
         except ValueError as err:
             print(f"ERROR: {err}", file=sys.stderr)
             return 1
-
     elif args.command == "check":
         try:
-            content = Path(args.input_file).read_text(encoding="utf-8") if args.input_file else sys.stdin.read()
+            content = (Path(args.input_file).read_text(encoding="utf-8")
+                       if args.input_file else sys.stdin.read())
         except (OSError, UnicodeError) as exc:
             print(f"ERROR: {exc}", file=sys.stderr)
             return 1
-        ok, errors = check_preconditions(args.role, content, revision=args.revision, qa_run=args.qa_run, ticket=args.ticket)
-        if ok:
-            print(f"OK: Declaraciones consistentes para {args.role}; verificar fuentes y permisos antes de actuar.")
-            return 0
-        else:
+        ok, errors = check_preconditions(args.role, content, revision=args.revision,
+                                         qa_run=args.qa_run, ticket=args.ticket)
+        if not ok:
             for err in errors:
                 print(f"ERROR: {err}", file=sys.stderr)
             return 1
-
+        print(f"OK: declaraciones consistentes para {args.role}; verifica fuentes y permisos antes de actuar.")
     elif args.command == "template":
-        print(get_template(role=args.role, session=args.session))
-
+        try:
+            print(get_template(role=args.role, session=args.session))
+        except (OSError, UnicodeError, ValueError) as exc:
+            print(f"ERROR: {exc}", file=sys.stderr)
+            return 1
     return 0
 
 

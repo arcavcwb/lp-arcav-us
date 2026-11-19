@@ -1,0 +1,345 @@
+---
+import type { Copy } from '../i18n/translations';
+import Roundel from './Roundel.astro';
+
+interface Props {
+  work: Copy['work'];
+  lineNames: Copy['lineNames'];
+}
+
+const { work, lineNames } = Astro.props;
+---
+<section id="proyectos" class="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="work-title">{work.title}</h2>
+      <p>{work.intro}</p>
+    </div>
+
+    <ol class="work__track">
+      {work.projects.map((p) => (
+        <li class:list={['stop', { 'stop--interchange': p.lines.length > 1 }]} id={`proyecto-${p.id}`}>
+          <article aria-labelledby={`proyecto-${p.id}-name`}>
+            <header class="stop__head">
+              <div class="stop__lines">
+                {p.lines.map((l) => <Roundel line={l} label={lineNames[l]} size="sm" />)}
+              </div>
+              <h3 id={`proyecto-${p.id}-name`}>{p.name}</h3>
+              <p class="stop__client">{p.client}</p>
+              {p.status && <p class="status">{p.status}</p>}
+            </header>
+
+            <div class:list={['stop__body', { 'stop__body--parts': p.parts }]}>
+              <div class="stop__text">
+                {p.before && (
+                  <div class="stop__block">
+                    <h4 class="stop__subhead">{work.before}</h4>
+                    <p>{p.before}</p>
+                  </div>
+                )}
+
+                {p.built && (
+                  <div class="stop__block">
+                    <h4 class="stop__subhead">{work.built}</h4>
+                    <ul class="built" data-line={p.lines[0]}>
+                      {p.built.map((b) => <li>{b}</li>)}
+                    </ul>
+                  </div>
+                )}
+
+                {p.parts && (
+                  <ul class="parts">
+                    {p.parts.map((part) => (
+                      <li class="part" data-line={part.line}>
+                        <div class="part__head">
+                          <Roundel line={part.line} label={lineNames[part.line]} size="sm" />
+                          <h4>{part.name}</h4>
+                          <span class="status status--small">{part.status}</span>
+                        </div>
+                        <p>{part.text}</p>
+                        {part.scope && <p class="part__scope">{part.scope}</p>}
+                        {part.links && (
+                          <p class="links">
+                            {part.links.map((l) => (
+                              <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}<span class="visually-hidden"> ({work.visit})</span></a>
+                            ))}
+                          </p>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {p.links && (
+                  <p class="links">
+                    {p.links.map((l) => (
+                      <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}<span class="visually-hidden"> ({work.visit})</span></a>
+                    ))}
+                  </p>
+                )}
+              </div>
+
+              <div class:list={['shots', `shots--${p.shots.length}`]}>
+                {p.shots.map((s) => (
+                  <figure class:list={['shot', `shot--${s.kind}`]}>
+                    <img src={s.src} width={s.w} height={s.h} alt={s.alt} loading="lazy" decoding="async" />
+                    <figcaption>{s.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .work {
+    padding-block: var(--space-8) var(--space-9);
+    border-top: 4px solid var(--ink);
+  }
+
+  /* La línea vertical que une las estaciones construidas */
+  .work__track {
+    position: relative;
+    display: grid;
+    gap: clamp(4rem, 8vw, 6.5rem);
+    padding: 0 0 0 clamp(2.5rem, 5vw, 4.5rem);
+    list-style: none;
+  }
+
+  .work__track::before {
+    content: '';
+    position: absolute;
+    left: 0.7rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 10px;
+    background: var(--ink);
+  }
+
+  .stop {
+    position: relative;
+  }
+
+  .stop::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * clamp(2.5rem, 5vw, 4.5rem) + 0.05rem);
+    top: 0.35rem;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 6px solid var(--ink);
+  }
+
+  .stop--interchange::before {
+    width: 2.3rem;
+    height: 2.3rem;
+    left: calc(-1 * clamp(2.5rem, 5vw, 4.5rem) - 0.15rem);
+    top: 0.15rem;
+    border-width: 8px;
+  }
+
+  .stop__head {
+    display: grid;
+    gap: var(--space-2);
+    justify-items: start;
+    margin-bottom: var(--space-6);
+  }
+
+  .stop__lines {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .stop__head h3 {
+    font-size: clamp(2.4rem, 4.6vw, 3.8rem);
+    line-height: 0.95;
+  }
+
+  .stop__client {
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--ink-soft);
+  }
+
+  .status {
+    display: inline-block;
+    margin-top: var(--space-2);
+    padding: 0.2rem 0.6rem;
+    border: 2px solid var(--ink);
+    border-radius: 2px;
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+
+  .status--small {
+    margin-top: 0;
+    font-size: 0.95rem;
+    padding: 0.05rem 0.45rem;
+  }
+
+  .stop__body {
+    display: grid;
+    gap: var(--space-6) var(--space-7);
+  }
+
+  @media (min-width: 960px) {
+    .stop__body {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      align-items: start;
+    }
+  }
+
+  .stop__text {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 38rem;
+  }
+
+  .stop__block {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .stop__subhead {
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 1.4rem;
+    line-height: 1.1;
+  }
+
+  .built {
+    display: grid;
+    gap: var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .built li {
+    position: relative;
+    padding-left: 1.6rem;
+  }
+
+  .built li::before {
+    content: '';
+    position: absolute;
+    left: 0.15rem;
+    top: 0.5em;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    border: 3px solid var(--ink);
+    background: var(--paper);
+  }
+
+  .parts {
+    display: grid;
+    gap: var(--space-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  .part {
+    display: grid;
+    gap: var(--space-2);
+    position: relative;
+  }
+
+  .part__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .part h4 {
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 1.55rem;
+    line-height: 1.05;
+  }
+
+  .part__scope {
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-4);
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.15rem;
+  }
+
+  .links a {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .links a::after {
+    content: '';
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-left: 0.4rem;
+    border-top: 2.5px solid currentColor;
+    border-right: 2.5px solid currentColor;
+    rotate: 0deg;
+  }
+
+  /* Capturas: afiches de andén */
+  .shots {
+    display: grid;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .shots--1 .shot--phone {
+    max-width: 17rem;
+    justify-self: center;
+  }
+
+  .shot {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .shot img {
+    width: 100%;
+    background: var(--platform);
+    border: 3px solid var(--ink);
+    border-radius: 2px;
+  }
+
+  .shot--phone img {
+    border-width: 6px;
+    border-radius: 26px;
+  }
+
+  .shot--diagram img {
+    background: var(--paper);
+    border-width: 2px;
+    border-color: var(--platform-deep);
+  }
+
+  figcaption {
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--ink-soft);
+  }
+</style>

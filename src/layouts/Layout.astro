@@ -1,36 +1,46 @@
 ---
 import '../styles/global.css';
+import { LANGS, type Lang } from '../i18n/translations';
 
 interface Props {
   title: string;
   description: string;
-  lang?: string;
-  noindex?: boolean;
+  lang: Lang;
+  skip: string;
 }
 
-const { title, description, lang = 'es', noindex = false } = Astro.props;
+const { title, description, lang, skip } = Astro.props;
+
+const site = (Astro.site?.href ?? 'https://arcav.us/').replace(/\/$/, '');
+const current = LANGS.find((l) => l.code === lang) ?? LANGS[0];
+const canonical = `${site}${current.path}`;
 ---
-<!DOCTYPE html>
-<html lang={lang}>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-  <meta name="description" content={description}>
-  {noindex && <meta name="robots" content="noindex, nofollow">}
+<!doctype html>
+<html lang={lang === 'pt' ? 'pt-BR' : lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="canonical" href={canonical} />
+    {LANGS.map((l) => <link rel="alternate" hreflang={l.code === 'pt' ? 'pt-BR' : l.code} href={`${site}${l.path}`} />)}
+    <link rel="alternate" hreflang="x-default" href={`${site}/`} />
 
-  <!-- OpenGraph / Favicon -->
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:type" content="website" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ARCAV" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={current.locale} />
+    {LANGS.filter((l) => l.code !== lang).map((l) => <meta property="og:locale:alternate" content={l.locale} />)}
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <slot />
-</body>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/barlow-condensed-800-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/barlow-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">{skip}</a>
+    <slot />
+  </body>
 </html>

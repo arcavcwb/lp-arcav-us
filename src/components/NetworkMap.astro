@@ -1,0 +1,335 @@
+---
+// Mapa de red de la operación del visitante: estaciones de hoy → ARCAV → líneas funcionando.
+import type { Copy, LineId } from '../i18n/translations';
+import Roundel from './Roundel.astro';
+
+interface Props {
+  map: Copy['hero']['map'];
+  lineNames: Copy['lineNames'];
+}
+
+const { map, lineNames } = Astro.props;
+
+const hub = { x: 390, y: 270 };
+const today = [
+  { y: 100, turn: 220 },
+  { y: 200, turn: 320 },
+  { y: 340, turn: 320 },
+  { y: 440, turn: 220 },
+];
+const routes: { id: LineId; d: string; end: { x: number; y: number } }[] = [
+  { id: 'landing', d: `M${hub.x} ${hub.y} L530 130 H720`, end: { x: 720, y: 130 } },
+  { id: 'sistema', d: `M${hub.x} ${hub.y} H720`, end: { x: 720, y: 270 } },
+  { id: 'auto', d: `M${hub.x} ${hub.y} L530 410 H720`, end: { x: 720, y: 410 } },
+];
+const trainRoute = `M40 200 H320 L${hub.x} ${hub.y} H720`;
+const order: LineId[] = ['landing', 'sistema', 'auto'];
+---
+<div class="network" data-network>
+  <svg class="network__map" viewBox="0 0 760 500" role="img" aria-labelledby="network-title">
+    <title id="network-title">{map.label}</title>
+
+    <g class="network__today" aria-hidden="true">
+      {today.map((t) => (
+        <path d={`M40 ${t.y} H${t.turn} L${hub.x} ${hub.y}`} class="today-line" />
+      ))}
+    </g>
+
+    <g aria-hidden="true">
+      {routes.map((r, i) => (
+        <g class="route" data-line={r.id} style={`--i:${i}`}>
+          <path d={r.d} pathLength="1" class="route__line" />
+          <circle cx={r.end.x} cy={r.end.y} r="15" class="terminal" />
+          <text x={r.end.x} y={r.end.y - 30} class="dest-label" text-anchor="end">{map.dest[r.id]}</text>
+        </g>
+      ))}
+    </g>
+
+    <g aria-hidden="true">
+      {today.map((t, i) => (
+        <g class="today-stop">
+          <circle cx="40" cy={t.y} r="11" class="today-station" />
+          <text x="40" y={t.y - 24} class="today-label">{map.today[i]}</text>
+        </g>
+      ))}
+
+      <g class="here" transform="translate(40 14)">
+        <rect x="-8" y="0" width={map.here.length * 11.5 + 26} height="36" rx="3" class="here__plate" />
+        <text x="5" y="26" class="here__text">{map.here}</text>
+      </g>
+
+      <circle cx={hub.x} cy={hub.y} r="34" class="hub" />
+      <text x={hub.x} y={hub.y + 88} class="hub__name" text-anchor="middle">{map.hub}</text>
+
+      <path id="train-route" d={trainRoute} class="train-route" />
+      <circle cx="720" cy={hub.y} r="9" class="train" data-train />
+    </g>
+  </svg>
+
+  <svg class="strip" viewBox="0 0 340 452" role="img" aria-labelledby="strip-title">
+    <title id="strip-title">{map.label}</title>
+    <g aria-hidden="true">
+      <rect x="4" y="4" width={map.here.length * 10.6 + 22} height="32" rx="3" class="here__plate" />
+      <text x="15" y="27" class="here__text here__text--strip">{map.here}</text>
+
+      <path d="M30 70 V236" class="today-line" />
+      {map.today.map((label, i) => (
+        <g>
+          <circle cx="30" cy={70 + i * 42} r="10" class="today-station" />
+          <text x="54" y={77 + i * 42} class="today-label today-label--strip">{label}</text>
+        </g>
+      ))}
+
+      <g class="route" data-line="landing"><path d="M30 262 L46 278 V304 H100" class="route__line route__line--strip" /><circle cx="100" cy="304" r="12" class="terminal" /><text x="122" y="311" class="dest-label dest-label--strip">{map.dest.landing}</text></g>
+      <g class="route" data-line="sistema"><path d="M30 262 V364 H100" class="route__line route__line--strip" /><circle cx="100" cy="364" r="12" class="terminal" /><text x="122" y="371" class="dest-label dest-label--strip">{map.dest.sistema}</text></g>
+      <g class="route" data-line="auto"><path d="M30 262 L14 278 V424 H100" class="route__line route__line--strip" /><circle cx="100" cy="424" r="12" class="terminal" /><text x="122" y="431" class="dest-label dest-label--strip">{map.dest.auto}</text></g>
+
+      <circle cx="30" cy="254" r="17" class="hub" />
+      <text x="62" y="262" class="hub__name hub__name--strip">{map.hub}</text>
+    </g>
+  </svg>
+
+  <nav class="legend" aria-label={map.legend}>
+    <ul>
+      {order.map((id) => (
+        <li>
+          <a href={`#servicio-${id}`} data-line={id}>
+            <Roundel line={id} label={lineNames[id]} size="sm" />
+            <span aria-hidden="true">{lineNames[id]}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</div>
+
+<script>
+  // Un solo tren recorre la ruta planilla → ARCAV → sistema cuando el mapa aparece.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const network = document.querySelector<HTMLElement>('[data-network]');
+  const route = network?.querySelector<SVGPathElement>('#train-route');
+  const train = network?.querySelector<SVGCircleElement>('[data-train]');
+
+  if (network && route && train && !reduce && 'IntersectionObserver' in window) {
+    const total = route.getTotalLength();
+    const duration = 2600;
+    const place = (t: number) => {
+      const p = route.getPointAtLength(total * t);
+      train.setAttribute('cx', String(p.x));
+      train.setAttribute('cy', String(p.y));
+    };
+    const ride = () => {
+      const start = performance.now();
+      network.classList.add('is-riding');
+      const step = (now: number) => {
+        const t = Math.min((now - start) / duration, 1);
+        place(1 - Math.pow(1 - t, 3));
+        if (t < 1) requestAnimationFrame(step);
+        else network.classList.remove('is-riding');
+      };
+      place(0);
+      requestAnimationFrame(step);
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          window.setTimeout(ride, 900);
+        }
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(network);
+  }
+</script>
+
+<style>
+  .network {
+    display: grid;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+
+  .network__map {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .today-line {
+    fill: none;
+    stroke: var(--line-today);
+    stroke-width: 8;
+    stroke-dasharray: 10 9;
+    stroke-linejoin: round;
+    animation: fade-in 700ms var(--ease-out) backwards;
+  }
+
+  .route__line {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 13;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    animation: draw 1100ms var(--ease-out) backwards;
+    animation-delay: calc(450ms + var(--i) * 160ms);
+  }
+
+  .route {
+    transition: opacity 220ms var(--ease-out);
+  }
+
+  .terminal {
+    fill: var(--paper);
+    stroke: var(--ink);
+    stroke-width: 6;
+  }
+
+  .dest-label,
+  .today-label,
+  .hub__name {
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    fill: var(--ink);
+    paint-order: stroke;
+    stroke: var(--paper);
+    stroke-width: 8px;
+    stroke-linejoin: round;
+  }
+
+  .today-label {
+    font-weight: 600;
+    font-size: 21px;
+    fill: var(--ink-soft);
+  }
+
+  .today-label--strip,
+  .dest-label--strip {
+    font-size: 19px;
+  }
+
+  .hub__name--strip {
+    font-size: 24px;
+  }
+
+  .here__text--strip {
+    font-size: 18px;
+  }
+
+  .route__line--strip {
+    stroke-width: 9;
+    animation: none;
+  }
+
+  .hub__name {
+    font-size: 30px;
+    letter-spacing: 0.02em;
+  }
+
+  .today-station {
+    fill: var(--paper);
+    stroke: var(--line-today);
+    stroke-width: 5;
+  }
+
+  .hub {
+    fill: var(--paper);
+    stroke: var(--ink);
+    stroke-width: 9;
+  }
+
+
+  .here__plate {
+    fill: var(--here);
+    stroke: var(--ink);
+    stroke-width: 2.5;
+  }
+
+  .here__text {
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 21px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    fill: var(--ink);
+  }
+
+  .train-route {
+    fill: none;
+    stroke: none;
+  }
+
+  .train {
+    fill: var(--ink);
+    stroke: var(--here);
+    stroke-width: 5;
+  }
+
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /* Leyenda: resaltar una línea atenúa las demás */
+  .legend ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    padding: 0;
+    list-style: none;
+  }
+
+  .legend a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 2.75rem;
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+  }
+
+  .legend a:hover span:last-child {
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.25em;
+  }
+
+  .network:has(.legend a[data-line='landing']:is(:hover, :focus-visible)) .route:not([data-line='landing']),
+  .network:has(.legend a[data-line='sistema']:is(:hover, :focus-visible)) .route:not([data-line='sistema']),
+  .network:has(.legend a[data-line='auto']:is(:hover, :focus-visible)) .route:not([data-line='auto']) {
+    opacity: 0.14;
+  }
+
+  /* Mapa lineal para pantallas angostas */
+  .strip {
+    display: none;
+    width: 100%;
+    max-width: 26rem;
+    height: auto;
+    overflow: visible;
+  }
+
+  @media (max-width: 719px) {
+    .network__map {
+      display: none;
+    }
+
+    .strip {
+      display: block;
+    }
+  }
+</style>

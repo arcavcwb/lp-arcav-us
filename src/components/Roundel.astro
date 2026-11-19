@@ -1,0 +1,52 @@
+---
+// Distintivo de línea: círculo con el color del servicio y su número, igual en todos los idiomas.
+import type { LineId } from '../i18n/translations';
+
+const NUMBERS: Record<LineId, string> = { landing: '1', sistema: '2', auto: '3' };
+
+interface Props {
+  line: LineId;
+  label: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { line, label, size = 'md' } = Astro.props;
+const number = NUMBERS[line];
+---
+<span class={`roundel roundel--${size}`} data-line={line} title={label}>
+  <span aria-hidden="true">{number}</span>
+  <span class="visually-hidden">{label}</span>
+</span>
+
+<style>
+  .roundel {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    border-radius: 50%;
+    background: var(--line);
+    color: var(--on-line);
+    font-family: var(--font-sign);
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: inset 0 0 0 2px rgba(21, 23, 26, 0.18);
+  }
+
+  .roundel--sm {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .roundel--md {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.3rem;
+  }
+
+  .roundel--lg {
+    width: 3.25rem;
+    height: 3.25rem;
+    font-size: 1.9rem;
+  }
+</style>

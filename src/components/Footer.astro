@@ -1,137 +1,143 @@
 ---
-import { BRAND, type Copy } from '../i18n/translations';
+import { BRAND, LANGS, type Copy, type Lang, type LineId } from '../i18n/translations';
+import Roundel from './Roundel.astro';
 
 interface Props {
-  copy: Copy['footer'];
+  footer: Copy['footer'];
+  lineNames: Copy['lineNames'];
+  lang: Lang;
+  languageLabel: string;
 }
 
-const { copy } = Astro.props;
+const { footer, lineNames, lang, languageLabel } = Astro.props;
+const order: LineId[] = ['landing', 'sistema', 'auto'];
 ---
 <footer class="footer">
-  <div class="container footer-content">
-
-    <div class="footer-brand">
-      <span class="brand-title">{BRAND.name}</span>
-      <span class="brand-sub">by {BRAND.author}</span>
-      <p class="brand-tagline">{BRAND.tagline}</p>
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <p class="footer__name">ARCAV <span>by Armando Castro</span></p>
+      <p>{footer.tagline}</p>
+      <p>{footer.location}</p>
     </div>
 
-    <div class="footer-meta">
-      <div class="meta-item">
-        <span class="mono-label">UBICACIÓN:</span>
-        <span class="meta-val">{copy.location}</span>
-      </div>
-
-      <div class="meta-item">
-        <span class="mono-label">TRAYECTORIA:</span>
-        <span class="meta-val">{copy.trajectory}</span>
-      </div>
+    <div class="footer__legend">
+      <ul aria-label={footer.legend}>
+        {order.map((id) => (
+          <li><a href={`#servicio-${id}`}><Roundel line={id} label={lineNames[id]} size="sm" /><span aria-hidden="true">{lineNames[id]}</span></a></li>
+        ))}
+      </ul>
     </div>
 
-    <div class="footer-links">
-      {BRAND.social.map(s => (
-        <a href={s.href} target="_blank" rel="noopener noreferrer" class="social-link">
-          {s.name} ↗
-        </a>
-      ))}
+    <div class="footer__links">
+      <ul>
+        <li><a href={BRAND.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href={BRAND.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+      <ul aria-label={languageLabel}>
+        {LANGS.map((l) => (
+          <li><a href={l.path} hreflang={l.code} lang={l.code} aria-current={l.code === lang ? 'page' : undefined}>{l.name}</a></li>
+        ))}
+      </ul>
     </div>
-
   </div>
-
-  <div class="container footer-bottom">
-    <p class="copyright-text">{copy.copyright}</p>
+  <div class="wrap footer__base">
+    <p>{footer.rights}</p>
   </div>
 </footer>
 
 <style>
-.footer {
-  background: var(--bg-deep);
-  border-top: 1px solid var(--border-subtle);
-  padding: 4rem 0 2rem;
-}
-
-.footer-content {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-@media (min-width: 768px) {
-  .footer-content {
-    grid-template-columns: 1.5fr 1fr 1fr;
-    gap: 3rem;
+  .footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: var(--space-8) var(--space-6);
   }
-}
 
-.footer-brand {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+  .footer a {
+    color: var(--paper);
+  }
 
-.brand-title {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 900;
-}
+  .footer__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
 
-.brand-sub {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--coral-light);
-}
+  @media (min-width: 900px) {
+    .footer__grid {
+      grid-template-columns: 1.2fr 1fr 1fr;
+    }
+  }
 
-.brand-tagline {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin-top: 0.5rem;
-}
+  .footer__brand {
+    display: grid;
+    gap: var(--space-1);
+    color: #c9ced3;
+  }
 
-.footer-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+  .footer__name {
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--paper);
+    margin-bottom: var(--space-2);
+  }
 
-.meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
+  .footer__name span {
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: #c9ced3;
+  }
 
-.meta-val {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--text-main);
-}
+  .footer ul {
+    display: grid;
+    align-content: start;
+    gap: var(--space-1);
+    padding: 0;
+    list-style: none;
+  }
 
-.footer-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
+  .footer__legend a,
+  .footer__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 2.5rem;
+    font-family: var(--font-sign);
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+  }
 
-.social-link {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--blue-light);
-  transition: color var(--transition-fast);
-}
+  .footer__legend a:hover,
+  .footer__links a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--here);
+    text-decoration-thickness: 3px;
+  }
 
-.social-link:hover {
-  color: var(--coral);
-}
+  .footer__links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+    align-content: start;
+  }
 
-.footer-bottom {
-  padding-top: 2rem;
-  text-align: center;
-}
+  .footer__links a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--here);
+    text-decoration-thickness: 3px;
+  }
 
-.copyright-text {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--text-subtle);
-}
+  .footer :focus-visible {
+    outline-color: var(--here);
+    box-shadow: none;
+  }
+
+  .footer__base {
+    margin-top: var(--space-7);
+    padding-top: var(--space-4);
+    border-top: 2px solid #3a3f45;
+    color: #aab1b8;
+    font-size: 1rem;
+  }
 </style>

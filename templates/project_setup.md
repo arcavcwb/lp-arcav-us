@@ -1,30 +1,33 @@
-# Comprobación de adopción de agyFlow
+# Comprobación del entorno de trabajo
 
-Completar en el proyecto receptor al incorporar la plantilla. Esta plantilla
-no afirma instalación ni aprobación de ninguna fase.
+Complétalo al preparar una máquina o sesión nueva. Registra solo lo comprobado;
+esta plantilla no afirma instalaciones ni aprueba ninguna fase.
 
-- Proyecto y raíz de trabajo:
-- Referencia a arquitectura humana y revisión:
-- Versiones y rutas: referencia a manifests y arquitectura del proyecto
-- Sesiones que participan y rol de cada una:
-- Responsable de integración:
-- Estado operativo: Scrum manual / Automation, con evidencia de asignación
-- Fuente visual elegida por superficie: Figma / Pencil / otra; enlace y revisión
-- Identidad y versión de Pencil, si se usa:
+- Fecha UTC y persona:
+- Versión de Claude Code:
+- Node.js (`>=22.12.0`) y Python (`>=3.10`):
+- Cuenta de git y de `gh` para commits, push y PR (`arcavcwb`):
 
-## Herramientas y skills por sesión
+## Flujo en Claude Code
 
-| Sesión | Skill o herramienta | Origen y revisión exacta | Licencia revisada si se redistribuye | Lectura o ejecución comprobada | Resultado y fecha |
-|---|---|---|---|---|---|
+| Elemento | Comprobación | Resultado |
+|---|---|---|
+| `CLAUDE.md` | Se carga al iniciar la sesión | |
+| Subagentes (`.claude/agents/`) | Aparecen los 5 roles | |
+| Skills (`.claude/skills/`) | Coinciden con `config/skills.json` | |
+| Workflows (`.claude/workflows/`) | `entrega-historia` y `revision-proyecto` disponibles | |
+| Validador | `python3 scripts/validate_squad.py` en verde | |
+| Pruebas | `python3 -m unittest discover tests -v` en verde | |
 
-Registrar las ocho skills propias como incluidas, y comprobar su lectura en cada
-cliente. Para complementos, seleccionar solo los necesarios. Una conexión MCP
-registrada no demuestra acceso: comprobar una lectura del recurso autorizado.
+## Servicios
 
-## Entorno de pruebas y build
+| Servicio | Comprobación de solo lectura | Resultado |
+|---|---|---|
+| Vikunja | `python3 tools/vikunja_sync.py info` con token en `.env` local | |
+| Build | `npm run build` | |
+| Revisión de Claude en PR | Variable y secreto configurados en GitHub (ver `docs/claude-pr-review.md`) | |
+| Cloudflare Workers Builds | Conectado a `main` en el panel de Cloudflare | |
 
-| Componente | Comando existente | Puerto / entorno | Responsable | Evidencia |
-|---|---|---|---|---|
-
-Los secretos permanecen en la configuración local; aquí solo se registra su
-disponibilidad. Las comprobaciones de adopción no sustituyen QA de producto.
+Los secretos permanecen en `.env`, `.dev.vars` o en la configuración de
+Cloudflare y GitHub; aquí solo se registra si están disponibles, nunca su valor.
+Estas comprobaciones no sustituyen QA de producto. Aplica `docs/protocolo.md`.

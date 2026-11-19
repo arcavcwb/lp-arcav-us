@@ -1,0 +1,160 @@
+---
+import type { Copy } from '../i18n/translations';
+
+interface Props {
+  start: Copy['start'];
+}
+
+const { start } = Astro.props;
+---
+<section id="como-empezar" class="start" aria-labelledby="start-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="start-title">{start.title}</h2>
+      <p>{start.intro}</p>
+    </div>
+
+    <ol class="journey">
+      {start.steps.map((step, i) => (
+        <li class:list={['journey__stop', { 'journey__stop--here': i === 0 }]}>
+          {i === 0 && <span class="journey__here">{start.here}</span>}
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <a class="board-button start__cta" href="#contacto">
+      {start.cta}
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" /></svg>
+    </a>
+  </div>
+</section>
+
+<style>
+  .start {
+    padding-block: var(--space-9);
+    background: var(--platform);
+  }
+
+  .journey {
+    position: relative;
+    display: grid;
+    gap: var(--space-6);
+    padding: 0;
+    list-style: none;
+    counter-reset: stop;
+  }
+
+  @media (min-width: 900px) {
+    .journey {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-6);
+      padding-top: 4.25rem;
+    }
+
+    .journey::before {
+      content: '';
+      position: absolute;
+      top: 5.05rem;
+      left: 0.9rem;
+      right: 0;
+      height: 12px;
+      background: var(--ink);
+    }
+
+    .journey__stop {
+      padding-top: 2.8rem;
+    }
+
+    .journey__stop::before {
+      top: 0.2rem;
+      left: 0;
+    }
+
+    .journey__here {
+      position: absolute;
+      top: -4.1rem;
+      left: 0;
+    }
+  }
+
+  .journey__stop {
+    position: relative;
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    counter-increment: stop;
+  }
+
+  .journey__stop::before {
+    content: counter(stop);
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 5px solid var(--ink);
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  .journey__stop--here::before {
+    background: var(--here);
+  }
+
+  .journey__stop h3 {
+    font-size: 1.75rem;
+  }
+
+  .journey__stop p {
+    color: var(--ink-soft);
+    max-width: 22rem;
+  }
+
+  .journey__here {
+    justify-self: start;
+    padding: 0.25rem 0.65rem;
+    background: var(--here);
+    border: 2.5px solid var(--ink);
+    border-radius: 2px;
+    font-family: var(--font-sign);
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 899px) {
+    .journey {
+      padding-left: 3.4rem;
+    }
+
+    .journey::before {
+      content: '';
+      position: absolute;
+      left: 1rem;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 10px;
+      background: var(--ink);
+    }
+
+    .journey__stop::before {
+      left: -3.4rem;
+      top: 0;
+    }
+
+    .journey__here {
+      margin-bottom: var(--space-1);
+    }
+  }
+
+  .start__cta {
+    margin-top: var(--space-7);
+  }
+</style>

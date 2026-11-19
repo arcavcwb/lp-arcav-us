@@ -1,197 +1,281 @@
-# Protocolo operativo del squad
+# Protocolo operativo
 
-Este protocolo describe el desarrollo de un producto en el proyecto receptor
-de agyFlow. Mantener los roles, ejemplos, documentación o validador de la plantilla
-no activa estas fases ni requiere crear un PRD, sprint, contratos o conectar Plane.
-Las entradas y permisos que siguen corresponden al flujo de producto.
-No modifica ni sustituye las decisiones humanas de `architecture.md`.
-Las fases se activan explícitamente por el humano; entregar un resultado no
-autoriza al agente a iniciar la fase siguiente ni a desplegar a producción.
+Este protocolo define cómo se entrega trabajo en `lp-arcav-us` con Claude Code.
+`CLAUDE.md` es el índice; aquí está el detalle del flujo, los handoffs, el
+dictamen de QA, el estado en Vikunja y los gates humanos. Aplica también
+`docs/context-strategy.md` (qué leer y cuándo) y `docs/stack.md` (stack real).
 
-Cuando participan agy y Codex, cada sesión ejecuta un rol y alcance asignados;
-el nombre de la herramienta no amplía sus permisos. Aplicá además
-`docs/agy-codex.md` para compartir contexto y coordinar archivos y procesos.
+## Reglas que no se negocian
 
-## Preparación y entradas
+1. **Cero asunción.** Lo que sabes del proyecto sale de los archivos y fuentes
+   que lees en la sesión. No inventes contratos, datos, rutas, variables ni
+   resultados. Lo no verificado se reporta como bloqueo, nunca como hecho.
+2. **Cuatro escenarios por historia.** Toda historia `US-xx` del PRD tiene
+   camino feliz, error/validación, caso límite y estado vacío/carga, cada uno en
+   Dado/Cuando/Entonces.
+3. **Dos gates humanos.** La aprobación del PRD y el paso a producción (merge a
+   `main`) los decide una persona. Ningún agente se autoaprueba.
+4. **Máximo 3 reaperturas por tarea.** A la tercera, la tarea se escala a
+   intervención humana.
+5. **Lectura progresiva.** Empieza por el índice y amplía solo ante una
+   dependencia o un riesgo concreto.
+6. **Nunca secretos en archivos versionados.** Tokens, claves y URLs privadas
+   van en `.env` local (ignorado por git), en `.dev.vars` o en variables y
+   secretos de Cloudflare/GitHub. El repositorio es público.
+7. **Un escritor por archivo.** Cada tarea declara sus rutas de escritura. Si
+   necesitas cambiar un archivo ajeno, pídelo al responsable.
+8. **Entregar no activa la fase siguiente.** Fuera de un workflow lanzado por el
+   humano, cada paso espera activación explícita.
 
-El humano aporta `architecture.md` antes de las fases técnicas. El PO puede
-trabajar antes con un brief; las ambigüedades quedan abiertas en el PRD.
-Copiar una plantilla no constituye aprobación. Una aprobación debe identificar
-persona, fecha, alcance y revisión exacta o evidencia de la instrucción humana.
-Un cambio del alcance aprobado requiere nueva validación de ese alcance.
+## Roles
 
-| Fase | Entrada obligatoria | Entrega y condición de salida |
-|---|---|---|
-| PO | Brief de negocio | PRD con historias identificables y criterios Given/When/Then; aprobación humana antes de planificación |
-| Scrum Master | PRD aprobado y acceso comprobado a Plane | Tickets con responsables, dependencias, criterios y claves estables; espejo del sprint actualizado |
-| Preparación técnica | Arquitectura y tareas asignadas | DevOps prepara build/CI/entorno y QA prepara pruebas/configuración; no requiere QA aprobado ni autoriza despliegue |
-| Diseño | Ticket, arquitectura y referencias disponibles | Tokens y rutas concretas, revisión de entrega y dependencias visuales resueltas |
-| Backend: contratos | Ticket, arquitectura y contratos existentes si los hay | Schemas verificables, rutas, revisión y consumidores afectados; señal de contratos listos |
-| Implementación | Ticket y arquitectura; Frontend además necesita contratos y tokens listos que correspondan a su tarea | Cambios identificados por revisión, comandos ejecutados, resultados y limitaciones |
-| QA: ejecución final | Revisión integrada e inmutable de producto, pruebas y configuración; criterios del PRD y entorno disponible | Siempre `bug_report.md`, incluso si no hay fallos; resultado aprobado, rechazado o bloqueado |
-| DevOps: despliegue | QA aprobado para la revisión exacta a desplegar y arquitectura | Evidencia de build, artefacto identificado, despliegue a Staging y comprobación del servicio |
-| Producción | Aprobación humana explícita para artefacto y destino | Solo el despliegue autorizado y su evidencia |
+Cada rol es un subagente de Claude Code en `.claude/agents/<slug>.md`. Sus
+skills se declaran en el frontmatter y coinciden con `config/skills.json`.
 
-Los contratos pueden crearse por primera vez por Backend si el ticket y la
-arquitectura definen lo necesario. La ausencia de contratos no autoriza al
-Frontend a inventarlos. Una dependencia no aplicable se registra con motivo.
-Diseño y definición de contratos pueden correr en paralelo. Frontend consume
-las entregas listas; no debe empezar código dependiente de una entrega pendiente.
-La preparación de build y pruebas puede avanzar sobre tareas asignadas mientras
-se implementa. Antes del dictamen final se integran producto, pruebas y
-configuración y se identifica la revisión candidata. Escribir el reporte como
-evidencia posterior no modifica esa revisión; cualquier cambio de código o
-configuración que afecte al artefacto exige una nueva validación.
+| Rol | Responsabilidad | Escribe | No hace | Skills |
+|---|---|---|---|---|
+| `producto` | PO y Scrum: PRD, planificación, Vikunja y espejo del sprint | `PRD.md`, `sprint_actual.md`, tareas en Vikunja | Código en `src/` | `requisitos`, `planificacion` |
+| `frontend` | Páginas, componentes y layouts Astro, estilos, i18n, responsive, accesibilidad y SEO | `src/pages/` (salvo `api/`), `src/components/`, `src/layouts/`, `src/styles/`, `src/i18n/` | Endpoints server, secretos | `entrega-frontend` |
+| `integraciones` | Endpoints `src/pages/api/*`, backend del formulario, webhook n8n, contratos TypeScript | Endpoints y contratos asignados en la tarea | Desplegar, versionar secretos | `contratos-integracion` |
+| `qa-revisor` | Verificación con evidencia y auditoría de seguridad | `bug_report.md` y pruebas asignadas | Modificar código de `src/` | `evidencia-qa`, `auditoria-seguridad` |
+| `release` | Build de producción, `wrangler.jsonc`, `astro.config.mjs`, CI en `.github/`, PR y checklist | Configuración de build y CI asignada | Merge, `wrangler deploy`, despliegue a producción | `build-release` |
 
-## Entrega entre agentes
+Las rutas exactas de cada tarea se registran al planificar. Si una tarea toca
+archivos de dos roles, se divide o se asigna un único escritor por archivo.
 
-Cada agente entrega en su respuesta: ticket e historia, revisión de entrada y
-salida, archivos afectados, comprobaciones y resultados, dependencias pendientes,
-bloqueos y siguiente rol propuesto. El siguiente rol espera activación explícita.
-El coordinador registra referencias a esa evidencia en Plane y en el espejo.
-Los agentes de implementación no editan el estado del sprint directamente.
-Usá `templates/entrega.md` como formato de traspaso en la respuesta. No exige
-crear otro archivo ni ampliar los permisos de escritura del rol.
+## Flujo de 7 pasos
 
-Aplicá `docs/context-strategy.md`: el handoff referencia fuentes y revisiones en
-lugar de copiar su contenido. El receptor abre el ticket, criterio, contrato,
-archivo o evidencia que necesite y amplía contexto solo ante una dependencia o
-riesgo concreto. No se transfieren transcripciones completas entre sesiones.
+```text
+1 Requisitos (producto)
+  └─ GATE HUMANO: aprobación del PRD registrada en PRD.md
+2 Planificación (producto): tareas en Vikunja + espejo sprint_actual.md
+3 Implementación: integraciones (contratos) → frontend / integraciones
+4 QA (qa-revisor): approved → 5 | rejected → vuelve a 3 (máx. 3 reaperturas)
+5 Release (release): build, checks, PR + revisión de Claude
+6 GATE HUMANO: merge a main = despliegue a producción (Workers Builds)
+7 Verificación en producción (qa-revisor + humano)
+```
 
-Un contrato cambiado invalida la señal de listo de los consumidores afectados:
-Backend identifica el cambio, el coordinador registra el bloqueo y Frontend
-revalida antes de integrar. Se asigna un único escritor por archivo durante
-trabajo paralelo; Scrum Master registra las rutas antes de habilitar tareas.
-Ante una colisión, se detiene la escritura de ese archivo y se pide reasignación.
+### 1. Requisitos
 
-## Estado y permisos de escritura
+- **Responsable:** `producto` (skill `requisitos`).
+- **Entradas:** brief o instrucción humana; `docs/PROJECT.md`, `docs/BRAND.md`,
+  `docs/CONTENT.md` y `docs/CASES.md` según la historia; `PRD.md` vigente.
+- **Salidas:** `PRD.md` con historias `US-xx` (Como/Quiero/Para), cuatro
+  escenarios por historia, fuera de alcance, métricas y preguntas abiertas.
+- **Criterios de salida:** cada historia tiene ID estable y los cuatro
+  escenarios completos; `python3 scripts/pipeline.py check-prd` termina sin
+  errores; las ambigüedades quedan en *Preguntas abiertas*, no resueltas por
+  suposición; el estado del PRD es `listo_para_aprobacion`.
+- **Gate humano: sí.** `producto` pide la aprobación y no avanza sin ella. Con
+  la aprobación, la cabecera de `PRD.md` pasa a `Estado: aprobado` y registra
+  persona, fecha (UTC), alcance (historias aprobadas) y commit o hash del
+  contenido aprobado. Un cambio de alcance posterior exige una aprobación nueva.
 
-Plane es la fuente de verdad del estado de los tickets. `sprint_actual.md` es
-un espejo; el código, el PRD y las evidencias de QA conservan sus propios dueños.
+### 2. Planificación
 
-| Actor | Escritura permitida |
-|---|---|
-| PO | `PRD.md` |
-| Scrum Master | Planificación en Plane; estado operativo y espejo si es su responsable asignado |
-| Diseño | Archivos visuales asignados; sin lógica de componentes |
-| Backend | Contratos y archivos de backend definidos en la arquitectura |
-| Frontend | Aplicaciones y archivos de interfaz asignados; contratos de solo lectura |
-| QA | `tests/`, `bug_report.md` y configuración de pruebas en rutas asignadas |
-| DevOps | Archivos de build, despliegue y evidencia en `docs/deployments/` |
-| Automation | `workflows/`; estado operativo autorizado en Plane y espejo si es su responsable asignado |
+- **Responsable:** `producto` (skill `planificacion`).
+- **Entradas:** PRD aprobado (commit registrado); proyecto de Vikunja id 2;
+  `sprint_actual.md`.
+- **Salidas:** tareas en Vikunja con clave estable
+  `lp-arcav-us:US-xx:<slug-tarea>` (por ejemplo `lp-arcav-us:US-07:contrato`),
+  rol responsable, escenarios cubiertos, dependencias y rutas de escritura;
+  espejo `sprint_actual.md` regenerado desde Vikunja.
+- **Criterios de salida:** antes de crear una tarea se consulta Vikunja por su
+  clave (el espejo no basta para deduplicar); cada tarea tiene un único
+  responsable; el espejo registra la fecha UTC de la última sincronización.
+- **Gate humano:** no. El humano decide qué historia se entrega y cuándo.
 
-Scrum Master crea el espejo inicial. Al planificar, el humano asigna un único
-responsable de estado operativo: Scrum Master en operación manual, o Automation
-si existe una automatización habilitada y verificada. No se exige n8n para operar
-manualmente con Plane. La asignación abarca sincronización, transiciones de estado,
-deduplicación, contador de reaperturas y escalado; queda registrada en el sprint.
-Si Automation es responsable, Scrum cambia planificación en Plane y solicita
-sincronización. Un cambio de responsable transfiere el conjunto: se detiene al
-anterior, se reconcilian sus operaciones pendientes y se registra la instrucción
-humana. No se ejecutan dos procesadores de estado o del espejo simultáneamente.
-Scrum lee la arquitectura y los mapas de rutas entregados por los responsables
-técnicos para asignar archivos sin inferir ubicaciones ni leer código de producto.
-QA coordina manifests y lockfiles con su escritor asignado; si necesita cambios
-fuera de su alcance, entrega la modificación requerida a ese responsable.
+### 3. Implementación
 
-Antes de crear tickets, Scrum Master consulta Plane por la clave estable
-`<proyecto>:<historia>:<tarea>` registrada en su descripción. El espejo local no
-basta para deduplicar. Si hay varias coincidencias, se bloquea la creación.
-Los nombres de campos y herramientas reales se descubren en el MCP; estas claves
-son convenciones documentales y no presuponen un esquema de API de Plane.
+- **Responsables:** `integraciones` define primero los contratos si la historia
+  los necesita; después `frontend` y/o `integraciones` implementan.
+- **Entradas:** tarea lista en Vikunja; historia y escenarios del PRD aprobado;
+  `docs/stack.md`; `DESIGN.md` y `docs/UX_RESPONSIVE.md` para interfaz;
+  contratos listos (o *no aplica* con motivo).
+- **Salidas:** cambios en las rutas asignadas; contratos TypeScript cuando
+  aplique; entrega en formato `templates/entrega.md`.
+- **Criterios de salida:** `npm run build` sin errores; todo texto visible en
+  `src/i18n/translations.ts` para `es`, `en` y `pt`; estilos con tokens de
+  `DESIGN.md` implementados en `src/styles/global.css` (Vanilla CSS); ningún
+  secreto en el diff; la entrega declara archivos, comprobaciones, resultados
+  y pendientes.
+- **Gate humano:** no.
 
-Cada sincronización registra fecha UTC y referencias remotas. Antes de escribir
-un cambio en Plane, se vuelve a leer el ticket; si cambió desde la lectura
-anterior, se reconcilia primero. El espejo se reemplaza completo y atómicamente
-solo después de confirmar la lectura remota. Un fallo deja el espejo anterior
-sin presentarlo como actualizado y se comunica al humano. Sin conexión no se
-confirman transiciones ni se inventan IDs remotos.
+Si no hay contratos, `frontend` no los inventa: registra el bloqueo. Un cambio
+de contrato invalida el trabajo de los consumidores afectados hasta que lo
+revaliden.
 
-## QA, reaperturas y reintentos
+### 4. QA
 
-QA siempre registra revisión, entorno, criterios cubiertos, comandos o pasos,
-resultados, evidencia y pruebas pendientes. No ejecutado significa bloqueado,
-nunca aprobado. Cero bugs reportados por sí solo no acredita una prueba exitosa.
-Cada fallo incluye severidad, reproducción, esperado, observado y responsable
-propuesto. QA no corrige producto ni modifica tickets directamente.
+- **Responsable:** `qa-revisor` (skills `evidencia-qa` y `auditoria-seguridad`).
+- **Entradas:** revisión candidata identificada por commit; diff; historia y
+  sus cuatro escenarios; entregas de implementación.
+- **Salidas:** dictamen `approved` o `rejected` con evidencia, registrado en
+  `bug_report.md` con el formato de `templates/bug_report.md` (historial
+  conservado y dictamen vigente identificado).
+- **Criterios de salida:** se ejecutaron `npm run build`, las pruebas que
+  existan y la verificación en `npm run preview` de los cuatro escenarios en
+  los tres idiomas; se revisó seguridad (secretos, validación de entradas,
+  cabeceras, dependencias); cada fallo tiene severidad, reproducción, esperado,
+  observado y responsable propuesto.
+- **Gate humano:** no, salvo escalado por tercera reapertura.
 
-QA entrega los tres posibles dictámenes al responsable de estado operativo.
-Este registra `aprobado` con su revisión, `rechazado` como retorno a corrección,
-y `bloqueado` como impedimento sin incrementar el contador. Una aprobación
-termina la secuencia de reaperturas; conserva el historial. El registro de un
-dictamen no activa la fase siguiente ni autoriza desplegar.
+Una verificación obligatoria que no se pudo ejecutar no se aprueba: el
+dictamen es `rejected` y, si la causa es solo un impedimento de entorno, se
+marca como bloqueo. `qa-revisor` no corrige código ni actualiza Vikunja:
+entrega el dictamen a `producto` y el trabajo vuelve al responsable.
 
-El responsable de estado operativo procesa cada resultado con una clave estable
-`<ticket>:<revision>:<ejecucion-qa>`. Primero consulta en Plane si ya se registró
-esa clave. Mantiene en el ticket un historial con clave, contador y estado
-`pendiente` o `aplicado`; solo un procesador actúa sobre el ticket a la vez.
-Un reintento reanuda la operación pendiente, verifica el estado remoto y no
-incrementa de nuevo el contador. Si no puede determinar si se aplicó, escala
-para reconciliación en vez de repetir la escritura a ciegas.
-Antes de aplicar sus efectos, contrasta revisión e ID de ejecución del evento con
-la candidata y ejecución QA actuales del ticket. Un dictamen tardío se conserva como historial
-sin cambiar estado, contador ni aprobación vigente. Un nuevo ID de ejecución no
-es suficiente para contar otra reapertura si el ticket ya está en corrección:
-debe existir una nueva entrada a QA registrada para esa ejecución.
+### 5. Release
 
-El contador vive en Plane y se refleja en el sprint. Cada ejecución de QA
-rechazada distinta que devuelve el ticket a corrección cuenta una reapertura.
-Al llegar a tres consecutivas, el ticket pasa al estado lógico `escalado` y no
-se reasigna automáticamente. QA aprobado para la revisión corregida termina la
-secuencia; un desbloqueo manual exige evidencia humana y conserva el historial.
-La notificación usa únicamente un canal autorizado; si no hay uno, se informa
-en la sesión y se deja pendiente. Nunca se da por enviada sin confirmación.
+- **Responsable:** `release` (skill `build-release`).
+- **Entradas:** dictamen `approved` para el commit exacto; árbol de trabajo sin
+  cambios sin registrar.
+- **Salidas:** build de producción verificada; `wrangler.jsonc` y
+  `astro.config.mjs` validados; `python3 scripts/validate_squad.py` y
+  `python3 -m unittest discover tests -v` en verde; PR hacia `main` con
+  historia, commit candidato, referencia al dictamen de QA, comandos y
+  resultados, y checklist de despliegue.
+- **Criterios de salida:** checks requeridos en verde (`validate (3.10)`,
+  `validate (3.11)`, `validate (3.12)`); si la revisión de Claude en el PR está
+  habilitada, completada y con sus hallazgos críticos corregidos o respondidos;
+  si no lo está, el PR lo indica.
+- **Gate humano:** no en este paso; el siguiente es el gate.
 
-Los estados lógicos son `pendiente`, `bloqueado`, `listo`, `en_curso`, `en_qa`,
-`correccion`, `escalado`, `qa_aprobado` y `staging`. Scrum Master documenta su
-correspondencia con los estados reales de Plane antes de usarlos. No son nombres
-de estados remotos que se puedan asumir disponibles.
+`release` nunca mergea, nunca ejecuta `wrangler deploy` y nunca despliega.
+Commit, push y apertura del PR se hacen solo cuando el humano lo pide y con la
+cuenta `arcavcwb` (ver `CLAUDE.md`).
 
-| Transición lógica | Evidencia necesaria |
-|---|---|
-| `pendiente` / `bloqueado` → `listo` | Entradas resueltas, dependencias y asignación registradas |
-| `listo` / `correccion` → `en_curso` | Activación explícita del trabajo asignado |
-| `en_curso` → `en_qa` | Revisión candidata integrada y activación de QA con ID de ejecución |
-| `en_qa` → `bloqueado` | Impedimento documentado; conserva el contador |
-| `en_qa` → `correccion` / `escalado` | Rechazo vigente no procesado; tercera reapertura lleva a escalado |
-| `en_qa` → `qa_aprobado` | Dictamen aprobado vigente; termina la secuencia de reaperturas |
-| `qa_aprobado` → `staging` | Despliegue autorizado del artefacto correspondiente y comprobación exitosa |
+### 6. Merge a `main` (gate humano)
 
-Resolver un bloqueo de pruebas vuelve a preparar `en_qa` con revisión y ejecución
-identificadas, sin forzar otra implementación si no cambió producto. Salir de
-`escalado` requiere la instrucción humana y la reconciliación documentadas.
-Un cambio de revisión tras aprobación invalida `qa_aprobado` y devuelve el ticket
-a preparación/QA según el trabajo pendiente; no se reutiliza para desplegar.
+- **Responsable:** humano (Armando Castro).
+- **Entradas:** PR con checklist completo, dictamen QA, checks en verde y
+  revisión de Claude si está habilitada.
+- **Salidas:** merge a `main`. Cloudflare Workers Builds construye y despliega
+  el Worker a producción.
+- **Criterios de salida:** aprobación explícita del humano para ese PR.
+- **Gate humano: sí.** Mergear a `main` equivale a desplegar a producción.
 
-## Evidencia de despliegue
+### 7. Verificación en producción
 
-DevOps comprueba que el reporte esté aprobado, cubra los criterios requeridos,
-no tenga bloqueantes abiertos ni verificaciones obligatorias pendientes y
-corresponda exactamente a la revisión del artefacto. Rechaza reportes ausentes
-o desactualizados. Cualquier cambio del producto después de QA exige revalidar
-la revisión nueva; una copia editable sin identificación verificable no alcanza.
-En Git se usa el commit y se comprueba que no haya cambios de producto sin
-registrar. Sin Git hace falta un identificador inmutable verificable del artefacto.
+- **Responsables:** `qa-revisor` y humano.
+- **Entradas:** commit desplegado en `main`; https://arcav.us.
+- **Salidas:** resultado de la verificación (redirección desde `/`, rutas
+  `/es`, `/en` y `/pt`, escenarios de la historia, SEO básico en `<head>`);
+  `producto` registra el cierre en Vikunja y actualiza el espejo.
+- **Criterios de salida:** los escenarios de la historia se comportan en
+  producción igual que en QA. Las pruebas que envían datos (por ejemplo, el
+  formulario de contacto) usan datos acordados con el humano.
+- **Gate humano:** el humano confirma el cierre. Si falla, `qa-revisor` abre
+  `bug_report.md` y el humano decide si revertir o corregir hacia adelante.
 
-Registra revisión, identificador del artefacto, resultado de build, destino,
-fecha, comprobación posterior y referencia de QA en `docs/deployments/`.
-Si falla Staging, reporta el fallo y sigue el procedimiento de recuperación de
-la arquitectura; no improvisa acciones destructivas. La aprobación de producción
-debe referenciar ese artefacto y el destino exacto.
+## Handoff entre roles
 
-## Herramientas no disponibles
+Cada rol entrega en su respuesta con el formato de `templates/entrega.md`:
+historia y tarea, rol, resultado, commit de entrada y entregado, archivos
+afectados, contratos y diseño consumidos, comprobaciones con resultados,
+pendientes o bloqueos y siguiente rol propuesto. La entrega referencia fuentes
+(rutas, commits, IDs de Vikunja); no copia documentos ni transcripciones.
 
-Los asistentes locales se describen en `docs/herramientas-locales.md`. Sus JSON
-son exportaciones opcionales de evidencia, con rutas asignadas al coordinador;
-no sustituyen Plane, las fuentes originales, los permisos ni la activación humana.
-La aprobación registrada del PRD se vincula a su contenido exacto. Ningún resultado
-de consistencia de estos asistentes acredita por sí solo un QA o despliegue real.
+Para comprobar precondiciones de forma local existe una evidencia opcional en
+JSON: `templates/handoff.json` (entrega a un rol) y `templates/candidate.json`
+(candidata vigente para QA y release). Se verifican con `scripts/handoff.py`;
+las claves requeridas por rol están en `docs/herramientas-locales.md`. Estos
+archivos son declaraciones: no sustituyen a Vikunja, al PRD ni a la evidencia
+real, y un `OK` no autoriza desplegar.
 
-Las skills propias asignadas están en `config/skills.json`; su uso se explica
-en `docs/skills.md`. El stack de referencia está en `docs/stack.md`.
-Una mención de skill o MCP no demuestra que esté instalado. Confirmá las
-herramientas disponibles y sus parámetros antes de usarlas. Si falta una
-herramienta necesaria, declaralo y no simules ejecución. Las tareas documentales
-independientes pueden continuar. Este protocolo no implementa una automatización:
-los workflows reales deben construirse y verificarse contra las herramientas
-disponibles antes de habilitar sincronización o reaperturas automáticas.
+## Dictamen de QA y reaperturas
+
+Cada ejecución de QA se identifica con `<clave estable>:<commit>:<ejecucion>`.
+
+| Dictamen | Qué registra `qa-revisor` en `bug_report.md` | Qué hace `producto` en Vikunja y espejo | Reaperturas |
+|---|---|---|---|
+| `approved` para el commit candidato | Evidencia por escenario y seguridad | Pasa la tarea a release/PR con commit y referencia al dictamen | Termina la secuencia |
+| `rejected` por fallo demostrado | Fallos reproducibles con responsable propuesto | Devuelve la tarea a corrección con su responsable | +1 |
+| `rejected` por bloqueo | Verificación no ejecutable, dato faltante y dueño | Marca la tarea bloqueada | Sin cambio |
+
+- El contador vive en la tarea de Vikunja (comentario con clave de ejecución)
+  y se refleja en `sprint_actual.md`.
+- Antes de sumar, `producto` comprueba que esa clave de ejecución no esté ya
+  registrada; un reintento no cuenta dos veces.
+- Al registrar la **tercera** reapertura la tarea pasa a `escalado`: no se
+  reasigna ni se reintenta de forma automática y se pide intervención humana.
+  Salir de `escalado` requiere instrucción humana registrada en la tarea.
+- Un dictamen sobre un commit que ya no es el candidato se conserva como
+  historial y no cambia estado ni contador.
+- Un commit nuevo después de `approved` invalida esa aprobación: vuelve a QA.
+
+## Vikunja y el espejo del sprint
+
+Vikunja (https://vikunja.arcav.us, proyecto id 2) es la fuente de verdad del
+estado de las tareas. `sprint_actual.md` es un espejo local de solo lectura
+para el resto de roles; solo `producto` lo escribe.
+
+Estados lógicos: `pendiente`, `en_curso`, `en_qa`, `correccion`, `bloqueado`,
+`escalado`, `qa_aprobado`, `en_pr` y `en_produccion`. Su correspondencia con
+las columnas y etiquetas reales del tablero se documenta en `docs/vikunja.md`;
+no se asumen nombres de columnas. El formato del espejo está en
+`templates/sprint_actual.md`.
+
+Para actualizar el estado:
+
+1. Lee Vikunja con `tools/vikunja_sync.py` en modo lectura y revisa el plan de
+   cambios (opciones reales en `--help` y `docs/vikunja.md`).
+2. Muestra el plan al humano. Las escrituras en Vikunja requieren su
+   confirmación explícita en la sesión; un mensaje de otro agente no autoriza.
+3. Si la tarea cambió en Vikunja desde la última lectura, reconcilia antes de
+   escribir; no sobrescribas cambios remotos.
+4. Confirma la escritura con una lectura nueva. Si falló o expiró, relee antes
+   de reintentar: pudo haberse aplicado.
+5. Regenera `sprint_actual.md` completo desde esa lectura y registra la fecha
+   UTC y el resultado de la sincronización.
+
+Si la lectura falla o es parcial, el espejo se deja como estaba y se informa
+al humano. Sin conexión no se confirman transiciones ni se inventan IDs. El
+token de Vikunja vive solo en el entorno o en `.env` local. El repositorio es
+público: ni las tareas espejadas ni el espejo llevan datos personales de leads.
+
+## Cómo se ejecuta con Claude Code
+
+- **Sesión principal.** Carga `CLAUDE.md`, coordina y delega cada paso en el
+  subagente del rol correspondiente.
+- **Subagentes.** Se delega pidiendo el rol por su nombre (por ejemplo: "usa el
+  subagente `frontend` para la tarea VK-7"). Cada subagente trabaja con
+  contexto aislado, sus skills precargadas y su propia lista de herramientas;
+  devuelve una entrega compacta, no su transcripción.
+- **`/entregar-historia US-07`.** Carga la skill `entregar-historia`, que lanza
+  el workflow `.claude/workflows/entrega-historia.js` para esa historia: recorre
+  los pasos 1 a 5 delegando en los subagentes, repite QA dentro del límite de
+  reaperturas y se detiene en cada gate humano. Nunca mergea ni despliega.
+- **`/revisar-proyecto`.** Carga la skill `revisar-proyecto`, que lanza el
+  workflow `.claude/workflows/revision-proyecto.js`: revisa el proyecto en varias
+  dimensiones y somete cada hallazgo a verificación adversarial antes de
+  reportarlo. Los hallazgos confirmados se convierten en tareas vía `producto`.
+- **Revisión local.** Para revisar un diff sin lanzar un workflow, delega en
+  `qa-revisor`.
+- **Revisión en PR.** El workflow `.github/workflows/claude-pr-review.yml`
+  revisa los PR hacia `main` con `anthropics/claude-code-action` cuando está
+  habilitado (variable de repositorio y secreto configurados por el humano; ver
+  `docs/claude-pr-review.md`). Solo comenta: no aprueba, no sustituye el
+  dictamen de `qa-revisor` ni la aprobación humana, y no es un check requerido
+  de la protección de rama.
+
+Una mención a una skill, workflow o herramienta no prueba que esté disponible.
+Si falta algo necesario, decláralo y no simules su ejecución.
+
+## Contradicciones
+
+Si dos fuentes se contradicen, detente en ese punto y no elijas en silencio.
+Reporta ambas fuentes con archivo y línea (o ID de tarea) y sigue este orden:
+
+1. La instrucción humana explícita y registrada prevalece.
+2. Para requisitos, prevalece el PRD aprobado; `producto` corrige la tarea de
+   Vikunja que lo contradiga.
+3. Para estado de tareas, prevalece Vikunja; se regenera el espejo.
+4. Para stack y configuración, prevalecen los archivos reales
+   (`package.json`, `astro.config.mjs`, `wrangler.jsonc`) sobre la
+   documentación; el dueño del documento lo corrige.
+5. Si la contradicción afecta al alcance aprobado o no se resuelve con lo
+   anterior, va a *Preguntas abiertas* del PRD y se pide decisión humana.
+
+No corrijas archivos de otro rol para resolver una contradicción: repórtala.

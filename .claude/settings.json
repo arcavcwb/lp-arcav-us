@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run build *)",
+      "Bash(npm run preview *)",
+      "Bash(npm run dev *)",
+      "Bash(node --test *)",
+      "Bash(python3 scripts/validate_squad.py *)",
+      "Bash(python3 -m unittest discover tests *)",
+      "Bash(python3 scripts/pipeline.py *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(gh pr create *)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(!.env.example)",
+      "Read(.dev.vars)",
+      "Read(.dev.vars.*)",
+      "Bash(wrangler deploy *)",
+      "Bash(* wrangler deploy*)",
+      "Bash(wrangler versions deploy *)",
+      "Bash(* wrangler versions deploy*)",
+      "Bash(wrangler rollback *)",
+      "Bash(* wrangler rollback*)",
+      "Bash(wrangler secret *)",
+      "Bash(* wrangler secret*)",
+      "Bash(gh pr merge *)",
+      "Bash(gh secret *)",
+      "Bash(gh variable set *)",
+      "Bash(gh api -X *)",
+      "Bash(gh api --method *)",
+      "Bash(gh api * -X *)",
+      "Bash(gh api * --method *)",
+      "Bash(git config *)",
+      "Bash(git push --force*)",
+      "Bash(git push * --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push * -f*)",
+      "Bash(git push * main)",
+      "Bash(git push * main *)",
+      "Bash(git push *:main)",
+      "Bash(git push *:main *)",
+      "Bash(git push *:refs/heads/main)",
+      "Bash(git push * +main)"
+    ]
+  }
+}
