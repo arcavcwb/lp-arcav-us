@@ -38,12 +38,12 @@ export const home = {
   meta: {
     title: 'ARCAV — Produtos digitais e evolução de processos | Curitiba',
     description:
-      'Transformo processos de negócio em produtos digitais simples, automatizados e fáceis de operar. Sites, sistemas enxutos e automações em Curitiba, por Armando Castro.',
+      'Transformo processos de negócio em produtos digitais simples, automatizados e fáceis de operar. Sites institucionais, migrações, landing pages, lojas com pedido pelo WhatsApp e automações em Curitiba, por Armando Castro.',
   },
   hero: {
     title: BRAND.message,
     subtitle:
-      'Landing pages para marcas, campanhas, produtos e palestras, sites de pedido para comércios e automações para a operação.',
+      'Sites institucionais, migração de sites e sistemas, landing pages, lojas com pedido pelo WhatsApp e automações para a operação.',
     primaryCta: 'Contar como funciona hoje',
     secondaryCta: 'Ver as soluções',
   },
@@ -84,7 +84,7 @@ export const home = {
   contact: {
     title: 'Tem um processo que pode evoluir?',
     subtitle:
-      'Vamos conversar e explorar como transformá-lo em um produto digital simples e fácil de operar.',
+      'Conte como funciona hoje. Eu respondo com os próximos passos e, se houver encaixe, preparo uma prévia resumida do seu projeto para acompanhar a proposta.',
     subject: 'Contato pelo site da ARCAV',
   },
   footer: {

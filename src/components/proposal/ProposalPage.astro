@@ -4,9 +4,9 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../ui/Header.astro';
 import Footer from '../ui/Footer.astro';
 import Icon from '../ui/Icon.astro';
-import type { IconName } from '../ui/icons';
 import PhoneDemo from '../ui/PhoneDemo.astro';
 import OrderMessage from '../ui/OrderMessage.astro';
+import RuledPoints from '../ui/RuledPoints.astro';
 import type { DemoProduct, ProspectProposal } from '../../data/proposals/types';
 import { BRAND } from '../../data/site';
 import { arcavContactLink, formatBRL } from '../../lib/contact';
@@ -20,7 +20,6 @@ interface Props {
 
 const { proposal: p, demoProducts, canonical } = Astro.props;
 const contact = arcavContactLink(p.closing.contactSubject, p.closing.contactMessage);
-const serviceIcons: IconName[] = ['cart', 'tag', 'chart'];
 // Uma só recomendação de início: a soma dos planos marcados como sugeridos.
 const startPlans = p.pricing?.plans.filter((plan) => plan.suggested) ?? [];
 const startPrice = startPlans
@@ -51,11 +50,13 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
           <p class="small hero-proof">{p.hero.microproof}</p>
         </div>
         <PhoneDemo
+          id="demo"
           products={demoProducts}
           storeName={p.companyName}
           storeNote="Exemplo de pedido"
-          caption={p.demo.illustration.caption}
+          caption={p.demo.live?.phoneCaption ?? p.demo.illustration.caption}
           next={{ href: p.demoUrl, label: 'Testar a demonstração completa', external: true }}
+          guide={Boolean(p.demo.live)}
         />
       </div>
     </section>
@@ -66,15 +67,7 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
           <h2 class="h2" id="servico-title">{p.service.title}</h2>
           <p class="lead">{p.service.text}</p>
         </div>
-        <ul role="list" class="cards-3">
-          {p.service.cards.map((card, index) => (
-            <li class="card feature">
-              <span class="icon-badge"><Icon name={serviceIcons[index] ?? 'check'} /></span>
-              <h3 class="h3">{card.title}</h3>
-              <p>{card.text}</p>
-            </li>
-          ))}
-        </ul>
+        <RuledPoints items={p.service.cards} />
       </div>
     </section>
 
@@ -120,7 +113,7 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
           <p class="small">{p.demo.newTabHint}</p>
           <p class="small">{p.demo.caption}</p>
         </div>
-        <OrderMessage order={p.demo.illustration} />
+        <OrderMessage order={p.demo.illustration} live={p.demo.live} />
       </div>
     </section>
 
@@ -211,25 +204,6 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
   .hero-proof {
     margin-top: 1.5rem;
     max-width: 30rem;
-  }
-
-  .cards-3 {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .feature {
-    display: grid;
-    gap: 0.875rem;
-    align-content: start;
-  }
-
-  .feature .icon-badge {
-    margin-bottom: 0.5rem;
-  }
-
-  .feature p {
-    color: var(--muted);
   }
 
   .diagnosis {
@@ -430,7 +404,6 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
   }
 
   @media (min-width: 880px) {
-    .cards-3,
     .plans {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }

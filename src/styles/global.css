@@ -58,7 +58,7 @@
   /* Espaço */
   --container: 1200px;
   --gutter: clamp(1rem, 0.4rem + 2.6vw, 2.5rem);
-  --section: clamp(3rem, 2rem + 3.5vw, 5rem);
+  --section: clamp(2rem, 1.4rem + 2vw, 3.25rem);
   --header-h: 4.25rem;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -214,6 +214,7 @@ ol[role='list'] {
 
 .section {
   padding-block: var(--section);
+  border-top: 1px solid var(--line-strong);
 }
 
 .section--muted {
@@ -223,6 +224,7 @@ ol[role='list'] {
 .section--dark {
   background: var(--dark);
   color: var(--on-dark);
+  border-top-color: var(--dark);
 }
 
 .section--dark h2,
@@ -450,9 +452,10 @@ ol[role='list'] {
 }
 
 /* A seção logo depois do hero começa mais perto, para aparecer antes da dobra
-   (só quando continua no mesmo fundo branco). */
+   (só quando continua no mesmo fundo branco). O fio no topo de cada seção marca
+   onde uma termina e a outra começa, mesmo entre fundos parecidos. */
 .page-hero + .section:not(.section--muted) {
-  padding-top: clamp(2.5rem, 1.5rem + 2.5vw, 3.5rem);
+  padding-top: clamp(2rem, 1.5rem + 1.5vw, 3rem);
 }
 
 .page-hero__grid {

@@ -1,0 +1,331 @@
+---
+// Tipos de landing page (em /solucoes/landing-pages/), para leigos: escolha o objetivo e veja uma ficha só daquela página —
+// o caminho do cliente em três frases (o mesmo bloco do hero das soluções),
+// para quem é, o que entra e o link. Sem mapa com todas as opções apagadas: isso confundia.
+import Icon from '../ui/Icon.astro';
+import SolutionFlow from './SolutionFlow.astro';
+import type { IconName } from '../ui/icons';
+import { SOLUTIONS } from '../../data/solutions';
+
+const pages = SOLUTIONS.filter((s) => s.group === 'landing' && s.journey);
+
+const GOAL_ICON: Record<string, IconName> = {
+  'landing-page-alto-padrao': 'gem',
+  'landing-page-campanhas': 'target',
+  'landing-page-produto': 'box',
+  'landing-page-palestras': 'ticket',
+};
+
+const startIndex = Math.max(0, pages.findIndex((p) => p.slug === 'landing-page-campanhas'));
+---
+<div class="lf" data-flow>
+  <div class="lf__goals" role="tablist" aria-label="O que você quer com a página?">
+    {pages.map((p, i) => (
+      <button
+        type="button"
+        role="tab"
+        class="goal"
+        id={`lf-tab-${p.slug}`}
+        aria-selected={i === startIndex ? 'true' : 'false'}
+        aria-controls={`lf-${p.slug}`}
+        tabindex={i === startIndex ? 0 : -1}
+        data-pick
+      >
+        <span class="goal__icon"><Icon name={GOAL_ICON[p.slug] ?? 'layout'} /></span>
+        <span class="goal__text">
+          <strong>{p.goal}</strong>
+          <span>Landing page de {p.label.toLowerCase()}</span>
+        </span>
+      </button>
+    ))}
+  </div>
+
+  {pages.map((p, i) => (
+    <div
+      class="lf__panel"
+      id={`lf-${p.slug}`}
+      role="tabpanel"
+      aria-labelledby={`lf-tab-${p.slug}`}
+      tabindex="0"
+      hidden={i !== startIndex}
+      data-panel
+    >
+      <div class="lf__name">
+        <h3>{p.name}</h3>
+        <p>{p.tagline}</p>
+      </div>
+
+      <div class="lf__path">
+        <SolutionFlow solution={p} bare />
+      </div>
+
+      <div class="lf__info">
+
+        <div class="lf__list">
+          <h4>Para quem é</h4>
+          <ul role="list">
+            {p.forWho.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+
+        <div class="lf__list lf__list--check">
+          <h4>O que entra</h4>
+          <ul role="list">
+            {p.includes.slice(0, 4).map((item) => (
+              <li><Icon name="check" />{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <a class="link-arrow" href={p.path} style={`view-transition-name: sol-${p.slug}`}>
+          Ver tudo sobre esta página
+          <Icon name="arrow-right" />
+        </a>
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-flow]').forEach((root) => {
+    const picks = [...root.querySelectorAll<HTMLButtonElement>('[data-pick]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+
+    const select = (index: number, focus = false) => {
+      picks.forEach((p, i) => {
+        p.setAttribute('aria-selected', String(i === index));
+        p.tabIndex = i === index ? 0 : -1;
+      });
+      panels.forEach((panel, i) => {
+        panel.hidden = i !== index;
+      });
+      if (focus) picks[index].focus();
+    };
+
+    picks.forEach((pick, i) => {
+      pick.addEventListener('click', () => select(i));
+      pick.addEventListener('keydown', (event) => {
+        const keys: Record<string, number> = {
+          ArrowRight: (i + 1) % picks.length,
+          ArrowDown: (i + 1) % picks.length,
+          ArrowLeft: (i - 1 + picks.length) % picks.length,
+          ArrowUp: (i - 1 + picks.length) % picks.length,
+        };
+        if (event.key in keys) {
+          event.preventDefault();
+          select(keys[event.key], true);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .lf {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  /* Objetivos */
+  .lf__goals {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 560px) {
+    .lf__goals {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .goal {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3.5rem;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-control);
+    background: var(--bg);
+    color: var(--ink);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .goal:hover {
+    border-color: var(--ink);
+  }
+
+  .goal[aria-selected='true'] {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--on-dark);
+  }
+
+  .goal__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-control);
+    background: var(--surface);
+    color: var(--ink);
+  }
+
+  .goal[aria-selected='true'] .goal__icon {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .goal__icon :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .goal__text {
+    display: grid;
+    line-height: 1.3;
+  }
+
+  .goal__text strong {
+    font-size: 0.9375rem;
+    font-weight: 650;
+  }
+
+  .goal__text span {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .goal[aria-selected='true'] .goal__text span {
+    color: var(--on-dark-muted);
+  }
+
+  /* Ficha da página escolhida */
+  .lf__panel {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1rem, 0.75rem + 1vw, 1.75rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--bg);
+  }
+
+  .lf__panel[hidden] {
+    display: none;
+  }
+
+  .lf__panel:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .lf__info {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+  }
+
+  .lf__name h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+  }
+
+  .lf__name p {
+    margin-top: 0.25rem;
+    color: var(--muted);
+  }
+
+  .lf__list h4 {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 650;
+    color: var(--ink);
+  }
+
+  .lf__list ul {
+    display: grid;
+    gap: 0.375rem;
+  }
+
+  .lf__list li {
+    position: relative;
+    padding-left: 1rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  .lf__list li::before {
+    content: '';
+    position: absolute;
+    left: 0.125rem;
+    top: 0.6em;
+    width: 0.3125rem;
+    height: 0.3125rem;
+    border-radius: 999px;
+    background: var(--line-strong);
+  }
+
+  .lf__list--check li {
+    display: flex;
+    gap: 0.5rem;
+    padding-left: 0;
+    color: var(--ink);
+  }
+
+  .lf__list--check li::before {
+    content: none;
+  }
+
+  .lf__list--check li :global(svg) {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex: none;
+    margin-top: 0.15em;
+    color: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lf__panel:not([hidden]) {
+      animation: lf-in 0.3s var(--ease-out);
+    }
+  }
+
+  @keyframes lf-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+
+  @media (min-width: 880px) {
+    .lf__goals {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .lf__panel {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas:
+        'path name'
+        'path info';
+      grid-template-rows: auto 1fr;
+      gap: 1.25rem clamp(2rem, 1rem + 2vw, 3rem);
+    }
+
+    .lf__name {
+      grid-area: name;
+    }
+
+    .lf__path {
+      grid-area: path;
+    }
+
+    .lf__info {
+      grid-area: info;
+    }
+  }
+</style>

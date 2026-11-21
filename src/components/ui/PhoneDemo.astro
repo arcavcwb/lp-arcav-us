@@ -1,6 +1,9 @@
 ---
 // Demonstração interativa: o visitante monta um pedido de exemplo e vê a mensagem
 // do WhatsApp ficar pronta. Sem JavaScript, mostra o pedido inicial estático.
+// Com `guide`, um guia de três passos acompanha o uso e o "+" se destaca uma vez ao entrar na tela
+// (ou ao tocar num link para o id da demo). A cada mudança, dispara `demo:order` com os itens,
+// que um OrderMessage `live` pode espelhar.
 import Icon from './Icon.astro';
 import type { DemoProduct } from '../../data/proposals/types';
 
@@ -14,6 +17,8 @@ interface Props {
   id?: string;
   /** Próximo passo que aparece abaixo do celular depois de "Enviar pelo WhatsApp". */
   next?: { href: string; label: string; external?: boolean };
+  /** Mostra o guia "Experimente" com os três passos e o destaque no primeiro "+". */
+  guide?: boolean;
 }
 
 const {
@@ -25,6 +30,7 @@ const {
   class: className,
   id,
   next,
+  guide = false,
 } = Astro.props;
 
 const initial = products.map((p) => ({ ...p, qty: p.qty ?? 0 }));
@@ -36,8 +42,25 @@ const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 ite
   class:list={['phone-demo', className]}
   data-phone-demo
   data-state="store"
+  data-guide={guide ? '' : undefined}
   style={`--rows: ${initial.length}`}
 >
+  {guide && (
+    <div class="demo-guide">
+      <p class="demo-guide__title">Experimente: monte um pedido</p>
+      <ol role="list" class="demo-guide__steps" aria-label="Como testar">
+        {['Toque em +', 'Revise', 'Envie'].map((label, i) => (
+          <li data-guide-step={i + 1} aria-current={i === 0 ? 'step' : undefined}>
+            <span class="demo-guide__n" aria-hidden="true">
+              <span class="demo-guide__num">{i + 1}</span>
+              <Icon name="check" class="demo-guide__check" />
+            </span>
+            {label}
+          </li>
+        ))}
+      </ol>
+    </div>
+  )}
   <div class="phone">
     <div class="phone__screen" role="group" aria-label="Demonstração: monte um pedido de exemplo">
       <span class="phone__notch" aria-hidden="true"></span>
@@ -143,9 +166,59 @@ const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 ite
     const defaultHint = sendStatus.textContent;
 
     const qtyOf = (el: HTMLElement) => Number(el.dataset.qty ?? 0);
+    const totalOf = () => products.reduce((sum, el) => sum + qtyOf(el), 0);
+
+    // Guia de três passos: 1 ajustar, 2 revisar, 3 enviar. Os anteriores ficam marcados como feitos.
+    const steps = [...root.querySelectorAll<HTMLElement>('[data-guide-step]')];
+    const setStep = (current: number) => {
+      steps.forEach((li, i) => {
+        const n = i + 1;
+        li.toggleAttribute('data-done', n < current);
+        if (n === current) li.setAttribute('aria-current', 'step');
+        else li.removeAttribute('aria-current');
+      });
+    };
+
+    // Destaque único no primeiro "+": convida a tocar sem repetir a animação a cada rolagem.
+    const firstPlus = root.querySelector<HTMLButtonElement>('[data-product] [data-step="1"]');
+    let touched = false;
+    const nudge = () => {
+      if (touched || !firstPlus || reduceMotion.matches) return;
+      firstPlus.classList.remove('is-nudging');
+      void firstPlus.offsetWidth;
+      firstPlus.classList.add('is-nudging');
+    };
+    if (steps.length && firstPlus) {
+      firstPlus.addEventListener('animationend', () => firstPlus.classList.remove('is-nudging'));
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((e) => e.isIntersecting)) {
+              io.disconnect();
+              setTimeout(nudge, 500);
+            }
+          },
+          { threshold: 0.6 },
+        );
+        io.observe(root);
+      }
+      // "Testar o exemplo" e outros links para a demo: depois da rolagem, foco e destaque no "+".
+      if (root.id) {
+        document.querySelectorAll<HTMLAnchorElement>(`a[href="#${root.id}"]`).forEach((link) => {
+          link.addEventListener('click', () => {
+            setTimeout(() => {
+              if (root.dataset.state !== 'store') return;
+              firstPlus.focus({ preventScroll: true });
+              touched = false;
+              nudge();
+            }, 450);
+          });
+        });
+      }
+    }
 
     const render = () => {
-      const total = products.reduce((sum, el) => sum + qtyOf(el), 0);
+      const total = totalOf();
       count.textContent = String(total);
       summary.textContent = label(total);
       review.disabled = total === 0;
@@ -158,6 +231,12 @@ const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 ite
             return li;
           }),
       );
+      root.dispatchEvent(
+        new CustomEvent('demo:order', {
+          bubbles: true,
+          detail: { items: products.filter((el) => qtyOf(el) > 0).map((el) => ({ qty: qtyOf(el), name: el.dataset.name })) },
+        }),
+      );
     };
 
     const show = (view: 'store' | 'message') => {
@@ -167,6 +246,7 @@ const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 ite
       on.removeAttribute('aria-hidden');
       off.inert = true;
       off.setAttribute('aria-hidden', 'true');
+      setStep(view === 'message' ? 3 : totalOf() > 0 ? 2 : 1);
       if (view === 'message') {
         sendStatus.textContent = defaultHint;
         root.querySelector<HTMLButtonElement>('[data-back]')?.focus({ preventScroll: true });
@@ -181,6 +261,8 @@ const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 ite
         button.addEventListener('click', () => {
           const next = Math.min(9, Math.max(0, qtyOf(el) + Number(button.dataset.step)));
           if (next === qtyOf(el)) return;
+          touched = true;
+          firstPlus?.classList.remove('is-nudging');
           el.dataset.qty = String(next);
           qtyLabel.textContent = String(next);
           if (!reduceMotion.matches) {
@@ -190,6 +272,7 @@ const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 ite
             });
           }
           render();
+          setStep(totalOf() > 0 ? 2 : 1);
         });
       });
     });
@@ -199,6 +282,7 @@ const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 ite
     const next = root.querySelector<HTMLElement>('[data-next]');
     root.querySelector('[data-send]')?.addEventListener('click', () => {
       sendStatus.textContent = 'Pronto. Numa loja real, o pedido chegaria assim no WhatsApp do atendimento.';
+      setStep(4);
       if (next) {
         next.hidden = false;
         next.querySelector('a')?.focus({ preventScroll: true });
@@ -206,6 +290,7 @@ const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 ite
     });
 
     render();
+    setStep(totalOf() > 0 ? 2 : 1);
   });
 </script>
 
@@ -215,6 +300,105 @@ const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 ite
     justify-items: center;
     gap: 1rem;
     margin: 0;
+  }
+
+  /* Guia "Experimente" (opcional) */
+  .demo-guide {
+    display: grid;
+    gap: 0.5rem;
+    width: min(100%, 19.75rem);
+  }
+
+  .demo-guide__title {
+    font-size: 0.9375rem;
+    font-weight: 650;
+    color: var(--ink);
+    text-align: center;
+  }
+
+  .demo-guide__steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.375rem;
+  }
+
+  .demo-guide__steps li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.3125rem 0.625rem 0.3125rem 0.375rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    transition: background-color 0.25s var(--ease-out), border-color 0.25s var(--ease-out), color 0.25s var(--ease-out);
+  }
+
+  .demo-guide__steps li[aria-current='step'] {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--on-dark);
+  }
+
+  .demo-guide__steps li[data-done] {
+    color: var(--ink);
+  }
+
+  .demo-guide__n {
+    display: grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 999px;
+    background: var(--surface-strong);
+    color: var(--ink);
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  li[aria-current='step'] .demo-guide__n {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  li[data-done] .demo-guide__n {
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+
+  .demo-guide__n :global(.demo-guide__check) {
+    display: none;
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  li[data-done] .demo-guide__num {
+    display: none;
+  }
+
+  li[data-done] .demo-guide__n :global(.demo-guide__check) {
+    display: block;
+  }
+
+  /* Destaque único no primeiro "+" */
+  @media (prefers-reduced-motion: no-preference) {
+    .stepper :global(button.is-nudging) {
+      animation: nudge 0.9s var(--ease-out) 3;
+    }
+  }
+
+  @keyframes nudge {
+    from {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+      color: var(--accent);
+    }
+    to {
+      box-shadow: 0 0 0 0.625rem color-mix(in srgb, var(--accent) 0%, transparent);
+    }
   }
 
   .phone {

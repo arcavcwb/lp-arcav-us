@@ -5,18 +5,16 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/ui/Header.astro';
 import Footer from '../../components/ui/Footer.astro';
 import Icon from '../../components/ui/Icon.astro';
-import type { IconName } from '../../components/ui/icons';
 import PhoneDemo from '../../components/ui/PhoneDemo.astro';
 import OrderMessage from '../../components/ui/OrderMessage.astro';
 import Faq from '../../components/ui/Faq.astro';
+import RuledPoints from '../../components/ui/RuledPoints.astro';
 import ClosingContact from '../../components/ui/ClosingContact.astro';
 import { commerceService as page } from '../../data/commerce-service';
-import { SOLUTIONS } from '../../data/solutions';
-import { RESPONSE_TIME } from '../../lib/contact';
+import { SERVICES } from '../../data/solutions';
 
 const canonical = new URL(page.path, Astro.site).href;
-const pillarIcons: IconName[] = ['cart', 'tag', 'chart'];
-const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({ href: o.path, label: o.label })), { href: '#contato', label: 'Contato' }];
+const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ href: o.path, label: o.label })), { href: '#contato', label: 'Contato' }];
 ---
 <Layout title={page.meta.title} description={page.meta.description} canonical={canonical}>
   <Header cta={{ href: '#contato', label: page.hero.cta }} />
@@ -34,13 +32,14 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({
             </a>
             <a class="btn btn--ghost" href="#demo">Testar o exemplo</a>
           </div>
-          <p class="small hero-note">Resposta {RESPONSE_TIME}, sem compromisso.</p>
+          <p class="small hero-note">Teste a loja de exemplo agora. Se houver encaixe depois da conversa, preparamos uma prévia resumida com alguns dos seus produtos.</p>
         </div>
         <PhoneDemo
             id="demo"
             products={page.demo.products}
             caption={page.demo.caption}
             next={{ href: '#contato', label: 'Quero isso na minha loja' }}
+            guide
           />
       </div>
     </section>
@@ -50,15 +49,7 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({
         <div class="section-head">
           <h2 class="h2" id="frentes-title">{page.pillars.title}</h2>
         </div>
-        <ul role="list" class="pillars">
-          {page.pillars.items.map((item, index) => (
-            <li class="card pillar">
-              <span class="icon-badge"><Icon name={pillarIcons[index] ?? 'check'} /></span>
-              <h3 class="h3">{item.title}</h3>
-              <p>{item.text}</p>
-            </li>
-          ))}
-        </ul>
+        <RuledPoints items={page.pillars.items} />
       </div>
     </section>
 
@@ -72,7 +63,7 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({
             <Icon name="arrow-right" />
           </a>
         </div>
-        <OrderMessage order={page.example.order} />
+        <OrderMessage order={page.example.order} live={page.example.live} />
       </div>
     </section>
 
@@ -104,25 +95,6 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({
 </Layout>
 
 <style>
-  .pillars {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .pillar {
-    display: grid;
-    gap: 0.875rem;
-    align-content: start;
-  }
-
-  .pillar .icon-badge {
-    margin-bottom: 0.5rem;
-  }
-
-  .pillar p {
-    color: var(--muted);
-  }
-
   .example {
     display: grid;
     gap: clamp(2.5rem, 1.5rem + 3vw, 4rem);
@@ -142,10 +114,6 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({
   }
 
   @media (min-width: 880px) {
-    .pillars {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
     .example {
       grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
     }

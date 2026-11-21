@@ -58,12 +58,12 @@ export const POST: APIRoute = async ({ request }) => {
 
   const subject =
     variant === 'store'
-      ? `Quero ver como ficaria a minha loja — ${d.name}`
+      ? `Quero uma loja assim — ${d.name}`
       : `${oneLine(d.topic) || 'Contato pelo site da ARCAV'} — ${d.business || d.name}`;
   const body = (
     variant === 'store'
       ? [
-          'Olá! Quero ver como ficaria a minha loja.',
+          'Olá! Quero conversar sobre um site de pedidos para a minha loja.',
           '',
           `Site, Instagram ou catálogo: ${d.link}`,
           d.message ? `\n${d.message}` : '',

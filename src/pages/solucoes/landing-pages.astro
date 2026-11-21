@@ -1,0 +1,23 @@
+---
+// Landing pages: a porta de entrada dos quatro tipos (alto padrão, campanhas, produto, palestras).
+// Mesma estrutura das outras soluções; no lugar de "Para quem é / O que está incluído", a escolha
+// do objetivo com a ficha de cada tipo e o link para a página dele.
+export const prerender = true;
+
+import SolutionPage from '../../components/solution/SolutionPage.astro';
+import LandingFlow from '../../components/solution/LandingFlow.astro';
+import { solutionBySlug } from '../../data/solutions';
+
+const solution = solutionBySlug('landing-pages');
+---
+<SolutionPage solution={solution}>
+  <section class="section" aria-labelledby="tipos-title" slot="fit">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="h2" id="tipos-title">O que você quer com a sua página?</h2>
+        <p class="lead">Escolha o objetivo. Cada tipo de página tem o seu caminho, para quem é e o que entra.</p>
+      </div>
+      <LandingFlow />
+    </div>
+  </section>
+</SolutionPage>

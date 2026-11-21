@@ -1,14 +1,15 @@
 ---
 // Página de uma solução da ARCAV: para quem é, o que inclui, o exemplo, como funciona, dúvidas e contato.
+// O slot `fit` substitui o bloco "Para quem é / O que está incluído" (usado em Landing pages).
 import Layout from '../../layouts/Layout.astro';
 import Header from '../ui/Header.astro';
 import Footer from '../ui/Footer.astro';
 import Icon from '../ui/Icon.astro';
 import ExampleFrame from '../ui/ExampleFrame.astro';
+import SolutionFlow from './SolutionFlow.astro';
 import Faq from '../ui/Faq.astro';
 import ClosingContact from '../ui/ClosingContact.astro';
-import { RESPONSE_TIME } from '../../lib/contact';
-import { SOLUTIONS, SOLUTION_STEPS, type Solution } from '../../data/solutions';
+import { SERVICES, SOLUTION_STEPS, type Solution } from '../../data/solutions';
 
 interface Props {
   solution: Solution;
@@ -16,8 +17,8 @@ interface Props {
 
 const { solution: s } = Astro.props;
 const canonical = new URL(s.path, Astro.site).href;
-const others = SOLUTIONS.filter((o) => o.slug !== s.slug);
-const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({ href: o.path, label: o.label })), { href: '#contato', label: 'Contato' }];
+const others = SERVICES.filter((o) => o.slug !== s.slug);
+const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ href: o.path, label: o.label })), { href: '#contato', label: 'Contato' }];
 ---
 <Layout title={s.meta.title} description={s.meta.description} canonical={canonical}>
   <Header cta={{ href: '#contato', label: 'Fale comigo' }} />
@@ -35,12 +36,17 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({
             </a>
             {s.example.path && <a class="btn btn--ghost" href={s.example.path}>Ver o exemplo</a>}
           </div>
-          <p class="small hero-note">Resposta {RESPONSE_TIME}, sem compromisso.</p>
+          <p class="small hero-note">Conversa sem compromisso. Se houver encaixe, você recebe uma prévia resumida do seu projeto junto com a proposta.</p>
         </div>
-        <ExampleFrame href={s.example.path} image={s.example.image} client={s.example.client} eager />
+        {s.example.path || !s.journey ? (
+          <ExampleFrame href={s.example.path} image={s.example.image} client={s.example.client} eager />
+        ) : (
+          <SolutionFlow solution={s} />
+        )}
       </div>
     </section>
 
+    {Astro.slots.has('fit') ? <slot name="fit" /> : (
     <section class="section" aria-label="Para quem é e o que está incluído">
       <div class="container fit">
         <div>
@@ -57,6 +63,7 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({
         </div>
       </div>
     </section>
+    )}
 
     <section class="section section--muted" aria-labelledby="como-title">
       <div class="container">
@@ -69,9 +76,9 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({
       </div>
     </section>
 
-    <Faq items={s.faq} />
+    <Faq items={s.faq} muted={false} />
 
-    <section class="section" aria-labelledby="outras-title">
+    <section class="section section--muted" aria-labelledby="outras-title">
       <div class="container">
         <div class="section-head">
           <h2 class="h2" id="outras-title">Outras soluções</h2>
@@ -149,6 +156,7 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({
     padding: 1rem 1.25rem;
     border: 1px solid var(--line);
     border-radius: var(--radius-card);
+    background: var(--bg);
     color: var(--ink);
     text-decoration: none;
     font-weight: 600;

@@ -1,5 +1,6 @@
 ---
-// Mostruário da home: uma aba por solução, cada uma com a captura do seu exemplo ilustrativo.
+// Mostruário da home: só exemplos que funcionam (example.path definido). As soluções sem exemplo ficam
+// fora até ganharem um, sem mudar esta estrutura. Com um só exemplo, as abas não aparecem.
 import ExampleFrame from '../ui/ExampleFrame.astro';
 import Icon from '../ui/Icon.astro';
 import { SOLUTIONS } from '../../data/solutions';
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const { class: className } = Astro.props;
+const items = SOLUTIONS.filter((s) => s.example.path);
+const tabbed = items.length > 1;
 
 const TAB_LABEL: Record<string, string> = {
   'landing-page-alto-padrao': 'Alto padrão',
@@ -20,8 +23,9 @@ const TAB_LABEL: Record<string, string> = {
 };
 ---
 <div class:list={['showcase', className]} data-showcase>
+  {tabbed && (
   <div class="showcase__tabs" role="tablist" aria-label="Exemplos por solução">
-    {SOLUTIONS.map((s, i) => (
+    {items.map((s, i) => (
       <button
         type="button"
         role="tab"
@@ -35,13 +39,14 @@ const TAB_LABEL: Record<string, string> = {
       </button>
     ))}
   </div>
+  )}
 
-  {SOLUTIONS.map((s, i) => (
+  {items.map((s, i) => (
     <div
       class="showcase__panel"
-      role="tabpanel"
+      role={tabbed ? 'tabpanel' : undefined}
       id={`panel-${s.slug}`}
-      aria-labelledby={`tab-${s.slug}`}
+      aria-labelledby={tabbed ? `tab-${s.slug}` : undefined}
       hidden={i !== 0}
       data-panel
     >

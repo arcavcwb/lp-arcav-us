@@ -26,7 +26,8 @@ export type IconName =
   | 'people'
   | 'ticket'
   | 'card'
-  | 'form';
+  | 'form'
+  | 'refresh';
 
 export const ICON_PATHS: Record<IconName, string> = {
   'arrow-right': '<path d="M5 12h14M13 6l6 6-6 6"/>',
@@ -58,4 +59,5 @@ export const ICON_PATHS: Record<IconName, string> = {
   gem: '<path d="M7 4h10l4 5-9 11L3 9z"/><path d="M3 9h18M10 4l2 16M14 4l-2 16"/>',
   chat: '<path d="M4.5 5.5h15a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H10l-4.5 3.5V16.5h-1a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z"/><path d="M8 10h8M8 13h5"/>',
   pin: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+  refresh: '<path d="M19.5 12a7.5 7.5 0 0 1-13 5.1M4.5 12a7.5 7.5 0 0 1 13-5.1"/><path d="M17.5 3v4h-4M6.5 21v-4h4"/>',
 };

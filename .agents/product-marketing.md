@@ -1,6 +1,6 @@
 # Product Marketing Context
 
-**Document version:** v4
+**Document version:** v5
 **Last updated:** 2026-11-21
 
 > Contexto compartido para las skills de marketing (copywriting, cro, marketing-psychology, social…).
@@ -10,7 +10,7 @@
 
 ## Product Overview
 **One-liner:** ARCAV transforma processos de negócio em produtos digitais simples, automatizados e fáceis de operar. Por Armando Castro, em Curitiba.
-**What it does:** ARCAV diseña y construye landing pages a medida para cuatro situaciones (marca o profesional de alto padrão, campañas, productos y lanzamientos, palestras y eventos), sitios de pedido por WhatsApp para comercios locales y automatizaciones o sistemas pequeños para procesos manuales. Cada solución tiene su página y un ejemplo ilustrativo para ver antes de decidir.
+**What it does:** ARCAV ofrece cinco servicios con el mismo peso (decisión de Armando, 2026-11-21): (1) **sitios institucionales** para empresas; (2) **migración y modernización**: sacar sitios de WordPress, Wix o plataformas viejas, mover hosting, dominio y correo, pasar datos y sistemas a una base nueva, y rediseñar el sitio actual; (3) **landing pages** en cuatro tipos (alto padrão, campañas, producto, palestras y eventos); (4) **sitios de pedido por WhatsApp** para comercios locales; (5) **sistemas y automatizaciones** para procesos manuales.
 **Product category:** Landing pages a medida y soluciones digitales para negocios (en el cajón de "criação de landing page", "site para empresa", "site para evento"; para comercio, "site com pedido pelo WhatsApp"; para procesos, "automação"). [CONFIRMAR términos de búsqueda]
 **Product type:** Servicio profesional productizado: proyecto único + planes mensuales de ofertas. Estudio de una persona (Armando) que no pretende ser una agencia grande.
 **Business model:**
@@ -186,6 +186,7 @@ No se ejecutan anuncios por ahora. Completar si se empieza.
 
 ## Changelog
 *Lo más nuevo arriba. Una línea por revisión: qué cambió y por qué.*
+- v5 (2026-11-21) — Oferta ampliada a cinco servicios con el mismo peso (se suman sitio institucional y migración); la home los ordena por situación del cliente, porque el sitio se leía como un estudio de landing pages.
 - v4 (2026-11-21) — Ejemplos reales en lugar de demos ficticias (placeholders mientras tanto); storytelling débil registrado como pendiente.
 - v3 (2026-11-21) — Reposicionamiento: de "solo comercio local" a seis soluciones (cuatro tipos de landing page + comercio + automatización), con ICP, personas, jobs y metas ampliados; corrección del usuario.
 - v2 (2026-11-21) — ICP enfocado en distribuidoras de gas y agua (caso Center Gás, se amplía después); meta de ~5 clientes en 3 meses; sin redes sociales por ahora; Armando como cliente de Center Gás añadido a Customer Language y Proof Points.

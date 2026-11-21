@@ -88,6 +88,12 @@ export const centerGasProposal: ProspectProposal = {
       action: 'Finalizar pelo WhatsApp',
       caption: 'Ilustração do fluxo. Não é uma captura de tela da demonstração.',
     },
+    live: {
+      empty: 'Monte um pedido no celular do início da página. Ele aparece aqui do jeito que chegaria no WhatsApp da Center Gás.',
+      cta: { href: '#demo', label: 'Montar um pedido' },
+      caption: 'O lado da loja: o pedido que você montou. Ilustração, não é o WhatsApp real da Center Gás.',
+      phoneCaption: 'Teste aqui mesmo. A demonstração completa abre em outra aba.',
+    },
   },
 
   offers: {
