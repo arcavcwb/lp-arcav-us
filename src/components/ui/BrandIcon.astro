@@ -1,0 +1,19 @@
+---
+// Logos de canais (Simple Icons, CC0). Usados só para indicar de onde vem o visitante
+// e onde chega o contato; não indicam parceria com as marcas.
+import { siWhatsapp, siGoogle, siInstagram, siMeta, siGooglesheets } from 'simple-icons';
+
+export type BrandName = 'whatsapp' | 'google' | 'instagram' | 'meta' | 'sheets';
+
+interface Props {
+  name: BrandName;
+  class?: string;
+}
+
+const ICONS = { whatsapp: siWhatsapp, google: siGoogle, instagram: siInstagram, meta: siMeta, sheets: siGooglesheets };
+const { name, class: className } = Astro.props;
+const icon = ICONS[name];
+---
+<svg class={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  <path d={icon.path} fill={`#${icon.hex}`} />
+</svg>

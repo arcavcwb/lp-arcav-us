@@ -27,3 +27,8 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .env.*
+
+# impeccable: estado local e imagens de referência de terceiros
+.impeccable/hook.cache.json
+.impeccable/chrome-profile*/
+.impeccable/reference/

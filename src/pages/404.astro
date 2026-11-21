@@ -1,0 +1,38 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/ui/Header.astro';
+import Footer from '../components/ui/Footer.astro';
+import Icon from '../components/ui/Icon.astro';
+import { mainNav } from '../data/site';
+
+const nav = mainNav('/');
+---
+<Layout title="Página não encontrada | ARCAV" description="Esta página não existe ou mudou de endereço." noindex>
+  <Header links={nav} cta={{ href: '/#contato', label: 'Fale comigo' }} />
+  <main id="conteudo" class="section">
+    <div class="container not-found">
+      <h1 class="h1">Esta página não existe ou mudou de endereço.</h1>
+      <p class="lead">Talvez o link esteja incompleto. Você pode voltar ao início ou ver as soluções da ARCAV.</p>
+      <div class="page-hero__actions">
+        <a class="btn btn--primary" href="/">
+          Ir para o início
+          <Icon name="arrow-right" />
+        </a>
+        <a class="btn btn--ghost" href="/#solucoes">Ver as soluções</a>
+      </div>
+    </div>
+  </main>
+  <Footer links={nav} />
+</Layout>
+
+<style>
+  .not-found {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 44rem;
+    min-height: 50vh;
+    align-content: center;
+  }
+</style>

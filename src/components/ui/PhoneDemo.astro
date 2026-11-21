@@ -1,0 +1,486 @@
+---
+// Demonstração interativa: o visitante monta um pedido de exemplo e vê a mensagem
+// do WhatsApp ficar pronta. Sem JavaScript, mostra o pedido inicial estático.
+import Icon from './Icon.astro';
+import type { DemoProduct } from '../../data/proposals/types';
+
+interface Props {
+  products: DemoProduct[];
+  storeName?: string;
+  storeNote?: string;
+  greeting?: string;
+  caption: string;
+  class?: string;
+  id?: string;
+  /** Próximo passo que aparece abaixo do celular depois de "Enviar pelo WhatsApp". */
+  next?: { href: string; label: string; external?: boolean };
+}
+
+const {
+  products,
+  storeName = 'Sua loja',
+  storeNote = 'Escolha os produtos e as quantidades',
+  greeting = 'Olá! Quero fazer um pedido:',
+  caption,
+  class: className,
+  id,
+  next,
+} = Astro.props;
+
+const initial = products.map((p) => ({ ...p, qty: p.qty ?? 0 }));
+const total = initial.reduce((sum, p) => sum + p.qty, 0);
+const summary = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 item no pedido' : `${n} itens no pedido`);
+---
+<figure
+  id={id}
+  class:list={['phone-demo', className]}
+  data-phone-demo
+  data-state="store"
+  style={`--rows: ${initial.length}`}
+>
+  <div class="phone">
+    <div class="phone__screen" role="group" aria-label="Demonstração: monte um pedido de exemplo">
+      <span class="phone__notch" aria-hidden="true"></span>
+
+      <div class="screen screen--store" data-view="store">
+        <div class="app-bar">
+          <div>
+            <strong class="app-bar__title">{storeName}</strong>
+            <span class="app-bar__note">{storeNote}</span>
+          </div>
+          <span class="cart-pill" aria-hidden="true">
+            <Icon name="cart" />
+            <span class="tnum" data-count>{total}</span>
+          </span>
+        </div>
+
+        <ul role="list" class="products">
+          {initial.map((p) => (
+            <li class="product" data-product data-name={p.name} data-qty={p.qty}>
+              <span class="product__text">
+                <strong>{p.name}</strong>
+                <span>{p.detail}</span>
+              </span>
+              <span class="stepper">
+                <button type="button" data-step="-1" aria-label={`Tirar um ${p.name}`}>
+                  <Icon name="minus" />
+                </button>
+                <span class="stepper__qty tnum" data-qty-label>{p.qty}</span>
+                <button type="button" data-step="1" aria-label={`Adicionar um ${p.name}`}>
+                  <Icon name="plus" />
+                </button>
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="checkout">
+          <span class="checkout__summary" data-summary aria-live="polite">{summary(total)}</span>
+          <button type="button" class="btn btn--primary checkout__btn" data-review disabled={total === 0}>
+            Revisar pedido
+            <Icon name="arrow-right" />
+          </button>
+        </div>
+      </div>
+
+      <div class="screen screen--message" data-view="message" aria-hidden="true" inert>
+        <div class="app-bar app-bar--message">
+          <button type="button" class="back" data-back aria-label="Voltar aos produtos">
+            <Icon name="back" />
+          </button>
+          <strong class="app-bar__title">Pedido pronto</strong>
+        </div>
+
+        <div class="bubble">
+          <p>{greeting}</p>
+          <ul role="list" class="bubble__lines tnum" data-lines>
+            {initial.filter((p) => p.qty > 0).map((p) => <li>{p.qty} × {p.name}</li>)}
+          </ul>
+        </div>
+
+        <div class="send">
+          <p class="send__hint" data-send-status role="status">
+            Na loja de verdade, este botão abre o WhatsApp com a mensagem já escrita.
+          </p>
+          <button type="button" class="btn send__btn" data-send>
+            <Icon name="send" />
+            Enviar pelo WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {next && (
+    <div class="phone-demo__next" data-next hidden>
+      <a
+        class="btn btn--primary"
+        href={next.href}
+        {...(next.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        data-analytics-event="demo_next_click"
+      >
+        {next.label}
+        <Icon name={next.external ? 'external' : 'arrow-right'} />
+        {next.external && <span class="visually-hidden">(abre em nova aba)</span>}
+      </a>
+    </div>
+  )}
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<script>
+  const label = (n: number) => (n === 0 ? 'Nenhum item ainda' : n === 1 ? '1 item no pedido' : `${n} itens no pedido`);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  document.querySelectorAll<HTMLElement>('[data-phone-demo]').forEach((root) => {
+    const store = root.querySelector<HTMLElement>('[data-view="store"]')!;
+    const message = root.querySelector<HTMLElement>('[data-view="message"]')!;
+    const count = root.querySelector<HTMLElement>('[data-count]')!;
+    const summary = root.querySelector<HTMLElement>('[data-summary]')!;
+    const review = root.querySelector<HTMLButtonElement>('[data-review]')!;
+    const lines = root.querySelector<HTMLElement>('[data-lines]')!;
+    const sendStatus = root.querySelector<HTMLElement>('[data-send-status]')!;
+    const products = [...root.querySelectorAll<HTMLElement>('[data-product]')];
+    const defaultHint = sendStatus.textContent;
+
+    const qtyOf = (el: HTMLElement) => Number(el.dataset.qty ?? 0);
+
+    const render = () => {
+      const total = products.reduce((sum, el) => sum + qtyOf(el), 0);
+      count.textContent = String(total);
+      summary.textContent = label(total);
+      review.disabled = total === 0;
+      lines.replaceChildren(
+        ...products
+          .filter((el) => qtyOf(el) > 0)
+          .map((el) => {
+            const li = document.createElement('li');
+            li.textContent = `${qtyOf(el)} × ${el.dataset.name}`;
+            return li;
+          }),
+      );
+    };
+
+    const show = (view: 'store' | 'message') => {
+      root.dataset.state = view;
+      const [on, off] = view === 'store' ? [store, message] : [message, store];
+      on.inert = false;
+      on.removeAttribute('aria-hidden');
+      off.inert = true;
+      off.setAttribute('aria-hidden', 'true');
+      if (view === 'message') {
+        sendStatus.textContent = defaultHint;
+        root.querySelector<HTMLButtonElement>('[data-back]')?.focus({ preventScroll: true });
+      } else {
+        review.focus({ preventScroll: true });
+      }
+    };
+
+    products.forEach((el) => {
+      const qtyLabel = el.querySelector<HTMLElement>('[data-qty-label]')!;
+      el.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const next = Math.min(9, Math.max(0, qtyOf(el) + Number(button.dataset.step)));
+          if (next === qtyOf(el)) return;
+          el.dataset.qty = String(next);
+          qtyLabel.textContent = String(next);
+          if (!reduceMotion.matches) {
+            qtyLabel.animate([{ transform: 'scale(1.35)' }, { transform: 'scale(1)' }], {
+              duration: 260,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            });
+          }
+          render();
+        });
+      });
+    });
+
+    review.addEventListener('click', () => show('message'));
+    root.querySelector('[data-back]')?.addEventListener('click', () => show('store'));
+    const next = root.querySelector<HTMLElement>('[data-next]');
+    root.querySelector('[data-send]')?.addEventListener('click', () => {
+      sendStatus.textContent = 'Pronto. Numa loja real, o pedido chegaria assim no WhatsApp do atendimento.';
+      if (next) {
+        next.hidden = false;
+        next.querySelector('a')?.focus({ preventScroll: true });
+      }
+    });
+
+    render();
+  });
+</script>
+
+<style>
+  .phone-demo {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+    margin: 0;
+  }
+
+  .phone {
+    width: min(100%, 19.75rem);
+    padding: 0.625rem;
+    border-radius: 2.75rem;
+    background: var(--dark);
+    box-shadow: var(--shadow-phone);
+  }
+
+  .phone__screen {
+    position: relative;
+    height: max(26rem, calc(15.5rem + var(--rows, 4) * 4.125rem));
+    overflow: hidden;
+    border-radius: 2.2rem;
+    background: var(--bg);
+  }
+
+  .phone__notch {
+    position: absolute;
+    top: 0.625rem;
+    left: 50%;
+    z-index: 3;
+    width: 5.25rem;
+    height: 1.375rem;
+    border-radius: 999px;
+    background: var(--dark);
+    transform: translateX(-50%);
+  }
+
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 2.75rem 1rem 1rem;
+    transition:
+      transform 0.4s var(--ease-out),
+      opacity 0.3s ease;
+  }
+
+  .screen--message {
+    transform: translateX(100%);
+    background: var(--bg);
+  }
+
+  [data-state='message'] .screen--store {
+    transform: translateX(-24%);
+    opacity: 0;
+  }
+
+  [data-state='message'] .screen--message {
+    transform: none;
+  }
+
+  .app-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 0.875rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .app-bar__title {
+    display: block;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .app-bar__note {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+
+  .cart-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.375rem 0.625rem;
+    border-radius: 999px;
+    background: var(--surface);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .cart-pill :global(svg) {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  .products {
+    display: grid;
+    align-content: start;
+  }
+
+  .product {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .product__text {
+    display: grid;
+    line-height: 1.3;
+  }
+
+  .product__text strong {
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .product__text span {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.125rem;
+    padding: 0.1875rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+  }
+
+  .stepper button {
+    display: grid;
+    place-items: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .stepper button:hover {
+    background: var(--surface);
+  }
+
+  .stepper button :global(svg) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .stepper__qty {
+    display: inline-block;
+    min-width: 1.25rem;
+    text-align: center;
+    font-size: 0.9375rem;
+    font-weight: 700;
+  }
+
+  .checkout {
+    display: grid;
+    gap: 0.625rem;
+    margin-top: auto;
+    padding-top: 0.875rem;
+  }
+
+  .checkout__summary {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .checkout__btn {
+    width: 100%;
+  }
+
+  .app-bar--message {
+    justify-content: flex-start;
+  }
+
+  .back {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-left: -0.375rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .back:hover {
+    background: var(--surface);
+  }
+
+  .back :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .bubble {
+    align-self: flex-end;
+    width: 88%;
+    margin-top: 1.25rem;
+    padding: 0.875rem 1rem;
+    border-radius: 14px 14px 4px 14px;
+    background: var(--surface);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .bubble__lines {
+    margin-top: 0.375rem;
+  }
+
+  .send {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: auto;
+  }
+
+  .send__hint {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  .send__btn {
+    width: 100%;
+    background: var(--ink);
+    color: var(--on-dark);
+  }
+
+  .send__btn:hover {
+    background: #34363c;
+  }
+
+  .phone-demo__next {
+    display: grid;
+    width: min(100%, 19.75rem);
+    animation: next-in 0.45s var(--ease-out);
+  }
+
+  .phone-demo__next[hidden] {
+    display: none;
+  }
+
+  @keyframes next-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  figcaption {
+    max-width: 19.75rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.45;
+  }
+
+</style>

@@ -1,0 +1,21 @@
+---
+import { home } from '../../data/site';
+
+const { method } = home;
+---
+<section class="section section--muted" id="metodo" aria-labelledby="metodo-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="h2" id="metodo-title">{method.title}</h2>
+    </div>
+
+    <ol class="steps steps--3">
+      {method.steps.map((step) => (
+        <li>
+          <strong>{step.title}</strong>
+          <p>{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

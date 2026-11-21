@@ -1,0 +1,148 @@
+---
+// O lado da loja: o pedido chega pronto ao WhatsApp e o atendimento continua com o comerciante.
+// Ilustração, não captura de tela.
+import Icon from './Icon.astro';
+import type { IllustrativeOrder } from '../../data/proposals/types';
+
+interface Props {
+  order: IllustrativeOrder;
+  greeting?: string;
+  reply?: string;
+  note?: string;
+}
+
+const {
+  order,
+  greeting = 'Olá! Quero fazer um pedido:',
+  reply = 'Recebido! Já vamos separar seu pedido.',
+  note = 'O atendimento continua com você, no WhatsApp de sempre.',
+} = Astro.props;
+---
+<figure class="order-message">
+  <div class="inbox">
+    <div class="inbox__head">
+      <span class="inbox__avatar" aria-hidden="true">C</span>
+      <p>
+        <strong>Cliente pelo site</strong>
+        <span>WhatsApp da loja · agora</span>
+      </p>
+    </div>
+
+    <div class="inbox__thread">
+      <div class="bubble bubble--in">
+        <p>{greeting}</p>
+        <ul role="list" class="tnum">
+          {order.items.map((item) => <li>{item.qty} × {item.name}</li>)}
+        </ul>
+      </div>
+      <div class="bubble bubble--out">
+        <p>{reply}</p>
+      </div>
+    </div>
+
+    <p class="inbox__note">
+      <Icon name="check" />
+      {note}
+    </p>
+  </div>
+  <figcaption>{order.caption}</figcaption>
+</figure>
+
+<style>
+  .order-message {
+    margin: 0;
+    display: grid;
+    gap: 0.875rem;
+  }
+
+  .inbox {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    border-radius: var(--radius-card);
+    background: var(--bg);
+    box-shadow: var(--shadow-raised);
+  }
+
+  .inbox__head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .inbox__avatar {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    background: var(--surface-strong);
+    font-weight: 700;
+  }
+
+  .inbox__head p {
+    display: grid;
+    line-height: 1.35;
+  }
+
+  .inbox__head strong {
+    font-weight: 600;
+  }
+
+  .inbox__head span {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .inbox__thread {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .bubble {
+    display: grid;
+    gap: 0.25rem;
+    max-width: 85%;
+    padding: 0.875rem 1rem;
+    line-height: 1.5;
+  }
+
+  .bubble ul {
+    font-weight: 600;
+  }
+
+  .bubble--in {
+    justify-self: start;
+    background: var(--surface);
+    border-radius: 14px 14px 14px 4px;
+  }
+
+  .bubble--out {
+    justify-self: end;
+    background: var(--ink);
+    color: var(--on-dark);
+    border-radius: 14px 14px 4px 14px;
+  }
+
+  .inbox__note {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .inbox__note :global(svg) {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex: none;
+    color: var(--accent);
+  }
+
+  figcaption {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+</style>
