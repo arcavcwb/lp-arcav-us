@@ -26,11 +26,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
-.agents/mcp_config.json
 .env.*
-!.env.example
-__pycache__/
-.agyflow-backups/
-pr_diff.txt
-review_report.md
-review_result.json
+
+# impeccable: estado local e imagens de referência de terceiros
+.impeccable/hook.cache.json
+.impeccable/chrome-profile*/
+.impeccable/reference/

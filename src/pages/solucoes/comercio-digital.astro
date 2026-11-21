@@ -1,0 +1,159 @@
+---
+export const prerender = true;
+
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/ui/Header.astro';
+import Footer from '../../components/ui/Footer.astro';
+import Icon from '../../components/ui/Icon.astro';
+import type { IconName } from '../../components/ui/icons';
+import PhoneDemo from '../../components/ui/PhoneDemo.astro';
+import OrderMessage from '../../components/ui/OrderMessage.astro';
+import Faq from '../../components/ui/Faq.astro';
+import ClosingContact from '../../components/ui/ClosingContact.astro';
+import { commerceService as page } from '../../data/commerce-service';
+import { SOLUTIONS } from '../../data/solutions';
+import { RESPONSE_TIME } from '../../lib/contact';
+
+const canonical = new URL(page.path, Astro.site).href;
+const pillarIcons: IconName[] = ['cart', 'tag', 'chart'];
+const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({ href: o.path, label: o.label })), { href: '#contato', label: 'Contato' }];
+---
+<Layout title={page.meta.title} description={page.meta.description} canonical={canonical}>
+  <Header cta={{ href: '#contato', label: page.hero.cta }} />
+
+  <main id="conteudo">
+    <section class="page-hero" aria-labelledby="hero-title">
+      <div class="container page-hero__grid">
+        <div>
+          <h1 class="h1" id="hero-title" style="view-transition-name: sol-comercio-digital">{page.hero.title}</h1>
+          <p class="lead">{page.hero.subtitle}</p>
+          <div class="page-hero__actions">
+            <a class="btn btn--primary" href="#contato">
+              {page.hero.cta}
+              <Icon name="arrow-right" />
+            </a>
+            <a class="btn btn--ghost" href="#demo">Testar o exemplo</a>
+          </div>
+          <p class="small hero-note">Resposta {RESPONSE_TIME}, sem compromisso.</p>
+        </div>
+        <PhoneDemo
+            id="demo"
+            products={page.demo.products}
+            caption={page.demo.caption}
+            next={{ href: '#contato', label: 'Quero isso na minha loja' }}
+          />
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="frentes-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2" id="frentes-title">{page.pillars.title}</h2>
+        </div>
+        <ul role="list" class="pillars">
+          {page.pillars.items.map((item, index) => (
+            <li class="card pillar">
+              <span class="icon-badge"><Icon name={pillarIcons[index] ?? 'check'} /></span>
+              <h3 class="h3">{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--muted" id="exemplo" aria-labelledby="exemplo-title">
+      <div class="container example">
+        <div>
+          <h2 class="h2" id="exemplo-title">{page.example.title}</h2>
+          <p class="lead">{page.example.text}</p>
+          <a class="btn btn--primary example__cta" href="#contato">
+            {page.hero.cta}
+            <Icon name="arrow-right" />
+          </a>
+        </div>
+        <OrderMessage order={page.example.order} />
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="processo-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2" id="processo-title">{page.process.title}</h2>
+        </div>
+        <ol class="steps steps--4 steps--text">
+          {page.process.steps.map((step) => (
+            <li><p>{step}</p></li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <Faq title={page.faq.title} items={page.faq.items} />
+
+    <ClosingContact
+      title={page.closing.title}
+      text={page.closing.text}
+      subject={page.closing.contactSubject}
+      variant="store"
+      waMessage={page.closing.contactMessage}
+    />
+  </main>
+
+  <Footer links={footerLinks} />
+</Layout>
+
+<style>
+  .pillars {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .pillar {
+    display: grid;
+    gap: 0.875rem;
+    align-content: start;
+  }
+
+  .pillar .icon-badge {
+    margin-bottom: 0.5rem;
+  }
+
+  .pillar p {
+    color: var(--muted);
+  }
+
+  .example {
+    display: grid;
+    gap: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+    align-items: center;
+  }
+
+  .example .lead {
+    margin-top: 1rem;
+  }
+
+  .hero-note {
+    margin-top: 1rem;
+  }
+
+  .example__cta {
+    margin-top: 1.75rem;
+  }
+
+  @media (min-width: 880px) {
+    .pillars {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .example {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    }
+  }
+
+  @media (max-width: 479px) {
+    .example__cta {
+      width: 100%;
+    }
+  }
+</style>

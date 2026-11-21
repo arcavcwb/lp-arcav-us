@@ -1,0 +1,16 @@
+---
+export const prerender = true;
+
+import ProposalPage from '../../components/proposal/ProposalPage.astro';
+import { centerGasProposal } from '../../data/proposals/center-gas';
+
+const canonical = new URL(`/propostas/${centerGasProposal.slug}/`, Astro.site).href;
+---
+<ProposalPage
+  proposal={centerGasProposal}
+  canonical={canonical}
+  demoProducts={[
+    { name: 'Gás P13', detail: 'Botijão de 13 kg', qty: 1 },
+    { name: 'Água 20 L', detail: 'Galão', qty: 1 },
+  ]}
+/>

@@ -1,0 +1,207 @@
+---
+import Icon from '../ui/Icon.astro';
+import SolutionDiagram from './SolutionDiagram.astro';
+import LandingFlow from './LandingFlow.astro';
+import { home } from '../../data/site';
+import { SOLUTIONS } from '../../data/solutions';
+
+const { services } = home;
+const groups = [
+  { title: 'Landing pages', items: SOLUTIONS.filter((s) => s.group === 'landing') },
+  { title: 'Também para o seu negócio', items: SOLUTIONS.filter((s) => s.group === 'extra') },
+];
+---
+<section class="section section--muted" id="solucoes" aria-labelledby="solucoes-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="h2" id="solucoes-title">{services.title}</h2>
+      <p class="lead">{services.subtitle}</p>
+    </div>
+
+    <div class="group">
+      <h3 class="group__title">Landing pages: o que você quer com a sua página?</h3>
+      <LandingFlow />
+    </div>
+
+    {groups.slice(1).map((group, gi) => (
+      <div class="group">
+        <h3 class="group__title" id={`grupo-${gi + 1}`}>{group.title}</h3>
+        <ul role="list" class:list={['tiles', { 'tiles--two': group.items.length === 2 }]} aria-labelledby={`grupo-${gi + 1}`} data-tiles>
+          {group.items.map((s) => (
+            <li>
+              <a class="tile" href={s.path}>
+                <span class="tile__figure">
+                  <SolutionDiagram slug={s.slug} />
+                </span>
+                <span class="tile__label" style={`view-transition-name: sol-${s.slug}`}>{s.label}</span>
+                <span class="tile__tagline">{s.tagline}</span>
+                <Icon name="arrow-right" class="tile__arrow" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  // Os esquemas se desenham uma vez, quando o grupo entra na tela.
+  const groups = document.querySelectorAll<HTMLElement>('[data-tiles]');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-drawn');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.35 },
+    );
+    groups.forEach((g) => io.observe(g));
+  } else {
+    groups.forEach((g) => g.classList.add('is-drawn'));
+  }
+</script>
+
+<style>
+  .group + .group {
+    margin-top: 2.5rem;
+  }
+
+  .group__title {
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .tiles {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .tile {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.375rem;
+    height: 100%;
+    padding: 1rem 3rem 1.25rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--bg);
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .tile:hover {
+    border-color: var(--ink);
+  }
+
+  .tile__figure {
+    display: block;
+    margin: 0 -1.75rem 0.75rem 0;
+    padding: 0.75rem;
+    border-radius: var(--radius-control);
+    background: var(--surface);
+  }
+
+  .tiles--two .tile {
+    grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+    column-gap: 1.25rem;
+    align-items: center;
+  }
+
+  .tiles--two .tile__figure {
+    grid-row: span 2;
+    margin: 0;
+  }
+
+  .tiles--two .tile__label {
+    align-self: end;
+  }
+
+  .tiles--two .tile__tagline {
+    align-self: start;
+  }
+
+  .tile__label {
+    font-size: 1.125rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .tile__tagline {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  .tile :global(.tile__arrow) {
+    position: absolute;
+    bottom: 1.4rem;
+    right: 1.25rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--muted);
+    transition: transform 0.2s var(--ease-out), color 0.15s ease;
+  }
+
+  .tile:hover :global(.tile__arrow) {
+    color: var(--accent);
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 639px) {
+    .tile,
+    .tiles--two .tile {
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+      column-gap: 1rem;
+      align-items: center;
+      padding: 0.75rem 2.75rem 0.75rem 0.75rem;
+    }
+
+    .tile__figure,
+    .tiles--two .tile__figure {
+      grid-row: span 2;
+      margin: 0;
+      padding: 0.375rem;
+    }
+
+    .tile__label {
+      align-self: end;
+      font-size: 1.0625rem;
+    }
+
+    .tile__tagline {
+      align-self: start;
+    }
+
+    .tile :global(.tile__arrow) {
+      top: 50%;
+      bottom: auto;
+      margin-top: -0.5625rem;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .tiles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .tiles {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .tiles--two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

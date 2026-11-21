@@ -1,0 +1,187 @@
+---
+// Página de uma solução da ARCAV: para quem é, o que inclui, o exemplo, como funciona, dúvidas e contato.
+import Layout from '../../layouts/Layout.astro';
+import Header from '../ui/Header.astro';
+import Footer from '../ui/Footer.astro';
+import Icon from '../ui/Icon.astro';
+import ExampleFrame from '../ui/ExampleFrame.astro';
+import Faq from '../ui/Faq.astro';
+import ClosingContact from '../ui/ClosingContact.astro';
+import { RESPONSE_TIME } from '../../lib/contact';
+import { SOLUTIONS, SOLUTION_STEPS, type Solution } from '../../data/solutions';
+
+interface Props {
+  solution: Solution;
+}
+
+const { solution: s } = Astro.props;
+const canonical = new URL(s.path, Astro.site).href;
+const others = SOLUTIONS.filter((o) => o.slug !== s.slug);
+const footerLinks = [{ href: '/', label: 'Início' }, ...SOLUTIONS.map((o) => ({ href: o.path, label: o.label })), { href: '#contato', label: 'Contato' }];
+---
+<Layout title={s.meta.title} description={s.meta.description} canonical={canonical}>
+  <Header cta={{ href: '#contato', label: 'Fale comigo' }} />
+
+  <main id="conteudo">
+    <section class="page-hero" aria-labelledby="hero-title">
+      <div class="container page-hero__grid solution-hero">
+        <div>
+          <h1 class="h1" id="hero-title" style={`view-transition-name: sol-${s.slug}`}>{s.hero.title}</h1>
+          <p class="lead">{s.hero.subtitle}</p>
+          <div class="page-hero__actions">
+            <a class="btn btn--primary" href="#contato">
+              {s.hero.cta}
+              <Icon name="arrow-right" />
+            </a>
+            {s.example.path && <a class="btn btn--ghost" href={s.example.path}>Ver o exemplo</a>}
+          </div>
+          <p class="small hero-note">Resposta {RESPONSE_TIME}, sem compromisso.</p>
+        </div>
+        <ExampleFrame href={s.example.path} image={s.example.image} client={s.example.client} eager />
+      </div>
+    </section>
+
+    <section class="section" aria-label="Para quem é e o que está incluído">
+      <div class="container fit">
+        <div>
+          <h2 class="h2">Para quem é</h2>
+          <ul role="list" class="fit__list">
+            {s.forWho.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h2 class="h2">O que está incluído</h2>
+          <ul role="list" class="fit__list fit__list--check">
+            {s.includes.map((item) => <li><Icon name="check" />{item}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--muted" aria-labelledby="como-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2" id="como-title">Como funciona</h2>
+        </div>
+        <ol class="steps steps--4 steps--text">
+          {SOLUTION_STEPS.map((step) => <li><p>{step}</p></li>)}
+        </ol>
+      </div>
+    </section>
+
+    <Faq items={s.faq} />
+
+    <section class="section" aria-labelledby="outras-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2" id="outras-title">Outras soluções</h2>
+        </div>
+        <ul role="list" class="others">
+          {others.map((o) => (
+            <li>
+              <a href={o.path}>
+                <span class="icon-badge"><Icon name={o.icon} /></span>
+                <span class="others__name">{o.name}</span>
+                <Icon name="arrow-right" class="others__arrow" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <ClosingContact
+      title="Vamos conversar sobre o seu projeto?"
+      text="Conte o que você precisa. Respondemos com os próximos passos, sem compromisso e sem jargão técnico."
+      subject={s.contact.subject}
+      messageLabel={s.contact.label}
+      messagePlaceholder={s.contact.placeholder}
+      submit={s.hero.cta}
+      waMessage={`Olá! Vi a página "${s.name}" da ARCAV e quero conversar sobre o meu projeto.`}
+    />
+  </main>
+
+  <Footer links={footerLinks} />
+</Layout>
+
+<style>
+  .hero-note {
+    margin-top: 1rem;
+  }
+
+  .fit {
+    display: grid;
+    gap: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  }
+
+  .fit__list {
+    display: grid;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--ink);
+  }
+
+  .fit__list li {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 1.0625rem;
+    font-weight: 500;
+  }
+
+  .fit__list--check :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
+    margin-top: 0.15em;
+    color: var(--accent);
+  }
+
+  .others {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .others a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    transition: border-color 0.15s ease;
+  }
+
+  .others a:hover {
+    border-color: var(--ink);
+  }
+
+  .others__name {
+    flex: 1;
+  }
+
+  .others :global(.others__arrow) {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--muted);
+  }
+
+  @media (min-width: 880px) {
+    .fit {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .others {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 960px) {
+    .solution-hero {
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    }
+  }
+</style>

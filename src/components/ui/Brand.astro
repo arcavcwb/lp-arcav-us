@@ -1,0 +1,53 @@
+---
+import { logoUrl as logo } from '../../lib/brand-assets';
+// Marca ARCAV. Se existir um arquivo em src/assets/brand/arcav-logo.(svg|png|webp),
+// ele substitui o wordmark de texto automaticamente no próximo build.
+interface Props {
+  /** Mostra "por Armando Castro" ao lado da marca. */
+  byline?: boolean;
+  tone?: 'light' | 'dark';
+}
+
+const { byline = true, tone = 'light' } = Astro.props;
+
+---
+<span class:list={['brand', `brand--${tone}`]}>
+  {logo ? (
+    <img class="brand__logo" src={logo} alt="ARCAV" height="28" />
+  ) : (
+    <span class="brand__word">ARCAV</span>
+  )}
+  {byline && <span class="brand__by">por Armando Castro</span>}
+</span>
+
+<style>
+  .brand {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.625rem;
+    white-space: nowrap;
+  }
+
+  .brand__word {
+    font-size: 1.375rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .brand__logo {
+    height: 1.75rem;
+    width: auto;
+    align-self: center;
+  }
+
+  .brand__by {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .brand--dark .brand__by {
+    color: var(--on-dark-muted);
+  }
+</style>

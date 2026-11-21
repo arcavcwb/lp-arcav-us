@@ -1,0 +1,53 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/**"
+        ],
+        "createdAt": "2026-11-21T11:46:52.864Z",
+        "reason": "Decision-round sketches; never shipped; each card sketches its own candidate world's fonts by design"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "src/pages/exemplos/**"
+        ],
+        "createdAt": "2026-11-21T13:04:13.833Z",
+        "reason": "Demos ilustrativas: cada uma é a identidade de um cliente fictício, fora do sistema da ARCAV de propósito"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "src/pages/exemplos/**"
+        ],
+        "createdAt": "2026-11-21T13:04:13.842Z",
+        "reason": "Demos ilustrativas: cada uma é a identidade de um cliente fictício, fora do sistema da ARCAV de propósito"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "src/pages/exemplos/**"
+        ],
+        "createdAt": "2026-11-21T13:04:13.852Z",
+        "reason": "Demos ilustrativas: cada uma é a identidade de um cliente fictício, fora do sistema da ARCAV de propósito"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "src/pages/exemplos/**"
+        ],
+        "createdAt": "2026-11-21T13:28:31.169Z",
+        "reason": "Demos ilustrativas: paleta própria de cada cliente fictício, fora do sistema da ARCAV de propósito"
+      }
+    ]
+  }
+}

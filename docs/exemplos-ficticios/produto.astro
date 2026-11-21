@@ -1,0 +1,2348 @@
+---
+// Demo ilustrativa: landing page de produto/lançamento para um app fictício (Agenda Viva,
+// agenda online para salões e barbearias). Ação principal: testar grátis por 14 dias;
+// ação secundária: falar com a equipe. Nenhum botão navega: ao clicar, aparece um aviso
+// de que é um exemplo. O mock do app é HTML/CSS, sem imagens.
+import DemoLayout from '../../layouts/DemoLayout.astro';
+
+export const prerender = true;
+
+const fontsHref =
+  'https://fonts.googleapis.com/css2?family=Gabarito:wght@500..800&family=Onest:wght@400..700&display=swap';
+
+type ChipTone = 'teal' | 'plum' | 'amber';
+type Pro = 'j' | 'r' | 'b';
+type SlotIcon = 'check' | 'send' | 'calendar-plus';
+
+interface Slot {
+  time: string;
+  duration: string;
+  client: string;
+  service: string;
+  pro?: Pro;
+  status?: string;
+  tone?: ChipTone;
+  icon?: SlotIcon;
+  free?: boolean;
+}
+
+interface Day {
+  label: string;
+  num: string;
+  busy?: boolean;
+  today?: boolean;
+}
+
+interface Step {
+  title: string;
+  text: string;
+}
+
+interface Plan {
+  id: string;
+  name: string;
+  tagline: string;
+  price: string;
+  items: string[];
+  cta: string;
+  featured?: boolean;
+}
+
+interface Faq {
+  q: string;
+  a: string;
+}
+
+const week: Day[] = [
+  { label: 'Seg', num: '10', busy: true },
+  { label: 'Ter', num: '11', busy: true },
+  { label: 'Qua', num: '12', busy: true },
+  { label: 'Qui', num: '13', busy: true },
+  { label: 'Sex', num: '14', today: true },
+  { label: 'Sáb', num: '15', busy: true },
+  { label: 'Dom', num: '16' },
+];
+
+const slots: Slot[] = [
+  {
+    time: '09:00',
+    duration: '45 min',
+    client: 'Marina Alves',
+    service: 'Corte e escova',
+    pro: 'j',
+    status: 'Confirmado',
+    tone: 'teal',
+    icon: 'check',
+  },
+  {
+    time: '10:00',
+    duration: '30 min',
+    client: 'Carlos Menezes',
+    service: 'Barba e acabamento',
+    pro: 'r',
+    status: 'Lembrete enviado',
+    tone: 'plum',
+    icon: 'send',
+  },
+  {
+    time: '11:15',
+    duration: '2 h',
+    client: 'Luana Prado',
+    service: 'Coloração',
+    pro: 'b',
+    status: 'Lembrete enviado',
+    tone: 'plum',
+    icon: 'send',
+  },
+  {
+    time: '13:30',
+    duration: '30 min',
+    client: 'Horário livre',
+    service: 'Lista de espera avisada',
+    free: true,
+  },
+  {
+    time: '14:00',
+    duration: '1 h',
+    client: 'Patrícia Rocha',
+    service: 'Manicure e pedicure',
+    pro: 'b',
+    status: 'Agendado online',
+    tone: 'amber',
+    icon: 'calendar-plus',
+  },
+];
+
+const steps: Step[] = [
+  {
+    title: 'Cadastre serviços e equipe',
+    text: 'Informe o que o salão oferece, quanto tempo leva cada serviço e quem atende em cada dia da semana.',
+  },
+  {
+    title: 'Divulgue seu link de agendamento',
+    text: 'Coloque o link na bio das redes sociais, no status do WhatsApp e no cartão do salão. A partir daí, os clientes marcam sozinhos.',
+  },
+  {
+    title: 'Deixe os lembretes com a gente',
+    text: 'Cada agendamento ganha um lembrete na véspera, e a equipe acompanha o dia pelo celular, sem caderno e sem planilha.',
+  },
+];
+
+const plans: Plan[] = [
+  {
+    id: 'solo',
+    name: 'Solo',
+    tagline: 'Para quem atende sozinho ou aluga uma cadeira.',
+    price: '49',
+    items: [
+      '1 profissional na agenda',
+      'Link de agendamento online',
+      'Lembretes automáticos no WhatsApp',
+      'Confirmação e remarcação pelo cliente',
+    ],
+    cta: 'Testar grátis por 14 dias',
+  },
+  {
+    id: 'equipe',
+    name: 'Equipe',
+    tagline: 'Para salões e barbearias com equipe fixa.',
+    price: '89',
+    featured: true,
+    items: [
+      'Até 6 profissionais',
+      'Tudo do plano Solo',
+      'Agenda do dia para cada profissional',
+      'Lista de espera automática',
+      'Ficha do cliente com histórico',
+    ],
+    cta: 'Testar grátis por 14 dias',
+  },
+  {
+    id: 'rede',
+    name: 'Rede',
+    tagline: 'Para quem tem mais de uma unidade.',
+    price: '149',
+    items: [
+      'Profissionais ilimitados',
+      'Tudo do plano Equipe',
+      'Várias unidades na mesma conta',
+      'Importação da agenda feita por nós',
+      'Atendimento prioritário',
+    ],
+    cta: 'Falar com a equipe',
+  },
+];
+
+const faqs: Faq[] = [
+  {
+    q: 'Preciso de um número de WhatsApp só para o salão?',
+    a: 'Não. Os lembretes podem sair de um número da Agenda Viva, sempre com o nome do seu salão na mensagem. Se preferir usar o número do próprio salão, a nossa equipe ajuda na configuração.',
+  },
+  {
+    q: 'Meus clientes precisam baixar algum aplicativo?',
+    a: 'Não. Eles marcam pelo seu link, que abre direto no navegador do celular, e recebem o lembrete no WhatsApp que já usam no dia a dia.',
+  },
+  {
+    q: 'O que acontece quando o teste grátis termina?',
+    a: 'Você escolhe um plano e continua de onde parou, com a agenda e os clientes do jeito que estavam. Como não pedimos cartão no cadastro, nada é cobrado sem você decidir.',
+  },
+  {
+    q: 'Dá para trazer a agenda que eu já uso?',
+    a: 'Dá. Você importa a lista de clientes de uma planilha e lança pelo painel os horários que já estão marcados. No plano Rede, a nossa equipe faz a importação para você.',
+  },
+];
+---
+
+<DemoLayout
+  title="Agenda Viva: agenda online para salões e barbearias"
+  description="Exemplo ilustrativo de landing page de produto criada pela ARCAV: Agenda Viva, app fictício de agendamento online com lembretes automáticos no WhatsApp para salões e barbearias."
+  solutionPath="/solucoes/landing-page-produto/"
+  fontsHref={fontsHref}
+  themeColor="#5a1f6e"
+>
+  <div class="av">
+    <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="av-i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></symbol>
+      <symbol id="av-i-send" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5" /><path d="M21 3l-6.5 18-4-7.5L3 9.5 21 3z" /></symbol>
+      <symbol id="av-i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 6.5 2.5 8 2.5 8h-17S6 15.5 6 9z" /><path d="M10.3 20.5a2 2 0 0 0 3.4 0" /></symbol>
+      <symbol id="av-i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4" /></symbol>
+      <symbol id="av-i-calendar-plus" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5" /></symbol>
+      <symbol id="av-i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></symbol>
+      <symbol id="av-i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M16 4.7a3.5 3.5 0 0 1 0 6.6M18.5 14.5c1.8.8 3 2.8 3 5.5" /></symbol>
+      <symbol id="av-i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.75" /><circle cx="6" cy="18" r="2.75" /><path d="M8.1 7.9 20 19.5M8.1 16.1 20 4.5" /></symbol>
+      <symbol id="av-i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+      <symbol id="av-i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+      <symbol id="av-i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></symbol>
+      <symbol id="av-i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><path d="M12 11v5M12 8h.01" /></symbol>
+    </svg>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="#inicio">
+          <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <rect width="32" height="32" rx="9" fill="#5a1f6e" />
+            <rect x="8.5" y="9" width="15" height="15" rx="3.5" fill="none" stroke="#ffffff" stroke-width="2" />
+            <path d="M8.5 13h15M12.5 7v3.5M19.5 7v3.5" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+            <path d="M12.6 18.4l2.4 2.4 4.4-4.4" fill="none" stroke="#efcffb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>Agenda Viva</span>
+        </a>
+        <nav class="nav" aria-label="Seções da página">
+          <a href="#funcionalidades">Funcionalidades</a>
+          <a href="#como-comecar">Como começar</a>
+          <a href="#planos">Planos</a>
+          <a href="#duvidas">Dúvidas</a>
+        </nav>
+        <button type="button" class="btn btn-primary btn-sm" data-demo-cta>Testar grátis</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <h1 id="hero-title">Agenda cheia e <span class="hl">menos cadeira vazia</span> por esquecimento.</h1>
+            <p class="hero-lede">
+              A Agenda Viva recebe agendamentos online a qualquer hora, lembra cada cliente pelo
+              WhatsApp e coloca o dia de trabalho da equipe na palma da mão.
+            </p>
+            <div class="cta-row">
+              <button type="button" class="btn btn-primary" data-demo-cta>
+                Testar grátis por 14 dias
+                <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#av-i-arrow" /></svg>
+              </button>
+              <button type="button" class="btn btn-secondary" data-demo-cta>Falar com a equipe</button>
+            </div>
+            <ul class="assure">
+              <li>
+                <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#av-i-check" /></svg>
+                Sem cartão de crédito
+              </li>
+              <li>
+                <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#av-i-check" /></svg>
+                Sem fidelidade
+              </li>
+              <li>
+                <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#av-i-check" /></svg>
+                Pronto para usar no mesmo dia
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="hero-visual"
+            role="img"
+            aria-label="Tela do aplicativo Agenda Viva com a agenda de sexta-feira da equipe: horários com nome do cliente, serviço e status como confirmado, lembrete enviado e agendado online, além de avisos de novo agendamento e de lembrete enviado."
+          >
+            <div class="stage"></div>
+
+            <div class="phone">
+              <div class="screen">
+                <span class="island"></span>
+                <div class="statusbar">
+                  <span>9:41</span>
+                  <svg class="sb-icons" viewBox="0 0 68 12" focusable="false">
+                    <rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor" />
+                    <rect x="4.5" y="6" width="3" height="6" rx="1" fill="currentColor" />
+                    <rect x="9" y="3.5" width="3" height="8.5" rx="1" fill="currentColor" />
+                    <rect x="13.5" y="1" width="3" height="11" rx="1" fill="currentColor" />
+                    <path d="M23.2 4.8a8.6 8.6 0 0 1 11.6 0M25.6 7.4a5.1 5.1 0 0 1 6.8 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="29" cy="10.2" r="1.5" fill="currentColor" />
+                    <rect x="42.5" y="1" width="21" height="10.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.5" />
+                    <rect x="44.5" y="3" width="15" height="6.5" rx="1.5" fill="currentColor" />
+                    <path d="M65.5 4.6v3.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.5" />
+                  </svg>
+                </div>
+
+                <div class="app-top">
+                  <span>
+                    <span class="app-salon">Espaço Lírio</span>
+                    <span class="app-date">Sexta, 14 de março</span>
+                  </span>
+                  <span class="app-add">
+                    <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-calendar-plus" /></svg>
+                  </span>
+                </div>
+
+                <div class="week">
+                  {week.map((day) => (
+                    <span class:list={['day', { 'is-today': day.today }]}>
+                      <span>{day.label}</span>
+                      <b>{day.num}</b>
+                      <span class:list={['dot', { 'is-empty': !day.busy && !day.today }]}></span>
+                    </span>
+                  ))}
+                </div>
+
+                <div class="list-head">
+                  <span>Agenda da equipe</span>
+                  <span class="stack">
+                    <span class="pro pro-j">J</span>
+                    <span class="pro pro-r">R</span>
+                    <span class="pro pro-b">B</span>
+                  </span>
+                </div>
+
+                <ol class="slots">
+                  {slots.map((slot) => (
+                    <li class:list={['slot', { 'slot-free': slot.free }]}>
+                      <span class="slot-time">
+                        <b>{slot.time}</b>
+                        <small>{slot.duration}</small>
+                      </span>
+                      <span class="slot-body">
+                        <span class="slot-name">{slot.client}</span>
+                        <span class="slot-meta">{slot.service}</span>
+                        {slot.status && (
+                          <span class:list={['chip', `chip-${slot.tone}`]}>
+                            <svg class="i" viewBox="0 0 24 24" focusable="false"><use href={`#av-i-${slot.icon}`} /></svg>
+                            {slot.status}
+                          </span>
+                        )}
+                      </span>
+                      {slot.pro ? (
+                        <span class:list={['pro', `pro-${slot.pro}`]}>{slot.pro.toUpperCase()}</span>
+                      ) : (
+                        <span class="slot-bell">
+                          <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-bell" /></svg>
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+
+                <div class="app-foot">
+                  <div class="tabbar">
+                    <span class="tab is-on">
+                      <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-calendar" /></svg>
+                      Agenda
+                    </span>
+                    <span class="tab">
+                      <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-users" /></svg>
+                      Clientes
+                    </span>
+                    <span class="tab">
+                      <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-scissors" /></svg>
+                      Serviços
+                    </span>
+                    <span class="tab">
+                      <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-menu" /></svg>
+                      Mais
+                    </span>
+                  </div>
+                  <span class="home-bar"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="note note-b">
+              <span class="note-ico tone-plum">
+                <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-calendar-plus" /></svg>
+              </span>
+              <span class="note-body">
+                <span class="note-title">Novo agendamento <small>há 2 min</small></span>
+                <span class="note-text">Patrícia marcou manicure e pedicure para hoje às 14:00.</span>
+              </span>
+            </div>
+
+            <div class="note note-a">
+              <span class="note-ico tone-teal">
+                <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-send" /></svg>
+              </span>
+              <span class="note-body">
+                <span class="note-title">Lembrete enviado <small>agora</small></span>
+                <span class="note-text">Para Renata Lopes: escova amanhã às 10:00.</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Funcionalidades -->
+      <section class="section" id="funcionalidades" aria-labelledby="features-title">
+        <div class="shell">
+          <div class="section-head">
+            <h2 id="features-title">Tudo o que acontece entre o agendamento e a cadeira</h2>
+            <p>A Agenda Viva assume a parte repetitiva da recepção, e a equipe fica livre para atender bem.</p>
+          </div>
+
+          <div class="features">
+            <article class="feature">
+              <div class="feature-visual" aria-hidden="true">
+                <div class="frag fb">
+                  <div class="fb-row">
+                    <span class="fb-label">Serviço</span>
+                    <span class="fb-value">Corte e escova</span>
+                  </div>
+                  <div class="fb-row">
+                    <span class="fb-label">Profissional</span>
+                    <span class="fb-value"><span class="pro pro-j pro-sm">J</span>Júlia</span>
+                  </div>
+                  <div class="fb-slots">
+                    <span class="fb-slot">09:00</span>
+                    <span class="fb-slot is-taken">09:45</span>
+                    <span class="fb-slot is-picked">10:30</span>
+                    <span class="fb-slot">11:15</span>
+                    <span class="fb-slot is-taken">14:00</span>
+                    <span class="fb-slot">14:45</span>
+                  </div>
+                  <span class="fb-confirm">Confirmar horário das 10:30</span>
+                </div>
+              </div>
+              <div class="feature-text">
+                <h3>Agendamento online a qualquer hora</h3>
+                <p>Seus clientes escolhem serviço, profissional e horário por um link, até de madrugada, sem esperar alguém atender o telefone.</p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature-visual" aria-hidden="true">
+                <div class="frag fm">
+                  <div class="fm-head">
+                    <span class="fm-avatar">EL</span>
+                    <span>
+                      <b>Espaço Lírio</b>
+                      <small>mensagem automática</small>
+                    </span>
+                  </div>
+                  <p class="fm-bubble">
+                    Oi, Marina! Passando para lembrar do seu horário amanhã: corte e escova com a Júlia, às 09:00.
+                    <span class="fm-time">18:00</span>
+                  </p>
+                  <div class="fm-replies">
+                    <span>Confirmar</span>
+                    <span>Remarcar</span>
+                  </div>
+                </div>
+              </div>
+              <div class="feature-text">
+                <h3>Lembretes automáticos no WhatsApp</h3>
+                <p>Na véspera, cada cliente recebe um lembrete e confirma ou remarca com um toque, sem ninguém da recepção precisar ligar.</p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature-visual" aria-hidden="true">
+                <div class="frag ft">
+                  <div class="ft-col">
+                    <span class="ft-who"><span class="pro pro-j pro-sm">J</span>Júlia</span>
+                    <span class="ft-block tone-plum">Corte<small>09:00</small></span>
+                    <span class="ft-block tone-plum">Escova<small>10:00</small></span>
+                    <span class="ft-block tone-free">Livre<small>11:00</small></span>
+                  </div>
+                  <div class="ft-col">
+                    <span class="ft-who"><span class="pro pro-r pro-sm">R</span>Rafa</span>
+                    <span class="ft-block tone-teal">Corte<small>09:00</small></span>
+                    <span class="ft-block tone-teal">Barba<small>10:00</small></span>
+                    <span class="ft-block tone-teal">Corte<small>10:30</small></span>
+                  </div>
+                  <div class="ft-col">
+                    <span class="ft-who"><span class="pro pro-b pro-sm">B</span>Bia</span>
+                    <span class="ft-block ft-tall tone-amber">Coloração<small>09:00</small></span>
+                    <span class="ft-block tone-amber">Manicure<small>11:00</small></span>
+                  </div>
+                </div>
+              </div>
+              <div class="feature-text">
+                <h3>O dia de cada profissional no celular</h3>
+                <p>A equipe abre a agenda e vê os próprios horários, serviços e observações do cliente, sem depender do caderno da recepção.</p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature-visual" aria-hidden="true">
+                <div class="frag fw">
+                  <div class="fw-free">
+                    <span class="fw-ico">
+                      <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-clock" /></svg>
+                    </span>
+                    <span>
+                      <b>Horário liberado</b>
+                      <small>Escova, sábado às 15:30</small>
+                    </span>
+                  </div>
+                  <ul class="fw-list">
+                    <li>
+                      <span class="pro pro-r pro-sm">R</span>
+                      <span class="fw-name">Renata Lopes</span>
+                      <span class="chip chip-teal">
+                        <svg class="i" viewBox="0 0 24 24" focusable="false"><use href="#av-i-check" /></svg>
+                        Confirmou
+                      </span>
+                    </li>
+                    <li>
+                      <span class="pro pro-j pro-sm">D</span>
+                      <span class="fw-name">Diego Faria</span>
+                      <span class="chip chip-soft">Avisado</span>
+                    </li>
+                    <li>
+                      <span class="pro pro-b pro-sm">C</span>
+                      <span class="fw-name">Camila Reis</span>
+                      <span class="chip chip-soft">Na fila</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="feature-text">
+                <h3>Lista de espera que ocupa os horários vagos</h3>
+                <p>Quando alguém desmarca, a Agenda Viva avisa quem está esperando, e o primeiro que aceitar fica com o horário.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Como começar -->
+      <section class="section steps-band" id="como-comecar" aria-labelledby="steps-title">
+        <div class="shell">
+          <div class="section-head">
+            <h2 id="steps-title">Do cadastro ao primeiro lembrete no mesmo dia</h2>
+            <p>Sem instalação e sem treinamento longo. Dá para configurar tudo pelo celular, entre um atendimento e outro.</p>
+          </div>
+          <ol class="steps">
+            {steps.map((step, index) => (
+              <li class="step">
+                <span class="step-num" aria-hidden="true">{index + 1}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- Planos -->
+      <section class="section" id="planos" aria-labelledby="plans-title">
+        <div class="shell">
+          <div class="section-head">
+            <h2 id="plans-title">Um plano para cada tamanho de salão</h2>
+            <p>Todos começam com 14 dias grátis, sem cartão de crédito. Sem fidelidade: troque de plano ou cancele quando quiser.</p>
+          </div>
+
+          <div class="plans">
+            {plans.map((plan) => (
+              <article class:list={['plan', { 'plan-featured': plan.featured }]} aria-labelledby={`plan-${plan.id}`}>
+                <div class="plan-head">
+                  <h3 id={`plan-${plan.id}`}>{plan.name}</h3>
+                  {plan.featured && <span class="plan-badge">Recomendado</span>}
+                </div>
+                <p class="plan-for">{plan.tagline}</p>
+                <p class="plan-price">
+                  <span class="cur">R$</span>
+                  <span class="amt">{plan.price}</span>
+                  <span class="per">/mês</span>
+                </p>
+                <ul class="plan-list">
+                  {plan.items.map((item) => (
+                    <li>
+                      <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#av-i-check" /></svg>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  class:list={['btn', 'btn-block', plan.featured ? 'btn-light' : 'btn-secondary']}
+                  data-demo-cta
+                >
+                  {plan.cta}
+                </button>
+              </article>
+            ))}
+          </div>
+          <p class="plans-note">Valores mensais por salão, sem taxa de adesão.</p>
+        </div>
+      </section>
+
+      <!-- Perguntas frequentes -->
+      <section class="section" id="duvidas" aria-labelledby="faq-title">
+        <div class="shell faq-layout">
+          <div class="faq-intro">
+            <h2 id="faq-title">Perguntas frequentes</h2>
+            <p>Ficou alguma dúvida sobre o teste ou sobre os lembretes? A equipe responde em horário comercial.</p>
+            <button type="button" class="btn btn-secondary" data-demo-cta>Falar com a equipe</button>
+          </div>
+          <div class="faq-list">
+            {faqs.map((faq) => (
+              <details class="faq-item">
+                <summary>
+                  <span>{faq.q}</span>
+                  <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#av-i-chevron" /></svg>
+                </summary>
+                <p class="faq-answer">{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA final -->
+      <section class="final" aria-labelledby="final-title">
+        <div class="shell">
+          <div class="final-panel">
+            <h2 id="final-title">Comece a próxima semana com a agenda cheia.</h2>
+            <p>
+              Crie a conta, cadastre os serviços e mande o link para os clientes ainda hoje.
+              O teste é completo e não pede cartão de crédito.
+            </p>
+            <div class="cta-row">
+              <button type="button" class="btn btn-light" data-demo-cta>Testar grátis por 14 dias</button>
+              <button type="button" class="btn btn-ghost-light" data-demo-cta>Falar com a equipe</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <div class="footer-brand">
+          <a class="brand" href="#inicio">
+            <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+              <rect width="32" height="32" rx="9" fill="#5a1f6e" />
+              <rect x="8.5" y="9" width="15" height="15" rx="3.5" fill="none" stroke="#ffffff" stroke-width="2" />
+              <path d="M8.5 13h15M12.5 7v3.5M19.5 7v3.5" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+              <path d="M12.6 18.4l2.4 2.4 4.4-4.4" fill="none" stroke="#efcffb" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Agenda Viva</span>
+          </a>
+          <p>Agendamento online e lembretes automáticos para salões, barbearias e estúdios de beleza.</p>
+        </div>
+        <nav class="footer-nav" aria-label="Rodapé">
+          <a href="#funcionalidades">Funcionalidades</a>
+          <a href="#como-comecar">Como começar</a>
+          <a href="#planos">Planos</a>
+          <a href="#duvidas">Dúvidas</a>
+        </nav>
+      </div>
+      <div class="shell footer-legal">
+        <p>© Agenda Viva. Marca e produto fictícios, criados para demonstração.</p>
+      </div>
+    </footer>
+
+    <div class="toast-region" role="status" aria-live="polite" aria-atomic="true">
+      <p class="toast" data-demo-toast>
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#av-i-info" /></svg>
+        <span data-demo-toast-text></span>
+      </p>
+    </div>
+  </div>
+</DemoLayout>
+
+<style is:global>
+  html,
+  body {
+    background: #fbf9fc;
+    color: #1f1626;
+    font-family: 'Onest', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+</style>
+
+<style>
+  /* ---------- Tokens ---------- */
+  .av {
+    --plum-950: #1d0a26;
+    --plum-900: #2b1036;
+    --plum-800: #3f1650;
+    --plum-700: #5a1f6e;
+    --plum-600: #6c2985;
+    --plum-500: #8b45a5;
+    --plum-300: #cfaee0;
+    --plum-200: #e6d4ee;
+    --plum-100: #f2e8f6;
+    --plum-50: #f9f4fb;
+    --ink: #1f1626;
+    --ink-2: #3a3042;
+    --muted: #5b5063;
+    --muted-2: #6f6577;
+    --line: #e7dfeb;
+    --line-strong: #d6cbdc;
+    --bg: #fbf9fc;
+    --surface: #ffffff;
+    --teal-700: #0b6b73;
+    --teal-100: #dcf1f1;
+    --amber-700: #8a4b00;
+    --amber-100: #fcefd9;
+    --focus: #8b45a5;
+    --font-display: 'Gabarito', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Onest', ui-sans-serif, system-ui, sans-serif;
+
+    position: relative;
+    overflow-x: clip;
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .shell {
+    width: min(1200px, 100% - 2 * clamp(1rem, 4vw, 2.5rem));
+    margin-inline: auto;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  .i {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0.75rem 1.375rem;
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    appearance: none;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .btn .i {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .btn:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  .btn-primary {
+    background: var(--plum-700);
+    color: #ffffff;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 10px 22px -12px rgba(90, 31, 110, 0.75);
+  }
+
+  .btn-primary:hover {
+    background: var(--plum-600);
+  }
+
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--plum-700);
+    border-color: var(--line-strong);
+  }
+
+  .btn-secondary:hover {
+    background: var(--plum-50);
+    border-color: var(--plum-500);
+  }
+
+  .btn-light {
+    background: #ffffff;
+    color: var(--plum-800);
+  }
+
+  .btn-light:hover {
+    background: var(--plum-100);
+  }
+
+  .btn-ghost-light {
+    background: transparent;
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+
+  .btn-ghost-light:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .btn-sm {
+    min-height: 44px;
+    padding: 0.5rem 1.125rem;
+    font-size: 0.9375rem;
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 479px) {
+    .cta-row .btn {
+      width: 100%;
+    }
+  }
+
+  /* ---------- Header ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 68px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 44px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    text-decoration: none;
+    border-radius: 10px;
+  }
+
+  .brand-mark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  @media (min-width: 880px) {
+    .nav {
+      display: flex;
+      gap: 0.25rem;
+    }
+  }
+
+  .nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.875rem;
+    border-radius: 999px;
+    color: var(--ink-2);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .nav a:hover {
+    background: var(--plum-100);
+    color: var(--plum-700);
+  }
+
+  .brand:focus-visible,
+  .nav a:focus-visible,
+  .footer-nav a:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero,
+  .section {
+    scroll-margin-top: 72px;
+  }
+
+  .hero {
+    padding-block: clamp(2.5rem, 1.75rem + 3.5vw, 5rem) clamp(3.5rem, 2.5rem + 4vw, 6rem);
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+    align-items: center;
+  }
+
+  @media (min-width: 1080px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+    }
+  }
+
+  .hero-copy {
+    max-width: 36rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.25rem, 1.5rem + 3.4vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+  }
+
+  .hl {
+    color: var(--plum-700);
+  }
+
+  .hero-lede {
+    margin-top: 1.25rem;
+    max-width: 33rem;
+    color: var(--muted);
+    font-size: clamp(1.0625rem, 1rem + 0.45vw, 1.25rem);
+    line-height: 1.55;
+  }
+
+  .hero .cta-row {
+    margin-top: 2rem;
+  }
+
+  .assure {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin-top: 1.5rem;
+    padding: 0;
+    list-style: none;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .assure li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .assure .i {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--plum-600);
+  }
+
+  /* Composição do mock */
+  .hero-visual {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-inline: auto;
+    padding: 0 0 2.25rem;
+  }
+
+  .stage {
+    position: absolute;
+    inset: 9% 0 0 0;
+    border-radius: clamp(24px, 4vw, 36px);
+    background-color: var(--plum-100);
+    background-image: radial-gradient(circle at 1px 1px, rgba(90, 31, 110, 0.16) 1px, transparent 1.4px);
+    background-size: 20px 20px;
+  }
+
+  .phone {
+    position: relative;
+    z-index: 1;
+    width: min(92%, 312px);
+    margin-inline: auto;
+    padding: 9px;
+    border-radius: 48px;
+    background: #1a1220;
+    box-shadow:
+      inset 0 0 0 1px #3b3042,
+      inset 0 0 0 3px #120c16,
+      0 2px 4px rgba(29, 10, 38, 0.12),
+      0 24px 40px -18px rgba(29, 10, 38, 0.4),
+      0 60px 90px -40px rgba(90, 31, 110, 0.5);
+  }
+
+  .screen {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 39px;
+    background: #f6f2f8;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .island {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 84px;
+    height: 24px;
+    margin-left: -42px;
+    border-radius: 999px;
+    background: #0d0a0f;
+  }
+
+  .statusbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px;
+    padding: 4px 22px 0 30px;
+    font-size: 13.5px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sb-icons {
+    width: 62px;
+    height: 12px;
+    color: var(--ink);
+  }
+
+  .app-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 16px 12px;
+  }
+
+  .app-salon {
+    display: block;
+    color: var(--muted);
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .app-date {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .app-add {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: var(--plum-700);
+    color: #ffffff;
+  }
+
+  .app-add .i {
+    width: 18px;
+    height: 18px;
+  }
+
+  .week {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+    padding: 0 12px 10px;
+  }
+
+  .day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 0 7px;
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 10.5px;
+  }
+
+  .day b {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dot {
+    display: block;
+    width: 4px;
+    height: 4px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: var(--plum-300);
+  }
+
+  .dot.is-empty {
+    background: transparent;
+  }
+
+  .day.is-today {
+    background: var(--plum-700);
+    color: #ecdcf4;
+  }
+
+  .day.is-today b {
+    color: #ffffff;
+  }
+
+  .day.is-today .dot {
+    background: #ffffff;
+  }
+
+  .list-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px 8px;
+    border-top: 1px solid #ebe4ef;
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .stack {
+    display: flex;
+  }
+
+  .stack .pro {
+    box-shadow: 0 0 0 2px #f6f2f8;
+  }
+
+  .stack .pro + .pro {
+    margin-left: -6px;
+  }
+
+  .pro {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    flex: none;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .pro-sm {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .pro-j {
+    background: var(--plum-100);
+    color: var(--plum-700);
+  }
+
+  .pro-r {
+    background: var(--teal-100);
+    color: var(--teal-700);
+  }
+
+  .pro-b {
+    background: var(--amber-100);
+    color: var(--amber-700);
+  }
+
+  .slots {
+    display: grid;
+    gap: 6px;
+    margin: 0;
+    padding: 0 12px 14px;
+    list-style: none;
+  }
+
+  .slot {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 24px;
+    column-gap: 10px;
+    align-items: start;
+    padding: 10px 10px 10px 12px;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow:
+      0 0 0 1px rgba(43, 16, 54, 0.05),
+      0 1px 2px rgba(43, 16, 54, 0.06);
+  }
+
+  .slot-time b {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .slot-time small {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .slot-body {
+    display: block;
+    min-width: 0;
+  }
+
+  .slot-name,
+  .slot-meta {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .slot-name {
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .slot-meta {
+    margin-top: 1px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .slot .chip {
+    margin-top: 7px;
+  }
+
+  .slot-free {
+    background: transparent;
+    box-shadow: none;
+    border: 1.5px dashed #cdbfd5;
+  }
+
+  .slot-free .slot-name {
+    color: var(--plum-700);
+  }
+
+  .slot-bell {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    color: var(--plum-600);
+  }
+
+  .slot-bell .i {
+    width: 16px;
+    height: 16px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .chip .i {
+    width: 12px;
+    height: 12px;
+    stroke-width: 2.4;
+  }
+
+  .chip-teal {
+    background: var(--teal-100);
+    color: var(--teal-700);
+  }
+
+  .chip-plum {
+    background: var(--plum-100);
+    color: var(--plum-700);
+  }
+
+  .chip-amber {
+    background: var(--amber-100);
+    color: var(--amber-700);
+  }
+
+  .chip-soft {
+    background: #f1edf3;
+    color: var(--muted);
+  }
+
+  .app-foot {
+    margin-top: auto;
+    border-top: 1px solid #ebe4ef;
+    background: #ffffff;
+  }
+
+  .tabbar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 8px 6px 2px;
+  }
+
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: var(--muted-2);
+    font-size: 10.5px;
+    font-weight: 500;
+  }
+
+  .tab .i {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tab.is-on {
+    color: var(--plum-700);
+    font-weight: 600;
+  }
+
+  .home-bar {
+    display: block;
+    width: 108px;
+    height: 4px;
+    margin: 8px auto;
+    border-radius: 999px;
+    background: var(--ink);
+  }
+
+  /* Avisos flutuantes sobre o mock */
+  .note {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: min(290px, 94%);
+    padding: 12px 14px 12px 12px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow:
+      0 4px 10px -4px rgba(43, 16, 54, 0.12),
+      0 24px 48px -20px rgba(43, 16, 54, 0.4);
+    line-height: 1.35;
+  }
+
+  .note-ico {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    flex: none;
+    border-radius: 10px;
+  }
+
+  .note-ico .i {
+    width: 18px;
+    height: 18px;
+  }
+
+  .tone-plum {
+    background: var(--plum-100);
+    color: var(--plum-700);
+  }
+
+  .tone-teal {
+    background: var(--teal-100);
+    color: var(--teal-700);
+  }
+
+  .tone-amber {
+    background: var(--amber-100);
+    color: var(--amber-700);
+  }
+
+  .note-body {
+    display: block;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .note-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    color: var(--ink);
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .note-title small {
+    flex: none;
+    color: var(--muted);
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .note-text {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 12.5px;
+  }
+
+  .note-a {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin-inline: auto;
+  }
+
+  .note-b {
+    display: none;
+  }
+
+  @media (min-width: 600px) {
+    .hero-visual {
+      padding: 1.5rem 0 2.5rem;
+    }
+
+    .note {
+      width: clamp(208px, 20vw, 244px);
+    }
+
+    .note-a {
+      top: 27%;
+      right: 0;
+      bottom: auto;
+      left: auto;
+      margin: 0;
+    }
+
+    .note-b {
+      display: flex;
+      bottom: 7%;
+      left: 0;
+    }
+  }
+
+  @media (min-width: 1080px) {
+    .note-a {
+      right: -28px;
+    }
+
+    .note-b {
+      left: -40px;
+    }
+  }
+
+  /* ---------- Seções ---------- */
+  .section {
+    padding-block: clamp(4rem, 3rem + 5vw, 7rem);
+  }
+
+  .section-head {
+    max-width: 44rem;
+    margin-bottom: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  }
+
+  .section-head h2,
+  .faq-intro h2,
+  .final-panel h2 {
+    font-size: clamp(1.875rem, 1.3rem + 2.3vw, 3rem);
+  }
+
+  .section-head p {
+    max-width: 38rem;
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  }
+
+  /* ---------- Funcionalidades ---------- */
+  .features {
+    display: grid;
+    gap: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  }
+
+  @media (min-width: 760px) {
+    .features {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .feature {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+
+  .feature-visual {
+    display: grid;
+    place-items: center;
+    min-height: 236px;
+    padding: clamp(1rem, 0.75rem + 1.5vw, 2rem) clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+    border-radius: 18px;
+    background-color: var(--plum-50);
+    background-image: radial-gradient(circle at 1px 1px, rgba(90, 31, 110, 0.12) 1px, transparent 1.4px);
+    background-size: 18px 18px;
+  }
+
+  .feature-text {
+    padding: 0 0.75rem 0.75rem;
+  }
+
+  .feature h3 {
+    font-size: clamp(1.1875rem, 1.05rem + 0.5vw, 1.375rem);
+  }
+
+  .feature-text p {
+    max-width: 44ch;
+    margin-top: 0.5rem;
+    color: var(--muted);
+  }
+
+  .frag {
+    width: min(100%, 300px);
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow:
+      0 2px 4px rgba(43, 16, 54, 0.05),
+      0 16px 32px -20px rgba(43, 16, 54, 0.35);
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  /* Fragmento: agendamento */
+  .fb-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fb-row:first-child {
+    padding-top: 0;
+  }
+
+  .fb-label {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .fb-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+  }
+
+  .fb-slots {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .fb-slot {
+    display: grid;
+    place-items: center;
+    height: 32px;
+    border: 1px solid var(--line-strong);
+    border-radius: 9px;
+    color: var(--ink-2);
+    font-size: 12.5px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fb-slot.is-taken {
+    border-color: transparent;
+    background: #f4f1f6;
+    color: var(--muted-2);
+    text-decoration: line-through;
+  }
+
+  .fb-slot.is-picked {
+    border-color: var(--plum-700);
+    background: var(--plum-700);
+    color: #ffffff;
+  }
+
+  .fb-confirm {
+    display: grid;
+    place-items: center;
+    height: 36px;
+    margin-top: 12px;
+    border-radius: 10px;
+    background: var(--plum-700);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* Fragmento: mensagem */
+  .fm-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fm-head b,
+  .fm-head small {
+    display: block;
+  }
+
+  .fm-head b {
+    font-size: 13px;
+  }
+
+  .fm-head small {
+    color: var(--muted);
+    font-size: 11.5px;
+  }
+
+  .fm-avatar {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--plum-700);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .fm-bubble {
+    margin-top: 12px;
+    padding: 10px 12px 8px;
+    border: 1px solid var(--plum-100);
+    border-radius: 4px 14px 14px 14px;
+    background: var(--plum-50);
+    font-size: 13px;
+  }
+
+  .fm-time {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+    text-align: right;
+  }
+
+  .fm-replies {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .fm-replies span {
+    display: grid;
+    place-items: center;
+    height: 32px;
+    border: 1px solid var(--plum-200);
+    border-radius: 10px;
+    background: #ffffff;
+    color: var(--plum-700);
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .fm-replies span:first-child {
+    border-color: var(--plum-700);
+    background: var(--plum-700);
+    color: #ffffff;
+  }
+
+  /* Fragmento: agenda da equipe */
+  .ft {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .ft-col {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+    min-width: 0;
+  }
+
+  .ft-who {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ft-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    height: 44px;
+    padding: 6px 7px;
+    overflow: hidden;
+    border-radius: 8px;
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .ft-block small {
+    font-size: 10.5px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ft-block.ft-tall {
+    height: 94px;
+  }
+
+  .ft-block.tone-free {
+    border: 1.5px dashed var(--line-strong);
+    background: transparent;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* Fragmento: lista de espera */
+  .fw-free {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1.5px dashed var(--plum-300);
+    border-radius: 12px;
+    background: var(--plum-50);
+  }
+
+  .fw-free b,
+  .fw-free small {
+    display: block;
+  }
+
+  .fw-free b {
+    font-size: 13px;
+  }
+
+  .fw-free small {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .fw-ico {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    flex: none;
+    border: 1px solid var(--plum-200);
+    border-radius: 9px;
+    background: #ffffff;
+    color: var(--plum-700);
+  }
+
+  .fw-ico .i {
+    width: 18px;
+    height: 18px;
+  }
+
+  .fw-list {
+    display: grid;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .fw-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 2px;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .fw-list li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .fw-name {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .fw-list .chip {
+    margin-left: auto;
+  }
+
+  /* ---------- Como começar ---------- */
+  .steps-band {
+    border-block: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .steps {
+    display: grid;
+    gap: 2.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 760px) {
+    .steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2.5rem;
+    }
+  }
+
+  .step {
+    position: relative;
+  }
+
+  .step-num {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--plum-200);
+    border-radius: 50%;
+    background: var(--plum-100);
+    color: var(--plum-700);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  @media (min-width: 760px) {
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 24px;
+      right: -1.25rem;
+      left: 64px;
+      border-top: 2px dashed var(--plum-200);
+    }
+  }
+
+  .step h3 {
+    margin-top: 1.25rem;
+    font-size: clamp(1.125rem, 1rem + 0.45vw, 1.3125rem);
+  }
+
+  .step p {
+    max-width: 36ch;
+    margin-top: 0.5rem;
+    color: var(--muted);
+  }
+
+  /* ---------- Planos ---------- */
+  .plans {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 32rem;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 960px) {
+    .plans {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: none;
+    }
+  }
+
+  .plan {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+  }
+
+  .plan-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .plan h3 {
+    font-size: 1.375rem;
+  }
+
+  .plan-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 999px;
+    background: #f0d9fa;
+    color: var(--plum-800);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .plan-for {
+    margin-top: -0.5rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    font-family: var(--font-display);
+  }
+
+  .plan-price .cur {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .plan-price .amt {
+    font-size: clamp(2.5rem, 2rem + 1.6vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .plan-price .per {
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 1rem;
+  }
+
+  .plan-list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+    font-size: 0.9688rem;
+  }
+
+  .plan-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+  }
+
+  .plan-list .i {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.125rem;
+    color: var(--plum-600);
+  }
+
+  .plan .btn {
+    margin-top: auto;
+  }
+
+  .plan-featured {
+    --focus: #ecd0f8;
+    border-color: var(--plum-900);
+    background: var(--plum-900);
+    color: #ffffff;
+    box-shadow: 0 32px 60px -32px rgba(43, 16, 54, 0.7);
+  }
+
+  .plan-featured .plan-for,
+  .plan-featured .plan-price .per {
+    color: #dccbe5;
+  }
+
+  .plan-featured .plan-list {
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  .plan-featured .plan-list .i {
+    color: #e3bff2;
+  }
+
+  .plans-note {
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+    text-align: center;
+  }
+
+  /* ---------- Perguntas frequentes ---------- */
+  .faq-layout {
+    display: grid;
+    gap: 2rem;
+  }
+
+  @media (min-width: 960px) {
+    .faq-layout {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+
+  .faq-intro p {
+    max-width: 30rem;
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  }
+
+  .faq-intro .btn {
+    margin-top: 1.5rem;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+  }
+
+  .faq-item[open] {
+    border-color: var(--plum-200);
+  }
+
+  .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 56px;
+    padding: 1rem 1.25rem;
+    border-radius: 16px;
+    font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+    font-weight: 600;
+    line-height: 1.4;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary:hover {
+    color: var(--plum-700);
+  }
+
+  .faq-item summary:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  .faq-item summary .i {
+    color: var(--plum-600);
+  }
+
+  .faq-item[open] summary .i {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    max-width: 60ch;
+    padding: 0 1.25rem 1.25rem;
+    color: var(--muted);
+  }
+
+  /* ---------- CTA final ---------- */
+  .final {
+    padding-bottom: clamp(4rem, 3rem + 4vw, 6rem);
+  }
+
+  .final-panel {
+    --focus: #ecd0f8;
+    position: relative;
+    overflow: hidden;
+    padding: clamp(2.75rem, 2rem + 4vw, 5rem) clamp(1.25rem, 0.75rem + 4vw, 5rem);
+    border-radius: clamp(20px, 3vw, 32px);
+    background-color: var(--plum-900);
+    background-image:
+      radial-gradient(60% 90% at 100% 0%, rgba(139, 69, 165, 0.45), transparent 70%),
+      radial-gradient(50% 80% at 0% 100%, rgba(108, 41, 133, 0.4), transparent 70%);
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .final-panel h2 {
+    max-width: 20ch;
+    margin-inline: auto;
+  }
+
+  .final-panel p {
+    max-width: 36rem;
+    margin: 1rem auto 0;
+    color: #e3d4ea;
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  }
+
+  .final-panel .cta-row {
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  /* ---------- Rodapé ---------- */
+  .site-footer {
+    padding-block: 2.5rem 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem 3rem;
+  }
+
+  .footer-brand p {
+    max-width: 34ch;
+    margin-top: 0.5rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.25rem;
+    margin-left: -0.75rem;
+  }
+
+  .footer-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.75rem;
+    border-radius: 8px;
+    color: var(--ink-2);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .footer-nav a:hover {
+    color: var(--plum-700);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .footer-legal {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  /* ---------- Aviso de exemplo (toast) ---------- */
+  .toast-region {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem max(1rem, env(safe-area-inset-bottom));
+    pointer-events: none;
+  }
+
+  .toast {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    max-width: 30rem;
+    padding: 0.875rem 1.125rem;
+    border-radius: 14px;
+    background: var(--ink);
+    color: #ffffff;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    box-shadow: 0 18px 40px -16px rgba(31, 22, 38, 0.55);
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  .toast.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .toast .i {
+    color: var(--plum-300);
+  }
+
+  /* ---------- Movimento ---------- */
+  @keyframes note-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .note-a {
+      animation: note-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.9s both;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn,
+    .nav a,
+    .toast {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const MESSAGE = 'Exemplo: num site real, este botão levaria ao cadastro.';
+  const VISIBLE_MS = 4500;
+
+  function initDemoCtas(): void {
+    const toast = document.querySelector<HTMLElement>('[data-demo-toast]');
+    const toastText = document.querySelector<HTMLElement>('[data-demo-toast-text]');
+    if (!toast || !toastText) return;
+
+    let hideTimer: number | undefined;
+    let clearTimer: number | undefined;
+
+    const hide = (): void => {
+      toast.classList.remove('is-visible');
+      window.clearTimeout(clearTimer);
+      clearTimer = window.setTimeout(() => {
+        toastText.textContent = '';
+      }, 250);
+    };
+
+    const show = (): void => {
+      window.clearTimeout(hideTimer);
+      window.clearTimeout(clearTimer);
+      // Limpa e preenche de novo para o leitor de tela anunciar a cada clique.
+      toastText.textContent = '';
+      window.requestAnimationFrame(() => {
+        toastText.textContent = MESSAGE;
+        toast.classList.add('is-visible');
+      });
+      hideTimer = window.setTimeout(hide, VISIBLE_MS);
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-demo-cta]').forEach((button) => {
+      button.addEventListener('click', (event: MouseEvent) => {
+        event.preventDefault();
+        show();
+      });
+    });
+
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && toast.classList.contains('is-visible')) {
+        window.clearTimeout(hideTimer);
+        hide();
+      }
+    });
+  }
+
+  initDemoCtas();
+</script>

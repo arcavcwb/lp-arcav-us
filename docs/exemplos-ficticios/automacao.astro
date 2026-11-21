@@ -1,0 +1,2029 @@
+---
+// Exemplo ilustrativo da solução "Sistemas e automação": um pedido de agendamento de uma
+// clínica veterinária fictícia percorre um fluxo automático (planilha, WhatsApp e aviso
+// para a equipe). Tudo é simulado no navegador; nada é enviado.
+export const prerender = true;
+
+import DemoLayout from '../../layouts/DemoLayout.astro';
+
+const solutionPath = '/solucoes/sistemas-e-automacao/';
+const fontsHref =
+  'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Onest:wght@400..700&display=swap';
+
+/** Ícones de traço (24×24, traço 1.75). Cada item é a lista de `d` dos paths. */
+const icons = {
+  form: [
+    'M7 3.5h10A2.5 2.5 0 0 1 19.5 6v12a2.5 2.5 0 0 1-2.5 2.5H7A2.5 2.5 0 0 1 4.5 18V6A2.5 2.5 0 0 1 7 3.5z',
+    'M8.5 8.5h7',
+    'M8.5 12h7',
+    'M8.5 15.5h4',
+  ],
+  sheet: [
+    'M5.5 4h13A2.5 2.5 0 0 1 21 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5v-11A2.5 2.5 0 0 1 5.5 4z',
+    'M3 9.5h18',
+    'M3 14.5h18',
+    'M9 4v16',
+  ],
+  chat: [
+    'M5 4h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z',
+    'M7.5 9h9',
+    'M7.5 12.5h6',
+  ],
+  bell: ['M6 9.5a6 6 0 0 1 12 0c0 5.5 2.5 7.5 2.5 7.5h-17S6 15 6 9.5z', 'M10 20.5a2.2 2.2 0 0 0 4 0'],
+  clock: ['M20 13a8 8 0 1 1-16 0 8 8 0 0 1 16 0z', 'M12 9v4l2.5 2', 'M5 3 2.5 5.5', 'M19 3l2.5 2.5'],
+  report: [
+    'M6 3.5h12A2.5 2.5 0 0 1 20.5 6v12a2.5 2.5 0 0 1-2.5 2.5H6A2.5 2.5 0 0 1 3.5 18V6A2.5 2.5 0 0 1 6 3.5z',
+    'M8.5 16.5v-3',
+    'M12 16.5v-8',
+    'M15.5 16.5v-5',
+  ],
+  sync: [
+    'M4.5 3h5A1.5 1.5 0 0 1 11 4.5v5A1.5 1.5 0 0 1 9.5 11h-5A1.5 1.5 0 0 1 3 9.5v-5A1.5 1.5 0 0 1 4.5 3z',
+    'M3 7h8',
+    'M7 3v8',
+    'M14.5 13h5a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-5a1.5 1.5 0 0 1-1.5-1.5v-5a1.5 1.5 0 0 1 1.5-1.5z',
+    'M13 17h8',
+    'M17 13v8',
+    'M7 13.5v1a3 3 0 0 0 3 3h1.25',
+    'M9.75 15.75l1.75 1.75-1.75 1.75',
+  ],
+  calendar: [
+    'M6 4.5h12A2.5 2.5 0 0 1 20.5 7v11a2.5 2.5 0 0 1-2.5 2.5H6A2.5 2.5 0 0 1 3.5 18V7A2.5 2.5 0 0 1 6 4.5z',
+    'M3.5 9.5h17',
+    'M8 2.75v3.5',
+    'M16 2.75v3.5',
+    'M9 15l2 2 4-4',
+  ],
+  check: ['M5 12.5l4.5 4.5L19 7.5'],
+  send: ['M5 12h14', 'M13 6l6 6-6 6'],
+  rerun: ['M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8', 'M3 3v5h5'],
+  chevron: ['M6 9l6 6 6-6'],
+} as const;
+
+const services = [
+  { value: 'consulta', label: 'Consulta' },
+  { value: 'vacina', label: 'Vacina' },
+  { value: 'banho-e-tosa', label: 'Banho e tosa' },
+] as const;
+
+/** Linhas que já estavam na planilha. O horário é calculado no navegador (minutos atrás). */
+const seedRows = [
+  {
+    line: 2,
+    minutesAgo: 134,
+    tutor: 'Ricardo Almeida',
+    pet: 'Thor',
+    service: 'Vacina',
+    phone: '(41) 98765-4321',
+    tone: 'booked',
+    status: 'Horário marcado',
+  },
+  {
+    line: 3,
+    minutesAgo: 47,
+    tutor: 'Juliana Prado',
+    pet: 'Mel',
+    service: 'Banho e tosa',
+    phone: '(41) 99234-5678',
+    tone: 'sent',
+    status: 'Confirmação enviada',
+  },
+] as const;
+
+interface Idea {
+  icon: readonly string[];
+  title: string;
+  text: string;
+}
+
+const ideas: Idea[] = [
+  {
+    icon: icons.clock,
+    title: 'Lembretes',
+    text: 'Quando a próxima vacina se aproxima, o tutor recebe um aviso com o link para agendar.',
+  },
+  {
+    icon: icons.report,
+    title: 'Relatórios semanais',
+    text: 'Toda segunda-feira, os atendimentos da semana chegam resumidos no seu e-mail, sem ninguém montar tabela.',
+  },
+  {
+    icon: icons.sync,
+    title: 'Cópia entre planilhas',
+    text: 'O atendimento registrado na agenda passa sozinho para o controle financeiro, sem digitar duas vezes.',
+  },
+  {
+    icon: icons.calendar,
+    title: 'Confirmações',
+    text: 'Na véspera, o tutor confirma presença com uma resposta e a agenda já mostra quem vem.',
+  },
+];
+---
+<DemoLayout
+  title="Automação de agendamentos · Pata Amiga"
+  description="Exemplo interativo: um pedido de agendamento vira linha na planilha, confirmação no WhatsApp e aviso para a equipe, sem ninguém copiar e colar."
+  solutionPath={solutionPath}
+  fontsHref={fontsHref}
+  themeColor="#0e6470"
+>
+  <div class="page">
+    <header class="topbar">
+      <div class="wrap topbar__inner">
+        <p class="brand">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor" focusable="false">
+              <path d="M12 11.6c-2.9 0-5.7 3.3-5.7 5.7 0 1.7 1.3 2.7 3 2.7 1.1 0 1.8-.5 2.7-.5s1.6.5 2.7.5c1.7 0 3-1 3-2.7 0-2.4-2.8-5.7-5.7-5.7z" />
+              <ellipse cx="4.9" cy="10.2" rx="1.9" ry="2.4" transform="rotate(-24 4.9 10.2)" />
+              <ellipse cx="9.3" cy="6" rx="2" ry="2.6" transform="rotate(-8 9.3 6)" />
+              <ellipse cx="14.7" cy="6" rx="2" ry="2.6" transform="rotate(8 14.7 6)" />
+              <ellipse cx="19.1" cy="10.2" rx="1.9" ry="2.4" transform="rotate(24 19.1 10.2)" />
+            </svg>
+          </span>
+          <span class="brand__text">
+            <strong>Pata Amiga</strong>
+            <span>Clínica Veterinária</span>
+          </span>
+        </p>
+        <p class="topbar__meta">Automação de agendamentos</p>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro wrap" aria-labelledby="intro-title">
+        <h1 id="intro-title">Do formulário ao WhatsApp, sem ninguém copiar e colar</h1>
+        <div class="intro__side">
+          <p class="intro__lede">
+            Faça um pedido de agendamento na Clínica Veterinária Pata Amiga e veja o que acontece sozinho
+            logo depois: a planilha ganha uma linha, o tutor recebe a confirmação e a equipe é avisada.
+          </p>
+          <p class="intro__note">Simulação feita no seu navegador: nada do que você digitar é enviado.</p>
+        </div>
+      </section>
+
+      <section class="demo wrap" aria-labelledby="demo-title">
+        <h2 id="demo-title" class="sr-only">Teste a automação</h2>
+
+        <div class="demo__grid">
+          <form class="card form" id="pedido-form" method="dialog" novalidate aria-labelledby="form-title">
+            <div class="form__head">
+              <h3 id="form-title">Agende um horário</h3>
+              <p>Formulário do site da clínica</p>
+            </div>
+
+            <div class="form__fields">
+              <div class="field">
+                <label for="f-tutor">Nome do tutor</label>
+                <input
+                  id="f-tutor"
+                  name="tutor"
+                  type="text"
+                  value="Mariana Souza"
+                  maxlength="40"
+                  autocomplete="off"
+                  required
+                  aria-describedby="e-tutor"
+                />
+                <p class="field__error" id="e-tutor"></p>
+              </div>
+
+              <div class="field">
+                <label for="f-pet">Nome do pet</label>
+                <input
+                  id="f-pet"
+                  name="pet"
+                  type="text"
+                  value="Paçoca"
+                  maxlength="30"
+                  autocomplete="off"
+                  required
+                  aria-describedby="e-pet"
+                />
+                <p class="field__error" id="e-pet"></p>
+              </div>
+
+              <div class="field">
+                <label for="f-whatsapp">WhatsApp</label>
+                <input
+                  id="f-whatsapp"
+                  name="whatsapp"
+                  type="tel"
+                  inputmode="tel"
+                  value="(41) 99123-4567"
+                  maxlength="20"
+                  autocomplete="off"
+                  required
+                  aria-describedby="h-whatsapp e-whatsapp"
+                />
+                <p class="field__hint" id="h-whatsapp">Com DDD. É para esse número que vai a confirmação.</p>
+                <p class="field__error" id="e-whatsapp"></p>
+              </div>
+
+              <div class="field">
+                <label for="f-servico">Serviço</label>
+                <div class="select">
+                  <select id="f-servico" name="servico">
+                    {services.map((s) => <option value={s.value}>{s.label}</option>)}
+                  </select>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    {icons.chevron.map((d) => <path d={d} />)}
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn--primary" data-submit>
+              <span data-submit-label>Enviar pedido</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                {icons.send.map((d) => <path d={d} />)}
+              </svg>
+            </button>
+            <p class="form__hint">Os campos já vêm preenchidos como exemplo. Troque o que quiser e envie quantas vezes quiser.</p>
+          </form>
+
+          <section class="card run" id="execucao" aria-labelledby="run-title" data-run-panel data-run="idle">
+            <div class="run__head">
+              <div>
+                <h3 id="run-title">Automação: novo pedido de agendamento</h3>
+                <p class="run__meta">
+                  <span data-run-label>Nenhuma execução ainda</span>
+                  <time class="mono" data-run-start></time>
+                </p>
+              </div>
+              <p class="chip" data-overall data-state="idle">
+                <span class="chip__dot" aria-hidden="true"></span>
+                <svg class="chip__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  {icons.check.map((d) => <path d={d} />)}
+                </svg>
+                <span data-chip-label>Aguardando pedido</span>
+              </p>
+            </div>
+
+            <ol class="steps">
+              {/* 1. Pedido recebido */}
+              <li class="step" data-step data-state="pending">
+                <span class="step__marker" aria-hidden="true">
+                  <span class="step__num">1</span>
+                  <svg class="step__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    {icons.check.map((d) => <path d={d} />)}
+                  </svg>
+                </span>
+                <div class="step__body">
+                  <div class="step__top">
+                    <h4 class="step__title">Pedido recebido</h4>
+                    <span class="chip" data-chip data-state="pending">
+                      <span class="chip__dot" aria-hidden="true"></span>
+                      <svg class="chip__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        {icons.check.map((d) => <path d={d} />)}
+                      </svg>
+                      <span data-chip-label>Na fila</span>
+                    </span>
+                  </div>
+                  <p class="step__meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                      {icons.form.map((d) => <path d={d} />)}
+                    </svg>
+                    <span>Formulário do site</span>
+                    <span class="step__time"><span aria-hidden="true">·</span> <time class="mono" data-step-time></time></span>
+                  </p>
+                  <div class="step__out">
+                    <dl class="payload">
+                      <div class="payload__wide">
+                        <dt>Recebido em</dt>
+                        <dd class="mono"><time data-out-time="received"></time></dd>
+                      </div>
+                      <div>
+                        <dt>Tutor</dt>
+                        <dd data-out="tutor"></dd>
+                      </div>
+                      <div>
+                        <dt>Pet</dt>
+                        <dd data-out="pet"></dd>
+                      </div>
+                      <div>
+                        <dt>Serviço</dt>
+                        <dd data-out="service"></dd>
+                      </div>
+                      <div>
+                        <dt>WhatsApp</dt>
+                        <dd class="mono" data-out="phone"></dd>
+                      </div>
+                    </dl>
+                  </div>
+                </div>
+              </li>
+
+              {/* 2. Planilha */}
+              <li class="step" data-step data-state="pending">
+                <span class="step__marker" aria-hidden="true">
+                  <span class="step__num">2</span>
+                  <svg class="step__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    {icons.check.map((d) => <path d={d} />)}
+                  </svg>
+                </span>
+                <div class="step__body">
+                  <div class="step__top">
+                    <h4 class="step__title">Planilha de agendamentos atualizada</h4>
+                    <span class="chip" data-chip data-state="pending">
+                      <span class="chip__dot" aria-hidden="true"></span>
+                      <svg class="chip__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        {icons.check.map((d) => <path d={d} />)}
+                      </svg>
+                      <span data-chip-label>Na fila</span>
+                    </span>
+                  </div>
+                  <p class="step__meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                      {icons.sheet.map((d) => <path d={d} />)}
+                    </svg>
+                    <span>Planilha da recepção</span>
+                    <span class="step__time"><span aria-hidden="true">·</span> <time class="mono" data-step-time></time></span>
+                  </p>
+                  <div class="step__out step__out--always">
+                    <div class="sheet">
+                      <div class="sheet__bar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                          {icons.sheet.map((d) => <path d={d} />)}
+                        </svg>
+                        <span class="sheet__name">Agendamentos</span>
+                        <span class="sheet__tab">aba Pedidos</span>
+                      </div>
+                      <div class="sheet__scroll" data-sheet-scroll tabindex="0" role="region" aria-label="Planilha de agendamentos">
+                        <table>
+                          <caption class="sr-only">Planilha de agendamentos da clínica. A linha mais recente fica no fim.</caption>
+                          <thead>
+                            <tr>
+                              <th scope="col" class="gutter"><span aria-hidden="true">1</span><span class="sr-only">Linha</span></th>
+                              <th scope="col">Recebido em</th>
+                              <th scope="col">Tutor</th>
+                              <th scope="col">Pet</th>
+                              <th scope="col">Serviço</th>
+                              <th scope="col">WhatsApp</th>
+                              <th scope="col">Situação</th>
+                            </tr>
+                          </thead>
+                          <tbody data-sheet-body>
+                            {seedRows.map((row) => (
+                              <tr>
+                                <th scope="row" class="gutter" data-c="line">{row.line}</th>
+                                <td class="mono"><time data-c="time" data-ago={row.minutesAgo}>hoje</time></td>
+                                <td data-c="tutor">{row.tutor}</td>
+                                <td data-c="pet">{row.pet}</td>
+                                <td data-c="service">{row.service}</td>
+                                <td class="mono" data-c="phone">{row.phone}</td>
+                                <td><span class="tag" data-c="status" data-tone={row.tone}>{row.status}</span></td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              {/* 3. WhatsApp */}
+              <li class="step" data-step data-state="pending">
+                <span class="step__marker" aria-hidden="true">
+                  <span class="step__num">3</span>
+                  <svg class="step__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    {icons.check.map((d) => <path d={d} />)}
+                  </svg>
+                </span>
+                <div class="step__body">
+                  <div class="step__top">
+                    <h4 class="step__title">WhatsApp de confirmação para o tutor</h4>
+                    <span class="chip" data-chip data-state="pending">
+                      <span class="chip__dot" aria-hidden="true"></span>
+                      <svg class="chip__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        {icons.check.map((d) => <path d={d} />)}
+                      </svg>
+                      <span data-chip-label>Na fila</span>
+                    </span>
+                  </div>
+                  <p class="step__meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                      {icons.chat.map((d) => <path d={d} />)}
+                    </svg>
+                    <span>Número de WhatsApp da clínica</span>
+                    <span class="step__time"><span aria-hidden="true">·</span> <time class="mono" data-step-time></time></span>
+                  </p>
+                  <div class="step__out step__out--chat">
+                    <div class="chat">
+                      <div class="chat__head">
+                        <span class="chat__avatar" aria-hidden="true" data-out="initials"></span>
+                        <div>
+                          <p class="chat__name"><span class="sr-only">Conversa com </span><span data-out="tutor"></span></p>
+                          <p class="chat__phone mono" data-out="phone"></p>
+                        </div>
+                      </div>
+                      <div class="chat__body">
+                        <div class="bubble bubble--typing" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </div>
+                        <div class="bubble bubble--msg">
+                          <p class="bubble__text" data-out="message"></p>
+                          <p class="bubble__meta"><time class="mono" data-out-time="sent"></time> · enviada</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              {/* 4. Aviso para a equipe */}
+              <li class="step" data-step data-state="pending">
+                <span class="step__marker" aria-hidden="true">
+                  <span class="step__num">4</span>
+                  <svg class="step__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    {icons.check.map((d) => <path d={d} />)}
+                  </svg>
+                </span>
+                <div class="step__body">
+                  <div class="step__top">
+                    <h4 class="step__title">Aviso para a equipe</h4>
+                    <span class="chip" data-chip data-state="pending">
+                      <span class="chip__dot" aria-hidden="true"></span>
+                      <svg class="chip__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        {icons.check.map((d) => <path d={d} />)}
+                      </svg>
+                      <span data-chip-label>Na fila</span>
+                    </span>
+                  </div>
+                  <p class="step__meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                      {icons.bell.map((d) => <path d={d} />)}
+                    </svg>
+                    <span>Grupo da recepção</span>
+                    <span class="step__time"><span aria-hidden="true">·</span> <time class="mono" data-step-time></time></span>
+                  </p>
+                  <div class="step__out">
+                    <div class="notice">
+                      <span class="notice__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                          {icons.bell.map((d) => <path d={d} />)}
+                        </svg>
+                      </span>
+                      <div>
+                        <p class="notice__title">
+                          Novo pedido: <span data-out="service-lower"></span> para <span data-out="pet"></span>
+                        </p>
+                        <p class="notice__text">
+                          <span data-out="tutor"></span>, <span class="mono" data-out="phone"></span>. A confirmação já foi
+                          enviada pelo WhatsApp; falta só escolher o horário.
+                        </p>
+                        <p class="notice__meta">Recepção Pata Amiga · <time class="mono" data-out-time="notice"></time></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ol>
+
+            <div class="run__foot">
+              <p class="run__summary" data-run-summary>Envie o pedido no formulário para ver o fluxo rodar.</p>
+              <button type="button" class="btn btn--secondary" data-rerun>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  {icons.rerun.map((d) => <path d={d} />)}
+                </svg>
+                Simular de novo
+              </button>
+            </div>
+
+            <div class="sr-only" role="log" aria-live="polite" data-live></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="more" aria-labelledby="more-title">
+        <div class="wrap">
+          <h2 id="more-title">O que mais dá para automatizar</h2>
+          <p class="more__lede">O mesmo tipo de fluxo resolve outras tarefas que se repetem toda semana na clínica.</p>
+          <ul class="ideas">
+            {ideas.map((idea) => (
+              <li class="idea">
+                <span class="idea__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    {idea.icon.map((d) => <path d={d} />)}
+                  </svg>
+                </span>
+                <h3>{idea.title}</h3>
+                <p>{idea.text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <div class="closing wrap">
+        <p class="closing__line">
+          Agora pense na sua rotina: qual tarefa alguém da equipe repete todo dia, copiando de um lugar e colando
+          em outro? Ela também pode acontecer sozinha.
+        </p>
+        <a class="closing__link" href={solutionPath}>
+          Conhecer a solução de sistemas e automação
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            {icons.send.map((d) => <path d={d} />)}
+          </svg>
+        </a>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap foot__inner">
+        <p class="foot__brand">
+          <strong>Clínica Veterinária Pata Amiga</strong>
+          <span>Curitiba, PR</span>
+        </p>
+        <p>Clínica fictícia. Nenhum dado digitado nesta página é enviado ou guardado.</p>
+      </div>
+    </footer>
+  </div>
+</DemoLayout>
+
+<style is:global>
+  html,
+  body {
+    background: #f2f3f6;
+    color: #161922;
+    font-family: 'Onest', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+</style>
+
+<style>
+  .page {
+    --bg: #f2f3f6;
+    --surface: #ffffff;
+    --surface-2: #f7f8fa;
+    --sunken: #eceef2;
+    --line: #e0e3e9;
+    --line-strong: #c4c9d4;
+    --ink: #161922;
+    --ink-2: #454b5b;
+    --ink-3: #5d6475;
+    --brand: #0e6470;
+    --brand-hover: #0b525c;
+    --brand-ink: #0b4f58;
+    --brand-soft: #e3f3f4;
+    --brand-soft-2: #c6e6e8;
+    --danger: #b42318;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    --gutter: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+    --pad: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+    --shadow: 0 1px 2px rgb(22 25 34 / 0.04), 0 10px 28px -14px rgb(22 25 34 / 0.16);
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: 1rem;
+    line-height: 1.55;
+    overflow-x: clip;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  .wrap {
+    width: min(100% - 2 * var(--gutter), 75rem);
+    margin-inline: auto;
+  }
+
+  .mono {
+    font-family: var(--mono);
+    font-size: 0.92em;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  svg {
+    flex: none;
+  }
+
+  /* ---------- Barra superior ---------- */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .brand__mark {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 10px;
+    background: var(--brand);
+    color: #ffffff;
+  }
+
+  .brand__mark svg {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+
+  .brand__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .brand__text strong {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .brand__text span {
+    font-size: 0.8125rem;
+    color: var(--ink-3);
+  }
+
+  .topbar__meta {
+    font-size: 0.875rem;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 30rem) {
+    .topbar__meta {
+      display: none;
+    }
+  }
+
+  /* ---------- Abertura ---------- */
+  .intro {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem) clamp(1.75rem, 1.25rem + 2vw, 3rem);
+  }
+
+  .intro h1 {
+    max-width: 18ch;
+    font-size: clamp(2rem, 1.3rem + 3vw, 3.75rem);
+    font-weight: 650;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .intro__lede {
+    max-width: 56ch;
+    font-size: clamp(1.0625rem, 1rem + 0.4vw, 1.25rem);
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .intro__note {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--ink-3);
+  }
+
+  @media (min-width: 64rem) {
+    .intro {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      align-items: end;
+      gap: 3rem;
+    }
+
+    .intro h1 {
+      max-width: none;
+    }
+  }
+
+  /* ---------- Demonstração ---------- */
+  .demo {
+    padding-bottom: clamp(3rem, 2rem + 4vw, 6rem);
+  }
+
+  .demo__grid {
+    display: grid;
+    gap: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+    align-items: start;
+  }
+
+  @media (min-width: 60rem) {
+    .demo__grid {
+      grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+    }
+  }
+
+  @media (min-width: 60rem) and (min-height: 46rem) {
+    .form {
+      position: sticky;
+      top: 1.25rem;
+    }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  /* Formulário */
+  .form {
+    display: grid;
+    gap: 1.25rem;
+    padding: var(--pad);
+  }
+
+  .form__head h3 {
+    font-size: 1.125rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .form__head p {
+    margin-top: 0.125rem;
+    font-size: 0.875rem;
+    color: var(--ink-3);
+  }
+
+  .form__fields {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+
+  .field {
+    display: grid;
+    align-content: start;
+    gap: 0.375rem;
+  }
+
+  .field label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1.4;
+    transition: border-color 0.15s ease;
+  }
+
+  .field input:hover,
+  .field select:hover {
+    border-color: #9aa1b0;
+  }
+
+  .field input:focus-visible,
+  .field select:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 1px;
+    border-color: var(--brand);
+  }
+
+  .field input[aria-invalid='true'] {
+    border-color: var(--danger);
+  }
+
+  .field__hint {
+    font-size: 0.8125rem;
+    color: var(--ink-3);
+  }
+
+  .field__error {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--danger);
+  }
+
+  .field__error:empty {
+    display: none;
+  }
+
+  .select {
+    position: relative;
+  }
+
+  .select select {
+    appearance: none;
+    padding-right: 2.75rem;
+    cursor: pointer;
+  }
+
+  .select svg {
+    position: absolute;
+    top: 50%;
+    right: 0.875rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--ink-3);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .form__hint {
+    font-size: 0.8125rem;
+    color: var(--ink-3);
+  }
+
+  /* Botões */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .btn svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .btn:focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  .btn--primary {
+    width: 100%;
+    background: var(--brand);
+    color: #ffffff;
+  }
+
+  .btn--primary:hover {
+    background: var(--brand-hover);
+  }
+
+  .btn--secondary {
+    background: var(--surface);
+    border-color: var(--line-strong);
+    color: var(--brand-ink);
+  }
+
+  .btn--secondary:hover {
+    background: var(--brand-soft);
+    border-color: var(--brand-soft-2);
+  }
+
+  .btn[aria-disabled='true'] {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  .btn--primary[aria-disabled='true']:hover {
+    background: var(--brand);
+  }
+
+  /* Painel da execução */
+  .run {
+    scroll-margin-top: 1rem;
+  }
+
+  .run__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    padding: 1rem var(--pad);
+    border-bottom: 1px solid var(--line);
+    border-radius: var(--radius) var(--radius) 0 0;
+    background: var(--surface-2);
+  }
+
+  .run__head h3 {
+    font-size: 1rem;
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  .run__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.375rem;
+    margin-top: 0.125rem;
+    font-size: 0.8125rem;
+    color: var(--ink-3);
+  }
+
+  /* Chips de status: o texto sempre diz o estado, a cor só reforça */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 1.75rem;
+    padding: 0.25rem 0.625rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: var(--sunken);
+    color: var(--ink-2);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .chip__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    flex: none;
+  }
+
+  .chip__check {
+    display: none;
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .chip[data-state='running'] {
+    background: var(--surface);
+    border-color: var(--brand-soft-2);
+    color: var(--brand-ink);
+  }
+
+  .chip[data-state='running'] .chip__dot {
+    background: currentColor;
+    animation: pa-pulse 1s ease-in-out infinite;
+  }
+
+  .chip[data-state='done'] {
+    background: var(--brand-soft);
+    color: var(--brand-ink);
+  }
+
+  .chip[data-state='done'] .chip__dot {
+    display: none;
+  }
+
+  .chip[data-state='done'] .chip__check {
+    display: block;
+  }
+
+  /* Etapas */
+  .steps {
+    display: grid;
+    padding: var(--pad);
+    list-style: none;
+  }
+
+  .step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    column-gap: 0.875rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .step:last-child {
+    padding-bottom: 0;
+  }
+
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 2.5rem;
+    bottom: 0.5rem;
+    left: calc(1rem - 1px);
+    width: 2px;
+    border-radius: 2px;
+    background: var(--line);
+    transition: background-color 0.3s ease;
+  }
+
+  .step[data-state='done']:not(:last-child)::before {
+    background: var(--brand);
+  }
+
+  .step__marker {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--ink-3);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .step__check {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .step[data-state='running'] .step__marker {
+    border-color: var(--brand-soft-2);
+    color: var(--brand-ink);
+  }
+
+  .step[data-state='running'] .step__marker::after {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    border: 2px solid transparent;
+    border-top-color: var(--brand);
+    border-right-color: var(--brand);
+    border-radius: 50%;
+    animation: pa-spin 0.8s linear infinite;
+  }
+
+  .step[data-state='done'] .step__marker {
+    border-color: var(--brand);
+    background: var(--brand);
+    color: #ffffff;
+  }
+
+  .step[data-state='done'] .step__num {
+    display: none;
+  }
+
+  .step[data-state='done'] .step__check {
+    display: block;
+  }
+
+  .step__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.375rem 0.75rem;
+    min-height: 2rem;
+  }
+
+  .step__title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  .step[data-state='pending'] .step__title {
+    color: var(--ink-2);
+  }
+
+  .step__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.375rem;
+    margin-top: 0.125rem;
+    font-size: 0.8125rem;
+    color: var(--ink-3);
+  }
+
+  .step__meta svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .step__time {
+    display: none;
+  }
+
+  .step[data-state='done'] .step__time {
+    display: inline;
+  }
+
+  .step__out {
+    display: none;
+    margin-top: 0.875rem;
+  }
+
+  .step[data-state='done'] .step__out {
+    display: block;
+    animation: pa-rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .step__out--always,
+  .step[data-state='running'] .step__out--chat {
+    display: block;
+  }
+
+  .step[data-state='done'] .step__out--always,
+  .step[data-state='done'] .step__out--chat {
+    animation: none;
+  }
+
+  .step[data-state='done'] .bubble--msg {
+    animation: pa-rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  /* Saída 1: dados recebidos */
+  .payload {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+    gap: 0.75rem 1rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+  }
+
+  .payload__wide {
+    grid-column: 1 / -1;
+  }
+
+  .payload dt {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink-3);
+  }
+
+  .payload dd {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+
+  /* Saída 2: planilha */
+  .sheet {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+
+  .sheet__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.8125rem;
+    color: var(--ink-2);
+  }
+
+  .sheet__bar svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--brand);
+  }
+
+  .sheet__name {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .sheet__tab {
+    margin-left: auto;
+    padding: 0.125rem 0.5rem;
+    border-radius: 6px;
+    background: var(--sunken);
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .sheet__scroll {
+    max-height: 16rem;
+    overflow: auto;
+    overscroll-behavior-x: contain;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  }
+
+  .sheet__scroll:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  .sheet table {
+    width: 100%;
+    min-width: 42rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sheet th,
+  .sheet td {
+    padding: 0.5rem 0.75rem;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    white-space: nowrap;
+    color: var(--ink);
+  }
+
+  .sheet th:last-child,
+  .sheet td:last-child {
+    border-right: 0;
+  }
+
+  .sheet thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--surface-2);
+    color: var(--ink-2);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .sheet tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  .sheet .gutter {
+    width: 2.5rem;
+    padding-inline: 0.5rem;
+    background: var(--surface-2);
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .sheet tr.is-new > * {
+    background: var(--brand-soft);
+  }
+
+  .sheet tr.is-new > .gutter {
+    background: var(--brand-soft-2);
+    color: var(--brand-ink);
+    font-weight: 500;
+  }
+
+  .sheet tr.is-flash > * {
+    animation: pa-flash 1.6s ease-out;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--sunken);
+    color: var(--ink-2);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .tag[data-tone='sent'] {
+    border-color: var(--brand-soft-2);
+    background: var(--surface);
+    color: var(--brand-ink);
+  }
+
+  .tag[data-tone='new'] {
+    border-color: var(--brand);
+    background: var(--brand);
+    color: #ffffff;
+  }
+
+  /* Saída 3: conversa */
+  .chat {
+    max-width: 30rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--sunken);
+  }
+
+  .chat__head {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.875rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .chat__avatar {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--brand-soft);
+    color: var(--brand-ink);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    flex: none;
+  }
+
+  .chat__name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .chat__phone {
+    font-size: 0.75rem;
+    color: var(--ink-3);
+  }
+
+  .chat__body {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 0.875rem 1.125rem;
+  }
+
+  .bubble {
+    max-width: min(100%, 23rem);
+    padding: 0.625rem 0.875rem 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 14px 14px 4px 14px;
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgb(22 25 34 / 0.05);
+  }
+
+  .bubble__text {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .bubble__meta {
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+    color: var(--ink-3);
+    text-align: right;
+  }
+
+  .bubble--typing {
+    display: none;
+    gap: 0.3rem;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .bubble--typing span {
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border-radius: 50%;
+    background: var(--ink-3);
+    animation: pa-pulse 1s ease-in-out infinite;
+  }
+
+  .bubble--typing span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .bubble--typing span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .step[data-state='running'] .bubble--typing {
+    display: inline-flex;
+  }
+
+  .step[data-state='running'] .bubble--msg {
+    display: none;
+  }
+
+  /* Saída 4: aviso para a equipe */
+  .notice {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    max-width: 30rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .notice__icon {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 10px;
+    background: var(--brand-soft);
+    color: var(--brand);
+  }
+
+  .notice__icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .notice__title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .notice__text {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--ink-2);
+  }
+
+  .notice__meta {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--ink-3);
+  }
+
+  /* Rodapé do painel */
+  .run__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    padding: 1rem var(--pad);
+    border-top: 1px solid var(--line);
+  }
+
+  .run__summary {
+    flex: 1 1 16rem;
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+  }
+
+  .run[data-run='idle'] [data-rerun] {
+    display: none;
+  }
+
+  /* ---------- O que mais dá para automatizar ---------- */
+  .more {
+    padding-block: clamp(3rem, 2rem + 4vw, 5.5rem);
+    border-block: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .more h2 {
+    max-width: 22ch;
+    font-size: clamp(1.625rem, 1.25rem + 1.5vw, 2.375rem);
+    font-weight: 650;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .more__lede {
+    max-width: 56ch;
+    margin-top: 0.75rem;
+    color: var(--ink-2);
+  }
+
+  .ideas {
+    display: grid;
+    gap: 1rem;
+    margin-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 40rem) {
+    .ideas {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 68rem) {
+    .ideas {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .idea {
+    padding: 1.25rem 1.25rem 1.375rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+  }
+
+  .idea__icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 12px;
+    background: var(--brand-soft);
+    color: var(--brand);
+  }
+
+  .idea__icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .idea h3 {
+    margin-top: 1rem;
+    font-size: 1.0625rem;
+    font-weight: 650;
+    line-height: 1.3;
+  }
+
+  .idea p {
+    margin-top: 0.375rem;
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+  }
+
+  /* ---------- Fechamento ---------- */
+  .closing {
+    padding-block: clamp(3rem, 2rem + 4vw, 5.5rem);
+  }
+
+  .closing__line {
+    max-width: 34ch;
+    font-size: clamp(1.375rem, 1.1rem + 1.2vw, 2rem);
+    font-weight: 550;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .closing__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    margin-top: 1rem;
+    color: var(--brand-ink);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .closing__link svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .closing__link:hover {
+    color: var(--brand);
+  }
+
+  .closing__link:focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* ---------- Rodapé ---------- */
+  .foot {
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .foot__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    padding-block: 1.75rem;
+    font-size: 0.875rem;
+    color: var(--ink-3);
+  }
+
+  .foot__brand {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.5rem;
+  }
+
+  .foot__brand strong {
+    color: var(--ink);
+    font-weight: 650;
+  }
+
+  /* ---------- Movimento ---------- */
+  @keyframes pa-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes pa-pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes pa-rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+
+  @keyframes pa-flash {
+    from {
+      background-color: var(--brand-soft-2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page *,
+    .page *::before,
+    .page *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  type StepState = 'pending' | 'running' | 'done';
+
+  interface Pedido {
+    tutor: string;
+    pet: string;
+    phone: string;
+    service: string;
+    receivedAt: Date;
+  }
+
+  const TOTAL_STEPS = 4;
+
+  const STEP_LABEL: Record<StepState, string> = {
+    pending: 'Na fila',
+    running: 'Executando',
+    done: 'Concluído',
+  };
+
+  /** Quanto tempo cada etapa fica "executando" na animação, em milissegundos. */
+  const STEP_DURATION: readonly number[] = [650, 1100, 1400, 900];
+  const STEP_GAP = 250;
+
+  const pad = (n: number): string => String(n).padStart(2, '0');
+  const clock = (d: Date): string => `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  const hourMinute = (d: Date): string => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const dayMonth = (d: Date): string => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
+  const fullDate = (d: Date): string => `${dayMonth(d)}/${d.getFullYear()}`;
+  const wait = (ms: number): Promise<void> => new Promise((resolve) => window.setTimeout(resolve, ms));
+  const tidy = (value: string): string => value.trim().replace(/\s+/g, ' ');
+
+  function must<T extends Element>(selector: string, root: ParentNode = document): T {
+    const el = root.querySelector<T>(selector);
+    if (!el) throw new Error(`Demo de automação: elemento ausente (${selector})`);
+    return el;
+  }
+
+  function firstName(full: string): string {
+    return full.split(' ')[0] || full;
+  }
+
+  function initials(full: string): string {
+    const parts = full.split(' ').filter(Boolean);
+    const first = parts[0] ? parts[0].charAt(0) : '';
+    const lastPart = parts.length > 1 ? parts[parts.length - 1] : undefined;
+    const last = lastPart ? lastPart.charAt(0) : '';
+    return (first + last).toUpperCase();
+  }
+
+  function composeMessage(p: Pedido): string {
+    return (
+      `Olá, ${firstName(p.tutor)}! Aqui é da Clínica Veterinária Pata Amiga. ` +
+      `Recebemos o seu pedido de ${p.service.toLowerCase()} para ${p.pet}. ` +
+      'Ainda hoje respondemos por aqui com os horários disponíveis. Até logo!'
+    );
+  }
+
+  function setupDemo(form: HTMLFormElement, panel: HTMLElement): void {
+    const tutorInput = must<HTMLInputElement>('#f-tutor', form);
+    const petInput = must<HTMLInputElement>('#f-pet', form);
+    const phoneInput = must<HTMLInputElement>('#f-whatsapp', form);
+    const serviceSelect = must<HTMLSelectElement>('#f-servico', form);
+    const submitBtn = must<HTMLButtonElement>('[data-submit]', form);
+    const submitLabel = must<HTMLElement>('[data-submit-label]', form);
+
+    const rerunBtn = must<HTMLButtonElement>('[data-rerun]', panel);
+    const overallChip = must<HTMLElement>('[data-overall]', panel);
+    const runLabel = must<HTMLElement>('[data-run-label]', panel);
+    const runStart = must<HTMLTimeElement>('[data-run-start]', panel);
+    const summary = must<HTMLElement>('[data-run-summary]', panel);
+    const live = must<HTMLElement>('[data-live]', panel);
+    const sheetBody = must<HTMLTableSectionElement>('[data-sheet-body]', panel);
+    const sheetScroll = must<HTMLElement>('[data-sheet-scroll]', panel);
+    const steps = Array.from(panel.querySelectorAll<HTMLElement>('[data-step]'));
+    const firstRow = sheetBody.rows[0];
+    if (!firstRow || steps.length !== TOTAL_STEPS) return;
+    const rowTemplate: HTMLTableRowElement = firstRow;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let running = false;
+    let runCount = 0;
+    let lastRow: HTMLTableRowElement | null = null;
+
+    // Horários das linhas que já estavam na planilha, relativos ao relógio do visitante.
+    sheetBody.querySelectorAll<HTMLTimeElement>('time[data-ago]').forEach((el) => {
+      const minutes = Number(el.dataset.ago ?? '0');
+      const d = new Date(Date.now() - minutes * 60000);
+      el.dateTime = d.toISOString();
+      el.textContent = `${dayMonth(d)} ${clock(d)}`;
+    });
+
+    // ---------- Validação do formulário ----------
+    const rules: Array<{ input: HTMLInputElement; check: (value: string) => string }> = [
+      { input: tutorInput, check: (v) => (v ? '' : 'Informe o nome do tutor.') },
+      { input: petInput, check: (v) => (v ? '' : 'Informe o nome do pet.') },
+      {
+        input: phoneInput,
+        check: (v) => {
+          if (!v) return 'Informe um WhatsApp para receber a confirmação.';
+          const digits = v.replace(/\D/g, '').length;
+          return digits >= 10 && digits <= 13 ? '' : 'Use DDD e número, por exemplo (41) 99123-4567.';
+        },
+      },
+    ];
+
+    function errorFor(input: HTMLInputElement): HTMLElement | null {
+      return form.querySelector<HTMLElement>(`#e-${input.id.replace('f-', '')}`);
+    }
+
+    function validate(): HTMLInputElement | null {
+      let firstInvalid: HTMLInputElement | null = null;
+      for (const { input, check } of rules) {
+        const message = check(tidy(input.value));
+        const error = errorFor(input);
+        if (error) error.textContent = message;
+        if (message) {
+          input.setAttribute('aria-invalid', 'true');
+          if (!firstInvalid) firstInvalid = input;
+        } else {
+          input.removeAttribute('aria-invalid');
+        }
+      }
+      return firstInvalid;
+    }
+
+    for (const { input } of rules) {
+      input.addEventListener('input', () => {
+        if (input.getAttribute('aria-invalid') !== 'true') return;
+        input.removeAttribute('aria-invalid');
+        const error = errorFor(input);
+        if (error) error.textContent = '';
+      });
+    }
+
+    function readForm(): Pedido {
+      const option = serviceSelect.selectedOptions[0];
+      return {
+        tutor: tidy(tutorInput.value),
+        pet: tidy(petInput.value),
+        phone: tidy(phoneInput.value),
+        service: option ? option.text : 'Consulta',
+        receivedAt: new Date(),
+      };
+    }
+
+    // ---------- Painel ----------
+    function setChip(chip: HTMLElement, state: string, label: string): void {
+      chip.dataset.state = state;
+      const text = chip.querySelector<HTMLElement>('[data-chip-label]');
+      if (text) text.textContent = label;
+    }
+
+    function setStep(index: number, state: StepState, at?: Date): void {
+      const step = steps[index];
+      if (!step) return;
+      step.dataset.state = state;
+      const chip = step.querySelector<HTMLElement>('[data-chip]');
+      if (chip) setChip(chip, state, STEP_LABEL[state]);
+      const time = step.querySelector<HTMLTimeElement>('[data-step-time]');
+      if (time) {
+        time.dateTime = at ? at.toISOString() : '';
+        time.textContent = at ? clock(at) : '';
+      }
+    }
+
+    function fill(key: string, value: string): void {
+      panel.querySelectorAll<HTMLElement>(`[data-out="${key}"]`).forEach((el) => {
+        el.textContent = value;
+      });
+    }
+
+    function stamp(key: string, d: Date, text: string): void {
+      panel.querySelectorAll<HTMLTimeElement>(`time[data-out-time="${key}"]`).forEach((el) => {
+        el.dateTime = d.toISOString();
+        el.textContent = text;
+      });
+    }
+
+    function fillOutputs(p: Pedido): void {
+      fill('tutor', p.tutor);
+      fill('pet', p.pet);
+      fill('phone', p.phone);
+      fill('service', p.service);
+      fill('service-lower', p.service.toLowerCase());
+      fill('initials', initials(p.tutor));
+      fill('message', composeMessage(p));
+      stamp('received', p.receivedAt, `${fullDate(p.receivedAt)} às ${clock(p.receivedAt)}`);
+    }
+
+    function clearHighlight(): void {
+      sheetBody.querySelectorAll('tr.is-new').forEach((row) => row.classList.remove('is-new', 'is-flash'));
+    }
+
+    function appendRow(p: Pedido, instant: boolean): void {
+      const row = rowTemplate.cloneNode(true) as HTMLTableRowElement;
+      const set = (key: string, value: string): void => {
+        const cell = row.querySelector<HTMLElement>(`[data-c="${key}"]`);
+        if (cell) cell.textContent = value;
+      };
+
+      set('line', String(sheetBody.rows.length + 2));
+      set('tutor', p.tutor);
+      set('pet', p.pet);
+      set('service', p.service);
+      set('phone', p.phone);
+
+      const time = row.querySelector<HTMLTimeElement>('[data-c="time"]');
+      if (time) {
+        time.removeAttribute('data-ago');
+        time.dateTime = p.receivedAt.toISOString();
+        time.textContent = `${dayMonth(p.receivedAt)} ${clock(p.receivedAt)}`;
+      }
+
+      const tag = row.querySelector<HTMLElement>('[data-c="status"]');
+      if (tag) {
+        tag.dataset.tone = 'new';
+        tag.textContent = 'Novo pedido';
+      }
+
+      clearHighlight();
+      row.classList.remove('is-new', 'is-flash');
+      row.classList.add('is-new');
+      if (!instant) row.classList.add('is-flash');
+      sheetBody.append(row);
+      lastRow = row;
+      sheetScroll.scrollTo({ top: sheetScroll.scrollHeight, behavior: instant ? 'auto' : 'smooth' });
+    }
+
+    function markLastRowSent(): void {
+      const tag = lastRow ? lastRow.querySelector<HTMLElement>('[data-c="status"]') : null;
+      if (!tag) return;
+      tag.dataset.tone = 'sent';
+      tag.textContent = 'Confirmação enviada';
+    }
+
+    function announce(message: string): void {
+      const line = document.createElement('p');
+      line.textContent = message;
+      live.append(line);
+    }
+
+    function setBusy(busy: boolean): void {
+      running = busy;
+      for (const button of [submitBtn, rerunBtn]) {
+        if (busy) button.setAttribute('aria-disabled', 'true');
+        else button.removeAttribute('aria-disabled');
+      }
+      submitLabel.textContent = busy
+        ? 'Automação em andamento…'
+        : runCount > 0
+          ? 'Enviar outro pedido'
+          : 'Enviar pedido';
+    }
+
+    function bringPanelIntoView(instant: boolean): void {
+      const rect = panel.getBoundingClientRect();
+      if (rect.top < 0 || rect.top > window.innerHeight * 0.55) {
+        panel.scrollIntoView({ behavior: instant ? 'auto' : 'smooth', block: 'start' });
+      }
+    }
+
+    async function run(p: Pedido): Promise<void> {
+      const instant = reduceMotion.matches;
+      runCount += 1;
+      setBusy(true);
+
+      // Volta o painel ao começo antes de rodar de novo.
+      steps.forEach((_, i) => setStep(i, 'pending'));
+      clearHighlight();
+      live.replaceChildren();
+      fillOutputs(p);
+      panel.dataset.run = 'running';
+      runLabel.textContent = `Execução nº ${runCount} · iniciada às`;
+      runStart.dateTime = p.receivedAt.toISOString();
+      runStart.textContent = clock(p.receivedAt);
+      summary.textContent = 'A automação está trabalhando sozinha. Acompanhe as etapas.';
+      bringPanelIntoView(instant);
+
+      const finishers: Array<() => string> = [
+        () => `Pedido recebido às ${clock(p.receivedAt)}.`,
+        () => {
+          appendRow(p, instant);
+          return 'Planilha de agendamentos atualizada com uma nova linha.';
+        },
+        () => {
+          const now = new Date();
+          stamp('sent', now, hourMinute(now));
+          markLastRowSent();
+          return `Mensagem de confirmação enviada para ${p.tutor}.`;
+        },
+        () => {
+          const now = new Date();
+          stamp('notice', now, hourMinute(now));
+          return 'Equipe avisada sobre o novo pedido.';
+        },
+      ];
+
+      if (instant) {
+        // Movimento reduzido: todas as etapas aparecem concluídas de uma vez.
+        const messages = finishers.map((finish, i) => {
+          const message = finish();
+          setStep(i, 'done', new Date());
+          return message;
+        });
+        setChip(overallChip, 'done', `Concluída · ${TOTAL_STEPS} de ${TOTAL_STEPS}`);
+        announce(`Execução nº ${runCount} concluída. ${messages.join(' ')}`);
+      } else {
+        announce(`Execução nº ${runCount} iniciada.`);
+        for (let i = 0; i < TOTAL_STEPS; i += 1) {
+          setStep(i, 'running');
+          setChip(overallChip, 'running', `Executando · ${i + 1} de ${TOTAL_STEPS}`);
+          await wait(STEP_DURATION[i] ?? 900);
+          const finish = finishers[i];
+          const message = finish ? finish() : '';
+          setStep(i, 'done', new Date());
+          announce(`Etapa ${i + 1} de ${TOTAL_STEPS} concluída. ${message}`);
+          if (i < TOTAL_STEPS - 1) await wait(STEP_GAP);
+        }
+        setChip(overallChip, 'done', `Concluída · ${TOTAL_STEPS} de ${TOTAL_STEPS}`);
+        announce('Automação concluída. Para rodar outra vez, use o botão Simular de novo.');
+      }
+
+      panel.dataset.run = 'done';
+      summary.textContent =
+        `Pronto: ${p.pet} entrou na planilha, ${firstName(p.tutor)} recebeu a confirmação e a equipe já sabe. ` +
+        'Ninguém da clínica precisou digitar nada.';
+      setBusy(false);
+    }
+
+    function start(): void {
+      if (running) return;
+      const invalid = validate();
+      if (invalid) {
+        invalid.focus();
+        return;
+      }
+      void run(readForm());
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      start();
+    });
+
+    rerunBtn.addEventListener('click', () => {
+      start();
+    });
+  }
+
+  const demoForm = document.querySelector<HTMLFormElement>('#pedido-form');
+  const demoPanel = document.querySelector<HTMLElement>('[data-run-panel]');
+  if (demoForm && demoPanel) setupDemo(demoForm, demoPanel);
+</script>

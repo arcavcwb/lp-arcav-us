@@ -1,0 +1,146 @@
+---
+// Captura de um exemplo ilustrativo dentro de uma janela de navegador, com link para o exemplo.
+interface Props {
+  /** null = espaço reservado: ainda não há exemplo baseado em projeto real. */
+  href: string | null;
+  image: string | null;
+  client: string | null;
+  eager?: boolean;
+  class?: string;
+}
+
+const { href, image, client, eager = false, class: className } = Astro.props;
+const url = href ? `arcav.us${href.split('#')[0]}` : 'arcav.us';
+---
+<figure class:list={['example-frame', className]}>
+  {href ? (
+  <a class="example-frame__window" href={href} aria-label={`Abrir o exemplo: ${client}`}>
+    <span class="example-frame__bar" aria-hidden="true">
+      <span class="example-frame__dots"><i></i><i></i><i></i></span>
+      <span class="example-frame__url">{url}</span>
+    </span>
+    {image ? (
+      <img
+        src={image}
+        alt=""
+        width="1440"
+        height="900"
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    ) : (
+      <span class="example-frame__empty">Abrir o exemplo</span>
+    )}
+  </a>
+  ) : (
+  <div class="example-frame__window example-frame__window--placeholder">
+    <span class="example-frame__bar" aria-hidden="true">
+      <span class="example-frame__dots"><i></i><i></i><i></i></span>
+      <span class="example-frame__url">{url}</span>
+    </span>
+    <span class="example-frame__empty">
+      <strong>Exemplo real em preparação</strong>
+      <span>Baseado em um projeto de verdade, com autorização do cliente.</span>
+    </span>
+  </div>
+  )}
+  <figcaption>{href ? `Exemplo · ${client}` : 'Em breve'}</figcaption>
+</figure>
+
+<style>
+  .example-frame {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+  }
+
+  .example-frame__window {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--bg);
+    box-shadow: var(--shadow-raised);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform 0.3s var(--ease-out),
+      box-shadow 0.3s var(--ease-out);
+  }
+
+  .example-frame__window:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2px 4px rgb(28 29 33 / 0.08), 0 24px 44px -18px rgb(28 29 33 / 0.3);
+  }
+
+  .example-frame__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 2.125rem;
+    padding: 0 0.875rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .example-frame__dots {
+    display: flex;
+    gap: 0.375rem;
+  }
+
+  .example-frame__dots i {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--line-strong);
+  }
+
+  .example-frame__url {
+    flex: 1;
+    max-width: 22rem;
+    padding: 0.125rem 0.625rem;
+    border-radius: 999px;
+    background: var(--bg);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .example-frame img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .example-frame__empty {
+    display: grid;
+    place-content: center;
+    gap: 0.375rem;
+    aspect-ratio: 16 / 10;
+    padding: 1.5rem;
+    background: var(--surface);
+    text-align: center;
+  }
+
+  .example-frame__empty strong {
+    font-weight: 650;
+  }
+
+  .example-frame__empty span {
+    font-size: var(--text-sm);
+    color: var(--muted);
+  }
+
+  .example-frame__window--placeholder:hover {
+    transform: none;
+  }
+
+  figcaption {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+</style>

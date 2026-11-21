@@ -1,0 +1,17 @@
+---
+export const prerender = true;
+
+import SolutionPage from '../../components/solution/SolutionPage.astro';
+import { SOLUTIONS } from '../../data/solutions';
+
+export function getStaticPaths() {
+  // A página de comércios tem arquivo próprio (comercio-digital.astro).
+  return SOLUTIONS.filter((s) => s.slug !== 'comercio-digital').map((solution) => ({
+    params: { slug: solution.slug },
+    props: { solution },
+  }));
+}
+
+const { solution } = Astro.props;
+---
+<SolutionPage solution={solution} />
