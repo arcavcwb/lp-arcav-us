@@ -8,7 +8,7 @@ const { about } = home;
 // Sem a foto entregue, o texto ocupa a linha toda (sem um bloco cinza no lugar do retrato).
 const hasPhoto = Boolean(portraitUrl);
 ---
-<section class="section" id="sobre" aria-labelledby="sobre-title">
+<section class="section section--muted" id="sobre" aria-labelledby="sobre-title">
   <div class:list={['container', 'about', { 'about--photo': hasPhoto }]}>
     {hasPhoto && <Portrait class="about__portrait" />}
 

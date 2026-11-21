@@ -66,6 +66,8 @@ export interface ProspectProposal {
     newTabHint: string;
     caption: string;
     illustration: IllustrativeOrder;
+    /** Opcional: o celular do topo ganha o guia "Experimente" e a ilustração espelha o pedido montado. */
+    live?: { empty: string; cta: { href: string; label: string }; caption: string; phoneCaption: string };
   };
   offers: {
     label: string;

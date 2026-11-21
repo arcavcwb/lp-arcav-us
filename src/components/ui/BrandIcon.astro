@@ -8,12 +8,14 @@ export type BrandName = 'whatsapp' | 'google' | 'instagram' | 'meta' | 'sheets';
 interface Props {
   name: BrandName;
   class?: string;
+  /** Usa a cor do texto (ex.: dentro de um botão) em vez da cor da marca. */
+  mono?: boolean;
 }
 
 const ICONS = { whatsapp: siWhatsapp, google: siGoogle, instagram: siInstagram, meta: siMeta, sheets: siGooglesheets };
-const { name, class: className } = Astro.props;
+const { name, class: className, mono = false } = Astro.props;
 const icon = ICONS[name];
 ---
 <svg class={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-  <path d={icon.path} fill={`#${icon.hex}`} />
+  <path d={icon.path} fill={mono ? 'currentColor' : `#${icon.hex}`} />
 </svg>

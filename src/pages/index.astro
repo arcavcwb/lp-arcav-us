@@ -12,7 +12,7 @@ import Method from '../components/home/Method.astro';
 import About from '../components/home/About.astro';
 import Contact from '../components/home/Contact.astro';
 import { home, mainNav } from '../data/site';
-import { SOLUTIONS } from '../data/solutions';
+import { SERVICES } from '../data/solutions';
 
 const nav = mainNav();
 const canonical = new URL('/', Astro.site).href;
@@ -28,5 +28,5 @@ const canonical = new URL('/', Astro.site).href;
     <About />
     <Contact />
   </main>
-  <Footer links={[...SOLUTIONS.map((s) => ({ href: s.path, label: s.label })), { href: '#contato', label: 'Contato' }]} />
+  <Footer links={[...SERVICES.map((s) => ({ href: s.path, label: s.label })), { href: '#contato', label: 'Contato' }]} />
 </Layout>

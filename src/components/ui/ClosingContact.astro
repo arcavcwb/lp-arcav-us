@@ -30,7 +30,7 @@ const wa = whatsappLink(waMessage);
           <Portrait size="avatar" />
           <p>
             <strong>Quem responde é o Armando Castro</strong>
-            <span>Aqui de Curitiba. Resposta {RESPONSE_TIME}.</span>
+            <span>Aqui de Curitiba.{RESPONSE_TIME && ` Resposta ${RESPONSE_TIME}.`}</span>
           </p>
         </div>
         <p class="small">

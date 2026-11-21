@@ -15,17 +15,18 @@ export const commerceService = {
     title: 'Seus clientes escolhem no site e o pedido chega pronto no seu WhatsApp.',
     subtitle:
       'Criamos sites comerciais, organizamos pedidos pelo WhatsApp e mantemos suas ofertas em destaque. Tudo simples de operar, para você e para seus clientes.',
-    cta: 'Quero ver a minha loja',
+    cta: 'Quero uma loja assim',
   },
   /** Loja de exemplo do celular interativo (home e esta página). Ilustrativa. */
   demo: {
     products: [
-      { name: 'Café 500 g', detail: 'Pacote', qty: 2 },
-      { name: 'Leite 1 L', detail: 'Integral', qty: 1 },
-      { name: 'Pão de forma', detail: '500 g', qty: 1 },
+      { name: 'Café 500 g', detail: 'Pacote', qty: 0 },
+      { name: 'Leite 1 L', detail: 'Integral', qty: 0 },
+      { name: 'Pão de forma', detail: '500 g', qty: 0 },
       { name: 'Arroz 5 kg', detail: 'Pacote', qty: 0 },
     ] satisfies DemoProduct[],
-    caption: 'Toque em + e − e revise o pedido. Loja de exemplo, não representa um cliente real.',
+    /** Começa vazio: o carrinho cheio parecia uma captura de tela, não algo para tocar. */
+    caption: 'Loja de exemplo. Não representa um cliente real.',
   },
   pillars: {
     label: 'Como ajudamos',
@@ -70,6 +71,12 @@ export const commerceService = {
       action: 'Enviar pedido pelo WhatsApp',
       caption: 'Ilustração conceitual. Não representa um cliente real.',
     } satisfies IllustrativeOrder,
+    /** A ilustração espelha a demo do topo da página. */
+    live: {
+      empty: 'Monte um pedido no exemplo do topo da página. Ele aparece aqui do jeito que chegaria no WhatsApp da loja.',
+      cta: { href: '#demo', label: 'Montar um pedido' },
+      caption: 'O lado da loja: o pedido que você montou no exemplo. Não representa um cliente real.',
+    },
   },
   /** Perguntas frequentes. Só respostas confirmadas pelo Armando (preço e prazo: definidos após a análise). */
   faq: {
@@ -81,7 +88,11 @@ export const commerceService = {
       },
       {
         q: 'Quanto custa?',
-        a: 'Depende do que o seu comércio precisa. O valor vem junto com a análise e a demonstração, sem compromisso.',
+        a: 'Depende do que o seu comércio precisa. O valor vem na proposta, depois da conversa, sem compromisso.',
+      },
+      {
+        q: 'Posso ver como ficaria com os meus produtos?',
+        a: 'A loja de exemplo desta página pode ser testada agora. Depois da conversa, se houver encaixe, preparamos uma prévia resumida com alguns dos seus produtos para acompanhar a proposta.',
       },
       {
         q: 'Quanto tempo leva para ficar pronto?',
@@ -99,13 +110,13 @@ export const commerceService = {
   },
   closing: {
     label: 'Próximo passo',
-    title: 'Quer ver como ficaria a sua loja?',
+    title: 'Quer uma loja assim para o seu comércio?',
     text:
-      'Mande o link do seu site, Instagram ou catálogo. Nós analisamos como você atende hoje e mostramos uma demonstração com os seus produtos, sem compromisso.',
-    cta: 'Quero ver a minha loja',
+      'Mande o link do seu site, Instagram ou catálogo e conte como você atende hoje. Respondemos com os próximos passos e, se houver encaixe, preparamos uma prévia resumida com alguns dos seus produtos.',
+    cta: 'Quero uma loja assim',
     emailHint: 'Se preferir, escreva para',
-    contactSubject: 'Quero ver como ficaria a minha loja',
+    contactSubject: 'Quero uma loja assim',
     contactMessage:
-      'Olá! Vi a página de soluções para comércios da ARCAV e quero ver como ficaria a minha loja.\n\nMeu site, Instagram ou catálogo: ',
+      'Olá! Vi a página de soluções para comércios da ARCAV e quero conversar sobre uma loja assim.\n\nMeu site, Instagram ou catálogo: ',
   },
 };

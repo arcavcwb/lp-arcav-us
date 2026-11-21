@@ -5,11 +5,13 @@ interface Props {
   items: Array<{ q: string; a: string }>;
   title?: string;
   id?: string;
+  /** Fundo cinza (padrão) ou branco, para alternar com a seção anterior. */
+  muted?: boolean;
 }
 
-const { items, title = 'Perguntas frequentes', id = 'faq-title' } = Astro.props;
+const { items, title = 'Perguntas frequentes', id = 'faq-title', muted = true } = Astro.props;
 ---
-<section class="section section--muted" aria-labelledby={id}>
+<section class:list={['section', { 'section--muted': muted }]} aria-labelledby={id}>
   <div class="container faq">
     <h2 class="h2" id={id}>{title}</h2>
     <div class="faq__list">

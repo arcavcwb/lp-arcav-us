@@ -1,6 +1,7 @@
 ---
 // O lado da loja: o pedido chega pronto ao WhatsApp e o atendimento continua com o comerciante.
-// Ilustração, não captura de tela.
+// Ilustração, não captura de tela. Com `live`, espelha o pedido montado no PhoneDemo da página
+// (evento `demo:order`); sem pedido, convida a montar um. Sem `live`, mostra o pedido fixo.
 import Icon from './Icon.astro';
 import type { IllustrativeOrder } from '../../data/proposals/types';
 
@@ -9,6 +10,8 @@ interface Props {
   greeting?: string;
   reply?: string;
   note?: string;
+  /** Espelha a demo da página: texto e link enquanto não há pedido, e a legenda do modo ao vivo. */
+  live?: { empty: string; cta: { href: string; label: string }; caption: string };
 }
 
 const {
@@ -16,9 +19,10 @@ const {
   greeting = 'Olá! Quero fazer um pedido:',
   reply = 'Recebido! Já vamos separar seu pedido.',
   note = 'O atendimento continua com você, no WhatsApp de sempre.',
+  live,
 } = Astro.props;
 ---
-<figure class="order-message">
+<figure class="order-message" data-order-message={live ? '' : undefined}>
   <div class="inbox">
     <div class="inbox__head">
       <span class="inbox__avatar" aria-hidden="true">C</span>
@@ -28,10 +32,20 @@ const {
       </p>
     </div>
 
-    <div class="inbox__thread">
+    {live && (
+      <div class="inbox__empty" data-order-empty>
+        <p>{live.empty}</p>
+        <a class="btn btn--ghost btn--sm" href={live.cta.href}>
+          {live.cta.label}
+          <Icon name="arrow-right" />
+        </a>
+      </div>
+    )}
+
+    <div class="inbox__thread" data-order-thread hidden={live ? true : undefined} aria-live={live ? 'polite' : undefined}>
       <div class="bubble bubble--in">
         <p>{greeting}</p>
-        <ul role="list" class="tnum">
+        <ul role="list" class="tnum" data-order-lines>
           {order.items.map((item) => <li>{item.qty} × {item.name}</li>)}
         </ul>
       </div>
@@ -45,8 +59,32 @@ const {
       {note}
     </p>
   </div>
-  <figcaption>{order.caption}</figcaption>
+  <figcaption>{live ? live.caption : order.caption}</figcaption>
 </figure>
+
+<script>
+  type Item = { qty: number; name: string };
+  const roots = document.querySelectorAll<HTMLElement>('[data-order-message]');
+  if (roots.length) {
+    document.addEventListener('demo:order', (event) => {
+      const items = (event as CustomEvent<{ items: Item[] }>).detail.items;
+      roots.forEach((root) => {
+        const empty = root.querySelector<HTMLElement>('[data-order-empty]')!;
+        const thread = root.querySelector<HTMLElement>('[data-order-thread]')!;
+        const lines = root.querySelector<HTMLElement>('[data-order-lines]')!;
+        empty.hidden = items.length > 0;
+        thread.hidden = items.length === 0;
+        lines.replaceChildren(
+          ...items.map((item) => {
+            const li = document.createElement('li');
+            li.textContent = `${item.qty} × ${item.name}`;
+            return li;
+          }),
+        );
+      });
+    });
+  }
+</script>
 
 <style>
   .order-message {
@@ -101,6 +139,23 @@ const {
     gap: 0.75rem;
   }
 
+  .inbox__thread[hidden],
+  .inbox__empty[hidden] {
+    display: none;
+  }
+
+  .inbox__empty {
+    display: grid;
+    justify-items: start;
+    gap: 0.875rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .inbox__empty p {
+    text-wrap: pretty;
+  }
+
   .bubble {
     display: grid;
     gap: 0.25rem;
@@ -144,5 +199,6 @@ const {
   figcaption {
     font-size: 0.8125rem;
     color: var(--muted);
+    text-wrap: pretty;
   }
 </style>

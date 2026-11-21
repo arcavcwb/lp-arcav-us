@@ -40,9 +40,11 @@ Las rutas antiguas `/pt/…`, `/es` y `/en` redirigen con 301 (ver `redirects` e
 
 Os formulários (home e página de comércios) enviam o contato pelo próprio site em `POST /api/contato` (`src/pages/api/contato.ts`). A API tenta, nesta ordem:
 
-1. **n8n**: se existir a variável `N8N_WEBHOOK_URL`, envia o contato em JSON para esse webhook (com `Authorization: Bearer <N8N_WEBHOOK_TOKEN>` se o token existir). Campos: `source`, `variant` (`general` ou `store`), `page`, `receivedAt`, `name`, `business`, `link`, `reply`, `message`, `subject`, `text`. É aqui que o fluxo com Evolution API pode avisar o Armando e responder o cliente no WhatsApp dentro do prazo prometido (1 hora).
+1. **n8n**: se existir a variável `N8N_WEBHOOK_URL`, envia o contato em JSON para esse webhook (com `Authorization: Bearer <N8N_WEBHOOK_TOKEN>` se o token existir). Campos: `source`, `variant` (`general` ou `store`), `page`, `receivedAt`, `name`, `business`, `link`, `reply`, `message`, `subject`, `text`. É aqui que o fluxo com Evolution API pode avisar o Armando e responder o cliente no WhatsApp. O site não promete prazo de resposta enquanto `RESPONSE_TIME` (`src/lib/contact.ts`) for `null`; reative-o só quando a automação garantir o prazo.
 2. **E-mail da Cloudflare**: se o binding `SEND_EMAIL` existir, envia um e-mail para `hola@arcav.us`.
 3. **Plano B**: sem nenhum dos dois (ou se ambos falharem), a API responde 503/502 e o formulário monta a mensagem e abre o WhatsApp da ARCAV no aparelho do visitante.
+
+**Interruptor `DIRECT_SEND`** (`src/lib/contact.ts`): enquanto estiver `false`, o formulário nem chama a API. O botão diz "Enviar pelo WhatsApp" e abre o WhatsApp com a mensagem pronta, para não prometer um envio que o site ainda não faz. Depois de configurar o n8n ou o e-mail e testar um envio real em produção, mude para `true` e publique de novo.
 
 Configurar o n8n (recomendado):
 

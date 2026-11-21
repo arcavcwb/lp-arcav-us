@@ -10,16 +10,25 @@ export interface Solution {
   label: string;
   /** Frase curta para os cards simplificados da home. */
   tagline: string;
-  /** Landing page (oferta principal) ou solução complementar. */
-  group: 'landing' | 'extra';
+  /**
+   * 'main' = um dos cinco serviços da home (site institucional, migração, landing pages, comércio,
+   * automação). 'landing' = um dos tipos de landing page, que vivem dentro de /solucoes/landing-pages/.
+   */
+  group: 'main' | 'landing';
+  /** Frase na voz do cliente que leva a este serviço na home ("Preciso de um site para a minha empresa."). */
+  situation?: string;
   /** Uma linha para cards e listas. */
   short: string;
-  /** Percurso da landing page no infográfico da home (só para group 'landing'). */
-  flow?: { from: string[]; action: string[]; to: string[] };
-  /** Objetivo em linguagem simples ("Quero ...") para o infográfico. */
+  /**
+   * "O caminho do seu cliente" em três frases completas e simples (de onde vem → o que faz → onde
+   * você recebe). Aparece na ficha da home e no hero da solução sem exemplo. Frases inteiras, não
+   * rótulos com botõezinhos: o esquema fragmentado não se entendia.
+   */
+  journey?: [string, string, string];
+  /** Título do bloco de três frases. Padrão: "O caminho do seu cliente". */
+  journeyTitle?: string;
+  /** Objetivo em linguagem simples ("Quero ...") para as abas da home. */
   goal?: string;
-  /** Uma frase de exemplo, em linguagem simples, contando o percurso. */
-  story?: string;
   icon: IconName;
   meta: { title: string; description: string };
   hero: { title: string; subtitle: string; cta: string };
@@ -40,15 +49,173 @@ const PRICE_FAQ = {
   a: 'O valor e o prazo são definidos depois de entender o seu projeto, sem compromisso. Você recebe tudo por escrito antes de decidir.',
 };
 
+/**
+ * Dois níveis de demonstração: o exemplo público (qualquer visitante, já publicado no site) e a prévia
+ * comercial (resumida, só quando há encaixe depois da conversa). Sem quantidades, prazos ou vagas até
+ * o Armando decidir.
+ */
+const PREVIEW_FAQ = {
+  q: 'Posso ver algo antes de contratar?',
+  a: 'Sim. Os exemplos publicados no site podem ser testados a qualquer momento. Depois da conversa, se houver encaixe, preparamos uma prévia resumida do seu projeto para acompanhar a proposta. A prévia não substitui o projeto completo.',
+};
+
 export const SOLUTIONS: Solution[] = [
+  {
+    slug: 'site-institucional',
+    path: '/solucoes/site-institucional/',
+    name: 'Site institucional',
+    label: 'Site institucional',
+    situation: 'Preciso de um site para a minha empresa.',
+    journey: [
+      'Alguém ouve falar da sua empresa e procura o nome no Google.',
+      'Abre o seu site, entende o que vocês fazem e chama no WhatsApp ou preenche o formulário.',
+      'O contato chega no seu WhatsApp ou no e-mail da empresa.',
+    ],
+    tagline: 'Quem vocês são, o que fazem e como falar com vocês.',
+    group: 'main',
+    short: 'O site da sua empresa: quem vocês são, os serviços, onde atendem e como falar com vocês, em poucas páginas claras.',
+    icon: 'layout',
+    meta: {
+      title: 'Site Institucional para Empresas em Curitiba | ARCAV',
+      description:
+        'Sites institucionais sob medida para empresas de Curitiba: quem vocês são, serviços, localização e contato, em poucas páginas claras e pensadas para o celular.',
+    },
+    hero: {
+      title: 'Um site que apresenta a sua empresa por inteiro.',
+      subtitle:
+        'Quem vocês são, o que fazem, onde atendem e como falar com vocês, em poucas páginas claras. Feito sob medida e pensado primeiro para o celular.',
+      cta: 'Quero um site para a empresa',
+    },
+    forWho: [
+      'Empresas que ainda não têm site ou só têm perfil nas redes',
+      'Prestadores de serviço, indústrias e distribuidoras',
+      'Empresas que precisam mostrar serviços, equipe e localização',
+    ],
+    includes: [
+      'Páginas essenciais: início, quem somos, serviços e contato',
+      'Estrutura e textos organizados com você',
+      'Versão para celular revisada tela a tela',
+      'WhatsApp, formulário e mapa para o contato',
+      'Publicação no seu domínio, com carregamento rápido',
+      'Medição de visitas e cliques',
+    ],
+    example: { path: null, client: null, image: null },
+    faq: [
+      { q: 'Quantas páginas o site vai ter?', a: 'Depende do que a sua empresa precisa mostrar. Definimos as páginas juntos na conversa, e tudo fica por escrito na proposta.' },
+      { q: 'Preciso ter fotos e textos prontos?', a: 'Ajuda, mas não é obrigatório. Partimos do que você já tem e organizamos juntos o que falta.' },
+      PREVIEW_FAQ,
+      PRICE_FAQ,
+    ],
+    contact: {
+      subject: 'Quero um site institucional',
+      label: 'Conte sobre a sua empresa e o que o site precisa mostrar',
+      placeholder: 'Ex.: somos uma distribuidora, hoje só temos Instagram e queremos um site com os serviços e o contato.',
+    },
+  },
+  {
+    slug: 'migracao',
+    path: '/solucoes/migracao/',
+    name: 'Migração e modernização',
+    label: 'Migração',
+    situation: 'Meu site está velho, lento ou preso numa plataforma.',
+    journeyTitle: 'Como é uma migração',
+    journey: [
+      'Levantamos o que existe hoje: páginas, conteúdo, domínio, e-mails e dados.',
+      'Montamos a base nova e levamos o conteúdo, com o site atual funcionando até a troca.',
+      'Na data combinada, a troca acontece e conferimos tudo com você.',
+    ],
+    tagline: 'O que você já tem, levado para uma base nova.',
+    group: 'main',
+    short: 'Sites que saem do WordPress, do Wix ou de uma plataforma antiga; hospedagem, domínio e e-mail que mudam de lugar; dados e sistemas que passam para algo novo.',
+    icon: 'refresh',
+    meta: {
+      title: 'Migração de Site e Sistemas em Curitiba | ARCAV',
+      description:
+        'Migração de sites do WordPress, do Wix e de plataformas antigas, troca de hospedagem, domínio e e-mail, redesenho do site atual e passagem de dados e sistemas para uma base nova.',
+    },
+    hero: {
+      title: 'Seu site ou sistema em uma base nova, sem começar do zero.',
+      subtitle:
+        'Para quem tem um site preso no WordPress, no Wix ou numa plataforma antiga, quer trocar de hospedagem ou precisa levar dados e sistemas para algo novo. O que já funciona vai junto.',
+      cta: 'Quero conversar sobre a migração',
+    },
+    forWho: [
+      'Sites lentos, desatualizados ou difíceis de editar',
+      'Empresas presas a uma plataforma, hospedagem ou fornecedor',
+      'Dados espalhados em planilhas ou em sistemas antigos',
+    ],
+    includes: [
+      'Levantamento do que existe: páginas, conteúdo, domínio, e-mails e dados',
+      'Site novo a partir do conteúdo atual, com design e textos revisados',
+      'Endereços antigos redirecionados para os novos',
+      'Troca de hospedagem, domínio e e-mail planejada com você',
+      'Passagem de dados de planilhas ou sistemas antigos',
+      'Conferência de tudo depois da troca',
+    ],
+    example: { path: null, client: null, image: null },
+    faq: [
+      { q: 'O site sai do ar durante a migração?', a: 'A troca é planejada com você e marcada com antecedência. Até lá, o site atual continua funcionando.' },
+      { q: 'Preciso migrar tudo de uma vez?', a: 'Não. Às vezes faz sentido migrar por partes, e às vezes nem é preciso migrar: conectar o que já existe resolve. Isso fica claro na conversa.' },
+      PREVIEW_FAQ,
+      PRICE_FAQ,
+    ],
+    contact: {
+      subject: 'Quero migrar meu site ou sistema',
+      label: 'O que você tem hoje e o que quer mudar?',
+      placeholder: 'Ex.: nosso site está no Wix, está lento e queremos levar para um lugar nosso, junto com o e-mail.',
+    },
+  },
+  {
+    slug: 'landing-pages',
+    path: '/solucoes/landing-pages/',
+    name: 'Landing pages',
+    label: 'Landing pages',
+    situation: 'Vou anunciar, lançar um produto ou fazer um evento.',
+    journey: [
+      'Alguém vê o seu anúncio, recebe o seu link ou procura você no Google.',
+      'Abre uma página feita para uma ação só e chama, compra ou se inscreve.',
+      'O contato, a venda ou a inscrição chega onde você já trabalha.',
+    ],
+    tagline: 'Uma página só, feita para uma ação.',
+    group: 'main',
+    short: 'Uma página para cada objetivo: passar confiança, receber contatos de um anúncio, vender um produto ou encher um evento.',
+    icon: 'target',
+    meta: {
+      title: 'Landing Pages em Curitiba: Campanhas, Produtos e Eventos | ARCAV',
+      description:
+        'Landing pages sob medida para profissionais, campanhas, lançamentos de produto e eventos. Uma página para cada objetivo, com o contato chegando onde você já trabalha.',
+    },
+    hero: {
+      title: 'Uma página para cada objetivo.',
+      subtitle:
+        'Landing page é uma página só, feita para levar a pessoa a uma ação: chamar no WhatsApp, deixar o contato, comprar ou se inscrever. Escolha o seu objetivo e veja como funciona.',
+      cta: 'Quero uma landing page',
+    },
+    forWho: [],
+    includes: [],
+    example: { path: null, client: null, image: null },
+    faq: [
+      { q: 'Qual tipo de landing page é o meu?', a: 'Se você não tiver certeza, conte o seu objetivo na conversa. A gente indica o tipo de página que faz sentido.' },
+      PREVIEW_FAQ,
+      PRICE_FAQ,
+    ],
+    contact: {
+      subject: 'Quero uma landing page',
+      label: 'Conte o que você quer com a página',
+      placeholder: 'Ex.: vou anunciar no Instagram uma promoção de matrículas e quero receber os contatos organizados.',
+    },
+  },
   {
     slug: 'landing-page-alto-padrao',
     path: '/solucoes/landing-page-alto-padrao/',
     name: 'Landing page de alto padrão',
     label: 'Alto padrão',
-    flow: { from: ['Google', 'Instagram', 'Indicação'], action: ['Chama no WhatsApp', 'Preenche um formulário'], to: ['Seu WhatsApp', 'E-mail'] },
+    journey: [
+      'Alguém procura você no Google, vê seu Instagram ou recebe uma indicação.',
+      'Abre a sua página, vê o seu trabalho e chama no WhatsApp ou deixa o contato.',
+      'A mensagem chega no seu WhatsApp ou no seu e-mail.',
+    ],
     goal: 'Quero passar confiança',
-    story: 'Alguém procura você no Google ou recebe uma indicação, vê uma página à altura do seu trabalho e chama no WhatsApp ou deixa o contato.',
     tagline: 'Para marcas e profissionais que vendem confiança.',
     group: 'landing',
     short: 'Para marcas e profissionais que vendem confiança: design sob medida, acabamento cuidadoso e contato direto.',
@@ -81,6 +248,7 @@ export const SOLUTIONS: Solution[] = [
     faq: [
       { q: 'Vocês usam template?', a: 'Não. O layout é desenhado para o seu negócio, a partir do que você quer que o visitante sinta e faça.' },
       { q: 'Preciso ter fotos e textos prontos?', a: 'Ajuda, mas não é obrigatório. Partimos do que você já tem e organizamos juntos o que falta.' },
+      PREVIEW_FAQ,
       PRICE_FAQ,
     ],
     contact: {
@@ -94,9 +262,12 @@ export const SOLUTIONS: Solution[] = [
     path: '/solucoes/landing-page-campanhas/',
     name: 'Landing page para campanhas',
     label: 'Campanhas',
-    flow: { from: ['Anúncios'], action: ['Preenche um formulário'], to: ['Planilha', 'CRM', 'Seu WhatsApp'] },
+    journey: [
+      'Alguém vê o seu anúncio no Instagram ou no Google e toca nele.',
+      'Abre uma página com uma oferta só e preenche o formulário.',
+      'O contato chega na sua planilha, no CRM e no seu WhatsApp.',
+    ],
     goal: 'Quero contatos de um anúncio',
-    story: 'Alguém vê seu anúncio no Instagram ou no Google, cai em uma página com uma oferta só e preenche o formulário. O contato chega na planilha, no CRM e no seu WhatsApp.',
     tagline: 'Uma página, uma ação e cada contato medido.',
     group: 'landing',
     short: 'Uma página, uma ação: para anúncios e ações com prazo, com formulário à vista e cada contato medido.',
@@ -129,6 +300,7 @@ export const SOLUTIONS: Solution[] = [
     faq: [
       { q: 'Funciona com os anúncios que eu já faço?', a: 'Sim. A página recebe o tráfego dos seus anúncios e registra de onde veio cada contato.' },
       { q: 'Para onde vão os contatos?', a: 'Para onde for mais prático para você: WhatsApp, e-mail, planilha ou o CRM que você já usa.' },
+      PREVIEW_FAQ,
       PRICE_FAQ,
     ],
     contact: {
@@ -142,9 +314,12 @@ export const SOLUTIONS: Solution[] = [
     path: '/solucoes/landing-page-produto/',
     name: 'Landing page de produto',
     label: 'Produto',
-    flow: { from: ['Anúncios', 'Google', 'Instagram'], action: ['Compra ou testa'], to: ['Pagamento', 'CRM'] },
+    journey: [
+      'Alguém conhece o seu produto por um anúncio, no Google ou no Instagram.',
+      'Abre a página, entende como o produto funciona e compra ou começa a testar.',
+      'Você recebe o pagamento e os dados do cliente ficam no seu CRM.',
+    ],
     goal: 'Quero vender um produto',
-    story: 'Alguém conhece seu produto por um anúncio ou no Google, entende como ele funciona e compra ou começa a testar ali mesmo.',
     tagline: 'O seu produto explicado até a compra.',
     group: 'landing',
     short: 'Para lançamentos, apps e serviços novos: o produto funcionando, as dúvidas respondidas e o caminho até a compra.',
@@ -177,6 +352,7 @@ export const SOLUTIONS: Solution[] = [
     faq: [
       { q: 'Dá para vender direto pela página?', a: 'Sim, conectando ao checkout que você já usa ou ao WhatsApp, conforme o produto.' },
       { q: 'E se o produto ainda não está pronto?', a: 'Dá para começar com uma página de lista de espera e evoluir para a de vendas no lançamento.' },
+      PREVIEW_FAQ,
       PRICE_FAQ,
     ],
     contact: {
@@ -190,9 +366,12 @@ export const SOLUTIONS: Solution[] = [
     path: '/solucoes/landing-page-palestras/',
     name: 'Landing page para palestras e eventos',
     label: 'Palestras e eventos',
-    flow: { from: ['WhatsApp', 'Instagram'], action: ['Se inscreve'], to: ['Planilha', 'E-mail'] },
+    journey: [
+      'Alguém recebe o link no WhatsApp ou vê o evento no Instagram.',
+      'Abre a página, confere a data e a programação e se inscreve.',
+      'A inscrição cai na sua planilha e a pessoa recebe a confirmação por e-mail.',
+    ],
     goal: 'Quero inscrições para um evento',
-    story: 'Alguém recebe o link no WhatsApp ou vê no Instagram, confere a data e a programação e se inscreve. A inscrição cai na planilha e a confirmação vai por e-mail.',
     tagline: 'Tema, data e inscrição em uma página.',
     group: 'landing',
     short: 'Tema, palestrante, data e inscrição em uma página que se compartilha bem no WhatsApp.',
@@ -225,6 +404,7 @@ export const SOLUTIONS: Solution[] = [
     faq: [
       { q: 'Dá para cobrar a inscrição?', a: 'Sim. Conectamos a página a um meio de pagamento, ou mantemos a inscrição gratuita com confirmação.' },
       { q: 'Serve para vários eventos?', a: 'Sim. A estrutura pode ser reaproveitada para as próximas datas e turmas.' },
+      PREVIEW_FAQ,
       PRICE_FAQ,
     ],
     contact: {
@@ -235,15 +415,16 @@ export const SOLUTIONS: Solution[] = [
   },
   {
     slug: 'comercio-digital',
+    situation: 'Vendo pelo WhatsApp e quero receber pedidos organizados.',
     path: '/solucoes/comercio-digital/',
     name: 'Site para comércio com pedido no WhatsApp',
     label: 'Comércio com pedido no WhatsApp',
     tagline: 'O pedido chega pronto no WhatsApp da loja.',
-    group: 'extra',
+    group: 'main',
     short: 'Catálogo com carrinho que envia o pedido pronto para o WhatsApp da loja, com ofertas que você só aprova.',
     icon: 'cart',
     meta: { title: '', description: '' },
-    hero: { title: '', subtitle: '', cta: 'Quero ver a minha loja' },
+    hero: { title: '', subtitle: '', cta: 'Quero uma loja assim' },
     forWho: [],
     includes: [],
     example: { path: '/solucoes/comercio-digital/#demo', client: 'Loja de exemplo', image: '/exemplos/comercio.webp' },
@@ -252,11 +433,17 @@ export const SOLUTIONS: Solution[] = [
   },
   {
     slug: 'sistemas-e-automacao',
+    situation: 'Faço tudo à mão, entre planilha, e-mail e WhatsApp.',
     path: '/solucoes/sistemas-e-automacao/',
     name: 'Sistemas e automação',
     label: 'Sistemas e automação',
     tagline: 'O trabalho repetido acontece sozinho.',
-    group: 'extra',
+    group: 'main',
+    journey: [
+      'Seu cliente faz um pedido pelo formulário ou pelo WhatsApp.',
+      'A automação confirma o pedido para ele e registra tudo sozinha.',
+      'Você acompanha na planilha, no e-mail ou em um painel.',
+    ],
     short: 'Formulários, planilhas e WhatsApp conectados: confirmações, lembretes e relatórios que acontecem sozinhos.',
     icon: 'workflow',
     meta: {
@@ -286,6 +473,7 @@ export const SOLUTIONS: Solution[] = [
     faq: [
       { q: 'Preciso trocar as ferramentas que já uso?', a: 'Não. Primeiro conectamos o que já funciona; só criamos algo novo onde falta.' },
       { q: 'E se a automação parar?', a: 'Cada automação é documentada e acompanhada depois da entrega, e você sabe o que fazer se algo falhar.' },
+      PREVIEW_FAQ,
       PRICE_FAQ,
     ],
     contact: {
@@ -298,10 +486,16 @@ export const SOLUTIONS: Solution[] = [
 
 export const solutionBySlug = (slug: string) => SOLUTIONS.find((s) => s.slug === slug)!;
 
+/**
+ * Os cinco serviços, na ordem da home, do rodapé e de "Outras soluções". Cada um entra por uma
+ * situação do cliente (`situation`). Os tipos de landing page ficam dentro de "Landing pages".
+ */
+export const SERVICES: Solution[] = ['site-institucional', 'migracao', 'landing-pages', 'comercio-digital', 'sistemas-e-automacao'].map(solutionBySlug);
+
 /** Passos comuns a todas as soluções. */
 export const SOLUTION_STEPS = [
   'Conversa sobre o seu objetivo e o que já existe.',
-  'Escopo claro: o que entra, o prazo e o valor, por escrito.',
-  'Construção com revisões e a sua aprovação.',
-  'Publicação, medição e acompanhamento.',
+  'Se houver encaixe, uma prévia resumida do seu projeto.',
+  'Proposta por escrito: o que entra, o prazo e o valor.',
+  'Construção com a sua aprovação, publicação e acompanhamento.',
 ];

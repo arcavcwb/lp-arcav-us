@@ -1,16 +1,18 @@
 ---
-// Formulário de contato. Tenta enviar pelo próprio site (/api/contato, Cloudflare Email).
-// Se o envio não estiver configurado ou falhar, monta a mensagem e abre o e-mail
-// (ou o WhatsApp, quando houver um número comercial verificado em src/lib/contact.ts).
+// Formulário de contato. Com DIRECT_SEND, envia pelo próprio site (/api/contato: n8n ou
+// Cloudflare Email) e, se falhar, monta a mensagem e abre o WhatsApp (ou o e-mail).
+// Sem DIRECT_SEND, o botão diz "Enviar pelo WhatsApp" e vai direto para lá: não prometemos
+// um envio que o site ainda não faz.
 import Icon from './Icon.astro';
+import BrandIcon from './BrandIcon.astro';
 import { BRAND } from '../../data/site';
-import { ARCAV_WHATSAPP, ARCAV_WHATSAPP_DISPLAY, RESPONSE_TIME, whatsappLink } from '../../lib/contact';
+import { ARCAV_WHATSAPP, ARCAV_WHATSAPP_DISPLAY, DIRECT_SEND, RESPONSE_TIME, whatsappLink } from '../../lib/contact';
 
 type Variant = 'general' | 'store';
 
 interface Props {
   subject: string;
-  /** general: contato da home e das soluções. store: pedido de análise + demonstração (comércios). */
+  /** general: contato da home e das soluções. store: conversa sobre um site de pedidos (comércios). */
   variant?: Variant;
   /** Pergunta do campo de mensagem (variante general). */
   messageLabel?: string;
@@ -36,8 +38,12 @@ const fields =
         { id: 'message', label: messageLabel ?? 'Como funciona hoje e o que você quer melhorar?', type: 'textarea', rows: 5, required: true, placeholder: messagePlaceholder ?? 'Ex.: recebo pedidos pelo WhatsApp e anoto tudo no caderno.', error: 'Conte em poucas linhas o que você precisa.' },
       ];
 
-const submitLabel = submit ?? (variant === 'store' ? 'Quero ver a minha loja' : 'Enviar mensagem');
 const wa = whatsappLink();
+/** Sem envio direto e com WhatsApp: o formulário só prepara a mensagem para o WhatsApp. */
+const viaWhatsapp = !DIRECT_SEND && Boolean(wa);
+const submitLabel = viaWhatsapp
+  ? 'Enviar pelo WhatsApp'
+  : (submit ?? (variant === 'store' ? 'Quero uma loja assim' : 'Enviar mensagem'));
 ---
 <form
   class="contact-form"
@@ -50,6 +56,7 @@ const wa = whatsappLink();
   data-email={BRAND.email}
   data-whatsapp={ARCAV_WHATSAPP ?? ''}
   data-subject={subject}
+  data-direct={DIRECT_SEND ? 'true' : 'false'}
 >
   {fields.map((field) => {
     const id = `${uid}-${field.id}`;
@@ -97,7 +104,7 @@ const wa = whatsappLink();
   </div>
 
   <button class="btn btn--primary contact-form__submit" type="submit" data-submit>
-    <Icon name="send" />
+    {viaWhatsapp ? <BrandIcon name="whatsapp" mono /> : <Icon name="send" />}
     <span data-submit-label>{submitLabel}</span>
   </button>
 
@@ -125,14 +132,20 @@ const wa = whatsappLink();
   </div>
 
   <p class="contact-form__note">
-    Resposta {RESPONSE_TIME}. Usamos seus dados só para responder.
-    {wa ? (
+    {viaWhatsapp ? (
       <Fragment>
+        O WhatsApp abre com a sua mensagem pronta; é só tocar em enviar.{RESPONSE_TIME && ` Resposta ${RESPONSE_TIME}.`}
+        Usamos seus dados só para responder. Se preferir, escreva para <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
+      </Fragment>
+    ) : wa ? (
+      <Fragment>
+        {RESPONSE_TIME && `Resposta ${RESPONSE_TIME}. `}Usamos seus dados só para responder.
         Se preferir, chame no WhatsApp <a href={wa} target="_blank" rel="noopener noreferrer">{ARCAV_WHATSAPP_DISPLAY}</a>
         ou escreva para <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
       </Fragment>
     ) : (
       <Fragment>
+        {RESPONSE_TIME && `Resposta ${RESPONSE_TIME}. `}Usamos seus dados só para responder.
         Se preferir, escreva direto para <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
       </Fragment>
     )}
@@ -145,7 +158,7 @@ const wa = whatsappLink();
   const compose = (variant: string, subject: string, d: Data) => {
     if (variant === 'store') {
       const body = [
-        'Olá! Quero ver como ficaria a minha loja.',
+        'Olá! Quero conversar sobre um site de pedidos para a minha loja.',
         '',
         `Site, Instagram ou catálogo: ${d.link}`,
         d.message ? `\n${d.message}` : '',
@@ -174,6 +187,7 @@ const wa = whatsappLink();
     const email = form.dataset.email!;
     const whatsapp = form.dataset.whatsapp || '';
     const subject = form.dataset.subject!;
+    const direct = form.dataset.direct === 'true';
     const inputs = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-field]')];
     const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
     const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
@@ -238,6 +252,12 @@ const wa = whatsappLink();
 
       const d: Data = { variant, topic: subject };
       inputs.forEach((input) => (d[input.dataset.field!] = input.value.trim()));
+
+      if (!direct) {
+        if (d.website) return; // armadilha anti-spam preenchida
+        fallback(d);
+        return;
+      }
 
       submit.disabled = true;
       submitLabel.textContent = 'Enviando…';
