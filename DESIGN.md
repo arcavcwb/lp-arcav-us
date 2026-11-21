@@ -362,6 +362,19 @@ White 14px cards (Hairline border, 24px→32px padding) with a Title and an opti
 - **Favicon:** a provisional monogram: a Graphite rounded square with a light "A" whose crossbar is terracotta. It is replaced when the official symbol arrives.
 - **Open:** the footer reuses the same logo file on Graphite, and no light or inverse logo slot exists yet.
 
+### Implementação (Tailwind v4, 2026-11-21)
+
+Os tokens deste documento vivem em `src/styles/tokens.css` como tema do Tailwind (`@theme`), sem o tema padrão do Tailwind (`--*: initial`): só existem as cores, tamanhos, entrelinhas, espaços, larguras, grades, raios, sombras, durações, curvas e pontos de quebra da marca. **Nenhum valor solto:** uma cor, um tamanho ou um espaço novo entra primeiro aqui e no `tokens.css`, com nome, e nunca direto no componente, no CSS ou num script. O mesmo vale para o texto: componentes não escrevem palavras, leem de `src/data/`. As peças compartilhadas (shell, section, page-hero, h1/h2/lead, btn, link-arrow, card, steps, flow) ficam em `src/styles/primitives/`; os componentes usam utilitários, e só PhoneDemo, ContactForm e ProposalPage têm CSS próprio, com a classe raiz como escopo. Detalhes no README.
+
+A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda tem valores muito próximos (13 entrelinhas, 9 pontos de quebra, 3 distâncias de bloco dividido). A consolidação dessa escala faz parte do redesenho editorial (`docs/auditorias/AUDITORIA-VISUAL-HOME.md`).
+
+### Fotos (2026-11-21)
+
+- Fotos reais, nunca de banco de imagens nem geradas por IA. Lista, proporção e tamanho mínimo em `src/data/photos.ts`; arquivos em `src/assets/fotos/`.
+- **Hero da home:** retrato de trabalho 4:5 nas três últimas colunas (`grid-cols-hero-portrait`, 3:1), descendo 80px em relação ao título (`mt-portrait-drop`), com a legenda "Armando Castro · Curitiba" no lugar da antiga assinatura. No celular, depois das ações, a toda a largura, em 4:3.
+- **Sobre:** retrato próximo 4:5 à esquerda, texto à direita (`grid-cols-aside` a partir de 900px).
+- Enquanto a foto não chega, o lugar mostra um marcador `surface-strong` com "Foto em breve", a descrição e o tamanho; não é uma foto falsa.
+
 ### Soluções e exemplos (2026-11-21)
 
 - **Solution page** (`src/components/solution/SolutionPage.astro`, rota `src/pages/solucoes/[slug].astro`, dados em `src/data/solutions.ts`): hero com a captura do exemplo à direita, "Para quem é" e "O que está incluído" como listas com filete (sem cartões), "Como funciona" como sequência numerada com filetes, perguntas frequentes, "Outras soluções" e o bloco de contato escuro. Cabeçalho mínimo (marca + "Fale comigo"), rodapé com todas as soluções.

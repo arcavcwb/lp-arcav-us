@@ -9,7 +9,11 @@ import ExampleFrame from '../ui/ExampleFrame.astro';
 import SolutionFlow from './SolutionFlow.astro';
 import Faq from '../ui/Faq.astro';
 import ClosingContact from '../ui/ClosingContact.astro';
-import { SERVICES, SOLUTION_STEPS, type Solution } from '../../data/solutions';
+import { SERVICES, SOLUTION_PAGE as copy, SOLUTION_STEPS, type Solution } from '../../data/solutions';
+import { ANCHOR, toAnchor } from '../../data/anchors';
+import { footerNav } from '../../data/navigation';
+import { ui } from '../../data/ui';
+import { solutionTransition } from '../../lib/view-transitions';
 
 interface Props {
   solution: Solution;
@@ -18,25 +22,27 @@ interface Props {
 const { solution: s } = Astro.props;
 const canonical = new URL(s.path, Astro.site).href;
 const others = SERVICES.filter((o) => o.slug !== s.slug);
-const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ href: o.path, label: o.label })), { href: '#contato', label: 'Contato' }];
+const contact = toAnchor(ANCHOR.contact);
+/** Itens de "Para quem é" e "O que está incluído". */
+const fitItem = 'flex gap-3 border-b border-line py-4 text-base font-medium';
 ---
 <Layout title={s.meta.title} description={s.meta.description} canonical={canonical}>
-  <Header cta={{ href: '#contato', label: 'Fale comigo' }} />
+  <Header cta={{ href: contact, label: ui.header.cta }} />
 
-  <main id="conteudo">
+  <main id={ANCHOR.content}>
     <section class="page-hero" aria-labelledby="hero-title">
-      <div class="container page-hero__grid solution-hero">
+      <div class="shell page-hero__grid xl:grid-cols-hero-wide">
         <div>
-          <h1 class="h1" id="hero-title" style={`view-transition-name: sol-${s.slug}`}>{s.hero.title}</h1>
+          <h1 class="h1" id="hero-title" style={solutionTransition(s.slug)}>{s.hero.title}</h1>
           <p class="lead">{s.hero.subtitle}</p>
           <div class="page-hero__actions">
-            <a class="btn btn--primary" href="#contato">
+            <a class="btn btn--primary" href={contact}>
               {s.hero.cta}
               <Icon name="arrow-right" />
             </a>
-            {s.example.path && <a class="btn btn--ghost" href={s.example.path}>Ver o exemplo</a>}
+            {s.example.path && <a class="btn btn--ghost" href={s.example.path}>{copy.exampleCta}</a>}
           </div>
-          <p class="small hero-note">Conversa sem compromisso. Se houver encaixe, você recebe uma prévia resumida do seu projeto junto com a proposta.</p>
+          <p class="small hero-note mt-4">{copy.heroNote}</p>
         </div>
         {s.example.path || !s.journey ? (
           <ExampleFrame href={s.example.path} image={s.example.image} client={s.example.client} eager />
@@ -47,18 +53,18 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     </section>
 
     {Astro.slots.has('fit') ? <slot name="fit" /> : (
-    <section class="section" aria-label="Para quem é e o que está incluído">
-      <div class="container fit">
+    <section class="section" aria-label={copy.fit.label}>
+      <div class="shell grid gap-split lg:grid-cols-2">
         <div>
-          <h2 class="h2">Para quem é</h2>
-          <ul role="list" class="fit__list">
-            {s.forWho.map((item) => <li>{item}</li>)}
+          <h2 class="h2">{copy.fit.forWho}</h2>
+          <ul role="list" class="mt-6 grid border-t border-ink">
+            {s.forWho.map((item) => <li class={fitItem}>{item}</li>)}
           </ul>
         </div>
         <div>
-          <h2 class="h2">O que está incluído</h2>
-          <ul role="list" class="fit__list fit__list--check">
-            {s.includes.map((item) => <li><Icon name="check" />{item}</li>)}
+          <h2 class="h2">{copy.fit.includes}</h2>
+          <ul role="list" class="mt-6 grid border-t border-ink">
+            {s.includes.map((item) => <li class={fitItem}><Icon name="check" class="mt-optical-sm size-5 flex-none text-accent" />{item}</li>)}
           </ul>
         </div>
       </div>
@@ -66,9 +72,9 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     )}
 
     <section class="section section--muted" aria-labelledby="como-title">
-      <div class="container">
+      <div class="shell">
         <div class="section-head">
-          <h2 class="h2" id="como-title">Como funciona</h2>
+          <h2 class="h2" id="como-title">{copy.how}</h2>
         </div>
         <ol class="steps steps--4 steps--text">
           {SOLUTION_STEPS.map((step) => <li><p>{step}</p></li>)}
@@ -79,17 +85,17 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     <Faq items={s.faq} muted={false} />
 
     <section class="section section--muted" aria-labelledby="outras-title">
-      <div class="container">
+      <div class="shell">
         <div class="section-head">
-          <h2 class="h2" id="outras-title">Outras soluções</h2>
+          <h2 class="h2" id="outras-title">{copy.others}</h2>
         </div>
-        <ul role="list" class="others">
+        <ul role="list" class="grid gap-3 lg:grid-cols-2">
           {others.map((o) => (
             <li>
-              <a href={o.path}>
+              <a class="flex items-center gap-4 rounded-card border border-line bg-paper px-5 py-4 font-semibold text-ink no-underline transition-colors hover:border-ink" href={o.path}>
                 <span class="icon-badge"><Icon name={o.icon} /></span>
-                <span class="others__name">{o.name}</span>
-                <Icon name="arrow-right" class="others__arrow" />
+                <span class="flex-1">{o.name}</span>
+                <Icon name="arrow-right" class="size-4.5 text-muted" />
               </a>
             </li>
           ))}
@@ -98,98 +104,15 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     </section>
 
     <ClosingContact
-      title="Vamos conversar sobre o seu projeto?"
-      text="Conte o que você precisa. Respondemos com os próximos passos, sem compromisso e sem jargão técnico."
+      title={copy.closing.title}
+      text={copy.closing.text}
       subject={s.contact.subject}
       messageLabel={s.contact.label}
       messagePlaceholder={s.contact.placeholder}
       submit={s.hero.cta}
-      waMessage={`Olá! Vi a página "${s.name}" da ARCAV e quero conversar sobre o meu projeto.`}
+      waMessage={copy.closing.waMessage(s.name)}
     />
   </main>
 
-  <Footer links={footerLinks} />
+  <Footer links={footerNav()} />
 </Layout>
-
-<style>
-  .hero-note {
-    margin-top: 1rem;
-  }
-
-  .fit {
-    display: grid;
-    gap: clamp(2.5rem, 1.5rem + 3vw, 4rem);
-  }
-
-  .fit__list {
-    display: grid;
-    margin-top: 1.5rem;
-    border-top: 1px solid var(--ink);
-  }
-
-  .fit__list li {
-    display: flex;
-    gap: 0.75rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 1.0625rem;
-    font-weight: 500;
-  }
-
-  .fit__list--check :global(svg) {
-    width: 1.25rem;
-    height: 1.25rem;
-    flex: none;
-    margin-top: 0.15em;
-    color: var(--accent);
-  }
-
-  .others {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  .others a {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    background: var(--bg);
-    color: var(--ink);
-    text-decoration: none;
-    font-weight: 600;
-    transition: border-color 0.15s ease;
-  }
-
-  .others a:hover {
-    border-color: var(--ink);
-  }
-
-  .others__name {
-    flex: 1;
-  }
-
-  .others :global(.others__arrow) {
-    width: 1.125rem;
-    height: 1.125rem;
-    color: var(--muted);
-  }
-
-  @media (min-width: 880px) {
-    .fit {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .others {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (min-width: 960px) {
-    .solution-hero {
-      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-    }
-  }
-</style>

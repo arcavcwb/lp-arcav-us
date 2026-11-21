@@ -1,8 +1,10 @@
 ---
 // Bloco final escuro: chamada, quem responde (Armando), alternativas e o formulário.
 import ContactForm from './ContactForm.astro';
-import Portrait from './Portrait.astro';
+import Avatar from './Avatar.astro';
 import { BRAND } from '../../data/site';
+import { ANCHOR } from '../../data/anchors';
+import { ui } from '../../data/ui';
 import { ARCAV_WHATSAPP_DISPLAY, RESPONSE_TIME, whatsappLink } from '../../lib/contact';
 
 interface Props {
@@ -19,34 +21,38 @@ interface Props {
 
 const { title, text, subject, variant = 'general', messageLabel, messagePlaceholder, submit, waMessage } = Astro.props;
 const wa = whatsappLink(waMessage);
+const copy = ui.closingContact;
 ---
-<section class="section section--dark" id="contato" aria-labelledby="contato-title">
-  <div class="container">
-    <div class="closing">
-      <div class="closing__copy">
+<section class="section section--dark" id={ANCHOR.contact} aria-labelledby="contato-title">
+  <div class="shell">
+    <div class="grid items-start gap-split-tight lg:grid-cols-form">
+      <div class="grid max-w-lg gap-5">
         <h2 class="h2" id="contato-title">{title}</h2>
         <p class="lead">{text}</p>
-        <div class="responder">
-          <Portrait size="avatar" />
-          <p>
-            <strong>Quem responde é o Armando Castro</strong>
-            <span>Aqui de Curitiba.{RESPONSE_TIME && ` Resposta ${RESPONSE_TIME}.`}</span>
+        <div class="flex items-center gap-3.5 border-y border-on-dark-line py-4">
+          <Avatar />
+          <p class="grid leading-label">
+            <strong class="font-semibold text-on-dark">{copy.responder}</strong>
+            <span class="text-sm text-on-dark-muted">{copy.place}{RESPONSE_TIME && ` ${ui.responseTime(RESPONSE_TIME)}`}</span>
           </p>
         </div>
         <p class="small">
           {wa ? (
             <Fragment>
-              Se preferir, chame no WhatsApp <a href={wa} target="_blank" rel="noopener noreferrer">{ARCAV_WHATSAPP_DISPLAY}</a>
-              ou escreva para <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
+              {copy.whatsappLead}{' '}
+              <a href={wa} target="_blank" rel="noopener noreferrer">{ARCAV_WHATSAPP_DISPLAY}</a>{' '}
+              {copy.emailOr}{' '}
+              <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
             </Fragment>
           ) : (
             <Fragment>
-              Se preferir, escreva para <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
+              {copy.emailLead}{' '}
+              <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
             </Fragment>
           )}
         </p>
       </div>
-      <div class="card closing__form">
+      <div class="card closing__form border-transparent text-ink">
         <ContactForm
           subject={subject}
           variant={variant}
@@ -58,55 +64,3 @@ const wa = whatsappLink(waMessage);
     </div>
   </div>
 </section>
-
-<style>
-  .closing {
-    display: grid;
-    gap: clamp(2rem, 1.5rem + 2vw, 3.5rem);
-    align-items: start;
-  }
-
-  .closing__copy {
-    display: grid;
-    gap: 1.25rem;
-    max-width: 34rem;
-  }
-
-  .closing__copy .small a {
-    color: var(--on-dark);
-  }
-
-  .responder {
-    display: flex;
-    align-items: center;
-    gap: 0.875rem;
-    padding-block: 1rem;
-    border-block: 1px solid var(--on-dark-line);
-  }
-
-  .responder p {
-    display: grid;
-    line-height: 1.4;
-  }
-
-  .responder strong {
-    color: var(--on-dark);
-    font-weight: 600;
-  }
-
-  .responder span {
-    font-size: var(--text-sm);
-    color: var(--on-dark-muted);
-  }
-
-  .closing__form {
-    color: var(--ink);
-    border-color: transparent;
-  }
-
-  @media (min-width: 880px) {
-    .closing {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    }
-  }
-</style>

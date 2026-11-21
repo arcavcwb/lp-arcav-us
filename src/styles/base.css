@@ -1,0 +1,139 @@
+/* Base: reset mínimo e padrões dos elementos. Camada `base` (a mais fraca). */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: var(--spacing-anchor);
+  scrollbar-color: var(--color-line-strong) var(--color-paper);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01' 0;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+textarea,
+button,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+textarea {
+  caret-color: var(--color-accent);
+}
+
+::selection {
+  background: var(--color-selection);
+  color: var(--color-ink);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+}
+
+p,
+li,
+blockquote {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--text-underline-offset-link);
+}
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--color-accent);
+  outline-offset: var(--outline-offset-focus);
+  border-radius: var(--radius-xs);
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+/* Perguntas abertas/fechadas (<details>): sem o triângulo nativo; o ícone vem do componente. */
+summary {
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Um elemento com o atributo `hidden` fica oculto mesmo com um utilitário de display (grid, flex…). */
+[hidden]:where(:not([hidden='until-found'])) {
+  display: none !important;
+}
+
+/* Transição entre páginas (View Transitions entre documentos). O título do serviço na home
+   viaja até o título da página da solução (nomes em lib/view-transitions.ts); o cabeçalho
+   fica parado. */
+[data-site-header] {
+  view-transition-name: site-header;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--transition-duration-enter);
+    animation-timing-function: var(--ease-out);
+  }
+
+  ::view-transition-group(*) {
+    animation-duration: var(--transition-duration-morph);
+    animation-timing-function: var(--ease-out);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

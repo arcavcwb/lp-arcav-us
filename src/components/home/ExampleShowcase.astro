@@ -4,6 +4,7 @@
 import ExampleFrame from '../ui/ExampleFrame.astro';
 import Icon from '../ui/Icon.astro';
 import { SOLUTIONS } from '../../data/solutions';
+import { ui } from '../../data/ui';
 
 interface Props {
   class?: string;
@@ -12,30 +13,22 @@ interface Props {
 const { class: className } = Astro.props;
 const items = SOLUTIONS.filter((s) => s.example.path);
 const tabbed = items.length > 1;
-
-const TAB_LABEL: Record<string, string> = {
-  'landing-page-alto-padrao': 'Alto padrão',
-  'landing-page-campanhas': 'Campanhas',
-  'landing-page-produto': 'Produto',
-  'landing-page-palestras': 'Palestras',
-  'comercio-digital': 'Comércio',
-  'sistemas-e-automacao': 'Automação',
-};
 ---
-<div class:list={['showcase', className]} data-showcase>
+<div class:list={['grid gap-4', className]} data-showcase>
   {tabbed && (
-  <div class="showcase__tabs" role="tablist" aria-label="Exemplos por solução">
+  <div class="flex flex-wrap gap-1.5" role="tablist" aria-label={ui.examples.tabs}>
     {items.map((s, i) => (
       <button
         type="button"
         role="tab"
+        class="min-h-11 cursor-pointer rounded-full border border-line-strong bg-paper px-3.5 text-meta font-semibold text-muted transition-colors hover:border-ink hover:text-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-on-dark"
         id={`tab-${s.slug}`}
         aria-controls={`panel-${s.slug}`}
         aria-selected={i === 0 ? 'true' : 'false'}
         tabindex={i === 0 ? 0 : -1}
         data-tab
       >
-        {TAB_LABEL[s.slug] ?? s.name}
+        {s.label}
       </button>
     ))}
   </div>
@@ -43,7 +36,7 @@ const TAB_LABEL: Record<string, string> = {
 
   {items.map((s, i) => (
     <div
-      class="showcase__panel"
+      class="grid animate-fade-up items-center gap-6 xl:grid-cols-showcase xl:gap-12"
       role={tabbed ? 'tabpanel' : undefined}
       id={`panel-${s.slug}`}
       aria-labelledby={tabbed ? `tab-${s.slug}` : undefined}
@@ -51,13 +44,13 @@ const TAB_LABEL: Record<string, string> = {
       data-panel
     >
       <ExampleFrame href={s.example.path} image={s.example.image} client={s.example.client} eager={i === 0} />
-      <div class="showcase__info">
+      <div class="grid max-w-sm gap-3">
         <h3 class="h3">{s.name}</h3>
-        <p>{s.short}</p>
-        <div class="showcase__links">
-          {s.example.path && <a class="btn btn--ghost btn--sm" href={s.example.path}>Abrir o exemplo</a>}
+        <p class="text-muted">{s.short}</p>
+        <div class="mt-2 flex flex-wrap items-center gap-x-5 gap-y-3">
+          {s.example.path && <a class="btn btn--ghost btn--sm" href={s.example.path}>{ui.examples.open}</a>}
           <a class="link-arrow" href={s.path}>
-            Ver a solução
+            {ui.examples.solution}
             <Icon name="arrow-right" />
           </a>
         </div>
@@ -67,118 +60,7 @@ const TAB_LABEL: Record<string, string> = {
 </div>
 
 <script>
-  document.querySelectorAll<HTMLElement>('[data-showcase]').forEach((root) => {
-    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-tab]')];
-    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+  import { initTabs } from '../../scripts/tabs';
 
-    const select = (index: number, focus = false) => {
-      tabs.forEach((tab, i) => {
-        const on = i === index;
-        tab.setAttribute('aria-selected', String(on));
-        tab.tabIndex = on ? 0 : -1;
-        panels[i].hidden = !on;
-      });
-      if (focus) tabs[index].focus();
-    };
-
-    tabs.forEach((tab, i) => {
-      tab.addEventListener('click', () => select(i));
-      tab.addEventListener('keydown', (event) => {
-        const keys: Record<string, number> = {
-          ArrowRight: (i + 1) % tabs.length,
-          ArrowLeft: (i - 1 + tabs.length) % tabs.length,
-          Home: 0,
-          End: tabs.length - 1,
-        };
-        if (event.key in keys) {
-          event.preventDefault();
-          select(keys[event.key], true);
-        }
-      });
-    });
-  });
+  initTabs('[data-showcase]');
 </script>
-
-<style>
-  .showcase {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .showcase__tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-  }
-
-  .showcase__tabs button {
-    min-height: 2.75rem;
-    padding: 0 0.875rem;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    background: var(--bg);
-    color: var(--muted);
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-      background-color 0.15s ease,
-      color 0.15s ease,
-      border-color 0.15s ease;
-  }
-
-  .showcase__tabs button:hover {
-    border-color: var(--ink);
-    color: var(--ink);
-  }
-
-  .showcase__tabs button[aria-selected='true'] {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--on-dark);
-  }
-
-  .showcase__panel {
-    display: grid;
-    gap: 1.5rem;
-    align-items: center;
-    animation: panel-in 0.35s var(--ease-out);
-  }
-
-  .showcase__info {
-    display: grid;
-    gap: 0.75rem;
-    max-width: 26rem;
-  }
-
-  .showcase__info p {
-    color: var(--muted);
-  }
-
-  .showcase__links {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem 1.25rem;
-    margin-top: 0.5rem;
-  }
-
-  @media (min-width: 960px) {
-    .showcase__panel {
-      grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
-      gap: 3rem;
-    }
-  }
-
-  .showcase__panel[hidden] {
-    display: none;
-  }
-
-
-  @keyframes panel-in {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-  }
-</style>

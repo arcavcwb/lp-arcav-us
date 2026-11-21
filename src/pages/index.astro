@@ -11,15 +11,17 @@ import Problem from '../components/home/Problem.astro';
 import Method from '../components/home/Method.astro';
 import About from '../components/home/About.astro';
 import Contact from '../components/home/Contact.astro';
-import { home, mainNav } from '../data/site';
-import { SERVICES } from '../data/solutions';
+import { home } from '../data/site';
+import { ANCHOR, toAnchor } from '../data/anchors';
+import { footerNav, mainNav } from '../data/navigation';
+import { ui } from '../data/ui';
 
 const nav = mainNav();
 const canonical = new URL('/', Astro.site).href;
 ---
 <Layout title={home.meta.title} description={home.meta.description} canonical={canonical}>
-  <Header links={nav} cta={{ href: '#contato', label: 'Fale comigo' }} />
-  <main id="conteudo">
+  <Header links={nav} cta={{ href: toAnchor(ANCHOR.contact), label: ui.header.cta }} />
+  <main id={ANCHOR.content}>
     <Hero />
     <Services />
     <Examples />
@@ -28,5 +30,5 @@ const canonical = new URL('/', Astro.site).href;
     <About />
     <Contact />
   </main>
-  <Footer links={[...SERVICES.map((s) => ({ href: s.path, label: s.label })), { href: '#contato', label: 'Contato' }]} />
+  <Footer links={footerNav({ fromHome: true })} />
 </Layout>

@@ -1,0 +1,43 @@
+---
+// Uma foto real do site (data/photos.ts). Com o arquivo em src/assets/fotos/, mostra a foto; sem ele,
+// um marcador cinza com o que a foto deve mostrar, a proporção e o tamanho mínimo.
+// `crop` troca o recorte padrão do lugar (ex.: 4:3 no celular e 4:5 no desktop).
+import { ASPECT_LABEL, PHOTOS, SHOW_PHOTO_PLACEHOLDERS, type PhotoId } from '../../data/photos';
+import { ui } from '../../data/ui';
+import { photoFor } from '../../lib/photos';
+
+interface Props {
+  photo: PhotoId;
+  crop?: string;
+  eager?: boolean;
+  class?: string;
+}
+
+const { photo: id, crop, eager = false, class: className } = Astro.props;
+const spec = PHOTOS[id];
+const image = photoFor(id);
+
+const ASPECT = { portrait: 'aspect-portrait', landscape: 'aspect-landscape' } as const;
+const frame = ['block w-full overflow-hidden rounded-card', crop ?? ASPECT[spec.aspect], className];
+---
+{image ? (
+  <img
+    class:list={[...frame, 'object-cover']}
+    src={image.src}
+    width={image.width}
+    height={image.height}
+    alt={spec.alt}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+) : SHOW_PHOTO_PLACEHOLDERS && (
+  <div
+    class:list={[...frame, 'grid content-end gap-1.5 bg-surface-strong p-panel']}
+    aria-hidden="true"
+    data-photo-placeholder={spec.file}
+  >
+    <span class="text-caption font-semibold text-muted">{ui.photo.pending}</span>
+    <span class="max-w-xs text-sm leading-caption text-ink">{spec.brief}</span>
+    <span class="text-caption text-muted">{ui.photo.spec(ASPECT_LABEL[spec.aspect], spec.min.width, spec.min.height)}</span>
+  </div>
+)}

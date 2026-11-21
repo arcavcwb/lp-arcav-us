@@ -1,0 +1,19 @@
+---
+// Avatar redondo de quem responde: o retrato de data/photos.ts quando existir; até lá, as iniciais
+// (não é uma foto falsa).
+import { BRAND } from '../../data/site';
+import { PHOTOS } from '../../data/photos';
+import { photoFor } from '../../lib/photos';
+import { initials } from '../../lib/text';
+
+const photo = photoFor('portrait');
+---
+<span class="block size-11 flex-none overflow-hidden rounded-full bg-surface-strong text-muted">
+  {photo ? (
+    <img class="size-full object-cover" src={photo.src} width={photo.width} height={photo.height} alt={PHOTOS.portrait.alt} decoding="async" />
+  ) : (
+    <span class="grid size-full place-items-center text-sm font-bold tracking-wide text-ink" role="img" aria-label={BRAND.author}>
+      {initials(BRAND.author)}
+    </span>
+  )}
+</span>

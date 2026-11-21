@@ -2,11 +2,14 @@
 // Fonte: o antigo src/i18n/translations.ts (versão PT) e docs/BRAND.md.
 // Não adicionar depoimentos, métricas ou logos de clientes sem evidência.
 
+const CITY = 'Curitiba';
+
 export const BRAND = {
   name: 'ARCAV',
   tagline: 'Produtos digitais e evolução de processos',
   author: 'Armando Castro',
-  location: 'Curitiba, Brasil',
+  city: CITY,
+  location: `${CITY}, Brasil`,
   email: 'hola@arcav.us',
   social: [
     { name: 'LinkedIn', href: 'https://www.linkedin.com/in/armando-castro' },
@@ -17,22 +20,15 @@ export const BRAND = {
   statement: 'Focados em escopo. Sérios em engenharia.',
 } as const;
 
-export const COMMERCE_PATH = '/solucoes/comercio-digital/';
-
-export interface NavLink {
-  href: string;
-  label: string;
-}
-
-/** Navegação principal. `base` permite apontar para âncoras da home a partir de outras páginas. */
-export function mainNav(base = ''): NavLink[] {
-  return [
-    { href: `${base}#solucoes`, label: 'Soluções' },
-    { href: `${base}#exemplos`, label: 'Exemplos' },
-    { href: `${base}#metodo`, label: 'Método' },
-    { href: `${base}#sobre`, label: 'Sobre' },
-  ];
-}
+/** Documento: idioma, cor do navegador, ícones e a fonte pré-carregada (Layout.astro). */
+export const SITE = {
+  lang: 'pt-BR',
+  ogLocale: 'pt_BR',
+  /** Cor da barra do navegador no celular: a mesma de --color-paper (tokens.css). */
+  themeColor: '#ffffff',
+  fontPreload: '/fonts/schibsted-grotesk-latin.woff2',
+  icons: { ico: '/favicon.ico', svg: '/favicon.svg', apple: '/apple-touch-icon.png' },
+} as const;
 
 export const home = {
   meta: {
@@ -51,6 +47,11 @@ export const home = {
     title: 'O que eu construo para o seu negócio.',
     subtitle:
       'Começo pelo que já funciona no seu negócio e entrego algo que você e sua equipe conseguem operar no dia a dia.',
+    intro: 'Qual destas frases parece com o seu momento?',
+  },
+  examples: {
+    title: 'Veja um exemplo funcionando.',
+    lead: 'Monte um pedido na loja de exemplo e veja a mensagem chegar pronta no WhatsApp. Os exemplos das outras soluções estão sendo preparados a partir de projetos reais.',
   },
   problem: {
     title: 'Quando o negócio cresce, o processo também precisa evoluir.',
@@ -77,6 +78,7 @@ export const home = {
     ],
   },
   about: {
+    base: 'Base',
     title: 'A tecnologia tem mais valor quando resolve problemas reais.',
     text: 'Sou Armando Castro, desenvolvedor de produtos e criador da ARCAV. Comecei a carreira no frontend e ampliei minha atuação para backend, banco de dados, infraestrutura e automação.',
     statement: 'Ferramentas mudam. O problema do negócio vem em primeiro lugar.',
@@ -86,8 +88,21 @@ export const home = {
     subtitle:
       'Conte como funciona hoje. Eu respondo com os próximos passos e, se houver encaixe, preparo uma prévia resumida do seu projeto para acompanhar a proposta.',
     subject: 'Contato pelo site da ARCAV',
+    waMessage: 'Olá, Armando! Vi o site da ARCAV e quero conversar sobre o meu negócio.',
   },
   footer: {
     copyright: '© 2026 ARCAV por Armando Castro. Todos os direitos reservados.',
   },
+};
+
+/** Página 404. */
+export const notFound = {
+  meta: {
+    title: 'Página não encontrada | ARCAV',
+    description: 'Esta página não existe ou mudou de endereço.',
+  },
+  title: 'Esta página não existe ou mudou de endereço.',
+  text: 'Talvez o link esteja incompleto. Você pode voltar ao início ou ver as soluções da ARCAV.',
+  homeCta: 'Ir para o início',
+  solutionsCta: 'Ver as soluções',
 };

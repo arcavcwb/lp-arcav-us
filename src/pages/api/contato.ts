@@ -9,6 +9,7 @@
 // Passo a passo: README.md, seção "Formulário de contato".
 export const prerender = false;
 
+import { composeContactMessage } from '../../lib/contact-message';
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
 import { EmailMessage } from 'cloudflare:email';
@@ -56,25 +57,13 @@ export const POST: APIRoute = async ({ request }) => {
   const missing = ['name', 'reply', variant === 'store' ? 'link' : 'message'].filter((key) => !d[key]);
   if (missing.length) return json(400, { ok: false, reason: 'missing', fields: missing });
 
-  const subject =
-    variant === 'store'
-      ? `Quero uma loja assim — ${d.name}`
-      : `${oneLine(d.topic) || 'Contato pelo site da ARCAV'} — ${d.business || d.name}`;
-  const body = (
-    variant === 'store'
-      ? [
-          'Olá! Quero conversar sobre um site de pedidos para a minha loja.',
-          '',
-          `Site, Instagram ou catálogo: ${d.link}`,
-          d.message ? `\n${d.message}` : '',
-          '',
-          `Nome: ${d.name}`,
-          `Resposta por: ${d.reply}`,
-        ]
-      : ['Olá, Armando!', '', d.message, '', `Nome: ${d.name}`, d.business ? `Negócio: ${d.business}` : '', `Resposta por: ${d.reply}`]
-  )
-    .join('\n')
-    .replace(/\n{3,}/g, '\n\n');
+  const { subject, body } = composeContactMessage(variant, d.topic, {
+    name: d.name,
+    reply: d.reply,
+    business: d.business,
+    link: d.link,
+    message: d.message,
+  });
 
   if (webhook) {
     try {

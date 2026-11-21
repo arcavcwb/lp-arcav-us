@@ -1,6 +1,9 @@
 ---
 import '../styles/global.css';
 import { CF_WEB_ANALYTICS_TOKEN } from '../lib/analytics';
+import { SITE } from '../data/site';
+import { ANCHOR, toAnchor } from '../data/anchors';
+import { ui } from '../data/ui';
 
 interface Props {
   title: string;
@@ -13,13 +16,13 @@ interface Props {
 const { title, description, noindex = false, canonical } = Astro.props;
 ---
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang={SITE.lang}>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content={description}>
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content={SITE.themeColor}>
   {noindex && <meta name="robots" content="noindex, nofollow">}
   {canonical && <link rel="canonical" href={canonical} />}
   {canonical && <meta property="og:url" content={canonical} />}
@@ -27,12 +30,12 @@ const { title, description, noindex = false, canonical } = Astro.props;
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
-  <meta property="og:locale" content="pt_BR" />
-  <link rel="icon" href="/favicon.ico" sizes="48x48" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:locale" content={SITE.ogLocale} />
+  <link rel="icon" href={SITE.icons.ico} sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href={SITE.icons.svg} />
+  <link rel="apple-touch-icon" href={SITE.icons.apple} />
 
-  <link rel="preload" href="/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href={SITE.fontPreload} as="font" type="font/woff2" crossorigin>
   {CF_WEB_ANALYTICS_TOKEN && (
     <script
       is:inline
@@ -43,7 +46,7 @@ const { title, description, noindex = false, canonical } = Astro.props;
   )}
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <a class="skip-link" href={toAnchor(ANCHOR.content)}>{ui.a11y.skipLink}</a>
   <slot />
 </body>
 </html>

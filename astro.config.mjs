@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 import cloudflare from '@astrojs/cloudflare';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 // O site é só em português (pt-BR) e vive na raiz. As rotas antigas por idioma
@@ -10,6 +11,9 @@ export default defineConfig({
   site: 'https://arcav.us',
   output: 'server',
   adapter: cloudflare(),
+  vite: {
+    plugins: [tailwindcss()],
+  },
   redirects: {
     '/pt': { status: 301, destination: '/' },
     '/pt/solucoes/comercio-digital': { status: 301, destination: '/solucoes/comercio-digital/' },

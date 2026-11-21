@@ -1,0 +1,164 @@
+/* ContactForm — campos, estados de erro, mensagem pronta (plano B) e confirmação.
+   Escopo .contact-form: os seletores de elemento (label, input, textarea) não vazam para o resto do site. */
+
+.contact-form {
+  display: grid;
+  gap: --spacing(5);
+}
+
+.contact-form .field {
+  display: grid;
+  gap: --spacing(1.6);
+}
+
+.contact-form .field[hidden],
+.contact-form .contact-form__submit[hidden] {
+  display: none;
+}
+
+.contact-form label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.contact-form .field__optional {
+  font-weight: var(--font-weight-normal);
+  color: var(--color-muted);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  min-height: --spacing(12);
+  padding: --spacing(3) --spacing(3.5);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-paper);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  transition:
+    border-color var(--transition-duration-fast) var(--ease-standard),
+    box-shadow var(--transition-duration-fast) var(--ease-standard);
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: --spacing(24);
+}
+
+.contact-form ::placeholder {
+  color: var(--color-muted);
+  opacity: 1;
+}
+
+.contact-form input:hover,
+.contact-form textarea:hover {
+  border-color: var(--color-line-hover);
+}
+
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-focus);
+}
+
+.contact-form [aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.contact-form .field__hint {
+  font-size: var(--text-meta);
+  color: var(--color-muted);
+}
+
+.contact-form .field__error {
+  font-size: var(--text-meta);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-danger);
+}
+
+.contact-form .field__error:empty {
+  display: none;
+}
+
+.contact-form .contact-form__submit {
+  justify-self: start;
+}
+
+.contact-form .sent {
+  display: flex;
+  gap: --spacing(3.5);
+  padding: --spacing(5);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.contact-form .sent[hidden] {
+  display: none;
+}
+
+.contact-form .sent:focus {
+  outline: none;
+}
+
+.contact-form .sent svg {
+  width: --spacing(6);
+  height: --spacing(6);
+  flex: none;
+  color: var(--color-accent);
+}
+
+.contact-form .sent__title {
+  font-weight: var(--font-weight-semibold);
+}
+
+.contact-form .composed {
+  display: grid;
+  gap: --spacing(3.5);
+  padding: --spacing(5);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+
+.contact-form .composed[hidden] {
+  display: none;
+}
+
+.contact-form .composed:focus {
+  outline: none;
+}
+
+.contact-form .composed__title {
+  font-weight: var(--font-weight-semibold);
+}
+
+.contact-form .composed__text {
+  margin: 0;
+  padding: --spacing(4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  background: var(--color-paper);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  line-height: var(--leading-lead);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.contact-form .composed__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: --spacing(2.5);
+}
+
+.contact-form .contact-form__note {
+  font-size: var(--text-meta);
+  color: var(--color-muted);
+}
+
+@media (width < theme(--breakpoint-sm)) {
+  .contact-form .contact-form__submit {
+    width: 100%;
+  }
+}

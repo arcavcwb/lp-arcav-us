@@ -5,34 +5,27 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
 import Icon from '../components/ui/Icon.astro';
-import { mainNav } from '../data/site';
+import { notFound as page } from '../data/site';
+import { ANCHOR, HOME_PATH, toAnchor } from '../data/anchors';
+import { mainNav } from '../data/navigation';
+import { ui } from '../data/ui';
 
-const nav = mainNav('/');
+const nav = mainNav(HOME_PATH);
 ---
-<Layout title="Página não encontrada | ARCAV" description="Esta página não existe ou mudou de endereço." noindex>
-  <Header links={nav} cta={{ href: '/#contato', label: 'Fale comigo' }} />
-  <main id="conteudo" class="section">
-    <div class="container not-found">
-      <h1 class="h1">Esta página não existe ou mudou de endereço.</h1>
-      <p class="lead">Talvez o link esteja incompleto. Você pode voltar ao início ou ver as soluções da ARCAV.</p>
+<Layout title={page.meta.title} description={page.meta.description} noindex>
+  <Header links={nav} cta={{ href: toAnchor(ANCHOR.contact, HOME_PATH), label: ui.header.cta }} />
+  <main id={ANCHOR.content} class="section">
+    <div class="shell grid min-h-stage max-w-xl content-center gap-5">
+      <h1 class="h1">{page.title}</h1>
+      <p class="lead">{page.text}</p>
       <div class="page-hero__actions">
-        <a class="btn btn--primary" href="/">
-          Ir para o início
+        <a class="btn btn--primary" href={HOME_PATH}>
+          {page.homeCta}
           <Icon name="arrow-right" />
         </a>
-        <a class="btn btn--ghost" href="/#solucoes">Ver as soluções</a>
+        <a class="btn btn--ghost" href={toAnchor(ANCHOR.solutions, HOME_PATH)}>{page.solutionsCta}</a>
       </div>
     </div>
   </main>
   <Footer links={nav} />
 </Layout>
-
-<style>
-  .not-found {
-    display: grid;
-    gap: 1.25rem;
-    max-width: 44rem;
-    min-height: 50vh;
-    align-content: center;
-  }
-</style>

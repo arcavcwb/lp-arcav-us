@@ -1,5 +1,5 @@
 // src/lib/contact.ts — Canal de contato comercial da ARCAV para os CTAs.
-import { BRAND } from '../data/site';
+import { BRAND, SITE } from '../data/site';
 
 /**
  * Número comercial de WhatsApp da ARCAV em formato internacional, só dígitos.
@@ -52,7 +52,13 @@ export function arcavContactLink(subject: string, message: string): ContactLink 
   };
 }
 
-const brl = new Intl.NumberFormat('pt-BR', {
+/** Rota que entrega o formulário quando DIRECT_SEND está ligado (src/pages/api/contato.ts). */
+export const CONTACT_ENDPOINT = '/api/contato';
+
+/** Quanto o formulário espera a resposta de CONTACT_ENDPOINT antes de usar o plano B. */
+export const CONTACT_TIMEOUT_MS = 8000;
+
+const brl = new Intl.NumberFormat(SITE.lang, {
   style: 'currency',
   currency: 'BRL',
   maximumFractionDigits: 0,

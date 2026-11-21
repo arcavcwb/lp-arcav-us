@@ -1,0 +1,23 @@
+/* Superfícies: cartão e poço de ícone. */
+
+.card {
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  padding: var(--spacing-card);
+}
+
+.icon-badge {
+  display: grid;
+  place-items: center;
+  width: --spacing(11);
+  height: --spacing(11);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.icon-badge svg {
+  width: --spacing(5.5);
+  height: --spacing(5.5);
+}

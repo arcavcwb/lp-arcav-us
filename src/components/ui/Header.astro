@@ -1,7 +1,9 @@
 ---
 import Brand from './Brand.astro';
 import Icon from './Icon.astro';
-import type { NavLink } from '../../data/site';
+import { HOME_PATH } from '../../data/anchors';
+import type { NavLink } from '../../data/navigation';
+import { ui } from '../../data/ui';
 
 interface Props {
   links?: NavLink[];
@@ -12,37 +14,48 @@ interface Props {
 
 const { links = [], cta, note } = Astro.props;
 const hasNav = links.length > 0;
+
+/** Abaixo do ponto `split` (900px) a navegação vira um menu sanfona sob o cabeçalho. */
+const navMobile =
+  'max-split:absolute max-split:inset-x-0 max-split:top-full max-split:m-0 max-split:hidden max-split:border-b max-split:border-line max-split:bg-paper max-split:px-gutter max-split:pt-2 max-split:pb-5 max-split:shadow-drawer max-split:data-open:block';
+const navLink =
+  'block rounded-control px-3 py-2 text-sm font-medium text-muted no-underline transition-colors hover:bg-surface hover:text-ink max-split:rounded-none max-split:px-1 max-split:py-3.5 max-split:text-base max-split:text-ink';
 ---
-<header class="site-header" data-site-header>
-  <div class="container site-header__inner">
-    <a class="site-header__brand" href="/" aria-label="ARCAV, página inicial">
-      <Brand />
+<header
+  class="site-header sticky top-0 z-header border-b border-transparent bg-paper transition-colors duration-quick data-scrolled:border-line"
+  data-site-header
+>
+  <div class="shell flex min-h-header items-center gap-6">
+    <a class="rounded-xs text-ink no-underline" href={HOME_PATH} aria-label={ui.a11y.homeLink}>
+      <Brand compact />
     </a>
 
     {hasNav && (
-      <nav class="site-nav" id="site-nav" aria-label="Principal" data-site-nav>
-        <ul role="list">
+      <nav class:list={['ml-auto', navMobile]} id="site-nav" aria-label={ui.header.nav} data-site-nav>
+        <ul role="list" class="flex gap-1 max-split:flex-col max-split:gap-0">
           {links.map((link) => (
-            <li><a href={link.href}>{link.label}</a></li>
+            <li class="max-split:border-b max-split:border-line max-split:last:border-b-0">
+              <a class={navLink} href={link.href}>{link.label}</a>
+            </li>
           ))}
         </ul>
       </nav>
     )}
 
-    <div class="site-header__actions">
-      {note && <span class="site-header__note">{note}</span>}
+    <div class:list={['flex items-center gap-3', hasNav ? 'ml-2 max-split:ml-auto' : 'ml-auto']}>
+      {note && <span class="text-sm font-medium text-muted max-sm:text-right max-sm:text-caption max-sm:leading-snug">{note}</span>}
       {cta && <a class="btn btn--primary btn--sm" href={cta.href}>{cta.label}</a>}
       {hasNav && (
         <button
-          class="menu-toggle"
+          class="group hidden size-11 cursor-pointer place-items-center rounded-control border border-line-strong bg-paper p-0 max-split:grid"
           type="button"
           aria-expanded="false"
           aria-controls="site-nav"
           data-menu-toggle
         >
-          <span class="visually-hidden" data-menu-label>Abrir menu</span>
-          <Icon name="menu" class="menu-toggle__open" />
-          <Icon name="close" class="menu-toggle__close" />
+          <span class="visually-hidden" data-menu-label>{ui.header.menuOpen}</span>
+          <Icon name="menu" class="size-5.5 group-aria-expanded:hidden" />
+          <Icon name="close" class="hidden size-5.5 group-aria-expanded:block" />
         </button>
       )}
     </div>
@@ -50,183 +63,7 @@ const hasNav = links.length > 0;
 </header>
 
 <script>
-  const header = document.querySelector<HTMLElement>('[data-site-header]');
-  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
-  const nav = document.querySelector<HTMLElement>('[data-site-nav]');
-  const label = document.querySelector<HTMLElement>('[data-menu-label]');
+  import { initSiteHeader } from '../../scripts/site-header';
 
-  if (header) {
-    const onScroll = () => header.toggleAttribute('data-scrolled', window.scrollY > 8);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
-
-  if (toggle && nav) {
-    const setOpen = (open: boolean) => {
-      toggle.setAttribute('aria-expanded', String(open));
-      nav.toggleAttribute('data-open', open);
-      if (label) label.textContent = open ? 'Fechar menu' : 'Abrir menu';
-    };
-
-    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-    nav.addEventListener('click', (event) => {
-      if ((event.target as HTMLElement).closest('a')) setOpen(false);
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-        setOpen(false);
-        toggle.focus();
-      }
-    });
-  }
+  initSiteHeader();
 </script>
-
-<style>
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: var(--bg);
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease;
-  }
-
-  .site-header[data-scrolled] {
-    border-bottom-color: var(--line);
-  }
-
-  .site-header__inner {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    min-height: var(--header-h);
-  }
-
-  .site-header__brand {
-    text-decoration: none;
-    color: var(--ink);
-    border-radius: 4px;
-  }
-
-  .site-nav {
-    margin-left: auto;
-  }
-
-  .site-nav ul {
-    display: flex;
-    gap: 0.25rem;
-  }
-
-  .site-nav a {
-    display: block;
-    padding: 0.5rem 0.75rem;
-    border-radius: var(--radius-control);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.15s ease, background-color 0.15s ease;
-  }
-
-  .site-nav a:hover {
-    color: var(--ink);
-    background: var(--surface);
-  }
-
-  .site-header__actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-left: auto;
-  }
-
-  .site-nav + .site-header__actions {
-    margin-left: 0.5rem;
-  }
-
-  .site-header__note {
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--muted);
-  }
-
-  .menu-toggle {
-    display: none;
-    place-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    padding: 0;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-control);
-    background: var(--bg);
-    cursor: pointer;
-  }
-
-  .menu-toggle :global(svg) {
-    width: 1.375rem;
-    height: 1.375rem;
-  }
-
-  .menu-toggle :global(.menu-toggle__close),
-  .menu-toggle[aria-expanded='true'] :global(.menu-toggle__open) {
-    display: none;
-  }
-
-  .menu-toggle[aria-expanded='true'] :global(.menu-toggle__close) {
-    display: block;
-  }
-
-  @media (max-width: 899px) {
-    .menu-toggle {
-      display: grid;
-    }
-
-    .site-nav {
-      position: absolute;
-      inset: 100% 0 auto 0;
-      display: none;
-      margin: 0;
-      padding: 0.5rem var(--gutter) 1.25rem;
-      background: var(--bg);
-      border-bottom: 1px solid var(--line);
-      box-shadow: 0 18px 30px -24px rgb(28 29 33 / 0.35);
-    }
-
-    .site-nav[data-open] {
-      display: block;
-    }
-
-    .site-nav ul {
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .site-nav a {
-      padding: 0.875rem 0.25rem;
-      font-size: 1.0625rem;
-      color: var(--ink);
-      border-radius: 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .site-nav li:last-child a {
-      border-bottom: 0;
-    }
-
-    .site-nav + .site-header__actions {
-      margin-left: auto;
-    }
-  }
-
-  @media (max-width: 479px) {
-    .site-header__brand :global(.brand__by) {
-      display: none;
-    }
-
-    .site-header__note {
-      font-size: 0.8125rem;
-      text-align: right;
-      line-height: 1.3;
-    }
-  }
-</style>

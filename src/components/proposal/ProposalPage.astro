@@ -9,6 +9,8 @@ import OrderMessage from '../ui/OrderMessage.astro';
 import RuledPoints from '../ui/RuledPoints.astro';
 import type { DemoProduct, ProspectProposal } from '../../data/proposals/types';
 import { BRAND } from '../../data/site';
+import { ANCHOR, HOME_PATH, toAnchor } from '../../data/anchors';
+import { ui } from '../../data/ui';
 import { arcavContactLink, formatBRL } from '../../lib/contact';
 
 interface Props {
@@ -30,39 +32,39 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
 <Layout title={p.meta.title} description={p.meta.description} noindex={p.robotsNoIndex} canonical={canonical}>
   <Header note={p.header.tag} />
 
-  <main id="conteudo">
+  <main id={ANCHOR.content} class="proposal">
     <section class="page-hero" aria-labelledby="hero-title">
-      <div class="container page-hero__grid">
+      <div class="shell page-hero__grid">
         <div>
           <h1 class="h1" id="hero-title">{p.hero.title}</h1>
           <p class="lead">{p.hero.lead}</p>
           <div class="page-hero__actions">
-            <a class="btn btn--primary" href="#diagnostico">
+            <a class="btn btn--primary" href={toAnchor(ANCHOR.diagnosis)}>
               {p.hero.cta}
               <Icon name="arrow-right" />
             </a>
             <a class="btn btn--ghost" href={p.demoUrl} {...external} data-analytics-event="proposal_demo_click">
-              Testar a demonstração
+              {ui.proposal.demoCta}
               <Icon name="external" />
-              <span class="visually-hidden">(abre em nova aba)</span>
+              <span class="visually-hidden">{ui.a11y.newTab}</span>
             </a>
           </div>
           <p class="small hero-proof">{p.hero.microproof}</p>
         </div>
         <PhoneDemo
-          id="demo"
+          id={ANCHOR.demo}
           products={demoProducts}
           storeName={p.companyName}
-          storeNote="Exemplo de pedido"
+          storeNote={ui.proposal.storeNote}
           caption={p.demo.live?.phoneCaption ?? p.demo.illustration.caption}
-          next={{ href: p.demoUrl, label: 'Testar a demonstração completa', external: true }}
+          next={{ href: p.demoUrl, label: ui.proposal.demoNext, external: true }}
           guide={Boolean(p.demo.live)}
         />
       </div>
     </section>
 
     <section class="section" aria-labelledby="servico-title">
-      <div class="container">
+      <div class="shell">
         <div class="section-head">
           <h2 class="h2" id="servico-title">{p.service.title}</h2>
           <p class="lead">{p.service.text}</p>
@@ -71,8 +73,8 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
       </div>
     </section>
 
-    <section class="section section--muted" id="diagnostico" aria-labelledby="diagnostico-title">
-      <div class="container">
+    <section class="section section--muted" id={ANCHOR.diagnosis} aria-labelledby="diagnostico-title">
+      <div class="shell">
         <div class="section-head">
           <h2 class="h2" id="diagnostico-title">{p.diagnosis.title}</h2>
           <p class="lead">{p.diagnosis.text}</p>
@@ -101,14 +103,14 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
     </section>
 
     <section class="section" aria-labelledby="demo-title">
-      <div class="container split">
+      <div class="shell split">
         <div class="demo-copy">
           <h2 class="h2" id="demo-title">{p.demo.title}</h2>
           <p class="lead">{p.demo.text}</p>
           <a class="btn btn--primary" href={p.demoUrl} {...external} data-analytics-event="proposal_demo_click">
             {p.demo.cta}
             <Icon name="external" />
-            <span class="visually-hidden">(abre em nova aba)</span>
+            <span class="visually-hidden">{ui.a11y.newTab}</span>
           </a>
           <p class="small">{p.demo.newTabHint}</p>
           <p class="small">{p.demo.caption}</p>
@@ -118,7 +120,7 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
     </section>
 
     <section class="section section--muted" aria-labelledby="ofertas-title">
-      <div class="container">
+      <div class="shell">
         <div class="section-head">
           <h2 class="h2" id="ofertas-title">{p.offers.title}</h2>
           <p class="lead">{p.offers.text}</p>
@@ -132,7 +134,7 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
 
     {p.pricing && (
       <section class="section" aria-labelledby="planos-title">
-        <div class="container">
+        <div class="shell">
           <div class="section-head">
             <h2 class="h2" id="planos-title">{p.pricing.title}</h2>
           </div>
@@ -169,8 +171,8 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
       </section>
     )}
 
-    <section class="section section--dark" id="contato" aria-labelledby="contato-title">
-      <div class="container">
+    <section class="section section--dark" id={ANCHOR.contact} aria-labelledby="contato-title">
+      <div class="shell">
         <div class="closing">
           <h2 class="h2" id="contato-title">{p.closing.title}</h2>
           <p class="lead">{p.closing.text}</p>
@@ -197,259 +199,5 @@ const external = { target: '_blank', rel: 'noopener noreferrer' };
     </section>
   </main>
 
-  <Footer links={[{ href: '/', label: p.footer.arcavLink }]} disclaimer={p.footer.disclaimer} />
+  <Footer links={[{ href: HOME_PATH, label: p.footer.arcavLink }]} disclaimer={p.footer.disclaimer} />
 </Layout>
-
-<style>
-  .hero-proof {
-    margin-top: 1.5rem;
-    max-width: 30rem;
-  }
-
-  .diagnosis {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    overflow: hidden;
-  }
-
-  .diagnosis th {
-    padding: 1rem 1.5rem;
-    text-align: left;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--muted);
-    border-bottom: 1px solid var(--line);
-  }
-
-  .diagnosis td {
-    padding: 1.25rem 1.5rem;
-    vertical-align: top;
-    width: 50%;
-  }
-
-  .diagnosis tbody tr + tr td {
-    border-top: 1px solid var(--line);
-  }
-
-  .diagnosis td:first-child {
-    color: var(--muted);
-  }
-
-  .diagnosis td:last-child {
-    font-weight: 500;
-  }
-
-  .diagnosis :global(.diagnosis__arrow) {
-    display: inline-block;
-    width: 1.1rem;
-    height: 1.1rem;
-    margin-right: 0.375rem;
-    vertical-align: -0.2em;
-    color: var(--accent);
-  }
-
-  .note {
-    margin-top: 1.25rem;
-    max-width: 48rem;
-  }
-
-  .split {
-    display: grid;
-    gap: clamp(2.5rem, 1.5rem + 3vw, 4rem);
-    align-items: center;
-  }
-
-  .demo-copy {
-    display: grid;
-    justify-items: start;
-    gap: 1rem;
-  }
-
-  .demo-copy .btn {
-    margin-top: 0.75rem;
-  }
-
-  .plans {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .plan {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    padding: clamp(1.5rem, 1.2rem + 1vw, 2rem);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    background: var(--bg);
-  }
-
-  .plan--suggested {
-    border-color: var(--ink);
-    box-shadow: var(--shadow-raised);
-  }
-
-  .plan__price {
-    display: grid;
-    gap: 0.125rem;
-  }
-
-  .plan__amount {
-    font-size: clamp(2rem, 1.7rem + 1vw, 2.5rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-
-  .plan__note {
-    font-size: var(--text-sm);
-    color: var(--muted);
-  }
-
-  .plan__list {
-    display: grid;
-    gap: 0.625rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
-  }
-
-  .plan__list li {
-    display: flex;
-    gap: 0.625rem;
-    font-size: var(--text-sm);
-    line-height: 1.45;
-  }
-
-  .plan__list :global(svg) {
-    width: 1.125rem;
-    height: 1.125rem;
-    flex: none;
-    margin-top: 0.1rem;
-    color: var(--accent);
-  }
-
-  .plan__condition {
-    margin-top: auto;
-  }
-
-  .start {
-    display: grid;
-    gap: 0.75rem 2rem;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem) clamp(1.5rem, 1.2rem + 1vw, 2rem);
-    border-radius: var(--radius-card);
-    background: var(--dark);
-    color: var(--on-dark);
-  }
-
-  .start__title {
-    color: var(--on-dark);
-    font-size: 1.25rem;
-    font-weight: 650;
-    letter-spacing: -0.012em;
-    line-height: 1.3;
-  }
-
-  .start__text {
-    margin-top: 0.25rem;
-    color: var(--on-dark-muted);
-  }
-
-  .start__price {
-    font-size: 1.125rem;
-    font-weight: 650;
-  }
-
-  .pricing-notes {
-    display: grid;
-    gap: 0.5rem;
-    margin-top: 1.25rem;
-    padding-left: 1.125rem;
-    max-width: 48rem;
-  }
-
-  .closing {
-    display: grid;
-    justify-items: start;
-    gap: 1.25rem;
-    max-width: 44rem;
-  }
-
-  .closing .small a {
-    color: var(--on-dark);
-  }
-
-  .closing__assurances {
-    display: grid;
-    gap: 0.625rem;
-    color: var(--on-dark-muted);
-  }
-
-  .closing__assurances li {
-    display: flex;
-    gap: 0.625rem;
-  }
-
-  .closing__assurances :global(svg) {
-    width: 1.125rem;
-    height: 1.125rem;
-    flex: none;
-    margin-top: 0.2em;
-    color: #e7a27f;
-  }
-
-  @media (min-width: 880px) {
-    .plans {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .split {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-    }
-
-    .start {
-      grid-template-columns: minmax(0, 1fr) auto;
-    }
-  }
-
-  @media (max-width: 719px) {
-    .diagnosis thead {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-    }
-
-    .diagnosis tr,
-    .diagnosis td {
-      display: block;
-      width: auto;
-    }
-
-    .diagnosis td::before {
-      content: attr(data-label);
-      display: block;
-      margin-bottom: 0.25rem;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--muted);
-    }
-
-    .diagnosis td + td {
-      padding-top: 0;
-    }
-  }
-
-  @media (max-width: 479px) {
-    .closing .btn,
-    .demo-copy .btn {
-      width: 100%;
-    }
-  }
-</style>

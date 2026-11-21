@@ -9,18 +9,61 @@ Sitio web de ARCAV, solo en portugués de Brasil (pt-BR), desarrollado con **Ast
 ```text
 /
 ├── docs/                 # Marca, contenido, casos, sistema de diseño y propuestas
-├── public/               # Assets estáticos (favicon, fuentes Schibsted Grotesk)
+├── public/               # Assets estáticos (favicon, fuentes, capturas de ejemplos)
 ├── src/
 │   ├── assets/brand/     # Logo y foto de Armando (ver README de la carpeta)
-│   ├── components/       # home/, ui/ (Header, Footer, PhoneDemo, ContactForm…), proposal/
-│   ├── data/             # Contenido pt-BR: site.ts, commerce-service.ts, proposals/
-│   ├── lib/contact.ts    # Canal de contacto (e-mail; WhatsApp cuando haya número verificado)
-│   └── pages/
-│       ├── index.astro                    # Home
-│       ├── solucoes/comercio-digital.astro # Soluciones para comercios
-│       └── propostas/center-gas.astro     # Propuesta Center Gás (noindex)
+│   ├── components/       # Solo marcado: home/, solution/, proposal/, ui/
+│   ├── data/             # Contenido pt-BR: site.ts, solutions.ts, commerce-service.ts, proposals/
+│   ├── lib/              # Reglas puras, sin DOM (build, navegador y servidor)
+│   │   ├── order.ts             # Pedido de ejemplo: formato, totales, pasos de la guía
+│   │   ├── contact-message.ts   # Asunto y texto del contacto (formulario y /api/contato)
+│   │   └── contact.ts           # Canales y flags (WhatsApp, DIRECT_SEND, RESPONSE_TIME)
+│   ├── scripts/          # Comportamiento en el navegador: un init… por pieza
+│   │   └── tabs.ts, site-header.ts, contact-form.ts, phone-demo.ts, order-message.ts
+│   ├── styles/           # Tailwind v4 configurado en CSS (ver abajo)
+│   └── pages/            # Home, soluciones (/solucoes/…), propuestas, /api/contato
 └── package.json
 ```
+
+### Estilos: Tailwind v4 sobre el Design System
+
+**Regla: cero valores sueltos.** Ningún componente, CSS o script escribe un color, tamaño, espacio, radio, sombra, duración, curva o punto de quiebre: todo sale de `src/styles/tokens.css`. Si falta un valor, se crea ahí con nombre. Tampoco hay `px-[…]`, `text-[…]` ni `grid-cols-[…]` en el marcado.
+
+- **Entrada única:** `src/styles/global.css`. Capas en orden `theme < base < components < utilities`. Sin el *preflight* de Tailwind: el reset propio está en `base.css`.
+- **Tokens:** `src/styles/tokens.css` (`@theme`). El tema por defecto de Tailwind no se carga (`--*: initial`): solo existe lo de la marca.
+  - color: `paper`, `surface`, `ink`, `muted`, `line`, `line-strong`, `line-hover`, `accent`, `dark`, `on-dark`, `clay`, `danger`, `selection`…;
+  - texto: `text-micro` … `text-h1`, más `text-lg`, `text-md`, `text-brand`, `text-statement`, `text-figure`; entrelínea (`leading-body`, `leading-title`, `leading-caption`…) y tracking (`tracking-tight`, `tracking-title`…);
+  - espacio: la unidad `--spacing` (0,25rem) para `p-4`, `gap-3`… y medidas con nombre: `gap-split`, `p-panel`, `p-card`, `px-gutter`, `min-h-header`, `top-sticky`, `mt-optical`…;
+  - anchos (`max-w-xs` … `max-w-2xl`, `max-w-measure`, `max-w-phone`), grillas (`grid-cols-form`, `grid-cols-aside`, `grid-cols-hero-portrait`…), proporciones (`aspect-screen`, `aspect-portrait`, `aspect-wide`);
+  - forma y movimiento: `rounded-card`, `rounded-xs`, `shadow-raised`, `shadow-lift`, `shadow-drawer`, `duration-fast` … `duration-pulse`, `ease-out`, `transition-lift`, `animate-fade-up`;
+  - puntos de quiebre: `sm` 480, `pair` 560, `inline` 640, `md` 720, `columns` 800, `lg` 880, `split` 900, `xl` 960, `2xl` 1024 px.
+- **En el CSS:** `var(--…)` para tokens, `--spacing(n)` para medidas de la unidad base y `theme(--breakpoint-…)` en las media queries. Las medidas propias de la ilustración del celular se nombran una vez al inicio de `phone-demo.css`.
+- **En los scripts:** las animaciones hechas en JavaScript leen los tokens del CSS (`src/scripts/tokens.ts`).
+- **Piezas compartidas:** `src/styles/primitives/`:
+  - `shell` (el contenedor de la página; reemplaza a `.container`, que es una utilidad propia de Tailwind);
+  - `section`, `section-head`, `page-hero`;
+  - `h1`, `h2`, `lead`, `small`;
+  - `btn`, `link-arrow`, `card`, `icon-badge`, `steps`, `flow`.
+- **Componentes sin `<style>`:** las utilidades van en el marcado. Las combinaciones que se repiten se nombran una vez en el frontmatter (por ejemplo `const link = '…'`).
+  - Los tres componentes con muchos estados tienen CSS propio en `src/styles/components/`: `phone-demo.css`, `contact-form.css` y `proposal.css`.
+  - Todos sus selectores van bajo la clase raíz (`.phone-demo`, `.contact-form`, `.proposal`), para que nada se filtre al resto del sitio.
+- **Clases sin estilo** como `hero-home`, `hero-note`, `sflow`, `faq__item`, `path`, `closing__form`, `order-message` y `field--trap` quedan como enganches para las pruebas de navegador. No borrarlas sin actualizar las pruebas.
+
+### Textos, datos y lógica: nada escrito en los componentes
+
+- **`src/data/`** — todo el texto del sitio:
+  - `site.ts` (marca, `SITE` del documento, home, 404), `solutions.ts` (soluciones, `SOLUTION_PAGE`, `LANDING_PICKER`), `commerce-service.ts`, `proposals/`;
+  - `ui.ts`: textos de interfaz que se repiten (botones, avisos, accesibilidad, formulario, celular de ejemplo);
+  - `anchors.ts`: los ids de sección (`#contato`, `#demo`…) y `toAnchor()`;
+  - `navigation.ts`: menú principal y pie;
+  - `photos.ts`: las fotos reales y su lugar (ver abajo).
+- **`src/lib/`** — reglas puras, sin DOM, compartidas entre páginas, scripts y `/api/contato`: `order.ts`, `contact-message.ts`, `contact.ts`, `text.ts` (`initials`, `firstName`, `quoted`), `view-transitions.ts`, `photos.ts`.
+- **`src/scripts/`** — comportamiento en el navegador, una función `init…` por comportamiento.
+- Astro descarta el espacio entre una expresión y el texto o enlace que la sigue: en frases con enlaces se usa `{' '}`.
+
+### Fotos
+
+Las fotos reales van en `src/assets/fotos/` con el nombre de `src/data/photos.ts` (`retrato-trabalho`, `retrato`, `processo`, `curitiba`). Mientras falta una, su lugar muestra un marcador gris con la descripción, la proporción y el tamaño mínimo. `SHOW_PHOTO_PLACEHOLDERS = false` oculta los marcadores (desactivarlo antes de publicar si falta alguna foto).
 
 Las rutas antiguas `/pt/…`, `/es` y `/en` redirigen con 301 (ver `redirects` en `astro.config.mjs`).
 

@@ -1,80 +1,35 @@
 ---
+// Hero da home: o título e as duas ações à esquerda; o retrato de trabalho nas últimas colunas,
+// um pouco abaixo do título. No celular, o retrato vem depois das ações, a toda a largura, em 4:3.
 import Icon from '../ui/Icon.astro';
-import Portrait from '../ui/Portrait.astro';
-import { BRAND, home } from '../../data/site';
+import Photo from '../ui/Photo.astro';
+import { home } from '../../data/site';
+import { ANCHOR, toAnchor } from '../../data/anchors';
+import { ui } from '../../data/ui';
+import { photoShown } from '../../lib/photos';
 
 const { hero } = home;
+const withPhoto = photoShown('work');
 ---
 <section class="page-hero hero-home" aria-labelledby="hero-title">
-  <div class="container">
-    <h1 class="h1" id="hero-title">{hero.title}</h1>
-    <div class="hero-home__row">
-      <div>
-        <p class="lead">{hero.subtitle}</p>
-        <div class="page-hero__actions">
-          <a class="btn btn--primary" href="#contato">
-            {hero.primaryCta}
-            <Icon name="arrow-right" />
-          </a>
-          <a class="btn btn--ghost" href="#solucoes">{hero.secondaryCta}</a>
-        </div>
-      </div>
-      <div class="hero-home__byline">
-        <Portrait size="avatar" />
-        <p>
-          <strong>{BRAND.author}</strong>
-          <span>{BRAND.statement}</span>
-        </p>
+  <div class:list={['shell grid gap-10', { 'xl:grid-cols-hero-portrait xl:gap-16': withPhoto }]}>
+    <div>
+      <h1 class="h1 max-w-headline" id="hero-title">{hero.title}</h1>
+      <p class="lead">{hero.subtitle}</p>
+      <div class="page-hero__actions">
+        <a class="btn btn--primary" href={toAnchor(ANCHOR.contact)}>
+          {hero.primaryCta}
+          <Icon name="arrow-right" />
+        </a>
+        <a class="btn btn--ghost" href={toAnchor(ANCHOR.solutions)}>{hero.secondaryCta}</a>
       </div>
     </div>
+
+    {withPhoto && (
+      <figure class="m-0 grid content-start gap-3 xl:mt-portrait-drop">
+        <Photo photo="work" crop="aspect-wide xl:aspect-portrait" eager />
+        <figcaption class="text-caption text-muted">{ui.photo.caption}</figcaption>
+      </figure>
+    )}
   </div>
 </section>
-
-<style>
-  .hero-home .h1 {
-    max-width: 19em;
-  }
-
-  .hero-home__row {
-    display: grid;
-    gap: 2rem;
-    align-items: end;
-  }
-
-  .hero-home__byline {
-    display: flex;
-    align-items: center;
-    gap: 0.875rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
-    max-width: 22rem;
-  }
-
-  .hero-home__byline p {
-    display: grid;
-    line-height: 1.4;
-  }
-
-  .hero-home__byline strong {
-    font-weight: 600;
-  }
-
-  .hero-home__byline span {
-    font-size: var(--text-sm);
-    color: var(--muted);
-  }
-
-  @media (min-width: 960px) {
-    .hero-home__row {
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 4rem;
-    }
-
-    .hero-home__byline {
-      padding-top: 0;
-      padding-left: 1.5rem;
-      border-top: 0;
-      border-left: 1px solid var(--line);
-    }
-  }
-</style>

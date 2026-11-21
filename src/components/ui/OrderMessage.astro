@@ -4,6 +4,9 @@
 // (evento `demo:order`); sem pedido, convida a montar um. Sem `live`, mostra o pedido fixo.
 import Icon from './Icon.astro';
 import type { IllustrativeOrder } from '../../data/proposals/types';
+import { ui } from '../../data/ui';
+import { formatOrderLine } from '../../lib/order';
+import { initials } from '../../lib/text';
 
 interface Props {
   order: IllustrativeOrder;
@@ -14,26 +17,24 @@ interface Props {
   live?: { empty: string; cta: { href: string; label: string }; caption: string };
 }
 
-const {
-  order,
-  greeting = 'Olá! Quero fazer um pedido:',
-  reply = 'Recebido! Já vamos separar seu pedido.',
-  note = 'O atendimento continua com você, no WhatsApp de sempre.',
-  live,
-} = Astro.props;
+const copy = ui.orderMessage;
+const { order, greeting = copy.greeting, reply = copy.reply, note = copy.note, live } = Astro.props;
+
+/** Balão de conversa (entrada do cliente e resposta da loja). */
+const bubble = 'grid max-w-bubble gap-1 px-4 py-3.5 leading-normal rounded-card';
 ---
-<figure class="order-message" data-order-message={live ? '' : undefined}>
-  <div class="inbox">
-    <div class="inbox__head">
-      <span class="inbox__avatar" aria-hidden="true">C</span>
-      <p>
-        <strong>Cliente pelo site</strong>
-        <span>WhatsApp da loja · agora</span>
+<figure class="order-message m-0 grid gap-3.5" data-order-message={live ? '' : undefined}>
+  <div class="grid gap-5 rounded-card bg-paper p-panel shadow-raised">
+    <div class="flex items-center gap-3 border-b border-line pb-4">
+      <span class="grid size-10 place-items-center rounded-full bg-surface-strong text-caption font-bold text-muted" aria-hidden="true">{initials(copy.customer).charAt(0)}</span>
+      <p class="grid leading-title">
+        <strong class="font-semibold">{copy.customer}</strong>
+        <span class="text-caption text-muted">{copy.channel}</span>
       </p>
     </div>
 
     {live && (
-      <div class="inbox__empty" data-order-empty>
+      <div class="grid justify-items-start gap-3.5 leading-normal text-muted" data-order-empty>
         <p>{live.empty}</p>
         <a class="btn btn--ghost btn--sm" href={live.cta.href}>
           {live.cta.label}
@@ -42,163 +43,28 @@ const {
       </div>
     )}
 
-    <div class="inbox__thread" data-order-thread hidden={live ? true : undefined} aria-live={live ? 'polite' : undefined}>
-      <div class="bubble bubble--in">
+    <div class="grid gap-3" data-order-thread hidden={live ? true : undefined} aria-live={live ? 'polite' : undefined}>
+      <div class:list={[bubble, 'justify-self-start rounded-bl-xs bg-surface']}>
         <p>{greeting}</p>
-        <ul role="list" class="tnum" data-order-lines>
-          {order.items.map((item) => <li>{item.qty} × {item.name}</li>)}
+        <ul role="list" class="tnum font-semibold" data-order-lines>
+          {order.items.map((item) => <li>{formatOrderLine(item)}</li>)}
         </ul>
       </div>
-      <div class="bubble bubble--out">
+      <div class:list={[bubble, 'justify-self-end rounded-br-xs bg-ink text-on-dark']}>
         <p>{reply}</p>
       </div>
     </div>
 
-    <p class="inbox__note">
-      <Icon name="check" />
+    <p class="flex items-center gap-2 text-sm font-semibold">
+      <Icon name="check" class="size-4.5 flex-none text-accent" />
       {note}
     </p>
   </div>
-  <figcaption>{live ? live.caption : order.caption}</figcaption>
+  <figcaption class="text-caption text-pretty text-muted">{live ? live.caption : order.caption}</figcaption>
 </figure>
 
 <script>
-  type Item = { qty: number; name: string };
-  const roots = document.querySelectorAll<HTMLElement>('[data-order-message]');
-  if (roots.length) {
-    document.addEventListener('demo:order', (event) => {
-      const items = (event as CustomEvent<{ items: Item[] }>).detail.items;
-      roots.forEach((root) => {
-        const empty = root.querySelector<HTMLElement>('[data-order-empty]')!;
-        const thread = root.querySelector<HTMLElement>('[data-order-thread]')!;
-        const lines = root.querySelector<HTMLElement>('[data-order-lines]')!;
-        empty.hidden = items.length > 0;
-        thread.hidden = items.length === 0;
-        lines.replaceChildren(
-          ...items.map((item) => {
-            const li = document.createElement('li');
-            li.textContent = `${item.qty} × ${item.name}`;
-            return li;
-          }),
-        );
-      });
-    });
-  }
+  import { initOrderMessages } from '../../scripts/order-message';
+
+  initOrderMessages();
 </script>
-
-<style>
-  .order-message {
-    margin: 0;
-    display: grid;
-    gap: 0.875rem;
-  }
-
-  .inbox {
-    display: grid;
-    gap: 1.25rem;
-    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
-    border-radius: var(--radius-card);
-    background: var(--bg);
-    box-shadow: var(--shadow-raised);
-  }
-
-  .inbox__head {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .inbox__avatar {
-    display: grid;
-    place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 999px;
-    background: var(--surface-strong);
-    font-weight: 700;
-  }
-
-  .inbox__head p {
-    display: grid;
-    line-height: 1.35;
-  }
-
-  .inbox__head strong {
-    font-weight: 600;
-  }
-
-  .inbox__head span {
-    font-size: 0.8125rem;
-    color: var(--muted);
-  }
-
-  .inbox__thread {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  .inbox__thread[hidden],
-  .inbox__empty[hidden] {
-    display: none;
-  }
-
-  .inbox__empty {
-    display: grid;
-    justify-items: start;
-    gap: 0.875rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  .inbox__empty p {
-    text-wrap: pretty;
-  }
-
-  .bubble {
-    display: grid;
-    gap: 0.25rem;
-    max-width: 85%;
-    padding: 0.875rem 1rem;
-    line-height: 1.5;
-  }
-
-  .bubble ul {
-    font-weight: 600;
-  }
-
-  .bubble--in {
-    justify-self: start;
-    background: var(--surface);
-    border-radius: 14px 14px 14px 4px;
-  }
-
-  .bubble--out {
-    justify-self: end;
-    background: var(--ink);
-    color: var(--on-dark);
-    border-radius: 14px 14px 4px 14px;
-  }
-
-  .inbox__note {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: var(--text-sm);
-    font-weight: 600;
-  }
-
-  .inbox__note :global(svg) {
-    width: 1.125rem;
-    height: 1.125rem;
-    flex: none;
-    color: var(--accent);
-  }
-
-  figcaption {
-    font-size: 0.8125rem;
-    color: var(--muted);
-    text-wrap: pretty;
-  }
-</style>

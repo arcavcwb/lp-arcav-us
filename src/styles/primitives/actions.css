@@ -1,0 +1,102 @@
+/* Ações: botões e link com seta. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: --spacing(2);
+  min-height: --spacing(12);
+  padding: 0 --spacing(5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font-size: var(--text-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-control);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-duration-control) var(--ease-standard),
+    border-color var(--transition-duration-control) var(--ease-standard),
+    color var(--transition-duration-control) var(--ease-standard),
+    transform var(--transition-duration-control) var(--ease-out);
+}
+
+.btn:active {
+  transform: translateY(--spacing(0.25));
+}
+
+.btn svg {
+  width: --spacing(4.5);
+  height: --spacing(4.5);
+  flex: none;
+}
+
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.btn--primary:hover {
+  background: var(--color-accent-strong);
+}
+
+.btn--ghost {
+  background: var(--color-paper);
+  border-color: var(--color-line-strong);
+  color: var(--color-ink);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-ink);
+}
+
+.section--dark .btn--ghost {
+  background: transparent;
+  border-color: var(--color-on-dark-line);
+  color: var(--color-on-dark);
+}
+
+.section--dark .btn--ghost:hover {
+  border-color: var(--color-on-dark);
+}
+
+.btn--sm {
+  min-height: --spacing(10);
+  padding: 0 --spacing(4);
+  font-size: var(--text-sm);
+}
+
+.btn[disabled],
+.btn[aria-disabled='true'] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.link-arrow {
+  display: inline;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-accent-strong);
+  text-decoration: none;
+}
+
+.link-arrow svg {
+  display: inline-block;
+  width: --spacing(4.2);
+  height: --spacing(4.2);
+  margin-left: --spacing(1.2);
+  vertical-align: calc(var(--spacing-optical) * -1);
+  transition: transform var(--transition-duration-quick) var(--ease-out);
+}
+
+.link-arrow:hover {
+  text-decoration: underline;
+}
+
+.link-arrow:hover svg {
+  transform: translateX(--spacing(0.75));
+}
+
+.section--dark .link-arrow {
+  color: var(--color-clay);
+}

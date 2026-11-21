@@ -11,41 +11,43 @@ import Faq from '../../components/ui/Faq.astro';
 import RuledPoints from '../../components/ui/RuledPoints.astro';
 import ClosingContact from '../../components/ui/ClosingContact.astro';
 import { commerceService as page } from '../../data/commerce-service';
-import { SERVICES } from '../../data/solutions';
+import { ANCHOR, toAnchor } from '../../data/anchors';
+import { footerNav } from '../../data/navigation';
+import { solutionTransition } from '../../lib/view-transitions';
 
 const canonical = new URL(page.path, Astro.site).href;
-const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ href: o.path, label: o.label })), { href: '#contato', label: 'Contato' }];
+const contact = toAnchor(ANCHOR.contact);
 ---
 <Layout title={page.meta.title} description={page.meta.description} canonical={canonical}>
-  <Header cta={{ href: '#contato', label: page.hero.cta }} />
+  <Header cta={{ href: contact, label: page.hero.cta }} />
 
-  <main id="conteudo">
+  <main id={ANCHOR.content}>
     <section class="page-hero" aria-labelledby="hero-title">
-      <div class="container page-hero__grid">
+      <div class="shell page-hero__grid">
         <div>
-          <h1 class="h1" id="hero-title" style="view-transition-name: sol-comercio-digital">{page.hero.title}</h1>
+          <h1 class="h1" id="hero-title" style={solutionTransition('comercio-digital')}>{page.hero.title}</h1>
           <p class="lead">{page.hero.subtitle}</p>
           <div class="page-hero__actions">
-            <a class="btn btn--primary" href="#contato">
+            <a class="btn btn--primary" href={contact}>
               {page.hero.cta}
               <Icon name="arrow-right" />
             </a>
-            <a class="btn btn--ghost" href="#demo">Testar o exemplo</a>
+            <a class="btn btn--ghost" href={toAnchor(ANCHOR.demo)}>{page.hero.demoCta}</a>
           </div>
-          <p class="small hero-note">Teste a loja de exemplo agora. Se houver encaixe depois da conversa, preparamos uma prévia resumida com alguns dos seus produtos.</p>
+          <p class="small hero-note mt-4">{page.hero.note}</p>
         </div>
         <PhoneDemo
-            id="demo"
+            id={ANCHOR.demo}
             products={page.demo.products}
             caption={page.demo.caption}
-            next={{ href: '#contato', label: 'Quero isso na minha loja' }}
+            next={page.demo.next}
             guide
           />
       </div>
     </section>
 
     <section class="section" aria-labelledby="frentes-title">
-      <div class="container">
+      <div class="shell">
         <div class="section-head">
           <h2 class="h2" id="frentes-title">{page.pillars.title}</h2>
         </div>
@@ -54,11 +56,11 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     </section>
 
     <section class="section section--muted" id="exemplo" aria-labelledby="exemplo-title">
-      <div class="container example">
+      <div class="shell grid items-center gap-split lg:grid-cols-split">
         <div>
           <h2 class="h2" id="exemplo-title">{page.example.title}</h2>
-          <p class="lead">{page.example.text}</p>
-          <a class="btn btn--primary example__cta" href="#contato">
+          <p class="lead mt-4">{page.example.text}</p>
+          <a class="btn btn--primary mt-7 max-sm:w-full" href={contact}>
             {page.hero.cta}
             <Icon name="arrow-right" />
           </a>
@@ -68,7 +70,7 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     </section>
 
     <section class="section" aria-labelledby="processo-title">
-      <div class="container">
+      <div class="shell">
         <div class="section-head">
           <h2 class="h2" id="processo-title">{page.process.title}</h2>
         </div>
@@ -91,37 +93,5 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     />
   </main>
 
-  <Footer links={footerLinks} />
+  <Footer links={footerNav()} />
 </Layout>
-
-<style>
-  .example {
-    display: grid;
-    gap: clamp(2.5rem, 1.5rem + 3vw, 4rem);
-    align-items: center;
-  }
-
-  .example .lead {
-    margin-top: 1rem;
-  }
-
-  .hero-note {
-    margin-top: 1rem;
-  }
-
-  .example__cta {
-    margin-top: 1.75rem;
-  }
-
-  @media (min-width: 880px) {
-    .example {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-    }
-  }
-
-  @media (max-width: 479px) {
-    .example__cta {
-      width: 100%;
-    }
-  }
-</style>

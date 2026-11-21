@@ -1,6 +1,11 @@
 // src/data/solutions.ts — As soluções da ARCAV. Cada uma tem página própria e um exemplo
 // ilustrativo (empresa fictícia). Valor e prazo são definidos depois da avaliação.
 import type { IconName } from '../components/ui/icons';
+import { ANCHOR, toAnchor } from './anchors';
+
+/** Endereço das páginas de solução: /solucoes/<slug>/ */
+export const SOLUTIONS_BASE = '/solucoes/';
+export const solutionPath = (slug: string): string => `${SOLUTIONS_BASE}${slug}/`;
 
 export interface Solution {
   slug: string;
@@ -59,10 +64,9 @@ const PREVIEW_FAQ = {
   a: 'Sim. Os exemplos publicados no site podem ser testados a qualquer momento. Depois da conversa, se houver encaixe, preparamos uma prévia resumida do seu projeto para acompanhar a proposta. A prévia não substitui o projeto completo.',
 };
 
-export const SOLUTIONS: Solution[] = [
+const ENTRIES: Omit<Solution, 'path'>[] = [
   {
     slug: 'site-institucional',
-    path: '/solucoes/site-institucional/',
     name: 'Site institucional',
     label: 'Site institucional',
     situation: 'Preciso de um site para a minha empresa.',
@@ -114,7 +118,6 @@ export const SOLUTIONS: Solution[] = [
   },
   {
     slug: 'migracao',
-    path: '/solucoes/migracao/',
     name: 'Migração e modernização',
     label: 'Migração',
     situation: 'Meu site está velho, lento ou preso numa plataforma.',
@@ -167,7 +170,6 @@ export const SOLUTIONS: Solution[] = [
   },
   {
     slug: 'landing-pages',
-    path: '/solucoes/landing-pages/',
     name: 'Landing pages',
     label: 'Landing pages',
     situation: 'Vou anunciar, lançar um produto ou fazer um evento.',
@@ -207,7 +209,6 @@ export const SOLUTIONS: Solution[] = [
   },
   {
     slug: 'landing-page-alto-padrao',
-    path: '/solucoes/landing-page-alto-padrao/',
     name: 'Landing page de alto padrão',
     label: 'Alto padrão',
     journey: [
@@ -259,7 +260,6 @@ export const SOLUTIONS: Solution[] = [
   },
   {
     slug: 'landing-page-campanhas',
-    path: '/solucoes/landing-page-campanhas/',
     name: 'Landing page para campanhas',
     label: 'Campanhas',
     journey: [
@@ -311,7 +311,6 @@ export const SOLUTIONS: Solution[] = [
   },
   {
     slug: 'landing-page-produto',
-    path: '/solucoes/landing-page-produto/',
     name: 'Landing page de produto',
     label: 'Produto',
     journey: [
@@ -363,7 +362,6 @@ export const SOLUTIONS: Solution[] = [
   },
   {
     slug: 'landing-page-palestras',
-    path: '/solucoes/landing-page-palestras/',
     name: 'Landing page para palestras e eventos',
     label: 'Palestras e eventos',
     journey: [
@@ -375,7 +373,7 @@ export const SOLUTIONS: Solution[] = [
     tagline: 'Tema, data e inscrição em uma página.',
     group: 'landing',
     short: 'Tema, palestrante, data e inscrição em uma página que se compartilha bem no WhatsApp.',
-    icon: 'mic',
+    icon: 'ticket',
     meta: {
       title: 'Landing Page para Palestras e Eventos | ARCAV',
       description:
@@ -416,7 +414,6 @@ export const SOLUTIONS: Solution[] = [
   {
     slug: 'comercio-digital',
     situation: 'Vendo pelo WhatsApp e quero receber pedidos organizados.',
-    path: '/solucoes/comercio-digital/',
     name: 'Site para comércio com pedido no WhatsApp',
     label: 'Comércio com pedido no WhatsApp',
     tagline: 'O pedido chega pronto no WhatsApp da loja.',
@@ -427,14 +424,13 @@ export const SOLUTIONS: Solution[] = [
     hero: { title: '', subtitle: '', cta: 'Quero uma loja assim' },
     forWho: [],
     includes: [],
-    example: { path: '/solucoes/comercio-digital/#demo', client: 'Loja de exemplo', image: '/exemplos/comercio.webp' },
+    example: { path: `${solutionPath('comercio-digital')}${toAnchor(ANCHOR.demo)}`, client: 'Loja de exemplo', image: '/exemplos/comercio.webp' },
     faq: [],
     contact: { subject: '', label: '', placeholder: '' },
   },
   {
     slug: 'sistemas-e-automacao',
     situation: 'Faço tudo à mão, entre planilha, e-mail e WhatsApp.',
-    path: '/solucoes/sistemas-e-automacao/',
     name: 'Sistemas e automação',
     label: 'Sistemas e automação',
     tagline: 'O trabalho repetido acontece sozinho.',
@@ -484,6 +480,8 @@ export const SOLUTIONS: Solution[] = [
   },
 ];
 
+export const SOLUTIONS: Solution[] = ENTRIES.map((entry) => ({ ...entry, path: solutionPath(entry.slug) }));
+
 export const solutionBySlug = (slug: string) => SOLUTIONS.find((s) => s.slug === slug)!;
 
 /**
@@ -492,6 +490,12 @@ export const solutionBySlug = (slug: string) => SOLUTIONS.find((s) => s.slug ===
  */
 export const SERVICES: Solution[] = ['site-institucional', 'migracao', 'landing-pages', 'comercio-digital', 'sistemas-e-automacao'].map(solutionBySlug);
 
+/** Soluções com página própria (comercio-digital.astro, landing-pages.astro); as demais usam [slug].astro. */
+export const DEDICATED_PAGES = ['comercio-digital', 'landing-pages'];
+
+/** Tamanho das capturas de exemplo em public/exemplos/ (a moldura reserva o espaço antes de carregar). */
+export const EXAMPLE_IMAGE = { width: 1440, height: 900 } as const;
+
 /** Passos comuns a todas as soluções. */
 export const SOLUTION_STEPS = [
   'Conversa sobre o seu objetivo e o que já existe.',
@@ -499,3 +503,38 @@ export const SOLUTION_STEPS = [
   'Proposta por escrito: o que entra, o prazo e o valor.',
   'Construção com a sua aprovação, publicação e acompanhamento.',
 ];
+
+/** Textos fixos da página de uma solução (SolutionPage.astro). */
+export const SOLUTION_PAGE = {
+  heroNote: 'Conversa sem compromisso. Se houver encaixe, você recebe uma prévia resumida do seu projeto junto com a proposta.',
+  exampleCta: 'Ver o exemplo',
+  /** Título padrão do bloco de três frases (SolutionFlow). */
+  journeyTitle: 'O caminho do seu cliente',
+  fit: {
+    label: 'Para quem é e o que está incluído',
+    forWho: 'Para quem é',
+    includes: 'O que está incluído',
+  },
+  how: 'Como funciona',
+  others: 'Outras soluções',
+  closing: {
+    title: 'Vamos conversar sobre o seu projeto?',
+    text: 'Conte o que você precisa. Respondemos com os próximos passos, sem compromisso e sem jargão técnico.',
+    waMessage: (name: string) => `Olá! Vi a página "${name}" da ARCAV e quero conversar sobre o meu projeto.`,
+  },
+};
+
+/** Escolha do tipo de landing page em /solucoes/landing-pages/ (LandingFlow.astro). */
+export const LANDING_PICKER = {
+  title: 'O que você quer com a sua página?',
+  lead: 'Escolha o objetivo. Cada tipo de página tem o seu caminho, para quem é e o que entra.',
+  tabs: 'O que você quer com a página?',
+  typePrefix: 'Landing page de',
+  forWho: 'Para quem é',
+  includes: 'O que entra',
+  more: 'Ver tudo sobre esta página',
+  /** Aba aberta ao chegar: o caso mais comum. */
+  defaultSlug: 'landing-page-campanhas',
+  /** Itens de "O que entra" na ficha; a lista completa fica na página do tipo. */
+  maxIncludes: 4,
+};
