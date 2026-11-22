@@ -1,11 +1,14 @@
 ---
-// Bloco final escuro: chamada, quem responde (Armando), alternativas e o formulário.
+// Bloco final escuro: a chamada à esquerda; à direita, quem responde, como falar e o botão que abre
+// o formulário numa janela (popover, sem JavaScript: botão abre; X, Esc ou toque fora fecham).
+// O cabeçalho e o hero apontam para a mesma janela (ANCHOR.contactForm).
+// `channels` troca a frase "Se preferir…" pela lista de canais (WhatsApp, e-mail, cidade).
+// `feature` (home) usa o título maior.
 import ContactForm from './ContactForm.astro';
 import Avatar from './Avatar.astro';
-import { BRAND } from '../../data/site';
-import { ANCHOR } from '../../data/anchors';
-import { ui } from '../../data/ui';
-import { ARCAV_WHATSAPP_DISPLAY, RESPONSE_TIME, whatsappLink } from '../../lib/contact';
+import Icon from './Icon.astro';
+import { ANCHOR, BRAND, ui } from '@data';
+import { EXTERNAL_LINK, ARCAV_WHATSAPP_DISPLAY, RESPONSE_TIME, whatsappLink } from '@lib';
 
 interface Props {
   title: string;
@@ -17,30 +20,68 @@ interface Props {
   submit?: string;
   /** Mensagem pronta para o link de WhatsApp alternativo. */
   waMessage?: string;
+  channels?: boolean;
+  feature?: boolean;
 }
 
-const { title, text, subject, variant = 'general', messageLabel, messagePlaceholder, submit, waMessage } = Astro.props;
+const {
+  title,
+  text,
+  subject,
+  variant = 'general',
+  messageLabel,
+  messagePlaceholder,
+  submit,
+  waMessage,
+  channels = false,
+  feature = false,
+} = Astro.props;
 const wa = whatsappLink(waMessage);
 const copy = ui.closingContact;
+const dialog = ui.contactDialog;
+const dialogId = ANCHOR.contactForm;
+/** O botão que abre a janela diz o mesmo que o envio da página (ex.: "Quero uma loja assim"). */
+const openLabel = submit ?? (variant === 'store' ? ui.contactForm.submit.store : dialog.open);
 ---
-<section class="section section--dark" id={ANCHOR.contact} aria-labelledby="contato-title">
-  <div class="shell">
-    <div class="grid items-start gap-split-tight lg:grid-cols-form">
-      <div class="grid max-w-lg gap-5">
-        <h2 class="h2" id="contato-title">{title}</h2>
-        <p class="lead">{text}</p>
-        <div class="flex items-center gap-3.5 border-y border-on-dark-line py-4">
-          <Avatar />
-          <p class="grid leading-label">
-            <strong class="font-semibold text-on-dark">{copy.responder}</strong>
-            <span class="text-sm text-on-dark-muted">{copy.place}{RESPONSE_TIME && ` ${ui.responseTime(RESPONSE_TIME)}`}</span>
-          </p>
-        </div>
+<section class="section section--dark closing" id={ANCHOR.contact} aria-labelledby="contato-title">
+  <div class="shell closing__grid">
+    <div class="closing__intro">
+      <h2 class:list={['h2', { 'h2--feature': feature }]} id="contato-title">{title}</h2>
+      <p class="lead">{text}</p>
+    </div>
+
+    <div class="closing__aside">
+      <div class="closing__responder">
+        <Avatar />
+        <p class="closing__responder-text">
+          <strong class="closing__responder-name">{copy.responder}</strong>
+          <span class="closing__responder-place">{copy.place}{RESPONSE_TIME && ` ${ui.responseTime(RESPONSE_TIME)}`}</span>
+        </p>
+      </div>
+
+      {channels ? (
+        <ul role="list" class="closing__channels">
+          {wa && (
+            <li class="closing__channel">
+              <Icon name="chat" class="closing__channel-icon" />
+              <a class="closing__channel-link" href={wa} {...EXTERNAL_LINK}>{ui.whatsapp(ARCAV_WHATSAPP_DISPLAY)}</a>
+            </li>
+          )}
+          <li class="closing__channel">
+            <Icon name="mail" class="closing__channel-icon" />
+            <a class="closing__channel-link" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+          </li>
+          <li class="closing__channel">
+            <Icon name="pin" class="closing__channel-icon" />
+            <span>{BRAND.location}</span>
+          </li>
+        </ul>
+      ) : (
         <p class="small">
           {wa ? (
             <Fragment>
               {copy.whatsappLead}{' '}
-              <a href={wa} target="_blank" rel="noopener noreferrer">{ARCAV_WHATSAPP_DISPLAY}</a>{' '}
+              <a href={wa} {...EXTERNAL_LINK}>{ARCAV_WHATSAPP_DISPLAY}</a>{' '}
               {copy.emailOr}{' '}
               <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
             </Fragment>
@@ -51,16 +92,32 @@ const copy = ui.closingContact;
             </Fragment>
           )}
         </p>
+      )}
+
+      <div>
+        <button class="btn btn--primary closing__open" type="button" popovertarget={dialogId}>
+          {openLabel}
+          <Icon name="arrow-right" />
+        </button>
       </div>
-      <div class="card closing__form border-transparent text-ink">
-        <ContactForm
-          subject={subject}
-          variant={variant}
-          messageLabel={messageLabel}
-          messagePlaceholder={messagePlaceholder}
-          submit={submit}
-        />
+    </div>
+  </div>
+
+  <div class="contact-dialog" id={dialogId} popover role="dialog" aria-labelledby={`${dialogId}-title`}>
+    <div class="contact-dialog__panel">
+      <div class="contact-dialog__head">
+        <h2 class="h3 contact-dialog__title" id={`${dialogId}-title`}>{dialog.title}</h2>
+        <button class="contact-dialog__close" type="button" popovertarget={dialogId} popovertargetaction="hide" aria-label={dialog.close}>
+          <Icon name="close" class="contact-dialog__close-icon" />
+        </button>
       </div>
+      <ContactForm
+        subject={subject}
+        variant={variant}
+        messageLabel={messageLabel}
+        messagePlaceholder={messagePlaceholder}
+        submit={submit}
+      />
     </div>
   </div>
 </section>

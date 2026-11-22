@@ -1,25 +1,15 @@
 ---
 export const prerender = true;
 
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/ui/Header.astro';
-import Footer from '../../components/ui/Footer.astro';
-import Icon from '../../components/ui/Icon.astro';
-import PhoneDemo from '../../components/ui/PhoneDemo.astro';
-import OrderMessage from '../../components/ui/OrderMessage.astro';
-import Faq from '../../components/ui/Faq.astro';
-import RuledPoints from '../../components/ui/RuledPoints.astro';
-import ClosingContact from '../../components/ui/ClosingContact.astro';
-import { commerceService as page } from '../../data/commerce-service';
-import { ANCHOR, toAnchor } from '../../data/anchors';
-import { footerNav } from '../../data/navigation';
-import { solutionTransition } from '../../lib/view-transitions';
+import Layout from '@layouts/Layout.astro';
+import { ClosingContact, Faq, Footer, Header, Icon, OrderMessage, PhoneDemo, RuledPoints } from '@components/ui';
+import { ANCHOR, commerceService as page, footerNav, toAnchor } from '@data';
+import { solutionTransition } from '@lib';
 
 const canonical = new URL(page.path, Astro.site).href;
-const contact = toAnchor(ANCHOR.contact);
 ---
 <Layout title={page.meta.title} description={page.meta.description} canonical={canonical}>
-  <Header cta={{ href: contact, label: page.hero.cta }} />
+  <Header cta={{ label: page.hero.cta, popover: ANCHOR.contactForm }} />
 
   <main id={ANCHOR.content}>
     <section class="page-hero" aria-labelledby="hero-title">
@@ -28,13 +18,13 @@ const contact = toAnchor(ANCHOR.contact);
           <h1 class="h1" id="hero-title" style={solutionTransition('comercio-digital')}>{page.hero.title}</h1>
           <p class="lead">{page.hero.subtitle}</p>
           <div class="page-hero__actions">
-            <a class="btn btn--primary" href={contact}>
+            <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
               {page.hero.cta}
               <Icon name="arrow-right" />
-            </a>
+            </button>
             <a class="btn btn--ghost" href={toAnchor(ANCHOR.demo)}>{page.hero.demoCta}</a>
           </div>
-          <p class="small hero-note mt-4">{page.hero.note}</p>
+          <p class="small hero-note">{page.hero.note}</p>
         </div>
         <PhoneDemo
             id={ANCHOR.demo}
@@ -55,15 +45,15 @@ const contact = toAnchor(ANCHOR.contact);
       </div>
     </section>
 
-    <section class="section section--muted" id="exemplo" aria-labelledby="exemplo-title">
-      <div class="shell grid items-center gap-split lg:grid-cols-split">
+    <section class="section section--muted commerce-example" id="exemplo" aria-labelledby="exemplo-title">
+      <div class="shell commerce-example__grid">
         <div>
           <h2 class="h2" id="exemplo-title">{page.example.title}</h2>
-          <p class="lead mt-4">{page.example.text}</p>
-          <a class="btn btn--primary mt-7 max-sm:w-full" href={contact}>
+          <p class="lead commerce-example__lead">{page.example.text}</p>
+          <button class="btn btn--primary commerce-example__cta" type="button" popovertarget={ANCHOR.contactForm}>
             {page.hero.cta}
             <Icon name="arrow-right" />
-          </a>
+          </button>
         </div>
         <OrderMessage order={page.example.order} live={page.example.live} />
       </div>

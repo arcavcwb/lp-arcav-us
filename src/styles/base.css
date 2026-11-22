@@ -101,11 +101,7 @@ summary::-webkit-details-marker {
 
 /* Transição entre páginas (View Transitions entre documentos). O título do serviço na home
    viaja até o título da página da solução (nomes em lib/view-transitions.ts); o cabeçalho
-   fica parado. */
-[data-site-header] {
-  view-transition-name: site-header;
-}
-
+   fica parado (components/ui/header.css). */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

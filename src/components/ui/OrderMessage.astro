@@ -3,10 +3,8 @@
 // Ilustração, não captura de tela. Com `live`, espelha o pedido montado no PhoneDemo da página
 // (evento `demo:order`); sem pedido, convida a montar um. Sem `live`, mostra o pedido fixo.
 import Icon from './Icon.astro';
-import type { IllustrativeOrder } from '../../data/types';
-import { ui } from '../../data/ui';
-import { formatOrderLine } from '../../lib/order';
-import { initials } from '../../lib/text';
+import { ui, type IllustrativeOrder } from '@data';
+import { formatOrderLine, initials } from '@lib';
 
 interface Props {
   order: IllustrativeOrder;
@@ -19,22 +17,19 @@ interface Props {
 
 const copy = ui.orderMessage;
 const { order, greeting = copy.greeting, reply = copy.reply, note = copy.note, live } = Astro.props;
-
-/** Balão de conversa (entrada do cliente e resposta da loja). */
-const bubble = 'grid max-w-bubble gap-1 px-4 py-3.5 leading-normal rounded-card';
 ---
-<figure class="order-message m-0 grid gap-3.5" data-order-message={live ? '' : undefined}>
-  <div class="grid gap-5 rounded-card bg-paper p-panel shadow-raised">
-    <div class="flex items-center gap-3 border-b border-line pb-4">
-      <span class="grid size-10 place-items-center rounded-full bg-surface-strong text-caption font-bold text-muted" aria-hidden="true">{initials(copy.customer).charAt(0)}</span>
-      <p class="grid leading-title">
-        <strong class="font-semibold">{copy.customer}</strong>
-        <span class="text-caption text-muted">{copy.channel}</span>
+<figure class="order-message" data-order-message={live ? '' : undefined}>
+  <div class="order-message__card">
+    <div class="order-message__head">
+      <span class="order-message__avatar" aria-hidden="true">{initials(copy.customer).charAt(0)}</span>
+      <p class="order-message__who">
+        <strong class="order-message__name">{copy.customer}</strong>
+        <span class="order-message__channel">{copy.channel}</span>
       </p>
     </div>
 
     {live && (
-      <div class="grid justify-items-start gap-3.5 leading-normal text-muted" data-order-empty>
+      <div class="order-message__empty" data-order-empty>
         <p>{live.empty}</p>
         <a class="btn btn--ghost btn--sm" href={live.cta.href}>
           {live.cta.label}
@@ -43,28 +38,28 @@ const bubble = 'grid max-w-bubble gap-1 px-4 py-3.5 leading-normal rounded-card'
       </div>
     )}
 
-    <div class="grid gap-3" data-order-thread hidden={live ? true : undefined} aria-live={live ? 'polite' : undefined}>
-      <div class:list={[bubble, 'justify-self-start rounded-bl-xs bg-surface']}>
+    <div class="order-message__thread" data-order-thread hidden={live ? true : undefined} aria-live={live ? 'polite' : undefined}>
+      <div class="order-message__bubble order-message__bubble--in">
         <p>{greeting}</p>
-        <ul role="list" class="tnum font-semibold" data-order-lines>
+        <ul role="list" class="order-message__lines" data-order-lines>
           {order.items.map((item) => <li>{formatOrderLine(item)}</li>)}
         </ul>
       </div>
-      <div class:list={[bubble, 'justify-self-end rounded-br-xs bg-ink text-on-dark']}>
+      <div class="order-message__bubble order-message__bubble--out">
         <p>{reply}</p>
       </div>
     </div>
 
-    <p class="flex items-center gap-2 text-sm font-semibold">
-      <Icon name="check" class="size-4.5 flex-none text-accent" />
+    <p class="order-message__note">
+      <Icon name="check" class="order-message__check" />
       {note}
     </p>
   </div>
-  <figcaption class="text-caption text-pretty text-muted">{live ? live.caption : order.caption}</figcaption>
+  <figcaption class="order-message__caption">{live ? live.caption : order.caption}</figcaption>
 </figure>
 
 <script>
-  import { initOrderMessages } from '../../scripts/order-message';
+  import { initOrderMessages } from '@scripts/order-message';
 
   initOrderMessages();
 </script>

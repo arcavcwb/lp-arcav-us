@@ -1,33 +1,62 @@
 /* ARCAV — entrada única de CSS (Tailwind v4, configuração em CSS).
-   Ordem das camadas: theme < base < components < utilities. Utilitários do Tailwind vencem
-   os componentes; nada fica fora de camada, exceto @font-face e os tokens.
-   Estrutura:
-     tokens.css        → Design System como tema do Tailwind (DESIGN.md); o tema padrão não é carregado
-     base.css          → reset e padrões de elementos
-     primitives/*.css  → peças compartilhadas (estrutura, tipo, ações, superfícies, sequências)
-     components/*.css  → um arquivo por componente, com a classe raiz como escopo
-   Sem preflight do Tailwind: o reset próprio (base.css) mantém o visual aprovado.
-   Regra: nenhum valor solto. Cor, tipo, espaço, forma, movimento e pontos de quebra vêm de
-   tokens.css (var(--…), --spacing(n) e theme(--breakpoint-…) nas media queries). */
 
-@layer theme, base, components, utilities;
+   Camadas, da mais fraca para a mais forte:
+     theme       → tokens (tokens.css)
+     base        → reset e padrões de elementos (base.css)
+     primitives  → peças compartilhadas: shell, section, page-hero, h1/h2/lead, btn, card, steps, movimento
+     components  → uma classe própria por elemento de cada componente, montada com @apply
+     utilities   → vazia: nenhum componente usa utilitário do Tailwind direto no marcado
+   Um componente pode ajustar uma peça compartilhada (ex.: `.about__lead` dá margem a `.lead`)
+   porque a camada components vence a primitives, qualquer que seja a especificidade.
 
-@import 'tailwindcss/utilities.css' layer(utilities);
+   Regras:
+   - Componentes só têm classes com nome próprio (`.hero__grid`, `.services__link`); o visual
+     fica em styles/components/<pasta>/<componente>.css, com @apply e os tokens.
+   - Nenhum valor solto: cor, tipo, espaço, forma, movimento e pontos de quebra vêm de tokens.css
+     (utilitários dos tokens no @apply, var(--…), --spacing(n), theme(--breakpoint-…)).
+   - Sem preflight do Tailwind: o reset próprio (base.css) mantém o visual aprovado. */
+
+@layer theme, base, primitives, components, utilities;
+
+/* `source(none)`: o Tailwind não procura classes nos arquivos; só gera o que os @apply pedem. */
+@import 'tailwindcss/utilities.css' layer(utilities) source(none);
 
 @import './fonts.css';
 @import './tokens.css';
 @import './base.css' layer(base);
 
-@import './primitives/layout.css' layer(components);
-@import './primitives/type.css' layer(components);
-@import './primitives/actions.css' layer(components);
-@import './primitives/surfaces.css' layer(components);
-@import './primitives/sequences.css' layer(components);
+@import './primitives/layout.css' layer(primitives);
+@import './primitives/type.css' layer(primitives);
+@import './primitives/actions.css' layer(primitives);
+@import './primitives/surfaces.css' layer(primitives);
+@import './primitives/sequences.css' layer(primitives);
+@import './primitives/motion.css' layer(primitives);
 
-@import './components/contact-form.css' layer(components);
-@import './components/phone-demo.css' layer(components);
+/* Interface compartilhada */
+@import './components/ui/header.css' layer(components);
+@import './components/ui/footer.css' layer(components);
+@import './components/ui/brand.css' layer(components);
+@import './components/ui/avatar.css' layer(components);
+@import './components/ui/photo.css' layer(components);
+@import './components/ui/ruled-points.css' layer(components);
+@import './components/ui/faq.css' layer(components);
+@import './components/ui/example-frame.css' layer(components);
+@import './components/ui/order-message.css' layer(components);
+@import './components/ui/phone-demo.css' layer(components);
+@import './components/ui/contact-form.css' layer(components);
+@import './components/ui/closing-contact.css' layer(components);
 
+/* Home (depois de ui: o recorte das fotos da home vence o recorte padrão de .photo) */
+@import './components/home/hero.css' layer(components);
+@import './components/home/services.css' layer(components);
+@import './components/home/examples.css' layer(components);
+@import './components/home/manifesto.css' layer(components);
+@import './components/home/method.css' layer(components);
+@import './components/home/about.css' layer(components);
 
-/* Só o código do site gera utilitários (não os documentos do repositório). */
-@source not '../../docs';
-@source not '../../.agents';
+/* Soluções e páginas soltas */
+@import './components/solution/solution-page.css' layer(components);
+@import './components/solution/solution-flow.css' layer(components);
+@import './components/solution/landing-flow.css' layer(components);
+@import './components/pages/commerce.css' layer(components);
+@import './components/pages/not-found.css' layer(components);

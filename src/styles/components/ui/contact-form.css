@@ -157,6 +157,17 @@
   color: var(--color-muted);
 }
 
+/* O formulário é sempre uma superfície clara, mesmo dentro de uma seção grafite. */
+.contact-form .btn--ghost {
+  background: var(--color-paper);
+  border-color: var(--color-line-strong);
+  color: var(--color-ink);
+}
+
+.contact-form .btn--ghost:hover {
+  border-color: var(--color-ink);
+}
+
 @media (width < theme(--breakpoint-sm)) {
   .contact-form .contact-form__submit {
     width: 100%;

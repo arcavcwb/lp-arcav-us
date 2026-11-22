@@ -1,34 +1,34 @@
 ---
-// Hero da home: o título e as duas ações à esquerda; o retrato de trabalho nas últimas colunas,
-// um pouco abaixo do título. No celular, o retrato vem depois das ações, a toda a largura, em 4:3.
-import Icon from '../ui/Icon.astro';
-import Photo from '../ui/Photo.astro';
-import { home } from '../../data/site';
-import { ANCHOR, toAnchor } from '../../data/anchors';
-import { ui } from '../../data/ui';
-import { photoShown } from '../../lib/photos';
+// Hero da home: título, subtítulo e ações à esquerda (8 de 12 colunas); o retrato de trabalho à
+// direita (4 colunas), centrado na altura do texto. O título fica na escala normal dos heros: a frase
+// é longa, e grande demais ela vira um cartaz (feedback de 2026-11-21). No celular, o retrato vem
+// depois das ações, a toda a largura, em 4:3. Ao carregar, o texto entra em sequência e o retrato
+// se descobre de baixo para cima. A ação principal abre a janela do formulário.
+import { Icon, Photo } from '@components/ui';
+import { ANCHOR, home, toAnchor, ui } from '@data';
+import { photoShown } from '@lib';
 
 const { hero } = home;
 const withPhoto = photoShown('work');
 ---
-<section class="page-hero hero-home" aria-labelledby="hero-title">
-  <div class:list={['shell grid gap-10', { 'xl:grid-cols-hero-portrait xl:gap-16': withPhoto }]}>
-    <div>
-      <h1 class="h1 max-w-headline" id="hero-title">{hero.title}</h1>
+<section class:list={['page-hero hero', { 'hero--with-photo': withPhoto }]} aria-labelledby="hero-title">
+  <div class="shell hero__grid">
+    <div class="enter-group">
+      <h1 class="h1" id="hero-title">{hero.title}</h1>
       <p class="lead">{hero.subtitle}</p>
       <div class="page-hero__actions">
-        <a class="btn btn--primary" href={toAnchor(ANCHOR.contact)}>
+        <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
           {hero.primaryCta}
           <Icon name="arrow-right" />
-        </a>
+        </button>
         <a class="btn btn--ghost" href={toAnchor(ANCHOR.solutions)}>{hero.secondaryCta}</a>
       </div>
     </div>
 
     {withPhoto && (
-      <figure class="m-0 grid content-start gap-3 xl:mt-portrait-drop">
-        <Photo photo="work" crop="aspect-wide xl:aspect-portrait" eager />
-        <figcaption class="text-caption text-muted">{ui.photo.caption}</figcaption>
+      <figure class="enter-image hero__figure">
+        <Photo photo="work" class="hero__photo" eager />
+        <figcaption class="hero__caption">{ui.photo.caption}</figcaption>
       </figure>
     )}
   </div>

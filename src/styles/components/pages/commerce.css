@@ -1,0 +1,13 @@
+/* Página de comércio: o exemplo do lado da loja ao lado do texto. */
+
+.commerce-example__grid {
+  @apply grid items-center gap-split lg:grid-cols-split;
+}
+
+.commerce-example__lead {
+  @apply mt-4;
+}
+
+.commerce-example__cta {
+  @apply mt-7 max-sm:w-full;
+}

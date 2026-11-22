@@ -1,19 +1,12 @@
 ---
 // Página de uma solução da ARCAV: para quem é, o que inclui, o exemplo, como funciona, dúvidas e contato.
 // O slot `fit` substitui o bloco "Para quem é / O que está incluído" (usado em Landing pages).
-import Layout from '../../layouts/Layout.astro';
-import Header from '../ui/Header.astro';
-import Footer from '../ui/Footer.astro';
-import Icon from '../ui/Icon.astro';
-import ExampleFrame from '../ui/ExampleFrame.astro';
+// As ações de contato abrem a janela do formulário.
+import Layout from '@layouts/Layout.astro';
+import { ClosingContact, ExampleFrame, Faq, Footer, Header, Icon } from '@components/ui';
 import SolutionFlow from './SolutionFlow.astro';
-import Faq from '../ui/Faq.astro';
-import ClosingContact from '../ui/ClosingContact.astro';
-import { SERVICES, SOLUTION_PAGE as copy, SOLUTION_STEPS, type Solution } from '../../data/solutions';
-import { ANCHOR, toAnchor } from '../../data/anchors';
-import { footerNav } from '../../data/navigation';
-import { ui } from '../../data/ui';
-import { solutionTransition } from '../../lib/view-transitions';
+import { ANCHOR, SERVICES, SOLUTION_PAGE as copy, SOLUTION_STEPS, footerNav, ui, type Solution } from '@data';
+import { solutionTransition } from '@lib';
 
 interface Props {
   solution: Solution;
@@ -22,27 +15,24 @@ interface Props {
 const { solution: s } = Astro.props;
 const canonical = new URL(s.path, Astro.site).href;
 const others = SERVICES.filter((o) => o.slug !== s.slug);
-const contact = toAnchor(ANCHOR.contact);
-/** Itens de "Para quem é" e "O que está incluído". */
-const fitItem = 'flex gap-3 border-b border-line py-4 text-base font-medium';
 ---
 <Layout title={s.meta.title} description={s.meta.description} canonical={canonical}>
-  <Header cta={{ href: contact, label: ui.header.cta }} />
+  <Header cta={{ label: ui.header.cta, popover: ANCHOR.contactForm }} />
 
   <main id={ANCHOR.content}>
     <section class="page-hero" aria-labelledby="hero-title">
-      <div class="shell page-hero__grid xl:grid-cols-hero-wide">
+      <div class="shell page-hero__grid solution-hero__grid">
         <div>
           <h1 class="h1" id="hero-title" style={solutionTransition(s.slug)}>{s.hero.title}</h1>
           <p class="lead">{s.hero.subtitle}</p>
           <div class="page-hero__actions">
-            <a class="btn btn--primary" href={contact}>
+            <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
               {s.hero.cta}
               <Icon name="arrow-right" />
-            </a>
+            </button>
             {s.example.path && <a class="btn btn--ghost" href={s.example.path}>{copy.exampleCta}</a>}
           </div>
-          <p class="small hero-note mt-4">{copy.heroNote}</p>
+          <p class="small hero-note">{copy.heroNote}</p>
         </div>
         {s.example.path || !s.journey ? (
           <ExampleFrame href={s.example.path} image={s.example.image} client={s.example.client} eager />
@@ -53,18 +43,18 @@ const fitItem = 'flex gap-3 border-b border-line py-4 text-base font-medium';
     </section>
 
     {Astro.slots.has('fit') ? <slot name="fit" /> : (
-    <section class="section" aria-label={copy.fit.label}>
-      <div class="shell grid gap-split lg:grid-cols-2">
+    <section class="section solution-fit" aria-label={copy.fit.label}>
+      <div class="shell solution-fit__grid">
         <div>
           <h2 class="h2">{copy.fit.forWho}</h2>
-          <ul role="list" class="mt-6 grid border-t border-ink">
-            {s.forWho.map((item) => <li class={fitItem}>{item}</li>)}
+          <ul role="list" class="solution-fit__list">
+            {s.forWho.map((item) => <li class="solution-fit__item">{item}</li>)}
           </ul>
         </div>
         <div>
           <h2 class="h2">{copy.fit.includes}</h2>
-          <ul role="list" class="mt-6 grid border-t border-ink">
-            {s.includes.map((item) => <li class={fitItem}><Icon name="check" class="mt-optical-sm size-5 flex-none text-accent" />{item}</li>)}
+          <ul role="list" class="solution-fit__list">
+            {s.includes.map((item) => <li class="solution-fit__item"><Icon name="check" class="solution-fit__check" />{item}</li>)}
           </ul>
         </div>
       </div>
@@ -84,18 +74,18 @@ const fitItem = 'flex gap-3 border-b border-line py-4 text-base font-medium';
 
     <Faq items={s.faq} muted={false} />
 
-    <section class="section section--muted" aria-labelledby="outras-title">
+    <section class="section section--muted solution-others" aria-labelledby="outras-title">
       <div class="shell">
         <div class="section-head">
           <h2 class="h2" id="outras-title">{copy.others}</h2>
         </div>
-        <ul role="list" class="grid gap-3 lg:grid-cols-2">
+        <ul role="list" class="solution-others__list">
           {others.map((o) => (
             <li>
-              <a class="flex items-center gap-4 rounded-card border border-line bg-paper px-5 py-4 font-semibold text-ink no-underline transition-colors hover:border-ink" href={o.path}>
+              <a class="solution-others__link" href={o.path}>
                 <span class="icon-badge"><Icon name={o.icon} /></span>
-                <span class="flex-1">{o.name}</span>
-                <Icon name="arrow-right" class="size-4.5 text-muted" />
+                <span class="solution-others__name">{o.name}</span>
+                <Icon name="arrow-right" class="solution-others__arrow" />
               </a>
             </li>
           ))}

@@ -9,11 +9,11 @@
 // Passo a passo: README.md, seção "Formulário de contato".
 export const prerender = false;
 
-import { composeContactMessage } from '../../lib/contact-message';
+import { composeContactMessage } from '@lib/contact-message';
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
 import { EmailMessage } from 'cloudflare:email';
-import { BRAND } from '../../data/site';
+import { BRAND } from '@data/site';
 
 interface SendEmailBinding {
   send(message: EmailMessage): Promise<void>;

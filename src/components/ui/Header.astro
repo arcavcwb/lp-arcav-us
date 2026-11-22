@@ -1,58 +1,50 @@
 ---
+// Cabeçalho fixo. Abaixo de 900px a navegação vira um painel (popover): o botão abre e fecha,
+// Esc e um toque fora também fecham, sem JavaScript. Um script de três linhas só fecha o painel
+// depois de escolher um link. A CTA abre a janela do formulário (popover) quando a página tem uma.
 import Brand from './Brand.astro';
 import Icon from './Icon.astro';
-import { HOME_PATH } from '../../data/anchors';
-import type { NavLink } from '../../data/navigation';
-import { ui } from '../../data/ui';
+import { HOME_PATH, ui, type NavLink } from '@data';
 
 interface Props {
   links?: NavLink[];
-  cta?: { href: string; label: string };
+  /** `popover`: id da janela que o botão abre; sem ele, `href` vira um link comum. */
+  cta?: { label: string; href?: string; popover?: string };
 }
 
 const { links = [], cta } = Astro.props;
 const hasNav = links.length > 0;
-
-/** Abaixo do ponto `split` (900px) a navegação vira um menu sanfona sob o cabeçalho. */
-const navMobile =
-  'max-split:absolute max-split:inset-x-0 max-split:top-full max-split:m-0 max-split:hidden max-split:border-b max-split:border-line max-split:bg-paper max-split:px-gutter max-split:pt-2 max-split:pb-5 max-split:shadow-drawer max-split:data-open:block';
-const navLink =
-  'block rounded-control px-3 py-2 text-sm font-medium text-muted no-underline transition-colors hover:bg-surface hover:text-ink max-split:rounded-none max-split:px-1 max-split:py-3.5 max-split:text-base max-split:text-ink';
+const NAV_ID = 'site-nav';
 ---
-<header
-  class="site-header sticky top-0 z-header border-b border-transparent bg-paper transition-colors duration-quick data-scrolled:border-line"
-  data-site-header
->
-  <div class="shell flex min-h-header items-center gap-6">
-    <a class="rounded-xs text-ink no-underline" href={HOME_PATH} aria-label={ui.a11y.homeLink}>
+<header class="site-header" data-site-header>
+  <div class="shell site-header__bar">
+    <a class="site-header__home" href={HOME_PATH} aria-label={ui.a11y.homeLink}>
       <Brand compact />
     </a>
 
     {hasNav && (
-      <nav class:list={['ml-auto', navMobile]} id="site-nav" aria-label={ui.header.nav} data-site-nav>
-        <ul role="list" class="flex gap-1 max-split:flex-col max-split:gap-0">
+      <nav class="site-nav" id={NAV_ID} aria-label={ui.header.nav} popover data-site-nav>
+        <ul role="list" class="site-nav__list">
           {links.map((link) => (
-            <li class="max-split:border-b max-split:border-line max-split:last:border-b-0">
-              <a class={navLink} href={link.href}>{link.label}</a>
+            <li class="site-nav__item">
+              <a class="site-nav__link" href={link.href}>{link.label}</a>
             </li>
           ))}
         </ul>
       </nav>
     )}
 
-    <div class:list={['flex items-center gap-3', hasNav ? 'ml-2 max-split:ml-auto' : 'ml-auto']}>
-      {cta && <a class="btn btn--primary btn--sm" href={cta.href}>{cta.label}</a>}
+    <div class:list={['site-header__actions', { 'site-header__actions--after-nav': hasNav }]}>
+      {cta && (cta.popover ? (
+        <button class="btn btn--primary btn--sm" type="button" popovertarget={cta.popover}>{cta.label}</button>
+      ) : (
+        <a class="btn btn--primary btn--sm" href={cta.href}>{cta.label}</a>
+      ))}
       {hasNav && (
-        <button
-          class="group hidden size-11 cursor-pointer place-items-center rounded-control border border-line-strong bg-paper p-0 max-split:grid"
-          type="button"
-          aria-expanded="false"
-          aria-controls="site-nav"
-          data-menu-toggle
-        >
-          <span class="visually-hidden" data-menu-label>{ui.header.menuOpen}</span>
-          <Icon name="menu" class="size-5.5 group-aria-expanded:hidden" />
-          <Icon name="close" class="hidden size-5.5 group-aria-expanded:block" />
+        <button class="site-header__toggle" type="button" popovertarget={NAV_ID} data-menu-toggle>
+          <span class="visually-hidden">{ui.header.menu}</span>
+          <Icon name="menu" class="site-header__icon site-header__icon--open" />
+          <Icon name="close" class="site-header__icon site-header__icon--close" />
         </button>
       )}
     </div>
@@ -60,7 +52,7 @@ const navLink =
 </header>
 
 <script>
-  import { initSiteHeader } from '../../scripts/site-header';
+  import { initSiteMenu } from '@scripts/site-menu';
 
-  initSiteHeader();
+  initSiteMenu();
 </script>

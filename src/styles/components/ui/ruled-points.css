@@ -1,0 +1,17 @@
+/* RuledPoints — pontos de uma oferta em lista com fios: título e texto lado a lado no desktop. */
+
+.ruled-points {
+  @apply grid border-t border-ink;
+}
+
+.ruled-points__item {
+  @apply grid gap-1.5 border-b border-line py-5 md:grid-cols-ruled md:gap-10 md:py-6;
+}
+
+.ruled-points__title {
+  @apply text-lg leading-title font-title;
+}
+
+.ruled-points__text {
+  @apply max-w-measure text-muted;
+}

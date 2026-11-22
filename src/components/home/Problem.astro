@@ -1,41 +1,41 @@
 ---
-import Icon from '../ui/Icon.astro';
-import { BRAND, home } from '../../data/site';
-import { quoted } from '../../lib/text';
+// Manifesto: a seção inteira em grafite, um respiro no meio da página. A citação é a protagonista
+// e se revela da esquerda para a direita ao chegar à tela; o título e o texto ficam acima, menores;
+// o antes e o depois em duas colunas com fios, sem caixas.
+import { Icon } from '@components/ui';
+import { BRAND, home } from '@data';
+import { quoted } from '@lib';
 
 const { problem } = home;
-
-/** Linha da comparação Hoje / Depois e o seu ícone. */
-const row = 'flex items-start gap-3 text-h3 leading-body font-semibold tracking-tight';
-const mark = 'mt-optical size-5 flex-none';
 ---
-<section class="section section--muted" aria-labelledby="problema-title">
-  <div class="shell grid items-center gap-split split:grid-cols-lead">
-    <div>
-      <h2 class="h2" id="problema-title">{problem.title}</h2>
-      <p class="lead mt-4">{problem.text}</p>
-      <figure class="mt-8">
-        <blockquote class="max-w-lg text-lg leading-normal font-medium">
-          <p>{quoted(problem.quote)}</p>
-        </blockquote>
-        <figcaption class="mt-2 text-sm text-muted">{BRAND.author}</figcaption>
-      </figure>
+<section class="section section--dark section--feature manifesto" aria-labelledby="problema-title">
+  <div class="shell manifesto__shell">
+    <div class="manifesto__head">
+      <h2 class="manifesto__title" id="problema-title">{problem.title}</h2>
+      <p class="manifesto__text">{problem.text}</p>
     </div>
 
-    <div class="grid gap-4 pair:max-split:grid-cols-2">
-      <div class="rounded-card border border-line bg-paper px-7 py-6">
-        <h3 class="mb-4 text-sm font-semibold text-muted">{problem.before.label}</h3>
-        <ul role="list" class="grid gap-3">
+    <figure class="manifesto__figure">
+      <blockquote class="manifesto__quote reveal-wipe">
+        <p>{quoted(problem.quote)}</p>
+      </blockquote>
+      <figcaption class="manifesto__author">{BRAND.author}</figcaption>
+    </figure>
+
+    <div class="manifesto__compare">
+      <div>
+        <h3 class="manifesto__label">{problem.before.label}</h3>
+        <ul role="list" class="manifesto__list">
           {problem.before.items.map((item) => (
-            <li class={`${row} text-muted`}><Icon name="minus" class={mark} />{item}</li>
+            <li class="manifesto__row"><Icon name="minus" class="manifesto__mark" />{item}</li>
           ))}
         </ul>
       </div>
-      <div class="rounded-card border border-dark bg-dark px-7 py-6 text-on-dark">
-        <h3 class="mb-4 text-sm font-semibold text-on-dark-muted">{problem.after.label}</h3>
-        <ul role="list" class="grid gap-3">
+      <div>
+        <h3 class="manifesto__label manifesto__label--after">{problem.after.label}</h3>
+        <ul role="list" class="manifesto__list">
           {problem.after.items.map((item) => (
-            <li class={row}><Icon name="check" class={`${mark} text-clay`} />{item}</li>
+            <li class="manifesto__row manifesto__row--after"><Icon name="check" class="manifesto__mark manifesto__mark--after" />{item}</li>
           ))}
         </ul>
       </div>

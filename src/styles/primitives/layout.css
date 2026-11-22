@@ -10,6 +10,11 @@
   border-top: 1px solid var(--color-line-strong);
 }
 
+/* Seção-respiro: grafite com mais ar, uma vez no meio da página (o manifesto). */
+.section--feature {
+  padding-block: var(--spacing-section-feature);
+}
+
 .section--muted {
   background: var(--color-surface);
 }
@@ -59,6 +64,11 @@
 
 .page-hero .lead {
   margin-top: var(--spacing-hero-lead);
+}
+
+/* Nota curta sob as ações do hero (ex.: "Conversa sem compromisso…"). */
+.hero-note {
+  margin-top: --spacing(4);
 }
 
 .page-hero__actions {

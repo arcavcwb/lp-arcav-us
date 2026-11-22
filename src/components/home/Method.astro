@@ -1,20 +1,26 @@
 ---
-import { home } from '../../data/site';
-import { ANCHOR } from '../../data/anchors';
+// Método: o título fica parado à esquerda (4 de 12 colunas, a partir de 960px) enquanto os seis passos
+// passam à direita, cada um numa linha: numeral grande, título e texto. No celular, a lista compacta,
+// sem nada fixo. Aqui os numerais têm razão de ser: a ordem dos passos é a informação.
+import { ANCHOR, home } from '@data';
+import { ordinal } from '@lib';
 
 const { method } = home;
 ---
-<section class="section" id={ANCHOR.method} aria-labelledby="metodo-title">
-  <div class="shell">
-    <div class="section-head">
-      <h2 class="h2" id="metodo-title">{method.title}</h2>
+<section class="section method" id={ANCHOR.method} aria-labelledby="metodo-title">
+  <div class="shell method__grid">
+    <div class="method__head">
+      <h2 class="h2 h2--feature method__title" id="metodo-title">{method.title}</h2>
     </div>
 
-    <ol class="steps steps--3">
-      {method.steps.map((step) => (
-        <li>
-          <strong>{step.title}</strong>
-          <p>{step.text}</p>
+    <ol role="list" class="method__steps">
+      {method.steps.map((step, i) => (
+        <li class="method__step">
+          <span class="method__numeral" aria-hidden="true">{ordinal(i)}</span>
+          <div class="method__body">
+            <strong class="method__step-title">{step.title}</strong>
+            <p class="method__step-text">{step.text}</p>
+          </div>
         </li>
       ))}
     </ol>

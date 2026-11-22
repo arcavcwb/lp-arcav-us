@@ -2,7 +2,7 @@
 // componentes e os scripts usam. O conteúdo de cada página fica em site.ts, solutions.ts,
 // commerce-service.ts. Componentes e scripts não escrevem texto solto: leem daqui.
 import { BRAND, home } from './site';
-import { firstName } from '../lib/text';
+import { firstName } from '@lib/text';
 
 export interface FormField {
   id: 'name' | 'business' | 'link' | 'reply' | 'message';
@@ -19,7 +19,8 @@ export interface FormField {
 
 /** Saudação do pedido, igual no celular de exemplo e na ilustração do WhatsApp. */
 const ORDER_GREETING = 'Olá! Quero fazer um pedido:';
-const SEND_WHATSAPP = 'Enviar pelo WhatsApp';
+const WHATSAPP = 'WhatsApp';
+const SEND_WHATSAPP = `Enviar pelo ${WHATSAPP}`;
 const REPLY_LABEL = 'E-mail ou WhatsApp para a resposta';
 
 export const ui = {
@@ -35,9 +36,10 @@ export const ui = {
     trajectory: 'Trajetória',
     trajectoryList: 'Trajetória profissional',
     contact: 'Contato',
+    whatsapp: WHATSAPP,
   },
 
-  whatsapp: (display: string) => `WhatsApp ${display}`,
+  whatsapp: (display: string) => `${WHATSAPP} ${display}`,
   responseTime: (time: string) => `Resposta ${time}.`,
 
   brand: {
@@ -47,12 +49,13 @@ export const ui = {
   header: {
     nav: 'Principal',
     cta: 'Fale comigo',
-    menuOpen: 'Abrir menu',
-    menuClose: 'Fechar menu',
+    /** Rótulo do botão do menu no celular; o navegador anuncia se está aberto ou fechado. */
+    menu: 'Menu',
   },
 
   footer: {
     nav: 'Rodapé',
+    navTitle: 'Navegação',
   },
 
   faq: {
@@ -79,6 +82,13 @@ export const ui = {
     pendingTitle: 'Exemplo real em preparação',
     pendingText: 'Baseado em um projeto de verdade, com autorização do cliente.',
     pendingCaption: 'Em breve',
+  },
+
+  /** Janela com o formulário de contato. */
+  contactDialog: {
+    open: 'Escrever minha mensagem',
+    title: 'Conte o que você precisa',
+    close: 'Fechar',
   },
 
   closingContact: {

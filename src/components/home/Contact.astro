@@ -1,43 +1,16 @@
 ---
-import ContactForm from '../ui/ContactForm.astro';
-import Icon from '../ui/Icon.astro';
-import { BRAND, home } from '../../data/site';
-import { ANCHOR } from '../../data/anchors';
-import { ui } from '../../data/ui';
-import { ARCAV_WHATSAPP_DISPLAY, whatsappLink } from '../../lib/contact';
+// Contato da home: o mesmo fechamento em grafite das outras páginas, com a lista de canais e o título
+// maior. O formulário abre numa janela.
+import { ClosingContact } from '@components/ui';
+import { home } from '@data';
 
 const { contact } = home;
-const wa = whatsappLink(contact.waMessage);
-/** Cada canal: ícone e texto na mesma linha. */
-const channel = 'flex items-center gap-3 font-medium';
-const channelIcon = 'size-5 flex-none text-muted';
 ---
-<section class="section" id={ANCHOR.contact} aria-labelledby="contato-title">
-  <div class="shell grid items-start gap-split split:grid-cols-form">
-    <div class="split:sticky split:top-sticky">
-      <h2 class="h2" id="contato-title">{contact.title}</h2>
-      <p class="lead mt-4">{contact.subtitle}</p>
-
-      <ul role="list" class="mt-8 grid gap-3.5">
-        {wa && (
-          <li class={channel}>
-            <Icon name="chat" class={channelIcon} />
-            <a href={wa} target="_blank" rel="noopener noreferrer">{ui.whatsapp(ARCAV_WHATSAPP_DISPLAY)}</a>
-          </li>
-        )}
-        <li class={channel}>
-          <Icon name="mail" class={channelIcon} />
-          <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
-        </li>
-        <li class={channel}>
-          <Icon name="pin" class={channelIcon} />
-          <span>{BRAND.location}</span>
-        </li>
-      </ul>
-    </div>
-
-    <div class="card border-transparent shadow-raised">
-      <ContactForm subject={contact.subject} />
-    </div>
-  </div>
-</section>
+<ClosingContact
+  title={contact.title}
+  text={contact.subtitle}
+  subject={contact.subject}
+  waMessage={contact.waMessage}
+  channels
+  feature
+/>

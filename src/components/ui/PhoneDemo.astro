@@ -5,9 +5,8 @@
 // (ou ao tocar num link para o id da demo). A cada mudança, dispara `demo:order` com os itens,
 // que um OrderMessage `live` pode espelhar.
 import Icon from './Icon.astro';
-import type { DemoProduct } from '../../data/types';
-import { ui } from '../../data/ui';
-import { formatOrderLine, orderSummary, totalQty } from '../../lib/order';
+import { ui, type DemoProduct } from '@data';
+import { formatOrderLine, orderSummary, totalQty } from '@lib';
 
 interface Props {
   products: DemoProduct[];
@@ -18,7 +17,8 @@ interface Props {
   class?: string;
   id?: string;
   /** Próximo passo que aparece abaixo do celular depois de "Enviar pelo WhatsApp". */
-  next?: { href: string; label: string; external?: boolean };
+  /** `popover`: id da janela que o botão abre (ex.: o formulário); sem ele, `href` vira um link. */
+  next?: { label: string; href?: string; popover?: string };
   /** Mostra o guia "Experimente" com os três passos e o destaque no primeiro "+". */
   guide?: boolean;
 }
@@ -135,23 +135,24 @@ const total = totalQty(initial);
   </div>
   {next && (
     <div class="phone-demo__next" data-next hidden>
-      <a
-        class="btn btn--primary"
-        href={next.href}
-        {...(next.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        data-analytics-event="demo_next_click"
-      >
-        {next.label}
-        <Icon name={next.external ? 'external' : 'arrow-right'} />
-        {next.external && <span class="visually-hidden">{ui.a11y.newTab}</span>}
-      </a>
+      {next.popover ? (
+        <button class="btn btn--primary" type="button" popovertarget={next.popover} data-analytics-event="demo_next_click">
+          {next.label}
+          <Icon name="arrow-right" />
+        </button>
+      ) : (
+        <a class="btn btn--primary" href={next.href} data-analytics-event="demo_next_click">
+          {next.label}
+          <Icon name="arrow-right" />
+        </a>
+      )}
     </div>
   )}
   <figcaption>{caption}</figcaption>
 </figure>
 
 <script>
-  import { initPhoneDemos } from '../../scripts/phone-demo';
+  import { initPhoneDemos } from '@scripts/phone-demo';
 
   initPhoneDemos();
 </script>

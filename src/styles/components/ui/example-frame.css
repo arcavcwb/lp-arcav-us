@@ -1,0 +1,49 @@
+/* ExampleFrame — captura de um exemplo dentro de uma janela de navegador. */
+
+.example-frame {
+  @apply m-0 grid gap-3;
+}
+
+.example-frame__window {
+  @apply block overflow-hidden rounded-card border border-line bg-paper text-inherit no-underline shadow-raised;
+}
+
+.example-frame__window--link {
+  @apply transition-lift duration-relaxed ease-out hover:-translate-y-0.75 hover:shadow-lift;
+}
+
+.example-frame__bar {
+  @apply flex h-8.5 items-center gap-3 border-b border-line bg-surface px-3.5;
+}
+
+.example-frame__dots {
+  @apply flex gap-1.5;
+}
+
+.example-frame__dot {
+  @apply size-2 rounded-full bg-line-strong;
+}
+
+.example-frame__url {
+  @apply max-w-xs flex-1 truncate rounded-full bg-paper px-2.5 py-0.5 text-caption text-muted;
+}
+
+.example-frame__image {
+  @apply aspect-screen h-auto w-full object-cover object-top;
+}
+
+.example-frame__empty {
+  @apply grid aspect-screen place-content-center gap-1.5 bg-surface p-6 text-center;
+}
+
+.example-frame__empty-title {
+  @apply font-title;
+}
+
+.example-frame__empty-text {
+  @apply text-sm text-muted;
+}
+
+.example-frame__caption {
+  @apply text-caption text-muted;
+}

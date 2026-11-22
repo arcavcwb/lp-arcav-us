@@ -1,0 +1,29 @@
+/* Faq — perguntas que abrem e fecham (<details>), com o "+" que gira ao abrir. */
+
+.faq__grid {
+  @apply grid gap-8 lg:grid-cols-aside lg:gap-12;
+}
+
+.faq__list {
+  @apply border-t border-ink;
+}
+
+.faq__item {
+  @apply border-b border-line-strong;
+}
+
+.faq__question {
+  @apply flex min-h-11 cursor-pointer items-center justify-between gap-4 py-4.5 text-lg font-title tracking-tight;
+}
+
+.faq__icon {
+  @apply size-5 flex-none text-muted transition-transform duration-base ease-out;
+}
+
+.faq__item[open] .faq__icon {
+  @apply rotate-45;
+}
+
+.faq__answer {
+  @apply max-w-xl pb-5 text-muted;
+}

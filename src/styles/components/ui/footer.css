@@ -1,0 +1,66 @@
+/* Footer — grafite, quatro colunas a partir de 880px (marca, navegação, contato, trajetória). */
+
+.site-footer {
+  @apply border-t border-on-dark-line bg-dark pt-footer pb-5 text-on-dark;
+}
+
+.site-footer__grid {
+  @apply grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-footer lg:gap-x-10;
+}
+
+.site-footer__brand {
+  @apply col-span-2 lg:col-span-1;
+}
+
+.site-footer__nav {
+  @apply col-span-2 columns:col-span-1;
+}
+
+.site-footer__link {
+  @apply text-on-dark no-underline hover:underline;
+}
+
+.site-footer__link--icon {
+  @apply inline-flex items-center gap-1.5;
+}
+
+.site-footer__statement {
+  @apply mt-2 max-w-xs text-on-dark-muted;
+}
+
+/* Rótulo de cada coluna (Navegação, Contato, Localização, Trajetória). */
+.site-footer__term {
+  @apply mb-1 text-caption font-semibold text-on-dark-muted;
+}
+
+.site-footer__links {
+  @apply grid content-start gap-1.5 text-sm;
+}
+
+.site-footer__facts {
+  @apply grid content-start gap-3 text-sm;
+}
+
+.site-footer__contacts {
+  @apply grid gap-1;
+}
+
+.site-footer__phone {
+  @apply whitespace-nowrap;
+}
+
+.site-footer__trajectory {
+  @apply text-sm text-on-dark;
+}
+
+.site-footer__bottom {
+  @apply mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-on-dark-line pt-4 text-sm text-on-dark-muted;
+}
+
+.site-footer__social {
+  @apply flex gap-6;
+}
+
+.site-footer__external {
+  @apply size-3.5 opacity-dim;
+}

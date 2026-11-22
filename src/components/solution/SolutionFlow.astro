@@ -1,33 +1,26 @@
 ---
 // "O caminho do seu cliente" em três frases completas e numeradas:
 // de onde a pessoa vem → o que ela faz na sua página → onde você recebe.
-// Usado no hero das soluções sem exemplo e, sem moldura (`bare`), na ficha da home.
+// Usado no hero das soluções sem exemplo e, sem moldura (`bare`), na ficha dos tipos de landing page.
 // "Como funciona" (mais abaixo nas soluções) é o processo de trabalho com a ARCAV, não este caminho.
-// Frases inteiras de propósito: a versão anterior, com rótulos soltos e botõezinhos de canais,
-// não se entendia.
-import { SOLUTION_PAGE, type Solution } from '../../data/solutions';
+import { SOLUTION_PAGE, type Solution } from '@data';
 
 interface Props {
   solution: Solution;
-  /** Sem moldura própria, para quando o bloco já está dentro de um painel (ex.: home). */
+  /** Sem moldura própria, para quando o bloco já está dentro de um painel. */
   bare?: boolean;
 }
 
 const { solution: s, bare = false } = Astro.props;
 const steps = s.journey!;
 ---
-<figure
-  class:list={[
-    'sflow m-0 grid content-start gap-4',
-    !bare && 'rounded-card border border-line bg-paper p-panel',
-  ]}
->
-  <figcaption class="sflow__title text-md font-title text-ink">{s.journeyTitle ?? SOLUTION_PAGE.journeyTitle}</figcaption>
-  <ol role="list" class="grid">
+<figure class:list={['sflow', { 'sflow--framed': !bare }]}>
+  <figcaption class="sflow__title">{s.journeyTitle ?? SOLUTION_PAGE.journeyTitle}</figcaption>
+  <ol role="list" class="sflow__steps">
     {steps.map((text, i) => (
-      <li class="sflow__step grid grid-cols-numbered items-start gap-x-3.5 pb-5 last:pb-0">
-        <span class="grid size-7 place-items-center rounded-full bg-ink text-meta font-bold text-on-dark tabular-nums" aria-hidden="true">{i + 1}</span>
-        <p class="pt-0.5 text-base leading-caption font-medium text-ink">{text}</p>
+      <li class="sflow__step">
+        <span class="sflow__number" aria-hidden="true">{i + 1}</span>
+        <p class="sflow__text">{text}</p>
       </li>
     ))}
   </ol>

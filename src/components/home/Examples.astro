@@ -1,11 +1,10 @@
 ---
 import ExampleShowcase from './ExampleShowcase.astro';
-import { home } from '../../data/site';
-import { ANCHOR } from '../../data/anchors';
+import { ANCHOR, home } from '@data';
 
 const { examples } = home;
 ---
-<section class="section" id={ANCHOR.examples} aria-labelledby="exemplos-title">
+<section class="section section--muted" id={ANCHOR.examples} aria-labelledby="exemplos-title">
   <div class="shell">
     <div class="section-head">
       <h2 class="h2" id="exemplos-title">{examples.title}</h2>

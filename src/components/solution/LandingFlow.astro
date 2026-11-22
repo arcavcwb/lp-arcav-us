@@ -1,96 +1,67 @@
 ---
-// Tipos de landing page (em /solucoes/landing-pages/), para leigos: escolha o objetivo e veja uma ficha só daquela página —
-// o caminho do cliente em três frases (o mesmo bloco do hero das soluções),
-// para quem é, o que entra e o link. Sem mapa com todas as opções apagadas: isso confundia.
-import Icon from '../ui/Icon.astro';
+// Tipos de landing page (em /solucoes/landing-pages/), para leigos: escolha o objetivo e veja a ficha
+// só daquela página (o caminho do cliente em três frases, para quem é, o que entra e o link).
+// Sem JavaScript: cada objetivo é um botão de opção nativo (as setas do teclado trocam a opção) e o
+// CSS mostra a ficha da opção marcada (styles/components/solution/landing-flow.css).
+import { Icon } from '@components/ui';
 import SolutionFlow from './SolutionFlow.astro';
-import { LANDING_PICKER as copy, SOLUTIONS } from '../../data/solutions';
-import { solutionTransition } from '../../lib/view-transitions';
+import { LANDING_PICKER as copy, SOLUTIONS } from '@data';
+import { solutionTransition } from '@lib';
 
 const pages = SOLUTIONS.filter((s) => s.group === 'landing' && s.journey);
 const startIndex = Math.max(0, pages.findIndex((p) => p.slug === copy.defaultSlug));
-
-/** Título das listas da ficha (Para quem é, O que entra). */
-const listTitle = 'mb-2 text-meta font-title text-ink';
+const GROUP = 'landing-goal';
 ---
-<div class="grid gap-3" data-flow>
-  <div class="grid gap-2 pair:grid-cols-2 lg:grid-cols-4" role="tablist" aria-label={copy.tabs}>
-    {pages.map((p, i) => (
-      <button
-        type="button"
-        role="tab"
-        class="group flex min-h-14 cursor-pointer items-center gap-3 rounded-control border border-line-strong bg-paper px-3.5 py-3 text-left text-ink transition-colors duration-quick hover:border-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-on-dark"
-        id={`lf-tab-${p.slug}`}
-        aria-selected={i === startIndex ? 'true' : 'false'}
-        aria-controls={`lf-${p.slug}`}
-        tabindex={i === startIndex ? 0 : -1}
-        data-tab
-      >
-        <span class="grid size-9 flex-none place-items-center rounded-control bg-surface text-ink group-aria-selected:bg-accent group-aria-selected:text-white">
-          <Icon name={p.icon} class="size-5" />
-        </span>
-        <span class="grid leading-snug">
-          <strong class="text-sm font-title">{p.goal}</strong>
-          <span class="text-caption text-muted group-aria-selected:text-on-dark-muted">{`${copy.typePrefix} ${p.label.toLowerCase()}`}</span>
-        </span>
-      </button>
-    ))}
-  </div>
-
+<fieldset class="landing-flow" data-flow>
+  <legend class="visually-hidden">{copy.tabs}</legend>
   {pages.map((p, i) => (
-    <div
-      class="grid gap-5 rounded-card border border-line bg-paper p-panel-tight motion-safe:animate-fade-up lg:grid-cols-2 lg:grid-rows-head-body lg:gap-x-columns"
-      id={`lf-${p.slug}`}
-      role="tabpanel"
-      aria-labelledby={`lf-tab-${p.slug}`}
-      tabindex="0"
-      hidden={i !== startIndex}
-      data-panel
-    >
-      <div class="lg:col-start-2 lg:row-start-1">
-        <h3 class="text-h3 leading-tight font-bold tracking-title">{p.name}</h3>
-        <p class="mt-1 text-muted">{p.tagline}</p>
-      </div>
-
-      <div class="lg:col-start-1 lg:row-span-2 lg:row-start-1">
-        <SolutionFlow solution={p} bare />
-      </div>
-
-      <div class="grid content-start gap-5 lg:col-start-2 lg:row-start-2">
-        <div>
-          <h4 class={listTitle}>{copy.forWho}</h4>
-          <ul role="list" class="grid gap-1.5">
-            {p.forWho.map((item) => (
-              <li class="relative pl-4 leading-caption text-muted before:absolute before:top-bullet before:left-0.5 before:size-1.25 before:rounded-full before:bg-line-strong">
-                {item}
-              </li>
-            ))}
-          </ul>
+    <Fragment>
+      <input class="visually-hidden landing-flow__input" type="radio" name={GROUP} id={`lf-${p.slug}`} value={p.slug} checked={i === startIndex} />
+      <label class="landing-flow__option" for={`lf-${p.slug}`}>
+        <span class="landing-flow__icon-well">
+          <Icon name={p.icon} class="landing-flow__icon" />
+        </span>
+        <span class="landing-flow__labels">
+          <strong class="landing-flow__goal">{p.goal}</strong>
+          <span class="landing-flow__type">{`${copy.typePrefix} ${p.label.toLowerCase()}`}</span>
+        </span>
+      </label>
+      <div class="landing-flow__panel" data-panel={p.slug}>
+        <div class="landing-flow__name">
+          <h3 class="landing-flow__title">{p.name}</h3>
+          <p class="landing-flow__tagline">{p.tagline}</p>
         </div>
 
-        <div>
-          <h4 class={listTitle}>{copy.includes}</h4>
-          <ul role="list" class="grid gap-1.5">
-            {p.includes.slice(0, copy.maxIncludes).map((item) => (
-              <li class="flex gap-2 leading-caption text-ink">
-                <Icon name="check" class="mt-optical-sm size-4.5 flex-none text-accent" />
-                {item}
-              </li>
-            ))}
-          </ul>
+        <div class="landing-flow__path">
+          <SolutionFlow solution={p} bare />
         </div>
 
-        <a class="link-arrow" href={p.path} style={solutionTransition(p.slug)}>
-          {copy.more}
-          <Icon name="arrow-right" />
-        </a>
+        <div class="landing-flow__info">
+          <div>
+            <h4 class="landing-flow__list-title">{copy.forWho}</h4>
+            <ul role="list" class="landing-flow__list">
+              {p.forWho.map((item) => <li class="landing-flow__for">{item}</li>)}
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="landing-flow__list-title">{copy.includes}</h4>
+            <ul role="list" class="landing-flow__list">
+              {p.includes.slice(0, copy.maxIncludes).map((item) => (
+                <li class="landing-flow__include">
+                  <Icon name="check" class="landing-flow__check" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <a class="link-arrow" href={p.path} style={solutionTransition(p.slug)}>
+            {copy.more}
+            <Icon name="arrow-right" />
+          </a>
+        </div>
       </div>
-    </div>
+    </Fragment>
   ))}
-</div>
-
-<script>
-  import { initTabs } from '../../scripts/tabs';
-
-  initTabs('[data-flow]');
-</script>
+</fieldset>

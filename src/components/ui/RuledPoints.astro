@@ -1,19 +1,17 @@
 ---
 // Pontos de uma oferta em lista com fios (mesma família de "Para quem é / O que está incluído"):
-// título e texto lado a lado no desktop, empilhados no celular. Substitui a grade de cartões com
-// ícone em caixa sobre o título, que lia como modelo genérico.
+// título e texto lado a lado no desktop, empilhados no celular.
 interface Props {
   items: Array<{ title: string; text: string }>;
-  class?: string;
 }
 
-const { items, class: className } = Astro.props;
+const { items } = Astro.props;
 ---
-<ul role="list" class:list={['grid border-t border-ink', className]}>
+<ul role="list" class="ruled-points">
   {items.map((item) => (
-    <li class="grid gap-1.5 border-b border-line py-5 md:grid-cols-ruled md:gap-10 md:py-6">
-      <h3 class="text-lg leading-title font-title">{item.title}</h3>
-      <p class="max-w-measure text-muted">{item.text}</p>
+    <li class="ruled-points__item">
+      <h3 class="ruled-points__title">{item.title}</h3>
+      <p class="ruled-points__text">{item.text}</p>
     </li>
   ))}
 </ul>

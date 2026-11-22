@@ -1,0 +1,29 @@
+/* SolutionFlow — "O caminho do seu cliente" em três frases numeradas. */
+
+.sflow {
+  @apply m-0 grid content-start gap-4;
+}
+
+.sflow--framed {
+  @apply rounded-card border border-line bg-paper p-panel;
+}
+
+.sflow__title {
+  @apply text-md font-title text-ink;
+}
+
+.sflow__steps {
+  @apply grid;
+}
+
+.sflow__step {
+  @apply grid grid-cols-numbered items-start gap-x-3.5 pb-5 last:pb-0;
+}
+
+.sflow__number {
+  @apply grid size-7 place-items-center rounded-full bg-ink text-meta font-bold text-on-dark tabular-nums;
+}
+
+.sflow__text {
+  @apply pt-0.5 text-base leading-caption font-medium text-ink;
+}

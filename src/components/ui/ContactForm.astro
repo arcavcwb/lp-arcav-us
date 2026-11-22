@@ -5,9 +5,8 @@
 // um envio que o site ainda não faz.
 import Icon from './Icon.astro';
 import BrandIcon from './BrandIcon.astro';
-import { BRAND } from '../../data/site';
-import { ui, type FormField } from '../../data/ui';
-import { ARCAV_WHATSAPP, ARCAV_WHATSAPP_DISPLAY, DIRECT_SEND, RESPONSE_TIME, whatsappLink } from '../../lib/contact';
+import { BRAND, ui, type FormField } from '@data';
+import { EXTERNAL_LINK, ARCAV_WHATSAPP, ARCAV_WHATSAPP_DISPLAY, DIRECT_SEND, RESPONSE_TIME, whatsappLink } from '@lib';
 
 type Variant = 'general' | 'store';
 
@@ -54,8 +53,10 @@ const response = RESPONSE_TIME ? ui.responseTime(RESPONSE_TIME) : null;
   data-subject={subject}
   data-direct={DIRECT_SEND ? 'true' : 'false'}
 >
-  {fields.map((field) => {
+  {fields.map((field, index) => {
     const id = `${uid}-${field.id}`;
+    /** O formulário vive numa janela: ao abrir, o cursor já está no primeiro campo. */
+    const autofocus = index === 0;
     const describedBy = [field.hint && `${id}-hint`, field.required && `${id}-error`].filter(Boolean).join(' ') || undefined;
     return (
       <div class="field">
@@ -68,6 +69,7 @@ const response = RESPONSE_TIME ? ui.responseTime(RESPONSE_TIME) : null;
             id={id}
             name={field.id}
             rows={field.rows}
+            autofocus={autofocus}
             required={field.required}
             placeholder={field.placeholder}
             aria-describedby={describedBy}
@@ -79,6 +81,7 @@ const response = RESPONSE_TIME ? ui.responseTime(RESPONSE_TIME) : null;
             id={id}
             name={field.id}
             type="text"
+            autofocus={autofocus}
             autocomplete={field.autocomplete}
             inputmode={field.inputmode}
             required={field.required}
@@ -139,7 +142,7 @@ const response = RESPONSE_TIME ? ui.responseTime(RESPONSE_TIME) : null;
       <Fragment>
         {response && `${response} `}{copy.note.privacy}{' '}
         {copy.note.whatsappLead}{' '}
-        <a href={wa} target="_blank" rel="noopener noreferrer">{ARCAV_WHATSAPP_DISPLAY}</a>{' '}
+        <a href={wa} {...EXTERNAL_LINK}>{ARCAV_WHATSAPP_DISPLAY}</a>{' '}
         {copy.note.emailOr}{' '}
         <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
       </Fragment>
@@ -154,7 +157,7 @@ const response = RESPONSE_TIME ? ui.responseTime(RESPONSE_TIME) : null;
 </form>
 
 <script>
-  import { initContactForms } from '../../scripts/contact-form';
+  import { initContactForms } from '@scripts/contact-form';
 
   initContactForms();
 </script>

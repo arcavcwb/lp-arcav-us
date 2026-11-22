@@ -1,44 +1,41 @@
 ---
-import Icon from '../ui/Icon.astro';
-import Photo from '../ui/Photo.astro';
-import { BRAND, home } from '../../data/site';
-import { ANCHOR } from '../../data/anchors';
-import { ui } from '../../data/ui';
-import { photoShown } from '../../lib/photos';
+// Sobre: retrato próximo à esquerda e texto à direita. Sem foto e sem marcador, o texto ocupa a linha.
+import { Icon, Photo } from '@components/ui';
+import { ANCHOR, BRAND, home, ui } from '@data';
+import { EXTERNAL_LINK, photoShown } from '@lib';
 
 const { about } = home;
-// Retrato à esquerda e texto à direita. Sem foto e sem marcador, o texto ocupa a linha toda.
 const hasPhoto = photoShown('portrait');
 ---
-<section class="section section--muted" id={ANCHOR.about} aria-labelledby="sobre-title">
-  <div class:list={['shell grid items-center gap-split-wide', { 'split:grid-cols-aside': hasPhoto }]}>
-    {hasPhoto && <Photo photo="portrait" class="split:max-w-sm" />}
+<section class:list={['section section--muted about', { 'about--with-photo': hasPhoto }]} id={ANCHOR.about} aria-labelledby="sobre-title">
+  <div class="shell about__grid">
+    {hasPhoto && <Photo photo="portrait" class="about__photo" />}
 
-    <div class="max-w-2xl">
+    <div class="about__content">
       <h2 class="h2" id="sobre-title">{about.title}</h2>
-      <p class="lead mt-4">{about.text}</p>
+      <p class="lead about__lead">{about.text}</p>
 
-      <dl class="mt-8 grid gap-5 border-y border-line py-6 inline:grid-cols-facts">
+      <dl class="about__facts">
         <div>
-          <dt class="mb-1.5 text-meta font-semibold text-muted">{ui.labels.trajectory}</dt>
-          <dd class="font-medium">
-            <ol role="list" class="flow text-md text-ink">
+          <dt class="about__term">{ui.labels.trajectory}</dt>
+          <dd class="about__value">
+            <ol role="list" class="flow about__trajectory">
               {BRAND.trajectory.map((place) => <li>{place}</li>)}
             </ol>
           </dd>
         </div>
         <div>
-          <dt class="mb-1.5 text-meta font-semibold text-muted">{about.base}</dt>
-          <dd class="font-medium">{BRAND.location}</dd>
+          <dt class="about__term">{about.base}</dt>
+          <dd class="about__value">{BRAND.location}</dd>
         </div>
       </dl>
 
-      <p class="mt-7 max-w-md text-statement leading-title font-semibold tracking-title">{about.statement}</p>
+      <p class="about__statement">{about.statement}</p>
 
-      <ul role="list" class="mt-6 flex gap-6">
+      <ul role="list" class="about__social">
         {BRAND.social.map((item) => (
           <li>
-            <a class="link-arrow" href={item.href} target="_blank" rel="noopener noreferrer">
+            <a class="link-arrow" href={item.href} {...EXTERNAL_LINK}>
               {item.name}
               <Icon name="external" />
               <span class="visually-hidden">{ui.a11y.newTab}</span>

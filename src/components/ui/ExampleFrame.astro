@@ -1,8 +1,7 @@
 ---
 // Captura de um exemplo ilustrativo dentro de uma janela de navegador, com link para o exemplo.
 // Sem `href`, a janela vira espaço reservado (ainda não há exemplo baseado em projeto real).
-import { EXAMPLE_IMAGE } from '../../data/solutions';
-import { ui } from '../../data/ui';
+import { EXAMPLE_IMAGE, ui } from '@data';
 
 interface Props {
   /** null = espaço reservado: ainda não há exemplo baseado em projeto real. */
@@ -10,34 +9,28 @@ interface Props {
   image: string | null;
   client: string | null;
   eager?: boolean;
-  class?: string;
 }
 
-const { href, image, client, eager = false, class: className } = Astro.props;
+const { href, image, client, eager = false } = Astro.props;
 const copy = ui.exampleFrame;
 const host = new URL(Astro.site!).host;
 const url = href ? `${host}${href.split('#')[0]}` : host;
 
 const Window = href ? 'a' : 'div';
 const windowAttrs = href ? { href, 'aria-label': copy.openLabel(client) } : {};
-const dot = 'size-2 rounded-full bg-line-strong';
-const empty = 'grid aspect-screen place-content-center gap-1.5 bg-surface p-6 text-center';
 ---
-<figure class:list={['example-frame m-0 grid gap-3', className]}>
+<figure class="example-frame">
   <Window
-    class:list={[
-      'example-frame__window block overflow-hidden rounded-card border border-line bg-paper text-inherit no-underline shadow-raised',
-      href ? 'transition-lift duration-relaxed ease-out hover:-translate-y-0.75 hover:shadow-lift' : 'example-frame__window--placeholder',
-    ]}
+    class:list={['example-frame__window', href ? 'example-frame__window--link' : 'example-frame__window--placeholder']}
     {...windowAttrs}
   >
-    <span class="flex h-8.5 items-center gap-3 border-b border-line bg-surface px-3.5" aria-hidden="true">
-      <span class="flex gap-1.5"><i class={dot}></i><i class={dot}></i><i class={dot}></i></span>
-      <span class="max-w-xs flex-1 truncate rounded-full bg-paper px-2.5 py-0.5 text-caption text-muted">{url}</span>
+    <span class="example-frame__bar" aria-hidden="true">
+      <span class="example-frame__dots"><i class="example-frame__dot"></i><i class="example-frame__dot"></i><i class="example-frame__dot"></i></span>
+      <span class="example-frame__url">{url}</span>
     </span>
     {href && image ? (
       <img
-        class="aspect-screen h-auto w-full object-cover object-top"
+        class="example-frame__image"
         src={image}
         alt=""
         width={EXAMPLE_IMAGE.width}
@@ -46,13 +39,13 @@ const empty = 'grid aspect-screen place-content-center gap-1.5 bg-surface p-6 te
         decoding="async"
       />
     ) : href ? (
-      <span class={empty}>{copy.open}</span>
+      <span class="example-frame__empty">{copy.open}</span>
     ) : (
-      <span class={empty}>
-        <strong class="font-title">{copy.pendingTitle}</strong>
-        <span class="text-sm text-muted">{copy.pendingText}</span>
+      <span class="example-frame__empty">
+        <strong class="example-frame__empty-title">{copy.pendingTitle}</strong>
+        <span class="example-frame__empty-text">{copy.pendingText}</span>
       </span>
     )}
   </Window>
-  <figcaption class="text-caption text-muted">{href ? copy.caption(client) : copy.pendingCaption}</figcaption>
+  <figcaption class="example-frame__caption">{href ? copy.caption(client) : copy.pendingCaption}</figcaption>
 </figure>

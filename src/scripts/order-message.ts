@@ -1,6 +1,6 @@
 // Ilustração do WhatsApp no modo `live`: espelha o pedido montado no celular de demonstração.
 // Sem pedido, mostra o convite para montar um; com pedido, mostra as linhas como chegariam.
-import { ORDER_EVENT, formatOrderLine, type OrderEventDetail } from '../lib/order';
+import { ORDER_EVENT, formatOrderLine, type OrderEventDetail } from '@lib/order';
 
 export function initOrderMessages(): void {
   const roots = [...document.querySelectorAll<HTMLElement>('[data-order-message]')];

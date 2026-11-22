@@ -1,11 +1,8 @@
 ---
 import Brand from './Brand.astro';
 import Icon from './Icon.astro';
-import { BRAND, home } from '../../data/site';
-import { HOME_PATH } from '../../data/anchors';
-import type { NavLink } from '../../data/navigation';
-import { ui } from '../../data/ui';
-import { ARCAV_WHATSAPP_DISPLAY, whatsappLink } from '../../lib/contact';
+import { BRAND, HOME_PATH, home, ui, type NavLink } from '@data';
+import { EXTERNAL_LINK, ARCAV_WHATSAPP_DISPLAY, whatsappLink } from '@lib';
 
 const wa = whatsappLink();
 
@@ -14,61 +11,65 @@ interface Props {
 }
 
 const { links = [] } = Astro.props;
-
-/** Links do rodapé: claros sobre o grafite, sublinhado só no hover. */
-const link = 'text-on-dark no-underline hover:underline';
-/** Rótulos dos dados (Localização, Trajetória, Contato). */
-const term = 'mb-1 text-caption font-semibold text-on-dark-muted';
 ---
-<footer class="site-footer bg-dark pt-footer pb-5 text-on-dark">
+<footer class="site-footer">
   <div class="shell">
-    <div class="grid gap-7 columns:grid-cols-footer columns:gap-10">
-      <div>
-        <a class={link} href={HOME_PATH} aria-label={ui.a11y.homeLink}><Brand tone="dark" /></a>
-        <p class="mt-2 max-w-xs text-on-dark-muted">{BRAND.statement}</p>
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a class="site-footer__link" href={HOME_PATH} aria-label={ui.a11y.homeLink}><Brand tone="dark" /></a>
+        <p class="site-footer__statement">{BRAND.statement}</p>
       </div>
 
       {links.length > 0 && (
-        <nav aria-label={ui.footer.nav}>
-          <ul role="list" class="grid grid-cols-2 content-start gap-x-6 gap-y-1.5 text-sm">
+        <nav class="site-footer__nav" aria-label={ui.footer.nav}>
+          <p class="site-footer__term">{ui.footer.navTitle}</p>
+          <ul role="list" class="site-footer__links">
             {links.map((item) => (
-              <li><a class={link} href={item.href}>{item.label}</a></li>
+              <li><a class="site-footer__link" href={item.href}>{item.label}</a></li>
             ))}
           </ul>
         </nav>
       )}
 
-      <dl class="grid content-start gap-3 text-sm">
+      <dl class="site-footer__facts">
         <div>
-          <dt class={term}>{ui.labels.location}</dt>
-          <dd>{BRAND.location}</dd>
-        </div>
-        <div>
-          <dt class={term}>{ui.labels.trajectory}</dt>
-          <dd>
-            <ol role="list" class="flow text-sm text-on-dark" aria-label={ui.labels.trajectoryList}>
-              {BRAND.trajectory.map((place) => <li>{place}</li>)}
-            </ol>
+          <dt class="site-footer__term">{ui.labels.contact}</dt>
+          <dd class="site-footer__contacts">
+            {wa && (
+              <a class="site-footer__link" href={wa} {...EXTERNAL_LINK}>
+                {ui.labels.whatsapp}{' '}
+                <span class="site-footer__phone">{ARCAV_WHATSAPP_DISPLAY}</span>
+              </a>
+            )}
+            <a class="site-footer__link" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
           </dd>
         </div>
         <div>
-          <dt class={term}>{ui.labels.contact}</dt>
-          <dd class="grid gap-1">
-            {wa && <a class={link} href={wa} target="_blank" rel="noopener noreferrer">{ui.whatsapp(ARCAV_WHATSAPP_DISPLAY)}</a>}
-            <a class={link} href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+          <dt class="site-footer__term">{ui.labels.location}</dt>
+          <dd>{BRAND.location}</dd>
+        </div>
+      </dl>
+
+      <dl class="site-footer__facts">
+        <div>
+          <dt class="site-footer__term">{ui.labels.trajectory}</dt>
+          <dd>
+            <ol role="list" class="flow site-footer__trajectory" aria-label={ui.labels.trajectoryList}>
+              {BRAND.trajectory.map((place) => <li>{place}</li>)}
+            </ol>
           </dd>
         </div>
       </dl>
     </div>
 
-    <div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-on-dark-line pt-4 text-sm text-on-dark-muted">
+    <div class="site-footer__bottom">
       <p>{home.footer.copyright}</p>
-      <ul role="list" class="flex gap-6">
+      <ul role="list" class="site-footer__social">
         {BRAND.social.map((item) => (
           <li>
-            <a class:list={[link, 'inline-flex items-center gap-1.5']} href={item.href} target="_blank" rel="noopener noreferrer">
+            <a class="site-footer__link site-footer__link--icon" href={item.href} {...EXTERNAL_LINK}>
               {item.name}
-              <Icon name="external" class="size-3.5 opacity-dim" />
+              <Icon name="external" class="site-footer__external" />
               <span class="visually-hidden">{ui.a11y.newTab}</span>
             </a>
           </li>

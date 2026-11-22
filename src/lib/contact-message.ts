@@ -1,6 +1,6 @@
 // Mensagem de contato (assunto e texto): a mesma regra no navegador (mensagem pronta para o
 // WhatsApp ou o e-mail) e no servidor (/api/contato). Funções puras, sem DOM. Textos em data/ui.ts.
-import { ui } from '../data/ui';
+import { ui } from '@data/ui';
 
 export type ContactVariant = 'general' | 'store';
 

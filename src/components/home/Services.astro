@@ -1,40 +1,31 @@
 ---
-// "O que eu construo": os cinco serviços com o mesmo peso, cada um entrando por uma frase na voz
-// do cliente ("Preciso de um site para a minha empresa.") que leva à página do serviço.
-// Pensado para leigos: a pessoa se reconhece na frase, não precisa saber o nome técnico.
-import Icon from '../ui/Icon.astro';
-import { home } from '../../data/site';
-import { SERVICES } from '../../data/solutions';
-import { ANCHOR } from '../../data/anchors';
-import { quoted } from '../../lib/text';
-import { solutionTransition } from '../../lib/view-transitions';
+// "O que eu construo": índice editorial dos cinco serviços, todos com o mesmo peso. Cada linha entra
+// pela frase do cliente, grande ("Preciso de um site para a minha empresa."), com o serviço ao lado,
+// e leva à página dele. Sem numerais: os serviços não são uma sequência.
+import { Icon } from '@components/ui';
+import { ANCHOR, SERVICES, home } from '@data';
+import { quoted, solutionTransition } from '@lib';
 
 const { services } = home;
 ---
-<section class="section section--muted" id={ANCHOR.solutions} aria-labelledby="solucoes-title">
+<section class="section services" id={ANCHOR.solutions} aria-labelledby="solucoes-title">
   <div class="shell">
     <div class="section-head">
-      <h2 class="h2" id="solucoes-title">{services.title}</h2>
+      <h2 class="h2 h2--feature" id="solucoes-title">{services.title}</h2>
       <p class="lead">{services.subtitle}</p>
     </div>
 
-    <p class="mb-3 text-base font-title" id="solucoes-intro">{services.intro}</p>
-    <ul role="list" class="divide-y divide-line overflow-hidden rounded-card border border-line bg-paper" aria-labelledby="solucoes-intro">
+    <p class="services__intro" id="solucoes-intro">{services.intro}</p>
+    <ul role="list" class="services__list reveal-rows" aria-labelledby="solucoes-intro">
       {SERVICES.map((s) => (
-        <li>
-          <a
-            class="path group relative grid gap-2 py-4.5 pr-13 pl-5 text-ink no-underline transition-colors hover:bg-surface focus-visible:outline-offset-inset lg:grid-cols-row lg:items-center lg:gap-x-10 lg:py-5.5 lg:pr-16 lg:pl-7"
-            href={s.path}
-          >
-            <span class="path__situation text-lg leading-title font-semibold tracking-tight text-balance lg:text-h3">{quoted(s.situation!)}</span>
-            <span class="grid gap-0.5">
-              <span class="font-title text-accent-strong" style={solutionTransition(s.slug)}>{s.name}</span>
-              <span class="text-sm leading-caption text-muted">{s.tagline}</span>
+        <li class="services__item">
+          <a class="services__link" href={s.path}>
+            <span class="services__situation">{quoted(s.situation!)}</span>
+            <span class="services__service">
+              <span class="services__name" style={solutionTransition(s.slug)}>{s.name}</span>
+              <span class="services__tagline">{s.tagline}</span>
             </span>
-            <Icon
-              name="arrow-right"
-              class="absolute top-1/2 right-5 -mt-2.5 size-5 text-muted transition-nudge duration-quick ease-out group-hover:translate-x-0.75 group-hover:text-accent lg:right-7"
-            />
+            <Icon name="arrow-right" class="services__arrow" />
           </a>
         </li>
       ))}

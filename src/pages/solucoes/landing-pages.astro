@@ -4,9 +4,8 @@
 // do objetivo com a ficha de cada tipo e o link para a página dele.
 export const prerender = true;
 
-import SolutionPage from '../../components/solution/SolutionPage.astro';
-import LandingFlow from '../../components/solution/LandingFlow.astro';
-import { LANDING_PICKER, solutionBySlug } from '../../data/solutions';
+import { LandingFlow, SolutionPage } from '@components/solution';
+import { LANDING_PICKER, solutionBySlug } from '@data';
 
 const solution = solutionBySlug('landing-pages');
 ---

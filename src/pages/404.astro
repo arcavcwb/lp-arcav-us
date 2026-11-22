@@ -1,21 +1,16 @@
 ---
 export const prerender = true;
 
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/ui/Header.astro';
-import Footer from '../components/ui/Footer.astro';
-import Icon from '../components/ui/Icon.astro';
-import { notFound as page } from '../data/site';
-import { ANCHOR, HOME_PATH, toAnchor } from '../data/anchors';
-import { mainNav } from '../data/navigation';
-import { ui } from '../data/ui';
+import Layout from '@layouts/Layout.astro';
+import { Footer, Header, Icon } from '@components/ui';
+import { ANCHOR, HOME_PATH, mainNav, notFound as page, toAnchor, ui } from '@data';
 
 const nav = mainNav(HOME_PATH);
 ---
 <Layout title={page.meta.title} description={page.meta.description} noindex>
-  <Header links={nav} cta={{ href: toAnchor(ANCHOR.contact, HOME_PATH), label: ui.header.cta }} />
+  <Header links={nav} cta={{ label: ui.header.cta, href: toAnchor(ANCHOR.contact, HOME_PATH) }} />
   <main id={ANCHOR.content} class="section">
-    <div class="shell grid min-h-stage max-w-xl content-center gap-5">
+    <div class="shell not-found__shell">
       <h1 class="h1">{page.title}</h1>
       <p class="lead">{page.text}</p>
       <div class="page-hero__actions">

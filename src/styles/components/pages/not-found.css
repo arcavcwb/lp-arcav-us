@@ -1,0 +1,5 @@
+/* Página 404. */
+
+.not-found__shell {
+  @apply grid min-h-stage max-w-xl content-center gap-5;
+}

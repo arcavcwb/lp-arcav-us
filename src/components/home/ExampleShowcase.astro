@@ -1,53 +1,19 @@
 ---
-// Mostruário da home: só exemplos que funcionam (example.path definido). As soluções sem exemplo ficam
-// fora até ganharem um, sem mudar esta estrutura. Com um só exemplo, as abas não aparecem.
-import ExampleFrame from '../ui/ExampleFrame.astro';
-import Icon from '../ui/Icon.astro';
-import { SOLUTIONS } from '../../data/solutions';
-import { ui } from '../../data/ui';
+// Mostruário da home: só exemplos que funcionam (example.path definido). Hoje há um; o portfólio
+// editorial (fase C) substitui esta lista quando houver três ou mais projetos externos.
+import { ExampleFrame, Icon } from '@components/ui';
+import { SOLUTIONS, ui } from '@data';
 
-interface Props {
-  class?: string;
-}
-
-const { class: className } = Astro.props;
 const items = SOLUTIONS.filter((s) => s.example.path);
-const tabbed = items.length > 1;
 ---
-<div class:list={['grid gap-4', className]} data-showcase>
-  {tabbed && (
-  <div class="flex flex-wrap gap-1.5" role="tablist" aria-label={ui.examples.tabs}>
-    {items.map((s, i) => (
-      <button
-        type="button"
-        role="tab"
-        class="min-h-11 cursor-pointer rounded-full border border-line-strong bg-paper px-3.5 text-meta font-semibold text-muted transition-colors hover:border-ink hover:text-ink aria-selected:border-ink aria-selected:bg-ink aria-selected:text-on-dark"
-        id={`tab-${s.slug}`}
-        aria-controls={`panel-${s.slug}`}
-        aria-selected={i === 0 ? 'true' : 'false'}
-        tabindex={i === 0 ? 0 : -1}
-        data-tab
-      >
-        {s.label}
-      </button>
-    ))}
-  </div>
-  )}
-
+<div class="showcase" data-showcase>
   {items.map((s, i) => (
-    <div
-      class="grid animate-fade-up items-center gap-6 xl:grid-cols-showcase xl:gap-12"
-      role={tabbed ? 'tabpanel' : undefined}
-      id={`panel-${s.slug}`}
-      aria-labelledby={tabbed ? `tab-${s.slug}` : undefined}
-      hidden={i !== 0}
-      data-panel
-    >
+    <div class="showcase__item" id={`panel-${s.slug}`} data-panel>
       <ExampleFrame href={s.example.path} image={s.example.image} client={s.example.client} eager={i === 0} />
-      <div class="grid max-w-sm gap-3">
+      <div class="showcase__copy">
         <h3 class="h3">{s.name}</h3>
-        <p class="text-muted">{s.short}</p>
-        <div class="mt-2 flex flex-wrap items-center gap-x-5 gap-y-3">
+        <p class="showcase__text">{s.short}</p>
+        <div class="showcase__actions">
           {s.example.path && <a class="btn btn--ghost btn--sm" href={s.example.path}>{ui.examples.open}</a>}
           <a class="link-arrow" href={s.path}>
             {ui.examples.solution}
@@ -58,9 +24,3 @@ const tabbed = items.length > 1;
     </div>
   ))}
 </div>
-
-<script>
-  import { initTabs } from '../../scripts/tabs';
-
-  initTabs('[data-showcase]');
-</script>

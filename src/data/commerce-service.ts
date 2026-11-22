@@ -32,7 +32,7 @@ export const commerceService = {
     /** Começa vazio: o carrinho cheio parecia uma captura de tela, não algo para tocar. */
     caption: 'Loja de exemplo. Não representa um cliente real.',
     /** Aparece abaixo do celular depois de "Enviar pelo WhatsApp". */
-    next: { href: toAnchor(ANCHOR.contact), label: 'Quero isso na minha loja' },
+    next: { popover: ANCHOR.contactForm, label: 'Quero isso na minha loja' },
   },
   pillars: {
     label: 'Como ajudamos',

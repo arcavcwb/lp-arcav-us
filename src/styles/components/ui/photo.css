@@ -1,0 +1,34 @@
+/* Photo — foto real (data/photos.ts) ou o marcador cinza enquanto ela não chega.
+   O recorte padrão vem da proporção da foto; quem usa pode trocá-lo pela própria classe. */
+
+.photo {
+  @apply block w-full overflow-hidden rounded-card;
+}
+
+.photo--portrait {
+  @apply aspect-portrait;
+}
+
+.photo--landscape {
+  @apply aspect-landscape;
+}
+
+.photo__image {
+  @apply object-cover;
+}
+
+.photo__placeholder {
+  @apply grid content-end gap-1.5 bg-surface-strong p-panel;
+}
+
+.photo__pending {
+  @apply text-caption font-semibold text-muted;
+}
+
+.photo__brief {
+  @apply max-w-xs text-sm leading-caption text-ink;
+}
+
+.photo__spec {
+  @apply text-caption text-muted;
+}

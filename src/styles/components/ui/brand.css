@@ -1,0 +1,26 @@
+/* Brand — wordmark ARCAV (ou o logo) com "por Armando Castro". */
+
+.brand {
+  @apply inline-flex items-baseline gap-2.5 whitespace-nowrap;
+}
+
+.brand__logo {
+  @apply h-7 w-auto self-center;
+}
+
+.brand__wordmark {
+  @apply text-brand leading-none font-extrabold tracking-brand;
+}
+
+.brand__byline {
+  @apply text-meta font-normal text-muted;
+}
+
+.brand--dark .brand__byline {
+  @apply text-on-dark-muted;
+}
+
+/* No cabeçalho do celular, só o wordmark. */
+.brand--compact .brand__byline {
+  @apply max-sm:hidden;
+}

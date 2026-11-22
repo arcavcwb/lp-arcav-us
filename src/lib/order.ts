@@ -1,6 +1,6 @@
 // Pedido de exemplo (celular de demonstração e ilustração do WhatsApp): tipos e regras puras,
 // usadas tanto na renderização (frontmatter) quanto nos scripts do navegador.
-import { ui } from '../data/ui';
+import { ui } from '@data/ui';
 
 export interface OrderItem {
   qty: number;

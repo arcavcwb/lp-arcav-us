@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { ui } from '../../data/ui';
+import { ui } from '@data';
 
 interface Props {
   items: Array<{ q: string; a: string }>;
@@ -12,17 +12,17 @@ interface Props {
 
 const { items, title = ui.faq.title, id = 'faq-title', muted = true } = Astro.props;
 ---
-<section class:list={['section', { 'section--muted': muted }]} aria-labelledby={id}>
-  <div class="shell grid gap-8 lg:grid-cols-aside lg:gap-12">
+<section class:list={['section faq', { 'section--muted': muted }]} aria-labelledby={id}>
+  <div class="shell faq__grid">
     <h2 class="h2" id={id}>{title}</h2>
-    <div class="border-t border-ink">
+    <div class="faq__list">
       {items.map((item) => (
-        <details class="faq__item group border-b border-line-strong">
-          <summary class="flex min-h-11 cursor-pointer items-center justify-between gap-4 py-4.5 text-lg font-title tracking-tight">
+        <details class="faq__item">
+          <summary class="faq__question">
             {item.q}
-            <Icon name="plus" class="size-5 flex-none text-muted transition-transform duration-base ease-out group-open:rotate-45" />
+            <Icon name="plus" class="faq__icon" />
           </summary>
-          <p class="max-w-xl pb-5 text-muted">{item.a}</p>
+          <p class="faq__answer">{item.a}</p>
         </details>
       ))}
     </div>

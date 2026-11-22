@@ -23,6 +23,8 @@
   --color-accent-strong: #9a4521;
   --color-accent-tint: rgb(180 83 42 / 0.1);
   --color-selection: rgb(180 83 42 / 0.2);
+  /* Fundo atrás de uma janela (formulário de contato) */
+  --color-backdrop: rgb(28 29 33 / 0.6);
   --color-clay: #e7a27f;
   --color-dark: #1c1d21;
   --color-dark-raised: #26282d;
@@ -77,6 +79,16 @@
   --text-h1: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
   --text-h1--line-height: var(--leading-display);
 
+  /* Escala editorial da home: o grande muito grande, o pequeno preciso */
+  --text-index: clamp(1.375rem, 1rem + 1.25vw, 2.25rem);
+  --text-index--line-height: var(--leading-tight);
+  --text-h2-feature: clamp(2rem, 1.2rem + 2.6vw, 3.5rem);
+  --text-h2-feature--line-height: var(--leading-display);
+  --text-quote: clamp(1.75rem, 1rem + 2.8vw, 3.5rem);
+  --text-quote--line-height: var(--leading-heading);
+  --text-numeral: clamp(1.5rem, 0.6rem + 2.8vw, 3rem);
+  --text-numeral--line-height: var(--leading-none);
+
   --tracking-figure: -0.03em;
   --tracking-display: -0.028em;
   --tracking-heading: -0.024em;
@@ -95,6 +107,8 @@
   /* Medidas de layout */
   --spacing-gutter: clamp(1rem, 0.4rem + 2.6vw, 2.5rem);
   --spacing-section: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  /* Seção-respiro (manifesto): mais ar que as outras */
+  --spacing-section-feature: clamp(3.5rem, 2rem + 5vw, 7.5rem);
   --spacing-header: 4.25rem;
   --spacing-anchor: calc(var(--spacing-header) + 1rem);
   --spacing-sticky: calc(var(--spacing-header) + 2rem);
@@ -119,9 +133,6 @@
   --spacing-card: clamp(1.5rem, 1.2rem + 1vw, 2rem);
   --spacing-panel: clamp(1.25rem, 1rem + 1vw, 1.75rem);
   --spacing-panel-tight: clamp(1rem, 0.75rem + 1vw, 1.75rem);
-
-  /* Retrato do hero desce em relação ao título: composição deslocada */
-  --spacing-portrait-drop: 5rem;
 
   /* Ajustes ópticos: alinham ícone e marcador à primeira linha do texto */
   --spacing-optical-sm: 0.15em;
@@ -149,8 +160,8 @@
   /* ── Grades ───────────────────────────────────────────────────────────── */
   --grid-template-columns-hero: minmax(0, 1fr) 20rem;
   --grid-template-columns-hero-wide: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  /* Home: texto em 9 de 12 colunas, retrato nas 3 últimas */
-  --grid-template-columns-hero-portrait: minmax(0, 3fr) minmax(0, 1fr);
+  /* Home: texto em 8 de 12 colunas, retrato nas 4 últimas */
+  --grid-template-columns-hero-portrait: minmax(0, 2fr) minmax(0, 1fr);
   --grid-template-columns-split: minmax(0, 1fr) minmax(0, 0.9fr);
   --grid-template-columns-lead: minmax(0, 1.1fr) minmax(0, 0.9fr);
   --grid-template-columns-row: minmax(0, 1.1fr) minmax(0, 1fr);
@@ -160,7 +171,14 @@
   --grid-template-columns-ruled: minmax(0, 17rem) minmax(0, 1fr);
   --grid-template-columns-showcase: minmax(0, 1.75fr) minmax(0, 1fr);
   --grid-template-columns-fill-auto: minmax(0, 1fr) auto;
-  --grid-template-columns-footer: 1fr 1.4fr 1.2fr;
+  --grid-template-columns-footer: minmax(0, 1.2fr) minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr);
+  /* Índice de serviços: frase do cliente | serviço */
+  --grid-template-columns-index: minmax(0, 7fr) minmax(0, 4fr);
+  /* Passos do método: numeral | título e texto */
+  --grid-template-columns-step: 2.75rem minmax(0, 1fr);
+  --grid-template-columns-step-lg: 5rem minmax(0, 1fr);
+  /* Dentro do passo, no desktop: título | texto */
+  --grid-template-columns-step-text: minmax(0, 0.7fr) minmax(0, 1.3fr);
   --grid-template-columns-numbered: 1.75rem minmax(0, 1fr);
   --grid-template-columns-steps: 2.25rem minmax(0, 1fr);
   --grid-template-rows-head-body: auto 1fr;
@@ -184,6 +202,7 @@
   --shadow-drawer: 0 18px 30px -24px rgb(28 29 33 / 0.35);
   --shadow-phone: 0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45);
   --shadow-focus: 0 0 0 3px var(--color-accent-tint);
+  --shadow-dialog: 0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45);
 
   /* Foco do teclado */
   --focus-width: 2px;
@@ -211,6 +230,10 @@
   --transition-duration-slide: 400ms;
   --transition-duration-morph: 450ms;
   --transition-duration-pulse: 900ms;
+  /* Revelação: texto 500ms, imagem 700ms; escalonamento entre os elementos da abertura */
+  --transition-duration-reveal: 500ms;
+  --transition-duration-image: 700ms;
+  --transition-delay-stagger: 60ms;
 
   --default-transition-duration: var(--transition-duration-fast);
   --default-transition-timing-function: var(--ease-standard);

@@ -1,6 +1,6 @@
 // src/data/solutions.ts — As soluções da ARCAV. Cada uma tem página própria e um exemplo
 // ilustrativo (empresa fictícia). Valor e prazo são definidos depois da avaliação.
-import type { IconName } from '../components/ui/icons';
+import type { IconName } from '@components/ui/icons';
 import { ANCHOR, toAnchor } from './anchors';
 
 /** Endereço das páginas de solução: /solucoes/<slug>/ */

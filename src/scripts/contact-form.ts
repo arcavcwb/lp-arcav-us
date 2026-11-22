@@ -6,9 +6,10 @@ import {
   composedMessageHref,
   type ContactData,
   type ContactVariant,
-} from '../lib/contact-message';
-import { CONTACT_ENDPOINT, CONTACT_TIMEOUT_MS } from '../lib/contact';
-import { ui } from '../data/ui';
+} from '@lib/contact-message';
+import { CONTACT_ENDPOINT, CONTACT_TIMEOUT_MS } from '@lib/contact';
+import { EXTERNAL_LINK } from '@lib/links';
+import { ui } from '@data/ui';
 
 const copy = ui.contactForm;
 
@@ -61,8 +62,7 @@ export function initContactForms(): void {
       text.textContent = message.body;
       openLink.href = href;
       if (whatsapp) {
-        openLink.target = '_blank';
-        openLink.rel = 'noopener noreferrer';
+        Object.assign(openLink, EXTERNAL_LINK);
       }
       status.textContent = whatsapp ? copy.composed.readyWhatsapp : copy.composed.readyEmail(email);
       composed.hidden = false;

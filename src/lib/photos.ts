@@ -1,6 +1,6 @@
 // Fotos em src/assets/fotos/: encontra o arquivo de cada lugar de data/photos.ts.
 import type { ImageMetadata } from 'astro';
-import { PHOTOS, SHOW_PHOTO_PLACEHOLDERS, type PhotoId } from '../data/photos';
+import { PHOTOS, SHOW_PHOTO_PLACEHOLDERS, type PhotoId } from '@data/photos';
 
 const files = import.meta.glob<ImageMetadata>('../assets/fotos/*.{jpg,jpeg,png,webp,avif}', {
   eager: true,

@@ -1,7 +1,7 @@
 // Celular de demonstração: o visitante ajusta as quantidades, revisa o pedido e vê a mensagem do
 // WhatsApp pronta. Com o guia "Experimente", marca os passos e destaca o primeiro "+" uma vez.
 // A cada mudança dispara ORDER_EVENT com os itens, para a ilustração do WhatsApp espelhar.
-import { ui } from '../data/ui';
+import { ui } from '@data/ui';
 import {
   GUIDE,
   ORDER_EVENT,
@@ -12,7 +12,7 @@ import {
   totalQty,
   type OrderEventDetail,
   type OrderItem,
-} from '../lib/order';
+} from '@lib/order';
 import { cssDurationMs, cssToken } from './tokens';
 
 /** Atraso do destaque no "+" depois que o celular aparece na tela ou depois de um link para ele. */
@@ -151,7 +151,7 @@ function initPhoneDemo(root: HTMLElement, reduceMotion: MediaQueryList): void {
     setStep(GUIDE.done);
     if (nextStep) {
       nextStep.hidden = false;
-      nextStep.querySelector('a')?.focus({ preventScroll: true });
+      nextStep.querySelector<HTMLElement>('a, button')?.focus({ preventScroll: true });
     }
   });
 
