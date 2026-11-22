@@ -56,7 +56,7 @@
   }
 }
 
-/* O disco já flutua (.float, que move `translate`); ao apontar, ele cresce um pouco. */
+/* Ao apontar, o disco cresce um pouco (responde à ação; nada flutua em loop). */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .services__option:hover .services__disc {
     @apply scale-105;
@@ -89,7 +89,7 @@
 /* No alto: nome, frase do cliente e o botão (à direita a partir de 720px). Embaixo, a ilustração
    e "Como funciona" lado a lado (empilhados entre 960 e 1200px, quando a ficha fica estreita). */
 .services__panel {
-  @apply col-span-full grid content-start gap-5 rounded-card p-panel xl:p-card;
+  @apply col-span-full grid content-start gap-5 rounded-card border border-line bg-paper p-panel xl:p-card;
 }
 
 .services__top {
@@ -109,13 +109,10 @@
 }
 
 .services__body {
-  @apply grid gap-6 md:grid-cols-2 md:items-center md:gap-8 xl:grid-cols-1 3xl:grid-cols-2;
+  @apply grid gap-6 md:grid-cols-lead md:items-center md:gap-8 xl:grid-cols-1 3xl:grid-cols-lead;
 }
 
-/* No celular a ilustração sai e o processo desenhado conta o serviço: a seção cabe numa tela. */
-.services__panel .service-preview {
-  @apply max-md:hidden xl:max-w-80 3xl:max-w-none;
-}
+
 
 /* "Como funciona" desenhado: três nós com ícone e número, ligados por uma linha. */
 .services__process {
@@ -162,7 +159,7 @@
   }
 
   /* Ao trocar de serviço, a ficha nova aparece com um esmaecer curto (nada com "reduzir movimento"). */
-  .services__option:has(.services__input:checked) + .services__panel :is(.services__top, .service-preview__plate, .services__process) {
+  .services__option:has(.services__input:checked) + .services__panel :is(.services__top, .service-preview__stage, .services__process) {
     @apply motion-safe:animate-fade-up;
   }
 

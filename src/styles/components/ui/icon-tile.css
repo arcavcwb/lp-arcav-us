@@ -1,0 +1,15 @@
+/* IconTile — peça de vidro com ícone sobre o escenário (nível 4: a mais perto). Vidro escuro, filete
+   azul-claro (a luz do escenário refletida), sombra para baixo; o número do passo num selo âmbar com o
+   algarismo em azul profundo. */
+
+.icon-tile {
+  @apply relative grid size-10 place-items-center rounded-control border border-tile-line bg-tile text-white shadow-tile backdrop-blur-glass sm:size-12 sm:rounded-card md:size-14;
+}
+
+.icon-tile__icon {
+  @apply size-5 sm:size-6 md:size-7;
+}
+
+.icon-tile__step {
+  @apply absolute -top-1.5 -right-1.5 grid size-5 place-items-center rounded-pill bg-highlight text-micro leading-none font-bold text-ink;
+}

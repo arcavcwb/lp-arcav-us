@@ -1,8 +1,8 @@
 ---
 // "O que eu construo": os cinco serviços, com o mesmo peso, como discos com a ilustração de cada
 // um (ServiceIcon). O disco escolhido fica azul profundo e abre a ficha do serviço: o nome, a frase
-// do cliente e o botão no alto; embaixo, a ilustração do serviço e "Como funciona" desenhado (três
-// passos, cada um com o seu ícone, ligados por uma linha).
+// do cliente e o botão no alto; embaixo, o serviço em cena (ServicePreview: o produto num aparelho
+// sobre o escenário, com as peças numeradas) e "Como funciona" com os mesmos números.
 // A partir de 960px, os discos ficam numa coluna à esquerda, com o nome ao lado, e a ficha à
 // direita; antes disso, os discos ficam numa fila e a ficha embaixo.
 // Sem JavaScript: cada disco é um botão de opção nativo (as setas do teclado trocam o serviço) e o
@@ -38,13 +38,13 @@ const GROUP = 'servico';
           <Fragment>
             <label class="services__option">
               <input class="visually-hidden services__input" type="radio" name={GROUP} value={s.slug} checked={i === 0} />
-              <span class="services__disc float" style={`--float: ${i}`}>
+              <span class="services__disc">
                 <ServiceIcon slug={s.slug} class="services__icon" />
                 <span class="services__go" aria-hidden="true"><Icon name="arrow-right" class="services__go-icon" /></span>
               </span>
               <span class="services__name" style={solutionTransition(s.slug)}>{s.disc ?? s.label}</span>
             </label>
-            <div class="services__panel glass">
+            <div class="services__panel">
               <div class="services__top">
                 <h3 class="services__service">{s.name}</h3>
                 <p class="services__situation">{quoted(s.situation!)}</p>

@@ -32,9 +32,12 @@
 @import './primitives/sequences.css' layer(primitives);
 @import './primitives/motion.css' layer(primitives);
 @import './primitives/glass.css' layer(primitives);
+@import './primitives/stage.css' layer(primitives);
 
 /* Interface compartilhada */
 @import './components/ui/header.css' layer(components);
+@import './components/ui/device-frame.css' layer(components);
+@import './components/ui/icon-tile.css' layer(components);
 @import './components/ui/footer.css' layer(components);
 @import './components/ui/brand.css' layer(components);
 @import './components/ui/logo.css' layer(components);

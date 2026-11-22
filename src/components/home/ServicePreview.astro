@@ -1,9 +1,11 @@
 ---
-// Ilustração de um serviço no catálogo da home, sempre na mesma placa 4:3 para a ficha não pular
-// ao trocar de serviço. Três esquemas de página (site, migração, landing) em blocos, sem texto
-// inventado; o painel de automação com dados fictícios; e, no comércio, a captura real do celular
-// de exemplo com o pedido pronto. As conceituais levam a legenda aprovada da página de comércio.
-import { Icon } from '@components/ui';
+// Cena de um serviço na ficha do catálogo da home ("o produto em cena", 2026-11-22): o produto
+// sobre um escenário (.stage), dentro de um aparelho (DeviceFrame), com três peças de vidro
+// (IconTile) numeradas como os passos de "Como funciona" ao lado. Três esquemas de página (site,
+// migração, landing) e o painel de automação são ilustrações conceituais, com a legenda aprovada;
+// no comércio entra a captura real do celular de exemplo com o pedido pronto (a interface real vem
+// antes de qualquer ilustração).
+import { DeviceFrame, Icon, IconTile } from '@components/ui';
 import { commerceService, home, ui, type Solution } from '@data';
 
 interface Props {
@@ -19,10 +21,9 @@ const scheduled = copy.log.events.filter((e) => !e.done);
 const logId = `registro-${solution.slug}`;
 ---
 <figure class="service-preview">
-  <div class:list={['service-preview__plate', `service-preview__plate--${solution.slug}`]}>
+  <div class:list={['service-preview__stage stage stage--inset', `service-preview__stage--${solution.slug}`]}>
     {solution.slug === 'site-institucional' && (
-      <div class="service-preview__window" aria-hidden="true">
-        <span class="service-preview__bar"><i class="service-preview__dot"></i><i class="service-preview__dot"></i><i class="service-preview__dot"></i></span>
+      <DeviceFrame class="service-preview__device" decorative>
         <div class="service-preview__body">
           <svg class="service-preview__sketch" viewBox="0 0 320 200">
             <rect class="service-preview__ink" x="16" y="13" width="26" height="8" rx="2" />
@@ -48,12 +49,11 @@ const logId = `registro-${solution.slug}`;
             <rect class="service-preview__navy" x="0" y="191" width="320" height="9" />
           </svg>
         </div>
-      </div>
+      </DeviceFrame>
     )}
 
     {solution.slug === 'migracao' && (
-      <div class="service-preview__window">
-        <span class="service-preview__bar" aria-hidden="true"><i class="service-preview__dot"></i><i class="service-preview__dot"></i><i class="service-preview__dot"></i></span>
+      <DeviceFrame class="service-preview__device">
         <div class="service-preview__body">
           <svg class="service-preview__sketch" viewBox="0 0 320 200" aria-hidden="true">
             <rect class="service-preview__media" x="10" y="28" width="140" height="24" />
@@ -80,12 +80,11 @@ const logId = `registro-${solution.slug}`;
           <span class="service-preview__tag service-preview__tag--before">{copy.before}</span>
           <span class="service-preview__tag service-preview__tag--after">{copy.after}</span>
         </div>
-      </div>
+      </DeviceFrame>
     )}
 
     {solution.slug === 'landing-pages' && (
-      <div class="service-preview__window" aria-hidden="true">
-        <span class="service-preview__bar"><i class="service-preview__dot"></i><i class="service-preview__dot"></i><i class="service-preview__dot"></i></span>
+      <DeviceFrame class="service-preview__device" decorative>
         <div class="service-preview__body">
           <svg class="service-preview__sketch" viewBox="0 0 320 200">
             <rect class="service-preview__ink" x="16" y="13" width="26" height="8" rx="2" />
@@ -109,7 +108,7 @@ const logId = `registro-${solution.slug}`;
             <rect class="service-preview__text" x="214" y="161" width="62" height="3" rx="1.5" />
           </svg>
         </div>
-      </div>
+      </DeviceFrame>
     )}
 
     {solution.slug === 'comercio-digital' && (
@@ -125,6 +124,7 @@ const logId = `registro-${solution.slug}`;
     )}
 
     {solution.slug === 'sistemas-e-automacao' && (
+      <DeviceFrame kind="panel" class="service-preview__device">
       <div class="service-preview__app">
         <p class="service-preview__group" id={`${logId}-feito`}>{copy.log.done}</p>
         <ul role="list" class="service-preview__log" aria-labelledby={`${logId}-feito`}>
@@ -147,7 +147,12 @@ const logId = `registro-${solution.slug}`;
           ))}
         </ul>
       </div>
+      </DeviceFrame>
     )}
+
+    {solution.journeyIcons?.map((icon, i) => (
+      <IconTile icon={icon} step={i + 1} class={`service-preview__tile service-preview__tile--${i + 1}`} />
+    ))}
   </div>
   <figcaption class="service-preview__caption">{caption}</figcaption>
 </figure>

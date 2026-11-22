@@ -1,0 +1,49 @@
+/* Escenário — o palco do produto ("o produto em cena", 2026-11-22). Uma superfície azul profunda
+   com a luz da marca atrás do que está em cena: um brilho azul (o azul elétrico do kit, como na arte
+   do hero) e um âmbar, desfocados. É uma classe, não um componente: entra numa seção inteira
+   (.section.stage) ou num bloco dentro de um cartão.
+   Profundidade, de trás para a frente:
+     0 página · 1 vidro (.glass) · 2 escenário (.stage) · 3 aparelho (.device) · 4 peça com ícone (.icon-tile)
+   Regras: um escenário por seção; vidro nunca dentro de vidro; o brilho fica só no escenário e no
+   hero; nada se mexe em loop (só a entrada da seção e o que responde a uma ação). */
+
+.stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--color-dark);
+  color: var(--color-on-dark);
+  --color-focus: var(--color-highlight);
+}
+
+.stage::before,
+.stage::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  border-radius: var(--radius-pill);
+  filter: blur(var(--blur-stage));
+  pointer-events: none;
+}
+
+/* Luz azul atrás, à esquerda; âmbar embaixo, à direita: o produto fica entre as duas. */
+.stage::before {
+  top: 12%;
+  left: 18%;
+  width: 46%;
+  aspect-ratio: 1;
+  background: var(--color-stage-light-blue);
+}
+
+.stage::after {
+  right: 4%;
+  bottom: -10%;
+  width: 36%;
+  aspect-ratio: 1;
+  background: var(--color-stage-light-amber);
+}
+
+/* Escenário dentro de um cartão: cantos de cartão. */
+.stage--inset {
+  border-radius: var(--radius-card);
+}

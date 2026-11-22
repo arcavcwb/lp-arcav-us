@@ -1,0 +1,20 @@
+---
+// Peça de vidro com um ícone, que flutua sobre um aparelho em cena (como os ícones da arte do hero).
+// Explicativa, não decorativa: o ícone nomeia uma etapa e o número liga a peça ao passo da lista ao
+// lado ("Como funciona"). Por isso fica fora da árvore de acessibilidade: o texto está na lista.
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+
+interface Props {
+  icon: IconName;
+  /** Número do passo que esta peça representa. */
+  step?: number;
+  class?: string;
+}
+
+const { icon, step, class: className } = Astro.props;
+---
+<span class:list={['icon-tile', className]} aria-hidden="true">
+  <Icon name={icon} class="icon-tile__icon" />
+  {step && <span class="icon-tile__step">{step}</span>}
+</span>

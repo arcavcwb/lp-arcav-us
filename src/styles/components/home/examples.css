@@ -1,21 +1,53 @@
-/* Exemplos: a captura do exemplo que funciona e, ao lado, o nome, uma linha e os links. */
+/* Exemplo: a seção é um escenário (.stage): texto à esquerda e a loja de exemplo de verdade à
+   direita, com três peças numeradas como os passos do guia "Experimente" em volta do celular (a
+   partir de 720px; no celular, o guia já mostra os passos). Sobre o azul profundo, o corpo do
+   celular ganha a borda de luz dos aparelhos e os textos do guia e da legenda ficam claros. */
 
-.showcase {
-  @apply grid gap-4;
+.examples__grid {
+  @apply grid items-center gap-10 xl:grid-cols-aside xl:gap-12;
 }
 
-.showcase__item {
-  @apply grid items-center gap-6 xl:grid-cols-showcase xl:gap-12;
+.examples__copy {
+  @apply grid max-w-lg content-start gap-5;
 }
 
-.showcase__copy {
-  @apply grid max-w-sm gap-3;
+.examples__scene {
+  @apply grid justify-items-center;
 }
 
-.showcase__text {
-  @apply text-muted;
+.examples__device {
+  @apply relative;
 }
 
-.showcase__actions {
-  @apply mt-2 flex flex-wrap items-center gap-x-5 gap-y-3;
+.examples__tile {
+  @apply absolute z-1 max-md:hidden;
+}
+
+.examples__tile--1 {
+  @apply top-28 -left-20;
+}
+
+.examples__tile--2 {
+  @apply top-1/2 -right-20;
+}
+
+.examples__tile--3 {
+  @apply bottom-24 -left-16;
+}
+
+/* A demo sobre o escenário */
+.examples .phone-demo .phone {
+  @apply shadow-device;
+}
+
+.examples .phone-demo .demo-guide__title {
+  @apply text-on-dark;
+}
+
+.examples .phone-demo figcaption {
+  @apply text-on-dark-muted;
+}
+
+.examples .phone-demo .demo-guide__steps li[aria-current='step'] {
+  @apply border-on-dark-line-control;
 }

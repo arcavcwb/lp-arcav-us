@@ -1,0 +1,26 @@
+/* DeviceFrame — aparelho em cena (nível 3 de profundidade): janela clara com a borda de luz do
+   escenário e uma sombra longa para baixo. A barra é a mesma do marco de exemplo (ExampleFrame). */
+
+.device {
+  @apply relative flex flex-col overflow-hidden rounded-control bg-paper text-ink shadow-device;
+}
+
+.device__bar {
+  @apply flex h-6 flex-none items-center gap-3 border-b border-line bg-surface px-3;
+}
+
+.device__dots {
+  @apply flex gap-1.5;
+}
+
+.device__dot {
+  @apply size-1.5 rounded-pill bg-line-strong;
+}
+
+.device__url {
+  @apply min-w-0 flex-1 truncate rounded-pill bg-paper px-2 text-micro leading-tight text-muted;
+}
+
+.device__screen {
+  @apply relative min-h-0 flex-1;
+}

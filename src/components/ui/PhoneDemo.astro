@@ -152,7 +152,24 @@ const total = totalQty(initial);
 </figure>
 
 <script>
-  import { initPhoneDemos } from '@scripts/phone-demo';
+  // O script da demo só carrega quando ela chega perto da tela: na home ela fica abaixo da dobra e
+  // não disputa a rede com o hero (LCP). Na página de comércio ela está no hero e carrega logo.
+  // Sem IntersectionObserver, carrega na hora.
+  const NEAR_SCREEN = '200px 0px';
+  const demos = document.querySelectorAll<HTMLElement>('[data-phone-demo]');
+  const load = () => import('@scripts/phone-demo').then((m) => m.initPhoneDemos());
 
-  initPhoneDemos();
+  if (demos.length && !('IntersectionObserver' in window)) {
+    load();
+  } else if (demos.length) {
+    const watcher = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        watcher.disconnect();
+        load();
+      },
+      { rootMargin: NEAR_SCREEN },
+    );
+    demos.forEach((demo) => watcher.observe(demo));
+  }
 </script>

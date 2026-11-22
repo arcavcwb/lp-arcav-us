@@ -133,6 +133,10 @@
 
 .phone-demo .phone__screen {
   position: relative;
+  /* A tela é sempre clara, mesmo quando o celular está sobre uma seção escura (o escenário da home):
+     texto e contorno de foco das superfícies claras. */
+  --color-focus: var(--color-accent);
+  color: var(--color-ink);
   height: max(var(--phone-screen-min), calc(var(--phone-screen-chrome) + var(--rows, 4) * var(--phone-row)));
   overflow: hidden;
   border-radius: var(--radius-screen);

@@ -406,6 +406,17 @@ Pedidos do usuário no mesmo dia, depois de ver o resultado no navegador: "usa e
 - **Uma tela por seção**: na home, cada seção cabe em 1440×900 e num celular de 390px (o texto de apoio de serviços e exemplos só aparece a partir de 720px; no celular, a ficha de serviços mostra o processo sem a ilustração). Em 1280×800 a seção de serviços passa 13px (só o respiro de baixo). Abaixo de 390px, o hero e o manifesto pedem rolagem.
 - **Desempenho**: o vidro e as luzes custam pintura; com 4G lenta e CPU 4× a home mostra o conteúdo principal em cerca de 2,0s (antes 1,65s), dentro dos 2,5s considerados bons. CLS 0.
 
+### Escenários: "o produto em cena" (2026-11-22, fases 1 e 2)
+
+Direção integral aprovada pelo usuário em 2026-11-22 (proposta completa em `docs/auditorias/DIRECCION-ARTE-INTEGRAL.md`, local). Primeira implementação: os fundamentos e duas peças.
+
+- **Escenário** (`.stage`, `primitives/stage.css`): superfície azul profunda com a luz da marca atrás do produto (um brilho do azul elétrico do kit e um âmbar, desfocados). É uma classe: entra numa seção inteira (o exemplo da home) ou num bloco dentro de um cartão (`.stage--inset`, a cena da ficha de serviços). Um escenário por seção; nunca dois seguidos.
+- **Profundidade**, de trás para a frente: 0 página · 1 vidro · 2 escenário · 3 aparelho (`DeviceFrame`: navegador ou painel, claro, com a borda de luz do escenário e sombra longa) · 4 peça com ícone (`IconTile`: vidro escuro, filete azul-claro, sombra para baixo, número do passo num selo âmbar). O celular não tem marco: a demo e a captura dela já são o aparelho.
+- **Luz e sombra**: brilho só no escenário e no hero; sombras sempre deslocadas para baixo; nenhum halo colorido sem deslocamento (decoração). Vidro nunca dentro de vidro; a ficha de serviços voltou a ser um cartão claro simples, porque o escenário dentro dela já faz a hierarquia.
+- **Movimento**: só a entrada de cada seção e o que responde a uma ação (escolher um disco, montar o pedido). Os discos não flutuam mais. Ainda a ajustar, nas próximas fases: o foco em loop do método, a flutuação dos cartões do método e do marco de exemplo nas páginas de solução e a deriva das luzes.
+- **Peças explicativas**: cada `IconTile` tem o número do passo que representa, igual ao da lista ao lado (ficha de serviços) ou ao do guia "Experimente" (exemplo). As cenas conceituais levam "Ilustração conceitual. Não representa um cliente real."; a loja leva "Loja de exemplo. Não representa um cliente real.". A interface real (a demo, a captura do celular) vem antes de qualquer ilustração.
+- **Exemplo na home**: a seção inteira é um escenário com a demo real do comércio para usar ali mesmo. O script da demo só carrega quando ela chega a 200px da tela (`PhoneDemo`); sem JavaScript, o celular mostra a loja e os produtos.
+
 ### Fotos (2026-11-21)
 
 - Fotos reais, nunca de banco de imagens nem geradas por IA. Lista, proporção e tamanho mínimo em `src/data/photos.ts`; arquivos em `src/assets/fotos/`.

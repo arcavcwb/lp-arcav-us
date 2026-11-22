@@ -1,0 +1,25 @@
+---
+// Marco de aparelho para pôr uma interface em cena (sobre .stage): `browser` (barra com três pontos
+// e o endereço) ou `panel` (janela de aplicativo, sem endereço). O conteúdo da tela vem no slot.
+// Com `decorative`, fica fora da árvore de acessibilidade (quem usa descreve a cena na legenda). O celular não está aqui: a demo da
+// loja e a captura dela já são o aparelho de verdade.
+interface Props {
+  kind?: 'browser' | 'panel';
+  /** Endereço na barra do navegador (só `browser`). */
+  url?: string;
+  /** Esconde a cena dos leitores de tela (quando a legenda já a descreve e não há texto útil). */
+  decorative?: boolean;
+  class?: string;
+}
+
+const { kind = 'browser', url, decorative = false, class: className } = Astro.props;
+---
+<div class:list={['device', `device--${kind}`, className]} aria-hidden={decorative ? 'true' : undefined}>
+  <span class="device__bar" aria-hidden="true">
+    <span class="device__dots"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i></span>
+    {kind === 'browser' && url && <span class="device__url">{url}</span>}
+  </span>
+  <div class="device__screen">
+    <slot />
+  </div>
+</div>

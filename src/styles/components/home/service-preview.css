@@ -1,33 +1,41 @@
-/* ServicePreview — ilustração de um serviço no catálogo da home. A partir de 480px, uma placa de
-   areia 4:3 (o tamanho não muda de um serviço para outro); no celular, a ilustração ocupa a largura
-   da ficha, que já é de areia. Os esquemas de página são blocos geométricos com as cores da marca,
-   sem texto inventado. */
+/* ServicePreview — a cena de um serviço na ficha do catálogo: o produto sobre o escenário (.stage,
+   primitives/stage.css), dentro de um aparelho (DeviceFrame), com três peças de vidro numeradas
+   (IconTile) nos cantos, mais perto que o aparelho. O escenário é 4:3 para a ficha não pular ao
+   trocar de serviço; o de automação cresce com a lista. Os esquemas de página são blocos
+   geométricos com as cores da marca, sem texto inventado. */
 
 .service-preview {
-  @apply m-0 grid gap-2.5 max-xl:max-w-lg;
+  @apply m-0 grid gap-2.5;
 }
 
-.service-preview__plate {
-  @apply relative grid sm:aspect-wide sm:place-items-center sm:overflow-hidden sm:rounded-card sm:bg-surface sm:p-6;
+.service-preview__stage {
+  @apply grid aspect-wide place-items-center px-8 py-10 sm:px-14 sm:py-12;
 }
 
-/* O painel de automação é uma lista: com a placa estreita da ficha, ela cresce com a lista em vez
-   de cortar as últimas linhas. */
-.service-preview__plate--sistemas-e-automacao {
-  @apply xl:aspect-auto;
+.service-preview__device {
+  @apply w-full;
 }
 
-/* Janela de navegador dos esquemas de página. */
-.service-preview__window {
-  @apply flex w-full flex-col overflow-hidden rounded-control border border-line bg-paper sm:size-full;
+/* As peças com ícone ficam nos cantos do escenário, por cima das bordas do aparelho. */
+.service-preview__tile {
+  @apply absolute z-1;
 }
 
-.service-preview__bar {
-  @apply flex h-6 flex-none items-center gap-1.5 border-b border-line px-3;
+.service-preview__tile--1 {
+  @apply top-2 left-2 sm:top-3 sm:left-3;
 }
 
-.service-preview__dot {
-  @apply size-1.5 rounded-full bg-line-strong;
+.service-preview__tile--2 {
+  @apply top-2 right-2 sm:top-3 sm:right-3;
+}
+
+.service-preview__tile--3 {
+  @apply right-2 bottom-2 sm:right-3 sm:bottom-3;
+}
+
+/* Automação: o painel é uma lista; o escenário cresce com ela em vez de cortar as últimas linhas. */
+.service-preview__stage--sistemas-e-automacao {
+  @apply aspect-auto;
 }
 
 .service-preview__body {
@@ -35,7 +43,7 @@
 }
 
 .service-preview__sketch {
-  @apply block h-auto w-full sm:size-full;
+  @apply block h-auto w-full;
 }
 
 .service-preview__ink {
@@ -104,18 +112,18 @@
   @apply left-1/2 ml-2 text-ink;
 }
 
-/* Comércio: o celular sobe da borda de baixo da placa; aparecem o título e o pedido. */
-.service-preview__plate--comercio-digital {
-  @apply aspect-wide content-start justify-items-center overflow-hidden pt-4 pb-0 sm:items-start sm:pb-0;
+/* Comércio: a captura real do celular sobe da borda de baixo do escenário, com a borda de luz. */
+.service-preview__stage--comercio-digital {
+  @apply content-start pt-8 pb-0;
 }
 
 .service-preview__phone {
-  @apply block h-auto w-4/5;
+  @apply block h-auto w-1/2 drop-shadow-device sm:w-3/5;
 }
 
 /* Automação: painel com dados fictícios. */
 .service-preview__app {
-  @apply grid w-full gap-1 rounded-control border border-line bg-paper p-3 sm:p-4;
+  @apply grid w-full gap-1 p-3 sm:p-4;
 }
 
 .service-preview__group {
