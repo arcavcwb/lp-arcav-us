@@ -9,9 +9,10 @@
   --*: initial;
 
   /* ── Cor (Brand Kit V3) ──────────────────────────────────────────────── */
-  /* Do kit: azul profundo #0b1f3b, azul elétrico #2563eb, âmbar #f59e0b, pizarra #334155,
-     areia #f5f3ee e branco. Os demais tons são derivados e têm o contraste anotado.
-     Azul elétrico sobre azul profundo dá 3,19:1: no escuro, texto e foco vão em branco ou âmbar.
+  /* Do kit: azul profundo #0b1f3b, âmbar #f59e0b, pizarra #334155, areia #f5f3ee e branco.
+     O azul de ação é o azul elétrico do kit (#2563eb) mais sóbrio: metade da saturação, no tom do
+     azul profundo (decisão de 2026-11-22). Os demais tons são derivados e têm o contraste anotado.
+     Azul de ação sobre azul profundo dá 2,24:1: no escuro, texto e foco vão em branco ou âmbar.
      Âmbar sobre claro dá 2,15:1: nunca é texto sobre branco ou areia. */
   --color-white: #ffffff;
   --color-paper: #ffffff;
@@ -25,10 +26,10 @@
   --color-line-hover: #94a3b8;
   /* Borda que identifica um controle (botão secundário, campo, opção): 3,43:1 no branco, 3,09:1 na areia. */
   --color-line-control: #7c8ca2;
-  --color-accent: #2563eb; /* azul elétrico: 5,17:1 no branco, 4,66:1 na areia */
-  --color-accent-strong: #1d4ed8; /* 6,70:1 no branco */
-  --color-accent-tint: rgb(37 99 235 / 0.1);
-  --color-selection: rgb(37 99 235 / 0.2);
+  --color-accent: #2a5598; /* azul de ação: 7,37:1 no branco, 6,64:1 na areia */
+  --color-accent-strong: #1f4380; /* 9,66:1 no branco */
+  --color-accent-tint: rgb(42 85 152 / 0.1);
+  --color-selection: rgb(42 85 152 / 0.2);
   /* Fundo atrás de uma janela (formulário de contato) */
   --color-backdrop: rgb(11 31 59 / 0.6);
   /* Âmbar: acento secundário. Sobre azul profundo (7,68:1), no logo e em sinais de progresso. */

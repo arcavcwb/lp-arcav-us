@@ -85,7 +85,7 @@
 }
 
 /* Progresso em âmbar (Brand Kit V3): o passo atual e os feitos. O número e o ✓ ficam em
-   azul profundo sobre o âmbar (7,68:1); o azul elétrico continua só para o que se toca. */
+   azul profundo sobre o âmbar (7,68:1); o azul continua só para o que se toca. */
 .phone-demo li[aria-current='step'] .demo-guide__n,
 .phone-demo li[data-done] .demo-guide__n {
   background: var(--color-highlight);

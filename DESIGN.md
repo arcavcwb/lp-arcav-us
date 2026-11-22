@@ -1,10 +1,10 @@
 ---
 name: ARCAV
-description: The category-standard studio page, finished to a product-company bar. White ground, deep-navy ink, electric-blue actions and one amber mark (Brand Kit V3).
+description: The category-standard studio page, finished to a product-company bar. White ground, deep-navy ink, sober blue actions and one amber mark (Brand Kit V3).
 colors:
-  accent: "#2563eb"
-  accent-strong: "#1d4ed8"
-  accent-tint: "rgb(37 99 235 / 0.1)"
+  accent: "#2a5598"
+  accent-strong: "#1f4380"
+  accent-tint: "rgb(42 85 152 / 0.1)"
   highlight: "#f59e0b"
   ink: "#0b1f3b"
   muted: "#334155"
@@ -185,12 +185,12 @@ components:
 
 ARCAV presents itself as a studio that publishes its work, not as a services page. The main material is the real work (screenshots of external projects) and the person (Armando), set in an editorial composition: strong contrast of type scale, an asymmetric 12-column grid, images that take real space and few surfaces. It is a way of composing, not a theme: nothing on the page is a costume (no order pad, tile wall, flyer or transit map). The previous North Star ("looks like the category, distinguished by finish") produced a tidy page that could belong to any consultant; tokens, type and brand rules stay, the composition and the material change. Audit and reasoning: `docs/auditorias/AUDITORIA-VISUAL-HOME.md`.
 
-The world is white paper and warm sand, deep-navy ink, electric blue for what you can do and one small amber mark. Cool slate neutrals carry structure: hairlines, dividers and the borders that identify controls. Sand is the alternate section ground. Deep navy is the only heavy fill and is used for emphasis blocks, the closing sections, the footer and the phone body. Electric blue never fills a surface: it marks what to do (primary actions, text links, focus on light grounds) and what has been confirmed on a light ground (check marks). Amber is the secondary accent: the triangle of the logo, marks and links on navy, focus on navy and the progress of the demo guide. Density is moderate and mobile-first, because the primary reader is a Curitiba shop owner who opens the link from WhatsApp on a phone in daylight. That use case is why the system is light only.
+The world is white paper and warm sand, deep-navy ink, a sober blue for what you can do and one small amber mark. Cool slate neutrals carry structure: hairlines, dividers and the borders that identify controls. Sand is the alternate section ground. Deep navy is the only heavy fill and is used for emphasis blocks, the closing sections, the footer and the phone body. The action blue never fills a surface: it marks what to do (primary actions, text links, focus on light grounds) and what has been confirmed on a light ground (check marks). Amber is the secondary accent: the triangle of the logo, marks and links on navy, focus on navy and the progress of the demo guide. Density is moderate and mobile-first, because the primary reader is a Curitiba shop owner who opens the link from WhatsApp on a phone in daylight. That use case is why the system is light only.
 
 The identity comes from the ARCAV Brand Kit V3 (`docs/brand/v3/`, approved 2026-11-21), which replaced the graphite-and-terracotta palette and Schibsted Grotesk. The confirmed visual rejections are themed metaphors that dress up the site, neon and glows, gradients, glass effects, section kickers or eyebrows, invented metrics, and any colour outside the kit used as a brand colour (red and green included).
 
 **Key Characteristics:**
-- White and sand grounds, deep-navy ink, electric-blue actions and one amber accent; neither accent fills a surface.
+- White and sand grounds, deep-navy ink, sober blue actions and one amber accent; neither accent fills a surface.
 - Two self-hosted families: Manrope for headings and editorial lines, Inter for text and interface.
 - The logo is a drawing (`Logo.astro`): a slanted bar, an amber triangle and the ARCAV letters in curves. Below 420px the header shows the symbol alone.
 - Hairlines first. Soft shadows appear only on the phone demo and on panels that hold an interaction or a result.
@@ -204,12 +204,12 @@ The identity comes from the ARCAV Brand Kit V3 (`docs/brand/v3/`, approved 2026-
 
 ## Colors
 
-The palette is cool slate and deep navy, with electric blue for action and one warm amber accent. Restraint with the two accents is what keeps the page calm. Values live in `src/styles/tokens.css`; the derived tones (hover, lines, raised navy, muted text on navy, control borders) were approved with the migration plan, with their contrast measured.
+The palette is cool slate and deep navy, with a sober blue for action and one warm amber accent. Restraint with the two accents is what keeps the page calm. Values live in `src/styles/tokens.css`; the derived tones (hover, lines, raised navy, muted text on navy, control borders) were approved with the migration plan, with their contrast measured.
 
 ### Primary
-- **Electric Blue** (#2563eb): fills primary buttons (white label, 5.17:1), draws the 2px focus outline and the input focus border on light grounds, sets the caret, strokes check marks on light grounds ("O que entra", "Para quem é", the inbox note, the sent confirmation), the services arrow on hover and the icon well of the selected landing option. It is never a section, band or card fill. On navy it drops to 3.19:1, so it never sets text, marks or focus there.
-- **Deep Blue** (#1d4ed8): the hover state of primary buttons and the colour of text links with an arrow and of the service names (6.70:1 on white, 6.04:1 on sand). Text-sized blue always uses this darker shade.
-- **Blue Wash** (rgb(37 99 235 / 0.1)): the 3px focus halo on inputs. Text selection uses the same hue at 0.2 alpha.
+- **Action Blue** (#2a5598): fills primary buttons (white label, 7.37:1), draws the 2px focus outline and the input focus border on light grounds, sets the caret, strokes check marks on light grounds ("O que entra", "Para quem é", the inbox note, the sent confirmation), the services arrow on hover and the icon well of the selected landing option. It is never a section, band or card fill. On navy it drops to 2.24:1, so it never sets text, marks or focus there. It is the kit's electric blue (#2563eb) toned down at the user's request (2026-11-22): same role and hue family, half the chroma (OKLCH C 0.12 against 0.215).
+- **Deep Blue** (#1f4380): the hover state of primary buttons and the colour of text links with an arrow and of the service names (9.66:1 on white, 8.72:1 on sand). Text-sized blue always uses this darker shade.
+- **Blue Wash** (rgb(42 85 152 / 0.1)): the 3px focus halo on inputs. Text selection uses the same hue at 0.2 alpha.
 - **Amber** (#f59e0b): the secondary accent. The triangle of the logo, the check marks in the manifesto "after" column, text links on navy and the keyboard focus on navy (7.68:1 on navy), and the progress of the demo guide (current and done step badges, with the number or check in deep navy, 7.68:1). It never sets text on white or sand (2.15:1).
 
 ### Neutral
@@ -232,13 +232,13 @@ The palette is cool slate and deep navy, with electric blue for action and one w
 - **Validation Red** (#b42318): form validation only, used for the invalid input border and the error message text (6.57:1). It is a status signal and not a brand colour.
 
 ### Named Rules
-**The Blue Acts, Never Fills Rule.** Electric blue appears as a filled button, a text link, a check mark on a light ground, a focus ring or a 10% tint. It never becomes the background of a section, band, panel or card. When a block needs emphasis, it goes navy.
+**The Blue Acts, Never Fills Rule.** The action blue appears as a filled button, a text link, a check mark on a light ground, a focus ring or a 10% tint. It never becomes the background of a section, band, panel or card. When a block needs emphasis, it goes navy.
 
 **The Navy Is the Second Voice Rule.** Emphasis that isn't an action is carried by a navy fill (the manifesto, closing sections and the footer), not by a new colour.
 
 **The Amber Stays Small Rule.** Amber is a mark, never a surface and never text on a light ground: the logo triangle, marks, links and focus on navy, and the demo's progress badges with a navy glyph. On white or sand a mark that must be read goes blue instead.
 
-**The Focus Follows the Ground Rule.** The focus outline uses `--color-focus`: Electric Blue on light grounds, Amber inside `.section--dark` and the footer, where blue would fall to 3.19:1.
+**The Focus Follows the Ground Rule.** The focus outline uses `--color-focus`: Action Blue on light grounds, Amber inside `.section--dark` and the footer, where blue would fall to 2.24:1.
 
 **The Status Is Not Brand Rule.** Red and green are not ARCAV colours. Validation Red exists only to say "this field needs attention" and is never used for decoration or emphasis.
 
@@ -324,7 +324,7 @@ The corner language has two radii plus the pill. Controls (buttons, inputs, icon
 ### Buttons
 Buttons are solid and plain: a label, an optional trailing arrow (or a leading glyph for mail and send), and no ornament.
 - **Shape:** gently rounded controls (10px), at least 48px tall, with 20px inline padding, a 1rem/600 label and an 18px icon with an 8px gap.
-- **Primary:** Electric Blue with a white label. It is used for the one main action in each region, such as "Falar com a ARCAV", "Fale comigo", the commerce CTA, form submit and the closing CTA.
+- **Primary:** Action Blue with a white label. It is used for the one main action in each region, such as "Falar com a ARCAV", "Fale comigo", the commerce CTA, form submit and the closing CTA.
 - **Hover / Active / Focus:** hover deepens the fill to Deep Blue over 0.18s. Active nudges the button down 1px with the house ease-out. Focus draws a 2px outline offset by 3px in the focus colour (blue on light grounds, amber on navy).
 - **Ghost:** Paper White face, Control Line border and Deep Navy Ink label. On hover the border goes to the ink. On navy grounds it turns transparent with a Control Line on Navy border and a white label.
 - **Small:** 40px tall with 16px padding and a 0.9375rem label. It is used for the header CTA and for the actions in the composed-message panel. This size sits below the 44px touch-target commitment, so don't extend it to new primary mobile actions.
@@ -350,7 +350,7 @@ This is an inline sequence of short words such as "Visita → Formulário → Le
 ### Inputs / Fields
 - **Style:** Paper White face, Control Line border, 10px radius, at least 48px tall (textareas start at 136px and resize vertically) and a 1rem text size. A 600-weight label sits above, with "(opcional)" in Slate at 400. Hints are 0.875rem in Slate.
 - **Hover:** the border darkens to the ink.
-- **Focus:** the border turns Electric Blue and a 3px Blue Wash halo appears, with no outline.
+- **Focus:** the border turns Action Blue and a 3px Blue Wash halo appears, with no outline.
 - **Error:** the border and the message text turn Validation Red (message 0.875rem/500). Messages are written in a friendly first person, and the error is cleared as the visitor types.
 - **Composed message:** after submit, a Sand panel (14px) shows a 600-weight status line, then the exact message in a white, hairline-bordered 10px box, then small ghost buttons for "Abrir de novo" and "Copiar mensagem".
 
@@ -394,6 +394,7 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 
 - Paleta, fontes, logo e ícones do kit (`docs/brand/v3/`) aplicados só pelos tokens: os nomes ficaram, os valores mudaram (`clay` virou `highlight`; entraram `--color-focus`, `--color-line-control`, `--color-on-dark-line-control`, `--font-heading`, `--spacing-logo`, `--aspect-logo`, `--aspect-symbol` e `--breakpoint-logo`).
 - Medido por etapa: Inter deixou as páginas de 0 a 2,6% mais altas (parágrafos); Manrope encurtou quatro títulos em uma linha. Sem estouro em 320–1440px; CLS 0; contraste AA em todos os textos; foco com 4,66:1 ou mais.
+- Azul de ação mais sóbrio que o do kit (pedido do usuário, 2026-11-22): `#2a5598` no lugar de `#2563eb` e `#1f4380` no hover e nos links, no mesmo papel. Metade da saturação e o tom puxado para o azul profundo; o contraste sobe (7,37:1 com rótulo branco, 6,64:1 na areia). No fechamento escuro, o botão fica mais discreto (2,24:1 contra o azul profundo, antes 3,19:1); o rótulo branco continua com 7,37:1.
 
 ### Fotos (2026-11-21)
 
@@ -417,7 +418,7 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep electric blue (#2563eb, hover #1d4ed8) to actions and marks: filled primary buttons, arrowed text links in the darker shade, check marks on light grounds, focus and caret.
+- **Do** keep the action blue (#2a5598, hover #1f4380) to actions and marks: filled primary buttons, arrowed text links in the darker shade, check marks on light grounds, focus and caret.
 - **Do** keep amber (#f59e0b) small: the logo triangle, marks, links and focus on navy, and the demo's progress badges with a navy glyph.
 - **Do** carry emphasis with a Deep Navy (#0b1f3b) panel or section when a block must stand out without being an action.
 - **Do** alternate Paper White and Sand (#f5f3ee) section grounds, separate surfaces with 1px Hairlines (#e2e8f0 / #cbd5e1), and give every control a Control Line border (#7c8ca2, 3:1 or more).
@@ -432,8 +433,8 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 - **Do** number only real sequences (the method). The services index has no numerals: the services are not an order.
 
 ### Don't:
-- **Don't** fill a section, band, card or panel with electric blue or amber.
-- **Don't** set amber text on white or sand (2.15:1), or blue text, marks or focus on navy (3.19:1).
+- **Don't** fill a section, band, card or panel with blue or amber.
+- **Don't** set amber text on white or sand (2.15:1), or blue text, marks or focus on navy (2.24:1).
 - **Don't** introduce colours outside the kit as brand colours. Validation Red (#b42318) is for form errors only.
 - **Don't** put kickers or eyebrows above section headings.
 - **Don't** box steps or sequences into cards.
