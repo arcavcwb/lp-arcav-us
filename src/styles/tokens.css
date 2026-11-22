@@ -23,6 +23,8 @@
   --color-line: #e2e8f0;
   --color-line-strong: #cbd5e1;
   --color-line-hover: #94a3b8;
+  /* Borda que identifica um controle (botão secundário, campo, opção): 3,43:1 no branco, 3,09:1 na areia. */
+  --color-line-control: #7c8ca2;
   --color-accent: #2563eb; /* azul elétrico: 5,17:1 no branco, 4,66:1 na areia */
   --color-accent-strong: #1d4ed8; /* 6,70:1 no branco */
   --color-accent-tint: rgb(37 99 235 / 0.1);
@@ -36,6 +38,8 @@
   --color-on-dark: #ffffff;
   --color-on-dark-muted: #cbd5e1; /* 11,1:1 no azul profundo */
   --color-on-dark-line: #1e3355;
+  /* Borda de controle no escuro: 3,57:1 no azul profundo. */
+  --color-on-dark-line-control: #657690;
   --color-danger: #b42318;
   /* Contorno do foco: azul no claro; as superfícies escuras trocam para o âmbar. */
   --color-focus: var(--color-accent);

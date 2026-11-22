@@ -45,7 +45,7 @@
 }
 
 .site-header__toggle {
-  @apply hidden size-11 cursor-pointer place-items-center rounded-control border border-line-strong bg-paper p-0 text-ink max-split:grid;
+  @apply hidden size-11 cursor-pointer place-items-center rounded-control border border-line-control bg-paper p-0 text-ink max-split:grid;
 }
 
 .site-header__icon {

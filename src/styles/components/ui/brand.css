@@ -5,8 +5,9 @@
   @apply inline-flex flex-wrap items-center gap-3;
 }
 
+/* `pt-2` desce a assinatura 4px: a linha de base dela cai na linha de base do "ARCAV" do logo. */
 .brand__byline {
-  @apply text-meta font-normal whitespace-nowrap text-muted;
+  @apply pt-2 text-meta font-normal whitespace-nowrap text-muted;
 }
 
 .brand--dark .brand__byline {

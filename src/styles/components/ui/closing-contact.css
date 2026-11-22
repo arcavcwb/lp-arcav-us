@@ -77,7 +77,7 @@
 }
 
 .contact-dialog__close {
-  @apply grid size-11 flex-none cursor-pointer place-items-center rounded-control border border-line-strong bg-paper p-0 text-ink transition-colors hover:border-ink;
+  @apply grid size-11 flex-none cursor-pointer place-items-center rounded-control border border-line-control bg-paper p-0 text-ink transition-colors hover:border-ink;
 }
 
 .contact-dialog__close-icon {
