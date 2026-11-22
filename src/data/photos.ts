@@ -60,4 +60,4 @@ export const ASPECT_LABEL: Record<PhotoSpec['aspect'], string> = { portrait: '4:
  * Mostra os marcadores das fotos que ainda não chegaram. Com false, o lugar de uma foto que falta
  * some (o layout volta ao de antes). Desligar antes de publicar se alguma foto ainda faltar.
  */
-export const SHOW_PHOTO_PLACEHOLDERS = true;
+export const SHOW_PHOTO_PLACEHOLDERS = false;
