@@ -1,92 +1,27 @@
 ---
 // "O caminho do seu cliente" em três frases completas e numeradas:
 // de onde a pessoa vem → o que ela faz na sua página → onde você recebe.
-// Usado no hero das soluções sem exemplo e, sem moldura (`bare`), na ficha da home.
+// Usado no hero das soluções sem exemplo e, sem moldura (`bare`), na ficha dos tipos de landing page.
 // "Como funciona" (mais abaixo nas soluções) é o processo de trabalho com a ARCAV, não este caminho.
-// Frases inteiras de propósito: a versão anterior, com rótulos soltos e botõezinhos de canais,
-// não se entendia.
-import type { Solution } from '../../data/solutions';
+import { SOLUTION_PAGE, type Solution } from '@data';
 
 interface Props {
   solution: Solution;
-  /** Sem moldura própria, para quando o bloco já está dentro de um painel (ex.: home). */
+  /** Sem moldura própria, para quando o bloco já está dentro de um painel. */
   bare?: boolean;
 }
 
 const { solution: s, bare = false } = Astro.props;
 const steps = s.journey!;
 ---
-<figure class:list={['sflow', { 'sflow--bare': bare }]}>
-  <figcaption class="sflow__title">{s.journeyTitle ?? 'O caminho do seu cliente'}</figcaption>
+<figure class:list={['sflow', { 'sflow--framed': !bare }]}>
+  <figcaption class="sflow__title">{s.journeyTitle ?? SOLUTION_PAGE.journeyTitle}</figcaption>
   <ol role="list" class="sflow__steps">
     {steps.map((text, i) => (
       <li class="sflow__step">
-        <span class="sflow__n" aria-hidden="true">{i + 1}</span>
-        <p>{text}</p>
+        <span class="sflow__number" aria-hidden="true">{i + 1}</span>
+        <p class="sflow__text">{text}</p>
       </li>
     ))}
   </ol>
 </figure>
-
-<style>
-  .sflow {
-    display: grid;
-    align-content: start;
-    gap: 1rem;
-    margin: 0;
-    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    background: var(--bg);
-  }
-
-  .sflow--bare {
-    padding: 0;
-    border: 0;
-    background: none;
-  }
-
-  .sflow__title {
-    font-size: 1rem;
-    font-weight: 650;
-    color: var(--ink);
-  }
-
-  .sflow__steps {
-    display: grid;
-  }
-
-  .sflow__step {
-    display: grid;
-    grid-template-columns: 1.75rem minmax(0, 1fr);
-    column-gap: 0.875rem;
-    align-items: start;
-    padding-bottom: 1.25rem;
-  }
-
-  .sflow__step:last-child {
-    padding-bottom: 0;
-  }
-
-  .sflow__n {
-    display: grid;
-    place-items: center;
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: 999px;
-    background: var(--ink);
-    color: var(--on-dark);
-    font-size: 0.875rem;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .sflow__step p {
-    padding-top: 0.125rem;
-    font-size: 1.0625rem;
-    font-weight: 500;
-    line-height: 1.45;
-    color: var(--ink);
-    text-wrap: pretty;
-  }
-</style>

@@ -1,0 +1,42 @@
+/* Serviços: índice editorial. Fio grafite em cima, filetes entre as linhas, sem caixa.
+   No hover, a linha anda 4px e a seta fica terracota. */
+
+.services__intro {
+  @apply mb-4 text-base font-title;
+}
+
+.services__list {
+  @apply border-t border-ink;
+}
+
+.services__item {
+  @apply border-b border-line-strong;
+}
+
+.services__link {
+  @apply relative grid min-h-16 gap-2 py-4 pr-10 text-ink no-underline transition-transform duration-quick ease-out hover:translate-x-1 focus-visible:outline-offset-inset lg:grid-cols-index lg:items-center lg:gap-x-12 lg:py-7 lg:pr-16;
+}
+
+.services__situation {
+  @apply text-index font-semibold tracking-title text-balance;
+}
+
+.services__service {
+  @apply grid gap-0.5;
+}
+
+.services__name {
+  @apply font-title text-accent-strong;
+}
+
+.services__tagline {
+  @apply text-sm leading-caption text-muted;
+}
+
+.services__arrow {
+  @apply absolute top-5 right-0 size-6 text-muted transition-colors duration-quick lg:top-1/2 lg:-mt-3;
+}
+
+.services__link:hover .services__arrow {
+  @apply text-accent;
+}

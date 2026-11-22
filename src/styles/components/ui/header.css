@@ -1,0 +1,99 @@
+/* Header — cabeçalho fixo no topo. Abaixo do ponto `split` (900px) a navegação vira um painel
+   (atributo popover): abre e fecha pelo botão, com Esc ou tocando fora, sem JavaScript.
+   O fio inferior aparece ao rolar, com uma animação ligada à rolagem (só CSS). */
+
+.site-header {
+  @apply sticky top-0 z-header border-b border-transparent bg-paper;
+  view-transition-name: site-header;
+}
+
+@supports (animation-timeline: scroll()) {
+  .site-header {
+    animation: site-header-line linear both;
+    animation-timeline: scroll();
+    animation-range: 0 --spacing(2);
+  }
+}
+
+/* Sem animação ligada à rolagem, o fio fica sempre visível. */
+@supports not (animation-timeline: scroll()) {
+  .site-header {
+    @apply border-line;
+  }
+}
+
+@keyframes site-header-line {
+  to {
+    border-bottom-color: var(--color-line);
+  }
+}
+
+.site-header__bar {
+  @apply flex min-h-header items-center gap-6;
+}
+
+.site-header__home {
+  @apply rounded-xs text-ink no-underline;
+}
+
+.site-header__actions {
+  @apply ml-auto flex items-center gap-3;
+}
+
+.site-header__actions--after-nav {
+  @apply ml-2 max-split:ml-auto;
+}
+
+.site-header__toggle {
+  @apply hidden size-11 cursor-pointer place-items-center rounded-control border border-line-strong bg-paper p-0 text-ink max-split:grid;
+}
+
+.site-header__icon {
+  @apply size-5.5;
+}
+
+.site-header__icon--close,
+.site-header:has(.site-nav:popover-open) .site-header__icon--open {
+  @apply hidden;
+}
+
+.site-header:has(.site-nav:popover-open) .site-header__icon--close {
+  @apply block;
+}
+
+/* Navegação: em linha no desktop; painel sob o cabeçalho no celular. */
+.site-nav {
+  @apply text-ink;
+}
+
+@media (width >= theme(--breakpoint-split)) {
+  .site-nav,
+  .site-nav:not(:popover-open) {
+    @apply static ml-auto block border-0 bg-transparent p-0;
+    inset: auto;
+    width: auto;
+    height: auto;
+    margin-block: 0;
+    margin-right: 0;
+    overflow: visible;
+  }
+}
+
+@media (width < theme(--breakpoint-split)) {
+  .site-nav {
+    @apply m-0 w-full border-0 border-b border-line bg-paper px-gutter pt-2 pb-5 shadow-drawer;
+    inset: var(--spacing-header) 0 auto;
+  }
+}
+
+.site-nav__list {
+  @apply flex gap-1 max-split:flex-col max-split:gap-0;
+}
+
+.site-nav__item {
+  @apply max-split:border-b max-split:border-line max-split:last:border-b-0;
+}
+
+.site-nav__link {
+  @apply block rounded-control px-3 py-2 text-sm font-medium text-muted no-underline transition-colors hover:bg-surface hover:text-ink max-split:rounded-none max-split:px-1 max-split:py-3.5 max-split:text-base max-split:text-ink;
+}

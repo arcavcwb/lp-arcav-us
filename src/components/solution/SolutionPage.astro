@@ -1,15 +1,12 @@
 ---
 // Página de uma solução da ARCAV: para quem é, o que inclui, o exemplo, como funciona, dúvidas e contato.
 // O slot `fit` substitui o bloco "Para quem é / O que está incluído" (usado em Landing pages).
-import Layout from '../../layouts/Layout.astro';
-import Header from '../ui/Header.astro';
-import Footer from '../ui/Footer.astro';
-import Icon from '../ui/Icon.astro';
-import ExampleFrame from '../ui/ExampleFrame.astro';
+// As ações de contato abrem a janela do formulário.
+import Layout from '@layouts/Layout.astro';
+import { ClosingContact, ExampleFrame, Faq, Footer, Header, Icon } from '@components/ui';
 import SolutionFlow from './SolutionFlow.astro';
-import Faq from '../ui/Faq.astro';
-import ClosingContact from '../ui/ClosingContact.astro';
-import { SERVICES, SOLUTION_STEPS, type Solution } from '../../data/solutions';
+import { ANCHOR, SERVICES, SOLUTION_PAGE as copy, SOLUTION_STEPS, footerNav, ui, type Solution } from '@data';
+import { solutionTransition } from '@lib';
 
 interface Props {
   solution: Solution;
@@ -18,25 +15,24 @@ interface Props {
 const { solution: s } = Astro.props;
 const canonical = new URL(s.path, Astro.site).href;
 const others = SERVICES.filter((o) => o.slug !== s.slug);
-const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ href: o.path, label: o.label })), { href: '#contato', label: 'Contato' }];
 ---
 <Layout title={s.meta.title} description={s.meta.description} canonical={canonical}>
-  <Header cta={{ href: '#contato', label: 'Fale comigo' }} />
+  <Header cta={{ label: ui.header.cta, popover: ANCHOR.contactForm }} />
 
-  <main id="conteudo">
+  <main id={ANCHOR.content}>
     <section class="page-hero" aria-labelledby="hero-title">
-      <div class="container page-hero__grid solution-hero">
+      <div class="shell page-hero__grid solution-hero__grid">
         <div>
-          <h1 class="h1" id="hero-title" style={`view-transition-name: sol-${s.slug}`}>{s.hero.title}</h1>
+          <h1 class="h1" id="hero-title" style={solutionTransition(s.slug)}>{s.hero.title}</h1>
           <p class="lead">{s.hero.subtitle}</p>
           <div class="page-hero__actions">
-            <a class="btn btn--primary" href="#contato">
+            <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
               {s.hero.cta}
               <Icon name="arrow-right" />
-            </a>
-            {s.example.path && <a class="btn btn--ghost" href={s.example.path}>Ver o exemplo</a>}
+            </button>
+            {s.example.path && <a class="btn btn--ghost" href={s.example.path}>{copy.exampleCta}</a>}
           </div>
-          <p class="small hero-note">Conversa sem compromisso. Se houver encaixe, você recebe uma prévia resumida do seu projeto junto com a proposta.</p>
+          <p class="small hero-note">{copy.heroNote}</p>
         </div>
         {s.example.path || !s.journey ? (
           <ExampleFrame href={s.example.path} image={s.example.image} client={s.example.client} eager />
@@ -47,18 +43,18 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     </section>
 
     {Astro.slots.has('fit') ? <slot name="fit" /> : (
-    <section class="section" aria-label="Para quem é e o que está incluído">
-      <div class="container fit">
+    <section class="section solution-fit" aria-label={copy.fit.label}>
+      <div class="shell solution-fit__grid">
         <div>
-          <h2 class="h2">Para quem é</h2>
-          <ul role="list" class="fit__list">
-            {s.forWho.map((item) => <li>{item}</li>)}
+          <h2 class="h2">{copy.fit.forWho}</h2>
+          <ul role="list" class="solution-fit__list">
+            {s.forWho.map((item) => <li class="solution-fit__item">{item}</li>)}
           </ul>
         </div>
         <div>
-          <h2 class="h2">O que está incluído</h2>
-          <ul role="list" class="fit__list fit__list--check">
-            {s.includes.map((item) => <li><Icon name="check" />{item}</li>)}
+          <h2 class="h2">{copy.fit.includes}</h2>
+          <ul role="list" class="solution-fit__list">
+            {s.includes.map((item) => <li class="solution-fit__item"><Icon name="check" class="solution-fit__check" />{item}</li>)}
           </ul>
         </div>
       </div>
@@ -66,9 +62,9 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     )}
 
     <section class="section section--muted" aria-labelledby="como-title">
-      <div class="container">
+      <div class="shell">
         <div class="section-head">
-          <h2 class="h2" id="como-title">Como funciona</h2>
+          <h2 class="h2" id="como-title">{copy.how}</h2>
         </div>
         <ol class="steps steps--4 steps--text">
           {SOLUTION_STEPS.map((step) => <li><p>{step}</p></li>)}
@@ -78,18 +74,18 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
 
     <Faq items={s.faq} muted={false} />
 
-    <section class="section section--muted" aria-labelledby="outras-title">
-      <div class="container">
+    <section class="section section--muted solution-others" aria-labelledby="outras-title">
+      <div class="shell">
         <div class="section-head">
-          <h2 class="h2" id="outras-title">Outras soluções</h2>
+          <h2 class="h2" id="outras-title">{copy.others}</h2>
         </div>
-        <ul role="list" class="others">
+        <ul role="list" class="solution-others__list">
           {others.map((o) => (
             <li>
-              <a href={o.path}>
+              <a class="solution-others__link" href={o.path}>
                 <span class="icon-badge"><Icon name={o.icon} /></span>
-                <span class="others__name">{o.name}</span>
-                <Icon name="arrow-right" class="others__arrow" />
+                <span class="solution-others__name">{o.name}</span>
+                <Icon name="arrow-right" class="solution-others__arrow" />
               </a>
             </li>
           ))}
@@ -98,98 +94,15 @@ const footerLinks = [{ href: '/', label: 'Início' }, ...SERVICES.map((o) => ({ 
     </section>
 
     <ClosingContact
-      title="Vamos conversar sobre o seu projeto?"
-      text="Conte o que você precisa. Respondemos com os próximos passos, sem compromisso e sem jargão técnico."
+      title={copy.closing.title}
+      text={copy.closing.text}
       subject={s.contact.subject}
       messageLabel={s.contact.label}
       messagePlaceholder={s.contact.placeholder}
       submit={s.hero.cta}
-      waMessage={`Olá! Vi a página "${s.name}" da ARCAV e quero conversar sobre o meu projeto.`}
+      waMessage={copy.closing.waMessage(s.name)}
     />
   </main>
 
-  <Footer links={footerLinks} />
+  <Footer links={footerNav()} />
 </Layout>
-
-<style>
-  .hero-note {
-    margin-top: 1rem;
-  }
-
-  .fit {
-    display: grid;
-    gap: clamp(2.5rem, 1.5rem + 3vw, 4rem);
-  }
-
-  .fit__list {
-    display: grid;
-    margin-top: 1.5rem;
-    border-top: 1px solid var(--ink);
-  }
-
-  .fit__list li {
-    display: flex;
-    gap: 0.75rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 1.0625rem;
-    font-weight: 500;
-  }
-
-  .fit__list--check :global(svg) {
-    width: 1.25rem;
-    height: 1.25rem;
-    flex: none;
-    margin-top: 0.15em;
-    color: var(--accent);
-  }
-
-  .others {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  .others a {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    background: var(--bg);
-    color: var(--ink);
-    text-decoration: none;
-    font-weight: 600;
-    transition: border-color 0.15s ease;
-  }
-
-  .others a:hover {
-    border-color: var(--ink);
-  }
-
-  .others__name {
-    flex: 1;
-  }
-
-  .others :global(.others__arrow) {
-    width: 1.125rem;
-    height: 1.125rem;
-    color: var(--muted);
-  }
-
-  @media (min-width: 880px) {
-    .fit {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .others {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (min-width: 960px) {
-    .solution-hero {
-      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-    }
-  }
-</style>

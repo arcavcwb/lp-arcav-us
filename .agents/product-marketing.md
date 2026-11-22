@@ -1,10 +1,10 @@
 # Product Marketing Context
 
-**Document version:** v5
+**Document version:** v6
 **Last updated:** 2026-11-21
 
 > Contexto compartido para las skills de marketing (copywriting, cro, marketing-psychology, social…).
-> Fuentes: PRODUCT.md, docs/BRAND.md, docs/PROJECT.md, docs/propostas/center-gas/*, src/data/*.ts y decisiones del usuario en la sesión del 2026-11-21.
+> Fuentes: PRODUCT.md, docs/BRAND.md, src/data/*.ts y decisiones del usuario en la sesión del 2026-11-21. La propuesta de Center Gás (diagnóstico, guiones, precios) vive en su propio repositorio.
 > El sitio público está en portugués de Brasil; este documento está en español. Las frases entre comillas en portugués son textos reales del sitio o de los guiones de venta.
 > **[CONFIRMAR]** marca hipótesis o datos que Armando todavía tiene que validar. No hay testimonios ni métricas reales: no inventarlos.
 
@@ -23,7 +23,7 @@
 - Fase 2, siempre presupuestada aparte: panel administrativo, automatizaciones completas, agentes de IA.
 
 ## Target Audience
-**Target companies:** Varios segmentos, cada uno con su solución: (1) marcas y profesionales que venden confianza (clínicas, estudios, escritorios, consultores): LP de alto padrão; (2) empresas, equipos de marketing y agencias con campañas: LP para campanhas; (3) quien lanza un producto, app, curso o servicio: LP de produto; (4) palestrantes y organizadores de eventos o cursos: LP para palestras; (5) comercios locales de Curitiba que venden por WhatsApp (primer caso: Center Gás, solo gas y agua por ahora): site com pedido no WhatsApp; (6) pymes con procesos manuales: sistemas e automação. Las landing pages son la oferta principal.
+**Target companies:** Varios segmentos, cada uno con su solución: (1) marcas y profesionales que venden confianza (clínicas, estudios, escritorios, consultores): LP de alto padrão; (2) empresas, equipos de marketing y agencias con campañas: LP para campanhas; (3) quien lanza un producto, app, curso o servicio: LP de produto; (4) palestrantes y organizadores de eventos o cursos: LP para palestras; (5) comercios locales de Curitiba que venden por WhatsApp (primer caso: Center Gás, solo gas y agua por ahora): site com pedido no WhatsApp; (6) pymes con procesos manuales: sistemas e automação; (7) empresas que necesitan un sitio institucional; (8) quien tiene un sitio viejo, lento o atado a una plataforma: migração. Los cinco servicios tienen el mismo peso.
 **Decision-makers:** Varía según el segmento: el dueño o el profesional (alto padrão, comercio, pymes), el responsable de marketing o la agencia (campañas, productos) y el propio palestrante u organizador (eventos). En general llegan desde el celular, muchas veces por un link enviado por WhatsApp.
 **Primary use case:** Tener una página que haga una sola cosa muy bien (transmitir confianza, convertir una campaña, vender un producto, llenar un evento, recibir pedidos) y que el contacto llegue ordenado a donde el cliente ya trabaja (WhatsApp, planilla, CRM).
 **Jobs to be done:**
@@ -66,17 +66,17 @@
 ## Differentiation
 **Key differentiators:**
 - Se integra sin invadir: mantiene el WhatsApp y el número del comerciante, y el pedido llega ahí.
-- Muestra antes de vender: análisis del sitio actual y una demo con los productos del propio comercio, sin compromiso.
+- Muestra antes de vender: los ejemplos publicados se prueban en el sitio y, si hay encaje después de la conversación, una prévia resumida del proyecto acompaña la propuesta.
 - Hace ingeniería seria con alcance chico ("Focados em escopo. Sérios em engenharia.").
 - "Você informa, nós preparamos, você aprova": el dueño no administra tecnología.
-- Lo atiende una persona de Curitiba (Armando), con respuesta en hasta 1 hora.
+- Lo atiende una persona de Curitiba (Armando). No se promete plazo de respuesta hasta que la automatización lo garantice.
 - Es honesto sobre los límites: las métricas son interés y clics, no ventas.
 **How we do it differently:** Primero entiende el proceso que ya funciona y después construye solo la capa digital que falta ("Não modernizo por modernizar").
 **Why that's better:** Menos cambio para el dueño y para sus clientes, menos riesgo y un resultado visible antes de decidir.
 **Why customers choose us:** [CONFIRMAR con los primeros clientes; todavía no hay casos cerrados]
 
 ## Objections
-Previstas en los guiones de venta (docs/propostas/center-gas/09) y en la página de comercios. Todavía no se escucharon en ventas reales.
+Previstas en los guiones de venta de la propuesta de Center Gás (en su repositorio) y en la página de comercios. Todavía no se escucharon en ventas reales.
 
 | Objection | Response |
 |-----------|----------|
@@ -85,7 +85,7 @@ Previstas en los guiones de venta (docs/propostas/center-gas/09) y en la página
 | "Como sei se dá resultado?" | "Acompanhamos visualizações e cliques, mas não prometemos vendas sem medir pedidos concluídos." |
 | "Está caro." | "Podemos definir o escopo mínimo e começar com uma frequência menor de campanhas." |
 | "Preciso trocar meu número de WhatsApp?" | "Não. Os pedidos chegam no mesmo WhatsApp que você já usa para atender." |
-| "Quanto custa?" | "Depende do que o seu comércio precisa. O valor vem junto com a análise e a demonstração, sem compromisso." |
+| "Quanto custa?" | "Depende do que o seu comércio precisa. O valor vem na proposta, depois da conversa, sem compromisso." |
 
 **Anti-persona:**
 - Quien busca una tienda online completa con pago, inventario en tiempo real o integración con ERP (fuera del alcance inicial).
@@ -96,7 +96,7 @@ Previstas en los guiones de venta (docs/propostas/center-gas/09) y en la página
 ## Switching Dynamics
 Hipótesis hasta validarlas con comerciantes. [CONFIRMAR]
 **Push:** Pedidos que llegan en varios mensajes y sin datos, tiempo perdido anotando, ofertas que no salen.
-**Pull:** El pedido llega completo al mismo WhatsApp, hay una demo con sus propios productos antes de decidir, las ofertas llegan preparadas para aprobar y responde una persona local en hasta 1 hora.
+**Pull:** El pedido llega completo al mismo WhatsApp, puede probar la tienda de ejemplo antes de decidir (y, si hay encaje, ver una prévia resumida con sus productos), las ofertas llegan preparadas para aprobar y responde una persona local.
 **Habit:** "Assim já funciona": atención personal por WhatsApp, cuaderno, clientes de siempre.
 **Anxiety:** Costo, tener que aprender a usarlo, perder el contacto directo o el número, depender de alguien de afuera, que no dé resultado.
 
@@ -134,7 +134,7 @@ No hay entrevistas con comerciantes registradas. Lo que sí hay: Armando es clie
 | Humano y local | Una persona de Curitiba que responde | Informal o desprolijo | "Quem responde é o Armando Castro. Aqui de Curitiba." |
 
 **Tone by context:**
-- **Support:** cálido y rápido, respuesta en hasta 1 hora; confirmar lo recibido y decir el siguiente paso.
+- **Support:** cálido y rápido, sin prometer un plazo; confirmar lo recibido y decir el siguiente paso.
 - **Launch:** sobrio, mostrar lo nuevo funcionando (demo) en lugar de adjetivos.
 - **Errors:** decir qué pasó y cómo seguir (por ejemplo: "Escreva seu nome para sabermos com quem estamos falando.").
 - **Sales:** sin presión, reconocer lo que el cliente ya logró, mostrar la demo y solo después el precio. Ejemplo de primer mensaje: "Sou da ARCAV, aqui de Curitiba. Conheci o site da Center Gás e preparei algumas ideias para facilitar pedidos e destacar ofertas."
@@ -154,12 +154,12 @@ No hay entrevistas con comerciantes registradas. Lo que sí hay: Armando es clie
 | Mostrar antes de vender | Demo navegable para Center Gás (centergas-v3.pages.dev), ilustrativa, con permiso pendiente para mostrarla como caso |
 | Ingeniería seria | Trayectoria de Armando: Arkus Nexus (México), Drata (San Diego/EUA), producto y automatización en Brasil; repositorio público en GitHub (arcav-ia-flow) |
 | Simple de operar | Demo interactiva en el sitio (carrito → mensaje de WhatsApp listo) |
-| Respuesta rápida | Promesa de 1 hora, sostenida con n8n + Evolution API (en construcción) |
+| Respuesta rápida | Sin promesa pública por ahora; la automatización con n8n + Evolution API está en construcción |
 | Conoce el servicio por dentro | Armando es cliente de Center Gás: conoce cómo se pide gas y agua hoy, desde el lado del comprador |
 
 ## Goals
 **Business goal:** Unos 5 clientes en los próximos 3 meses, sumando todas las soluciones (no solo comercio), y convertir las demos y los proyectos en casos publicables con permiso.
-**Conversion action:** El formulario de la página de cada solución (o WhatsApp) para conversar sobre el proyecto; en comercio, el pedido de análisis + demo ("Quero ver a minha loja"); en propuestas personalizadas, probar la demo y "Marcar uma conversa".
+**Conversion action:** El formulario (en una ventana que abre "Fale comigo" y la acción principal de cada página) o WhatsApp para conversar sobre el proyecto; en comercio, "Quero uma loja assim". Las propuestas personalizadas viven fuera de este sitio.
 **Current metrics:** Sin medición todavía.
 
 ## Paid Ads (optional)
@@ -169,23 +169,29 @@ No se ejecutan anuncios por ahora. Completar si se empieza.
 *Decisiones y lecciones probadas. Lo más nuevo arriba. Mantener cerca de 20 entradas activas.*
 | Date | Learning | Evidence | Applies to | Status |
 |------|----------|----------|------------|--------|
+| 2026-11-21 | Este repositorio es solo el sitio y el portafolio: propuestas, demos y productos white-label viven en proyectos propios y aquí solo se muestran (captura + enlace) | Decisión del usuario | prospección, portafolio, ejemplos | active |
+| 2026-11-21 | El formulario no ocupa la página: abre en una ventana desde "Fale comigo" y la acción principal | Decisión del usuario ("ocupa mucho espacio") | home, soluciones, comercio | active |
+| 2026-11-21 | Cinco servicios con el mismo peso (sitio institucional, migración, landing pages, comercio, automatización), ordenados por la situación del cliente | Decisión del usuario (el sitio se leía como un estudio de landing pages) | home, copy, prospección | active |
+| 2026-11-21 | Entrada pública: ejemplos que se prueban en el sitio + prévia resumida solo si hay encaje después de la conversación | Fase 1 de estabilización; reemplaza la demo completa para cada uno | página de comercios, soluciones, copy | active |
+| 2026-11-21 | Sin plazo de respuesta prometido hasta que la automatización (n8n + Evolution) lo sostenga | Fase 1 de estabilización | CTAs, formularios | active |
 | 2026-11-21 | Los ejemplos del sitio serán basados en proyectos reales (con autorización); no usar demos de empresas ficticias. Mientras tanto, espacios reservados "Exemplo real em preparação" | Decisión del usuario | home, páginas de solución, prospección | active |
 | 2026-11-21 | El storytelling de la home todavía es débil y plano: la estructura funciona pero falta un hilo narrativo | Feedback del usuario | home, copy | watch |
 | 2026-11-21 | Sin redes sociales por ahora: la adquisición es por el sitio y por WhatsApp directo (mensajes personalizados + propuestas) | Decisión del usuario | social, contenido, ads | active |
-| 2026-11-21 | ARCAV no se enfoca en un solo tipo de cliente: seis soluciones (LP de alto padrão, LP para campanhas, LP de produto, LP para palestras, comercio con pedido por WhatsApp, sistemas e automação), cada una con su página y una demo ilustrativa; las landing pages son la oferta principal | Corrección del usuario (el sitio estaba demasiado centrado en comercio) | home, páginas de solución, copy, prospección | active |
 | 2026-11-21 | En comercio, el primer caso es Center Gás (solo gas y agua); ampliar categorías después | Decisión del usuario | página de comercios, propuesta Center Gás | active |
 | 2026-11-21 | Meta: unos 5 clientes en 3 meses | Decisión del usuario | priorización de esfuerzos | active |
 | 2026-11-21 | El precio y el plazo de implantación se dan después de la evaluación; no publicar precios genéricos | Decisión del usuario | copy, FAQ, ads, social | active |
-| 2026-11-21 | La oferta de entrada pública es análisis + demo con los productos del comercio, en versión completa (una demo para cada uno), "sem compromisso" | Decisión del usuario | página de comercios, copy, ads | active |
-| 2026-11-21 | Respuesta prometida en hasta 1 hora, sostenida con n8n + Evolution API; publicar la promesa junto con la automatización | Decisión del usuario | todos los CTAs y formularios | active |
 | 2026-11-21 | WhatsApp (41) 99845-0477 es el canal principal de ARCAV; el formulario cae a WhatsApp si el envío directo falla | Decisión del usuario; el público vive en WhatsApp | CTAs, formularios, propuestas | active |
 | 2026-11-21 | Hablar en lenguaje de comerciante (caderno, planilha, pedido completo) y no en jerga técnica | Reescritura aprobada por el usuario | copy de home y comercios | active |
 | 2026-11-21 | En propuestas, una sola recomendación de inicio (Site comercial + Ofertas Semanais) con la condición 50/50 junto al botón | Doc 09 + decisión del usuario | propuestas personalizadas | active |
 | 2026-11-21 | Registro visual sobrio y profesional: sin metáforas temáticas y sin amarillo, rojo, cobalto ni verde como colores de marca | El usuario rechazó dos tandas de direcciones temáticas | diseño, creatividades, social | active |
 | 2026-11-21 | La prueba social sale de demos reales publicadas con permiso del cliente; nunca se inventan testimonios ni métricas | Reglas de BRAND.md y de la propuesta | todo | active |
+| 2026-11-21 | Seis soluciones con las landing pages como oferta principal | Reemplazada el mismo día por los cinco servicios con el mismo peso | home, copy | retired |
+| 2026-11-21 | Entrada pública: análisis + demo completa con los productos de cada comercio | Retirada en la fase 1: no se sostenía hacer una demo para cada interesado | página de comercios | retired |
+| 2026-11-21 | Respuesta prometida en hasta 1 hora | Retirada en la fase 1 hasta tener la automatización funcionando | CTAs, formularios | retired |
 
 ## Changelog
 *Lo más nuevo arriba. Una línea por revisión: qué cambió y por qué.*
+- v6 (2026-11-21) — Fuentes sin la propuesta de Center Gás (vive en su repositorio); cinco servicios en Target Companies; sin promesa de 1 hora ni demo para cada uno (fase 1); formulario en ventana; aprendizajes nuevos arriba y tres decisiones reemplazadas como retired.
 - v5 (2026-11-21) — Oferta ampliada a cinco servicios con el mismo peso (se suman sitio institucional y migración); la home los ordena por situación del cliente, porque el sitio se leía como un estudio de landing pages.
 - v4 (2026-11-21) — Ejemplos reales en lugar de demos ficticias (placeholders mientras tanto); storytelling débil registrado como pendiente.
 - v3 (2026-11-21) — Reposicionamiento: de "solo comercio local" a seis soluciones (cuatro tipos de landing page + comercio + automatización), con ICP, personas, jobs y metas ampliados; corrección del usuario.

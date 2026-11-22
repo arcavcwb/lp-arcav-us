@@ -1,0 +1,46 @@
+/* Sobre: retrato próximo à esquerda e o texto à direita (a partir de 900px). */
+
+.about__grid {
+  @apply grid items-center gap-split-wide;
+}
+
+.about--with-photo .about__grid {
+  @apply split:grid-cols-aside;
+}
+
+/* No celular, recorte 4:3 a toda a largura; no desktop, o retrato 4:5. */
+.about__photo {
+  @apply aspect-wide split:aspect-portrait split:max-w-sm;
+}
+
+.about__content {
+  @apply max-w-2xl;
+}
+
+.about__lead {
+  @apply mt-4;
+}
+
+.about__facts {
+  @apply mt-8 grid gap-5 border-y border-line py-6 inline:grid-cols-facts;
+}
+
+.about__term {
+  @apply mb-1.5 text-meta font-semibold text-muted;
+}
+
+.about__value {
+  @apply font-medium;
+}
+
+.about__trajectory {
+  @apply text-md text-ink;
+}
+
+.about__statement {
+  @apply mt-7 max-w-md text-statement leading-title font-semibold tracking-title;
+}
+
+.about__social {
+  @apply mt-6 flex gap-6;
+}

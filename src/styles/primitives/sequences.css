@@ -1,0 +1,94 @@
+/* Sequências: fluxo em linha (Visita → Formulário → …) e passos numerados com filetes. */
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: --spacing(1.5) --spacing(1);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-muted);
+}
+
+.flow li {
+  display: inline-flex;
+  align-items: center;
+  gap: --spacing(1);
+}
+
+.flow li + li::before {
+  content: '';
+  width: --spacing(3.5);
+  height: --spacing(3.5);
+  background: currentColor;
+  opacity: var(--opacity-faint);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Passos numerados: a sequência carrega informação, com filetes e sem cartões. */
+
+.steps {
+  display: grid;
+  column-gap: var(--spacing-steps);
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  border-top: 1px solid var(--color-ink);
+}
+
+.steps > li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: var(--grid-template-columns-steps);
+  align-content: start;
+  column-gap: --spacing(2);
+  row-gap: --spacing(1);
+  padding-block: --spacing(4.5) --spacing(5);
+  border-bottom: 1px solid var(--color-line-strong);
+}
+
+.steps > li::before {
+  content: counter(step, decimal-leading-zero);
+  grid-row: span 2;
+  padding-top: --spacing(0.5);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+}
+
+.steps strong {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-title);
+  letter-spacing: var(--tracking-tight);
+}
+
+.steps p {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
+.steps--text p {
+  color: var(--color-ink);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+}
+
+@media (width >= theme(--breakpoint-md)) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= theme(--breakpoint-2xl)) {
+  .steps--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .steps--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

@@ -1,13 +1,14 @@
 ---
 import ExampleShowcase from './ExampleShowcase.astro';
+import { ANCHOR, home } from '@data';
+
+const { examples } = home;
 ---
-<section class="section" id="exemplos" aria-labelledby="exemplos-title">
-  <div class="container">
+<section class="section section--muted" id={ANCHOR.examples} aria-labelledby="exemplos-title">
+  <div class="shell">
     <div class="section-head">
-      <h2 class="h2" id="exemplos-title">Veja um exemplo funcionando.</h2>
-      <p class="lead">
-        Monte um pedido na loja de exemplo e veja a mensagem chegar pronta no WhatsApp. Os exemplos das outras soluções estão sendo preparados a partir de projetos reais.
-      </p>
+      <h2 class="h2" id="exemplos-title">{examples.title}</h2>
+      <p class="lead">{examples.lead}</p>
     </div>
     <ExampleShowcase />
   </div>

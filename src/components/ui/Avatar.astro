@@ -1,0 +1,15 @@
+---
+// Avatar redondo de quem responde: o retrato de data/photos.ts quando existir; até lá, as iniciais
+// (não é uma foto falsa).
+import { BRAND, PHOTOS } from '@data';
+import { initials, photoFor } from '@lib';
+
+const photo = photoFor('portrait');
+---
+<span class="avatar">
+  {photo ? (
+    <img class="avatar__image" src={photo.src} width={photo.width} height={photo.height} alt={PHOTOS.portrait.alt} decoding="async" />
+  ) : (
+    <span class="avatar__initials" role="img" aria-label={BRAND.author}>{initials(BRAND.author)}</span>
+  )}
+</span>

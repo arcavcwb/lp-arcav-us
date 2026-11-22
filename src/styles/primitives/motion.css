@@ -1,0 +1,63 @@
+/* Movimento que acontece uma vez e nunca decora. Três momentos, cada um com a sua forma, só com CSS:
+   1. a abertura da home se apresenta ao carregar (.enter-group, .enter-image);
+   2. as linhas de uma lista entram conforme chegam à tela (.reveal-rows > *);
+   3. a citação do manifesto se revela da esquerda para a direita (.reveal-wipe).
+   2 e 3 são animações ligadas à rolagem (animation-timeline: view()). Onde o navegador ainda não
+   as tem, ou com "reduzir movimento", o conteúdo simplesmente aparece, sem nada escondido. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .enter-group > * {
+    animation: enter var(--transition-duration-reveal) var(--ease-out) both;
+  }
+
+  .enter-group > :nth-child(2) {
+    animation-delay: var(--transition-delay-stagger);
+  }
+
+  .enter-group > :nth-child(3) {
+    animation-delay: calc(2 * var(--transition-delay-stagger));
+  }
+
+  .enter-image {
+    animation: enter-image var(--transition-duration-image) var(--ease-out) calc(3 * var(--transition-delay-stagger)) both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal-rows > * {
+      animation: enter linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 90%;
+    }
+
+    .reveal-wipe {
+      animation: wipe linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(--spacing(3));
+  }
+}
+
+@keyframes enter-image {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}

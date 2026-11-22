@@ -1,5 +1,7 @@
 # ARCAV — Brand
 
+**Last updated:** 2026-11-21. Visual system: [`DESIGN.md`](../DESIGN.md). Product and audience: [`PRODUCT.md`](../PRODUCT.md).
+
 ## Identity
 
 **ARCAV** is the main brand.
@@ -8,11 +10,11 @@
 
 Preferred relationship:
 
-**ARCAV**  
-Digital products & process evolution  
-**by Armando Castro**
+**ARCAV**
+Produtos digitais e evolução de processos
+**por Armando Castro**
 
-ARCAV may grow into services, products, tools, templates, articles, and collaborations without pretending to be a large agency.
+ARCAV may grow into services, products, tools, templates, articles, and collaborations without pretending to be a large agency. It is a one-person product studio in Curitiba.
 
 ## Brand personality
 
@@ -42,71 +44,59 @@ It should not feel:
 
 ## Core message
 
-**Transformo procesos de negocio en productos digitales simples, automatizados y fáciles de operar.**
+The site is in Brazilian Portuguese only. These are the approved lines as published (source of truth: `src/data/site.ts`).
 
-Supporting message:
+**Transformo processos de negócio em produtos digitais simples, automatizados e fáceis de operar.**
 
-**Combino producto, ingeniería y automatización para convertir procesos manuales, información dispersa y operaciones complejas en sistemas claros y controlables.**
+Supporting line: **Focados em escopo. Sérios em engenharia.**
 
-Other approved language:
+Also published on the site:
 
+- Não modernizo por modernizar. Primeiro entendo o que funciona e o que realmente precisa mudar.
+- Ferramentas mudam. O problema do negócio vem em primeiro lugar.
+- A tecnologia tem mais valor quando resolve problemas reais.
+
+Approved earlier, not yet used on the site (translate to pt-BR when used, and confirm the wording with Armando):
+
+- Integrar sem invadir. (already used in pt-BR in PRODUCT.md)
 - Primero el proceso. Después la tecnología.
-- Integrar sin invadir.
-- No modernizo por modernizar.
-- Pequeños en alcance. Serios en ingeniería.
 - Construir más rápido debería dejarnos más tiempo para pensar.
 - El objetivo no es construir más. Es construir lo necesario.
-- La tecnología tiene más valor cuando resuelve problemas reales.
 - Orden dentro de la complejidad.
 
-## Visual metaphor
+## Narrative (not a visual theme)
 
-The visual language should represent:
+The story ARCAV tells, in copy and in the order of the page, is a transformation:
 
-**NEGOCIO → PROCESO → PRODUCTO → OPERACIÓN**
+**Negócio → processo → produto → operação**
 
-Other useful transformations:
+**Manual → conectado → automatizado → controlável**
 
-**Manual → Conectado → Automatizado → Controlable**
-
-**Información dispersa → ARCAV → Sistema / Automatización / Datos / Control**
+This is a narrative, not a visual metaphor. The site does not draw it as maps, nodes or diagrams: themed visual worlds were rejected. The visual direction is "A obra em primeiro plano" (DESIGN.md).
 
 ## Tone of voice
 
-Use Spanish as the primary site language.
+Language: **Brazilian Portuguese (pt-BR)** only on the site. The home speaks as Armando ("eu"); the commerce page speaks as the studio ("nós").
 
 Tone:
 
 - Clear
 - Direct
 - Intelligent without sounding academic
-- Technical when useful
+- Technical when useful, benefit first when talking to shop owners
 - Business-aware
 - No hype
 - No exaggerated claims
 
-Avoid empty buzzwords such as:
-
-- revolutionary
-- disruptive
-- cutting-edge
-- world-class
-- 10x
-- game-changing
-
-unless objectively supported.
+Avoid empty buzzwords such as revolucionário, disruptivo, de ponta, world-class, 10x or game-changing, unless objectively supported. Do not invent testimonials, metrics or client logos.
 
 ## Professional trajectory
 
 Represent the international professional trajectory as:
 
-**Venezuela → México → San Diego / USA → Brasil**
+**Venezuela → México → San Diego / EUA → Curitiba / Brasil**
 
-Important:
-
-This is a professional trajectory / project and company connection.
-
-Do not imply Armando lived in every location unless explicitly documented.
+Important: this is a professional trajectory (project and company connections). Do not imply Armando lived in every location unless explicitly documented.
 
 ### Venezuela
 Start and education.
@@ -114,10 +104,10 @@ Start and education.
 ### México
 Arkus Nexus — Frontend Developer.
 
-### San Diego / USA
+### San Diego / EUA
 Drata — Frontend React Developer.
 
-### Brasil
-Product, automation, systems, and digital solutions.
+### Curitiba / Brasil
+Product, automation, systems, and digital solutions. ARCAV's base.
 
-Current corporate/client work may be confidential. Describe responsibilities and product/engineering problems without exposing proprietary information.
+Current corporate and client work may be confidential. Describe responsibilities and product or engineering problems without exposing proprietary information.

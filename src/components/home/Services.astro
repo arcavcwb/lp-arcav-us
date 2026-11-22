@@ -1,128 +1,34 @@
 ---
-// "O que eu construo": os cinco serviços com o mesmo peso, cada um entrando por uma frase na voz
-// do cliente ("Preciso de um site para a minha empresa.") que leva à página do serviço.
-// Pensado para leigos: a pessoa se reconhece na frase, não precisa saber o nome técnico.
-import Icon from '../ui/Icon.astro';
-import { home } from '../../data/site';
-import { SERVICES } from '../../data/solutions';
+// "O que eu construo": índice editorial dos cinco serviços, todos com o mesmo peso. Cada linha entra
+// pela frase do cliente, grande ("Preciso de um site para a minha empresa."), com o serviço ao lado,
+// e leva à página dele. Sem numerais: os serviços não são uma sequência.
+import { Icon } from '@components/ui';
+import { ANCHOR, SERVICES, home } from '@data';
+import { quoted, solutionTransition } from '@lib';
 
 const { services } = home;
 ---
-<section class="section section--muted" id="solucoes" aria-labelledby="solucoes-title">
-  <div class="container">
+<section class="section services" id={ANCHOR.solutions} aria-labelledby="solucoes-title">
+  <div class="shell">
     <div class="section-head">
-      <h2 class="h2" id="solucoes-title">{services.title}</h2>
+      <h2 class="h2 h2--feature" id="solucoes-title">{services.title}</h2>
       <p class="lead">{services.subtitle}</p>
     </div>
 
-    <p class="paths__intro" id="solucoes-intro">Qual destas frases parece com o seu momento?</p>
-    <ul role="list" class="paths" aria-labelledby="solucoes-intro">
+    <p class="services__intro" id="solucoes-intro">{services.intro}</p>
+    <ul role="list" class="services__list reveal-rows" aria-labelledby="solucoes-intro">
       {SERVICES.map((s) => (
-        <li>
-          <a class="path" href={s.path}>
-            <span class="path__situation">“{s.situation}”</span>
-            <span class="path__answer">
-              <span class="path__name" style={`view-transition-name: sol-${s.slug}`}>{s.name}</span>
-              <span class="path__short">{s.tagline}</span>
+        <li class="services__item">
+          <a class="services__link" href={s.path}>
+            <span class="services__situation">{quoted(s.situation!)}</span>
+            <span class="services__service">
+              <span class="services__name" style={solutionTransition(s.slug)}>{s.name}</span>
+              <span class="services__tagline">{s.tagline}</span>
             </span>
-            <Icon name="arrow-right" class="path__arrow" />
+            <Icon name="arrow-right" class="services__arrow" />
           </a>
         </li>
       ))}
     </ul>
   </div>
 </section>
-
-<style>
-  .paths__intro {
-    margin-bottom: 0.75rem;
-    font-size: 1.0625rem;
-    font-weight: 650;
-  }
-
-  .paths {
-    border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    background: var(--bg);
-    overflow: hidden;
-  }
-
-  .paths li + li {
-    border-top: 1px solid var(--line);
-  }
-
-  .path {
-    position: relative;
-    display: grid;
-    gap: 0.5rem;
-    padding: 1.125rem 3.25rem 1.125rem 1.25rem;
-    color: var(--ink);
-    text-decoration: none;
-    transition: background-color 0.15s ease;
-  }
-
-  .path:hover {
-    background: var(--surface);
-  }
-
-  .path:focus-visible {
-    outline-offset: -2px;
-  }
-
-  .path__situation {
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
-    text-wrap: balance;
-  }
-
-  .path__answer {
-    display: grid;
-    gap: 0.125rem;
-  }
-
-  .path__name {
-    font-weight: 650;
-    color: var(--accent-strong);
-  }
-
-  .path__short {
-    font-size: var(--text-sm);
-    color: var(--muted);
-    line-height: 1.45;
-  }
-
-  .path :global(.path__arrow) {
-    position: absolute;
-    top: 50%;
-    right: 1.25rem;
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-top: -0.625rem;
-    color: var(--muted);
-    transition: transform 0.2s var(--ease-out), color 0.15s ease;
-  }
-
-  .path:hover :global(.path__arrow) {
-    color: var(--accent);
-    transform: translateX(3px);
-  }
-
-  @media (min-width: 880px) {
-    .path {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-      align-items: center;
-      column-gap: 2.5rem;
-      padding: 1.375rem 4rem 1.375rem 1.75rem;
-    }
-
-    .path__situation {
-      font-size: 1.25rem;
-    }
-
-    .path :global(.path__arrow) {
-      right: 1.75rem;
-    }
-  }
-</style>

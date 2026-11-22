@@ -1,0 +1,114 @@
+/* ClosingContact — fechamento grafite: chamada, quem responde, canais e o botão do formulário.
+   O formulário abre numa janela (atributo popover): botão para abrir, X, Esc ou toque fora para
+   fechar, sem JavaScript. Mesmo dentro da seção grafite, a janela é uma superfície clara;
+   no celular, ocupa a tela inteira. */
+
+.closing__grid {
+  @apply grid items-start gap-split-tight lg:grid-cols-form;
+}
+
+.closing__intro {
+  @apply grid max-w-lg gap-5;
+}
+
+.closing__aside {
+  @apply grid gap-6 lg:pt-2;
+}
+
+.closing__responder {
+  @apply flex items-center gap-3.5 border-y border-on-dark-line py-4;
+}
+
+.closing__responder-text {
+  @apply grid leading-label;
+}
+
+.closing__responder-name {
+  @apply font-semibold text-on-dark;
+}
+
+.closing__responder-place {
+  @apply text-sm text-on-dark-muted;
+}
+
+.closing__channels {
+  @apply grid gap-3.5;
+}
+
+.closing__channel {
+  @apply flex items-center gap-3 font-medium;
+}
+
+.closing__channel-icon {
+  @apply size-5 flex-none text-on-dark-muted;
+}
+
+.closing__channel-link {
+  @apply text-on-dark;
+}
+
+.closing__open {
+  @apply max-sm:w-full;
+}
+
+/* Janela do formulário */
+.contact-dialog {
+  @apply m-auto overflow-auto rounded-card border-0 bg-paper p-0 text-ink shadow-dialog;
+  width: min(100% - 2 * var(--spacing-gutter), var(--container-lg));
+  max-width: none;
+  max-height: calc(100dvh - 2 * var(--spacing-gutter));
+  overscroll-behavior: contain;
+}
+
+.contact-dialog::backdrop {
+  @apply bg-backdrop;
+}
+
+.contact-dialog__panel {
+  @apply p-card;
+}
+
+.contact-dialog__head {
+  @apply mb-5 flex items-center justify-between gap-4;
+}
+
+.contact-dialog__title {
+  @apply text-ink;
+}
+
+.contact-dialog__close {
+  @apply grid size-11 flex-none cursor-pointer place-items-center rounded-control border border-line-strong bg-paper p-0 text-ink transition-colors hover:border-ink;
+}
+
+.contact-dialog__close-icon {
+  @apply size-5.5;
+}
+
+/* A página atrás não rola enquanto a janela está aberta. */
+html:has(.contact-dialog:popover-open) {
+  @apply overflow-hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .contact-dialog:popover-open {
+    animation: enter var(--transition-duration-enter) var(--ease-out);
+  }
+
+  .contact-dialog:popover-open::backdrop {
+    animation: backdrop-in var(--transition-duration-enter) var(--ease-out);
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (width < theme(--breakpoint-sm)) {
+  .contact-dialog {
+    @apply w-full rounded-none;
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+}

@@ -1,25 +1,16 @@
 ---
 export const prerender = true;
 
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/ui/Header.astro';
-import Footer from '../components/ui/Footer.astro';
-import Hero from '../components/home/Hero.astro';
-import Services from '../components/home/Services.astro';
-import Examples from '../components/home/Examples.astro';
-import Problem from '../components/home/Problem.astro';
-import Method from '../components/home/Method.astro';
-import About from '../components/home/About.astro';
-import Contact from '../components/home/Contact.astro';
-import { home, mainNav } from '../data/site';
-import { SERVICES } from '../data/solutions';
+import Layout from '@layouts/Layout.astro';
+import { Footer, Header } from '@components/ui';
+import { About, Contact, Examples, Hero, Method, Problem, Services } from '@components/home';
+import { ANCHOR, footerNav, home, mainNav, ui } from '@data';
 
-const nav = mainNav();
 const canonical = new URL('/', Astro.site).href;
 ---
 <Layout title={home.meta.title} description={home.meta.description} canonical={canonical}>
-  <Header links={nav} cta={{ href: '#contato', label: 'Fale comigo' }} />
-  <main id="conteudo">
+  <Header links={mainNav()} cta={{ label: ui.header.cta, popover: ANCHOR.contactForm }} />
+  <main id={ANCHOR.content}>
     <Hero />
     <Services />
     <Examples />
@@ -28,5 +19,5 @@ const canonical = new URL('/', Astro.site).href;
     <About />
     <Contact />
   </main>
-  <Footer links={[...SERVICES.map((s) => ({ href: s.path, label: s.label })), { href: '#contato', label: 'Contato' }]} />
+  <Footer links={footerNav({ fromHome: true })} />
 </Layout>

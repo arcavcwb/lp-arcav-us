@@ -1,0 +1,21 @@
+/* Exemplos: a captura do exemplo que funciona e, ao lado, o nome, uma linha e os links. */
+
+.showcase {
+  @apply grid gap-4;
+}
+
+.showcase__item {
+  @apply grid items-center gap-6 xl:grid-cols-showcase xl:gap-12;
+}
+
+.showcase__copy {
+  @apply grid max-w-sm gap-3;
+}
+
+.showcase__text {
+  @apply text-muted;
+}
+
+.showcase__actions {
+  @apply mt-2 flex flex-wrap items-center gap-x-5 gap-y-3;
+}

@@ -5,8 +5,8 @@
 // um envio que o site ainda não faz.
 import Icon from './Icon.astro';
 import BrandIcon from './BrandIcon.astro';
-import { BRAND } from '../../data/site';
-import { ARCAV_WHATSAPP, ARCAV_WHATSAPP_DISPLAY, DIRECT_SEND, RESPONSE_TIME, whatsappLink } from '../../lib/contact';
+import { BRAND, ui, type FormField } from '@data';
+import { EXTERNAL_LINK, ARCAV_WHATSAPP, ARCAV_WHATSAPP_DISPLAY, DIRECT_SEND, RESPONSE_TIME, whatsappLink } from '@lib';
 
 type Variant = 'general' | 'store';
 
@@ -21,29 +21,24 @@ interface Props {
 }
 
 const { subject, variant = 'general', messageLabel, messagePlaceholder, submit } = Astro.props;
+const copy = ui.contactForm;
 const uid = variant === 'store' ? 'sf' : 'cf';
 
-const fields =
+/** Campos da variante; na geral, a pergunta da mensagem pode vir da página. */
+const fields: FormField[] =
   variant === 'store'
-    ? [
-        { id: 'name', label: 'Seu nome', type: 'text', autocomplete: 'name', required: true, error: 'Escreva seu nome para sabermos com quem estamos falando.' },
-        { id: 'link', label: 'Link do seu site, Instagram ou catálogo', type: 'text', autocomplete: 'url', inputmode: 'url', required: true, placeholder: 'Ex.: instagram.com/sualoja', error: 'Cole o link para podermos ver os seus produtos.' },
-        { id: 'reply', label: 'E-mail ou WhatsApp para a resposta', type: 'text', autocomplete: 'email', inputmode: 'email', required: true, error: 'Informe um e-mail ou WhatsApp para podermos responder.' },
-        { id: 'message', label: 'Algo mais que devemos saber?', type: 'textarea', rows: 3, required: false, placeholder: 'Ex.: vendemos gás e água e recebemos pedidos pelo WhatsApp.' },
-      ]
-    : [
-        { id: 'name', label: 'Seu nome', type: 'text', autocomplete: 'name', required: true, error: 'Escreva seu nome para eu saber com quem estou falando.' },
-        { id: 'business', label: 'Empresa ou negócio', type: 'text', autocomplete: 'organization', required: false },
-        { id: 'reply', label: 'E-mail ou WhatsApp para a resposta', type: 'text', autocomplete: 'email', inputmode: 'email', required: true, hint: 'Respondo por onde for mais prático para você.', error: 'Informe um e-mail ou WhatsApp para eu poder responder.' },
-        { id: 'message', label: messageLabel ?? 'Como funciona hoje e o que você quer melhorar?', type: 'textarea', rows: 5, required: true, placeholder: messagePlaceholder ?? 'Ex.: recebo pedidos pelo WhatsApp e anoto tudo no caderno.', error: 'Conte em poucas linhas o que você precisa.' },
-      ];
+    ? copy.store
+    : copy.general.map((field) =>
+        field.id === 'message'
+          ? { ...field, label: messageLabel ?? field.label, placeholder: messagePlaceholder ?? field.placeholder }
+          : field,
+      );
 
 const wa = whatsappLink();
 /** Sem envio direto e com WhatsApp: o formulário só prepara a mensagem para o WhatsApp. */
 const viaWhatsapp = !DIRECT_SEND && Boolean(wa);
-const submitLabel = viaWhatsapp
-  ? 'Enviar pelo WhatsApp'
-  : (submit ?? (variant === 'store' ? 'Quero uma loja assim' : 'Enviar mensagem'));
+const submitLabel = viaWhatsapp ? copy.submit.whatsapp : (submit ?? copy.submit[variant]);
+const response = RESPONSE_TIME ? ui.responseTime(RESPONSE_TIME) : null;
 ---
 <form
   class="contact-form"
@@ -58,20 +53,23 @@ const submitLabel = viaWhatsapp
   data-subject={subject}
   data-direct={DIRECT_SEND ? 'true' : 'false'}
 >
-  {fields.map((field) => {
+  {fields.map((field, index) => {
     const id = `${uid}-${field.id}`;
+    /** O formulário vive numa janela: ao abrir, o cursor já está no primeiro campo. */
+    const autofocus = index === 0;
     const describedBy = [field.hint && `${id}-hint`, field.required && `${id}-error`].filter(Boolean).join(' ') || undefined;
     return (
       <div class="field">
         <label for={id}>
           {field.label}
-          {!field.required && <span class="field__optional"> (opcional)</span>}
+          {!field.required && <span class="field__optional">{` ${copy.optional}`}</span>}
         </label>
         {field.type === 'textarea' ? (
           <textarea
             id={id}
             name={field.id}
             rows={field.rows}
+            autofocus={autofocus}
             required={field.required}
             placeholder={field.placeholder}
             aria-describedby={describedBy}
@@ -83,6 +81,7 @@ const submitLabel = viaWhatsapp
             id={id}
             name={field.id}
             type="text"
+            autofocus={autofocus}
             autocomplete={field.autocomplete}
             inputmode={field.inputmode}
             required={field.required}
@@ -98,8 +97,8 @@ const submitLabel = viaWhatsapp
     );
   })}
 
-  <div class="field--trap" aria-hidden="true">
-    <label for={`${uid}-website`}>Não preencha este campo</label>
+  <div class="field--trap visually-hidden" aria-hidden="true">
+    <label for={`${uid}-website`}>{copy.trap}</label>
     <input id={`${uid}-website`} name="website" type="text" tabindex="-1" autocomplete="off" data-field="website" />
   </div>
 
@@ -111,8 +110,8 @@ const submitLabel = viaWhatsapp
   <div class="sent" data-sent hidden tabindex="-1" role="status">
     <Icon name="check" />
     <div>
-      <p class="sent__title">Mensagem enviada.</p>
-      <p>Vamos responder pelo contato que você informou.</p>
+      <p class="sent__title">{copy.sent.title}</p>
+      <p>{copy.sent.text}</p>
     </div>
   </div>
 
@@ -122,11 +121,11 @@ const submitLabel = viaWhatsapp
     <div class="composed__actions">
       <a class="btn btn--ghost btn--sm" data-composed-open href="#">
         <Icon name="mail" />
-        Abrir de novo
+        {copy.composed.reopen}
       </a>
       <button class="btn btn--ghost btn--sm" type="button" data-composed-copy>
         <Icon name="copy" />
-        <span data-copy-label>Copiar mensagem</span>
+        <span data-copy-label>{copy.composed.copy}</span>
       </button>
     </div>
   </div>
@@ -134,333 +133,31 @@ const submitLabel = viaWhatsapp
   <p class="contact-form__note">
     {viaWhatsapp ? (
       <Fragment>
-        O WhatsApp abre com a sua mensagem pronta; é só tocar em enviar.{RESPONSE_TIME && ` Resposta ${RESPONSE_TIME}.`}
-        Usamos seus dados só para responder. Se preferir, escreva para <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
+        {copy.note.whatsappOpens}{response && ` ${response}`}{' '}
+        {copy.note.privacy}{' '}
+        {copy.note.emailLead}{' '}
+        <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
       </Fragment>
     ) : wa ? (
       <Fragment>
-        {RESPONSE_TIME && `Resposta ${RESPONSE_TIME}. `}Usamos seus dados só para responder.
-        Se preferir, chame no WhatsApp <a href={wa} target="_blank" rel="noopener noreferrer">{ARCAV_WHATSAPP_DISPLAY}</a>
-        ou escreva para <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
+        {response && `${response} `}{copy.note.privacy}{' '}
+        {copy.note.whatsappLead}{' '}
+        <a href={wa} {...EXTERNAL_LINK}>{ARCAV_WHATSAPP_DISPLAY}</a>{' '}
+        {copy.note.emailOr}{' '}
+        <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
       </Fragment>
     ) : (
       <Fragment>
-        {RESPONSE_TIME && `Resposta ${RESPONSE_TIME}. `}Usamos seus dados só para responder.
-        Se preferir, escreva direto para <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
+        {response && `${response} `}{copy.note.privacy}{' '}
+        {copy.note.emailDirectLead}{' '}
+        <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
       </Fragment>
     )}
   </p>
 </form>
 
 <script>
-  type Data = Record<string, string>;
+  import { initContactForms } from '@scripts/contact-form';
 
-  const compose = (variant: string, subject: string, d: Data) => {
-    if (variant === 'store') {
-      const body = [
-        'Olá! Quero conversar sobre um site de pedidos para a minha loja.',
-        '',
-        `Site, Instagram ou catálogo: ${d.link}`,
-        d.message ? `\n${d.message}` : '',
-        '',
-        `Nome: ${d.name}`,
-        `Resposta por: ${d.reply}`,
-      ].join('\n');
-      return { subject: `${subject} — ${d.name}`, body: body.replace(/\n{3,}/g, '\n\n') };
-    }
-    const body = [
-      'Olá, Armando!',
-      '',
-      d.message,
-      '',
-      `Nome: ${d.name}`,
-      d.business ? `Negócio: ${d.business}` : '',
-      `Resposta por: ${d.reply}`,
-    ]
-      .filter((line, i, all) => !(line === '' && all[i - 1] === ''))
-      .join('\n');
-    return { subject: `${subject} — ${d.business || d.name}`, body };
-  };
-
-  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
-    const variant = form.dataset.variant ?? 'general';
-    const email = form.dataset.email!;
-    const whatsapp = form.dataset.whatsapp || '';
-    const subject = form.dataset.subject!;
-    const direct = form.dataset.direct === 'true';
-    const inputs = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[data-field]')];
-    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
-    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
-    const sent = form.querySelector<HTMLElement>('[data-sent]')!;
-    const composed = form.querySelector<HTMLElement>('[data-composed]')!;
-    const status = form.querySelector<HTMLElement>('[data-composed-status]')!;
-    const text = form.querySelector<HTMLElement>('[data-composed-text]')!;
-    const openLink = form.querySelector<HTMLAnchorElement>('[data-composed-open]')!;
-    const copyButton = form.querySelector<HTMLButtonElement>('[data-composed-copy]')!;
-    const copyLabel = form.querySelector<HTMLElement>('[data-copy-label]')!;
-    const defaultLabel = submitLabel.textContent;
-
-    const slotFor = (input: HTMLElement) => input.closest('.field')?.querySelector<HTMLElement>('[data-error-slot]');
-    const setError = (input: HTMLInputElement | HTMLTextAreaElement, message: string) => {
-      if (message) input.setAttribute('aria-invalid', 'true');
-      else input.removeAttribute('aria-invalid');
-      const slot = slotFor(input);
-      if (slot) slot.textContent = message;
-    };
-
-    const required = inputs.filter((input) => input.required);
-    required.forEach((input) =>
-      input.addEventListener('input', () => {
-        if (input.getAttribute('aria-invalid') && input.value.trim()) setError(input, '');
-      }),
-    );
-
-    const fallback = (d: Data) => {
-      const { subject: fullSubject, body } = compose(variant, subject, d);
-      const href = whatsapp
-        ? `https://wa.me/${whatsapp}?text=${encodeURIComponent(body)}`
-        : `mailto:${email}?subject=${encodeURIComponent(fullSubject)}&body=${encodeURIComponent(body)}`;
-      text.textContent = body;
-      openLink.href = href;
-      if (whatsapp) {
-        openLink.target = '_blank';
-        openLink.rel = 'noopener noreferrer';
-      }
-      status.textContent = whatsapp
-        ? 'Mensagem pronta. Estamos abrindo o WhatsApp com ela escrita; é só enviar.'
-        : `Mensagem pronta. Abrimos seu aplicativo de e-mail para ${email}. Se ele não abriu, copie a mensagem abaixo.`;
-      composed.hidden = false;
-      copyLabel.textContent = 'Copiar mensagem';
-      composed.focus({ preventScroll: true });
-      composed.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-      // Mesma aba: depois de um fetch, window.open costuma ser bloqueado no celular.
-      window.location.href = href;
-    };
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      let firstInvalid: HTMLElement | null = null;
-      for (const input of required) {
-        const empty = input.value.trim() === '';
-        setError(input, empty ? input.dataset.errorMessage ?? 'Campo obrigatório.' : '');
-        if (empty && !firstInvalid) firstInvalid = input;
-      }
-      if (firstInvalid) {
-        firstInvalid.focus();
-        return;
-      }
-
-      const d: Data = { variant, topic: subject };
-      inputs.forEach((input) => (d[input.dataset.field!] = input.value.trim()));
-
-      if (!direct) {
-        if (d.website) return; // armadilha anti-spam preenchida
-        fallback(d);
-        return;
-      }
-
-      submit.disabled = true;
-      submitLabel.textContent = 'Enviando…';
-      composed.hidden = true;
-      try {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 8000);
-        const response = await fetch('/api/contato', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(d),
-          signal: controller.signal,
-        });
-        clearTimeout(timer);
-        if (!response.ok) throw new Error(String(response.status));
-        form.querySelectorAll<HTMLElement>('.field, .contact-form__submit').forEach((el) => (el.hidden = true));
-        sent.hidden = false;
-        sent.focus({ preventScroll: true });
-      } catch {
-        fallback(d);
-      } finally {
-        submit.disabled = false;
-        submitLabel.textContent = defaultLabel;
-      }
-    });
-
-    copyButton.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(text.textContent ?? '');
-        copyLabel.textContent = 'Copiada';
-      } catch {
-        copyLabel.textContent = 'Selecione e copie o texto';
-      }
-    });
-  });
+  initContactForms();
 </script>
-
-<style>
-  .contact-form {
-    display: grid;
-    gap: 1.25rem;
-  }
-
-  .field {
-    display: grid;
-    gap: 0.4rem;
-  }
-
-  .field[hidden],
-  .contact-form__submit[hidden] {
-    display: none;
-  }
-
-  label {
-    font-size: 0.9375rem;
-    font-weight: 600;
-  }
-
-  .field__optional {
-    font-weight: 400;
-    color: var(--muted);
-  }
-
-  input,
-  textarea {
-    width: 100%;
-    min-height: 3rem;
-    padding: 0.75rem 0.875rem;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-control);
-    background: var(--bg);
-    font-size: 1rem;
-    line-height: 1.5;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  }
-
-  textarea {
-    resize: vertical;
-    min-height: 6rem;
-  }
-
-  ::placeholder {
-    color: var(--muted);
-    opacity: 1;
-  }
-
-  input:hover,
-  textarea:hover {
-    border-color: #a1a1aa;
-  }
-
-  input:focus-visible,
-  textarea:focus-visible {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-tint);
-  }
-
-  [aria-invalid='true'] {
-    border-color: #b42318;
-  }
-
-  .field__hint {
-    font-size: 0.875rem;
-    color: var(--muted);
-  }
-
-  .field__error {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #b42318;
-  }
-
-  .field__error:empty {
-    display: none;
-  }
-
-  .field--trap {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-  }
-
-  .contact-form__submit {
-    justify-self: start;
-  }
-
-  .sent {
-    display: flex;
-    gap: 0.875rem;
-    padding: 1.25rem;
-    border-radius: var(--radius-card);
-    background: var(--surface);
-  }
-
-  .sent[hidden] {
-    display: none;
-  }
-
-  .sent:focus {
-    outline: none;
-  }
-
-  .sent :global(svg) {
-    width: 1.5rem;
-    height: 1.5rem;
-    flex: none;
-    color: var(--accent);
-  }
-
-  .sent__title {
-    font-weight: 600;
-  }
-
-  .composed {
-    display: grid;
-    gap: 0.875rem;
-    padding: 1.25rem;
-    border-radius: var(--radius-card);
-    background: var(--surface);
-  }
-
-  .composed[hidden] {
-    display: none;
-  }
-
-  .composed:focus {
-    outline: none;
-  }
-
-  .composed__title {
-    font-weight: 600;
-  }
-
-  .composed__text {
-    margin: 0;
-    padding: 1rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-control);
-    background: var(--bg);
-    font-family: inherit;
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  .composed__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.625rem;
-  }
-
-  .contact-form__note {
-    font-size: 0.875rem;
-    color: var(--muted);
-  }
-
-  @media (max-width: 479px) {
-    .contact-form__submit {
-      width: 100%;
-    }
-  }
-</style>

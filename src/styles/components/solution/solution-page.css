@@ -1,0 +1,37 @@
+/* Página de uma solução: para quem é e o que inclui, como funciona, outras soluções. */
+
+.solution-hero__grid {
+  @apply xl:grid-cols-hero-wide;
+}
+
+.solution-fit__grid {
+  @apply grid gap-split lg:grid-cols-2;
+}
+
+.solution-fit__list {
+  @apply mt-6 grid border-t border-ink;
+}
+
+.solution-fit__item {
+  @apply flex gap-3 border-b border-line py-4 text-base font-medium;
+}
+
+.solution-fit__check {
+  @apply mt-optical-sm size-5 flex-none text-accent;
+}
+
+.solution-others__list {
+  @apply grid gap-3 lg:grid-cols-2;
+}
+
+.solution-others__link {
+  @apply flex items-center gap-4 rounded-card border border-line bg-paper px-5 py-4 font-semibold text-ink no-underline transition-colors hover:border-ink;
+}
+
+.solution-others__name {
+  @apply flex-1;
+}
+
+.solution-others__arrow {
+  @apply size-4.5 text-muted;
+}

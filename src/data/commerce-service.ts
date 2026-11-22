@@ -1,10 +1,12 @@
 // src/data/commerce-service.ts — Copy pt-BR da página pública /solucoes/comercio-digital/.
-// Fonte: docs/propostas/center-gas/04-CONTENIDO-PT-BR.md (seção A). Não citar clientes
+// Fonte: o conteúdo aprovado da proposta da Center Gás (repositório próprio). Não citar clientes
 // nem preços de propostas individuais nesta página.
-import type { DemoProduct, IllustrativeOrder } from './proposals/types';
+import type { DemoProduct, IllustrativeOrder } from './types';
+import { ANCHOR, toAnchor } from './anchors';
+import { solutionPath } from './solutions';
 
 export const commerceService = {
-  path: '/solucoes/comercio-digital/',
+  path: solutionPath('comercio-digital'),
   meta: {
     title: 'Sites, Pedidos e Campanhas para Comércios em Curitiba | ARCAV',
     description:
@@ -16,6 +18,8 @@ export const commerceService = {
     subtitle:
       'Criamos sites comerciais, organizamos pedidos pelo WhatsApp e mantemos suas ofertas em destaque. Tudo simples de operar, para você e para seus clientes.',
     cta: 'Quero uma loja assim',
+    demoCta: 'Testar o exemplo',
+    note: 'Teste a loja de exemplo agora. Se houver encaixe depois da conversa, preparamos uma prévia resumida com alguns dos seus produtos.',
   },
   /** Loja de exemplo do celular interativo (home e esta página). Ilustrativa. */
   demo: {
@@ -27,6 +31,8 @@ export const commerceService = {
     ] satisfies DemoProduct[],
     /** Começa vazio: o carrinho cheio parecia uma captura de tela, não algo para tocar. */
     caption: 'Loja de exemplo. Não representa um cliente real.',
+    /** Aparece abaixo do celular depois de "Enviar pelo WhatsApp". */
+    next: { popover: ANCHOR.contactForm, label: 'Quero isso na minha loja' },
   },
   pillars: {
     label: 'Como ajudamos',
@@ -74,7 +80,7 @@ export const commerceService = {
     /** A ilustração espelha a demo do topo da página. */
     live: {
       empty: 'Monte um pedido no exemplo do topo da página. Ele aparece aqui do jeito que chegaria no WhatsApp da loja.',
-      cta: { href: '#demo', label: 'Montar um pedido' },
+      cta: { href: toAnchor(ANCHOR.demo), label: 'Montar um pedido' },
       caption: 'O lado da loja: o pedido que você montou no exemplo. Não representa um cliente real.',
     },
   },

@@ -1,0 +1,268 @@
+/* Tokens da ARCAV (DESIGN.md): a única fonte de valores visuais do site.
+   Cada variável vira utilitário do Tailwind (bg-paper, gap-split, max-w-xl, grid-cols-form,
+   duration-fast, leading-title…) e continua disponível no CSS como var(--…).
+   O tema padrão do Tailwind não existe aqui (`--*: initial`): só há o que é da marca.
+   Componentes e CSS não escrevem valores soltos; quando falta um valor, ele nasce aqui, com nome.
+   `static` emite todas as variáveis em :root, inclusive as usadas só nos arquivos de CSS. */
+
+@theme static {
+  --*: initial;
+
+  /* ── Cor ─────────────────────────────────────────────────────────────── */
+  --color-white: #ffffff;
+  --color-paper: #ffffff;
+  --color-surface: #f4f4f5;
+  --color-surface-strong: #e9e9ec;
+  --color-ink: #1c1d21;
+  --color-ink-hover: #34363c;
+  --color-muted: #5b5d63;
+  --color-line: #e4e4e7;
+  --color-line-strong: #d4d4d8;
+  --color-line-hover: #a1a1aa;
+  --color-accent: #b4532a;
+  --color-accent-strong: #9a4521;
+  --color-accent-tint: rgb(180 83 42 / 0.1);
+  --color-selection: rgb(180 83 42 / 0.2);
+  /* Fundo atrás de uma janela (formulário de contato) */
+  --color-backdrop: rgb(28 29 33 / 0.6);
+  --color-clay: #e7a27f;
+  --color-dark: #1c1d21;
+  --color-dark-raised: #26282d;
+  --color-on-dark: #f4f4f5;
+  --color-on-dark-muted: #a9abb2;
+  --color-on-dark-line: #34363c;
+  --color-danger: #b42318;
+
+  /* ── Tipo: uma família; a hierarquia vem do tamanho e do peso ─────────── */
+  --font-sans: 'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-title: 650;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Entrelinha. Os tamanhos de texto que fixam a sua apontam para cá. */
+  --leading-none: 1;
+  --leading-display: 1.08;
+  --leading-figure: 1.1;
+  --leading-heading: 1.12;
+  --leading-control: 1.2;
+  --leading-tight: 1.25;
+  --leading-snug: 1.3;
+  --leading-title: 1.35;
+  --leading-label: 1.4;
+  --leading-caption: 1.45;
+  --leading-normal: 1.5;
+  --leading-lead: 1.55;
+  --leading-body: 1.6;
+
+  /* Tamanhos. Sem `--line-height` próprio, o texto herda a entrelinha de onde está. */
+  --text-micro: 0.75rem;
+  --text-caption: 0.8125rem;
+  --text-meta: 0.875rem;
+  --text-sm: 0.9375rem;
+  --text-md: 1rem;
+  --text-base: 1.0625rem;
+  --text-base--line-height: var(--leading-body);
+  --text-lg: 1.125rem;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: var(--leading-snug);
+  --text-brand: 1.375rem;
+  --text-statement: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-lead--line-height: var(--leading-lead);
+  --text-h2: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem);
+  --text-h2--line-height: var(--leading-heading);
+  --text-figure: clamp(2rem, 1.7rem + 1vw, 2.5rem);
+  --text-h1: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --text-h1--line-height: var(--leading-display);
+
+  /* Escala editorial da home: o grande muito grande, o pequeno preciso */
+  --text-index: clamp(1.375rem, 1rem + 1.25vw, 2.25rem);
+  --text-index--line-height: var(--leading-tight);
+  --text-h2-feature: clamp(2rem, 1.2rem + 2.6vw, 3.5rem);
+  --text-h2-feature--line-height: var(--leading-display);
+  --text-quote: clamp(1.75rem, 1rem + 2.8vw, 3.5rem);
+  --text-quote--line-height: var(--leading-heading);
+  --text-numeral: clamp(1.5rem, 0.6rem + 2.8vw, 3rem);
+  --text-numeral--line-height: var(--leading-none);
+
+  --tracking-figure: -0.03em;
+  --tracking-display: -0.028em;
+  --tracking-heading: -0.024em;
+  --tracking-title: -0.015em;
+  --tracking-subtitle: -0.012em;
+  --tracking-tight: -0.01em;
+  --tracking-wide: 0.02em;
+  --tracking-brand: 0.04em;
+
+  --text-underline-offset-link: 0.22em;
+
+  /* ── Espaço ───────────────────────────────────────────────────────────── */
+  /* Unidade base: os utilitários (gap-3, p-4…) e o CSS (--spacing(4)) são múltiplos dela. */
+  --spacing: 0.25rem;
+
+  /* Medidas de layout */
+  --spacing-gutter: clamp(1rem, 0.4rem + 2.6vw, 2.5rem);
+  --spacing-section: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  /* Seção-respiro (manifesto): mais ar que as outras */
+  --spacing-section-feature: clamp(3.5rem, 2rem + 5vw, 7.5rem);
+  --spacing-header: 4.25rem;
+  --spacing-anchor: calc(var(--spacing-header) + 1rem);
+  --spacing-sticky: calc(var(--spacing-header) + 2rem);
+  --spacing-head: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
+  --spacing-footer: clamp(2.25rem, 1.75rem + 1.5vw, 3rem);
+
+  /* Hero das páginas */
+  --spacing-hero-top: clamp(2rem, 1rem + 4.2vw, 5.25rem);
+  --spacing-hero-bottom: clamp(2rem, 1.5rem + 1.5vw, 3rem);
+  --spacing-hero-gap: clamp(2rem, 0.5rem + 4vw, 4.5rem);
+  --spacing-hero-lead: clamp(1.25rem, 1rem + 0.6vw, 1.5rem);
+  --spacing-hero-actions: clamp(1.5rem, 1.25rem + 0.6vw, 2rem);
+
+  /* Distância entre as colunas de um bloco dividido em dois */
+  --spacing-split: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  --spacing-split-wide: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  --spacing-split-tight: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  --spacing-columns: clamp(2rem, 1rem + 2vw, 3rem);
+  --spacing-steps: clamp(1.5rem, 1rem + 2vw, 3rem);
+
+  /* Respiro interno de cartões e painéis */
+  --spacing-card: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  --spacing-panel: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  --spacing-panel-tight: clamp(1rem, 0.75rem + 1vw, 1.75rem);
+
+  /* Ajustes ópticos: alinham ícone e marcador à primeira linha do texto */
+  --spacing-optical-sm: 0.15em;
+  --spacing-optical: 0.2em;
+  --spacing-bullet: 0.6em;
+
+  /* Larguras máximas (max-w-*) */
+  --container-page: 1200px;
+  --container-phone: 19.75rem;
+  --container-xs: 22rem;
+  --container-sm: 26rem;
+  --container-md: 30rem;
+  --container-lg: 34rem;
+  --container-xl: 44rem;
+  --container-2xl: 48rem;
+  --container-measure: 60ch;
+  --container-lead: 38em;
+  --container-headline: 19em;
+  --container-title: 17em;
+  --container-bubble: 85%;
+
+  /* Altura mínima de uma página curta (404) */
+  --min-height-stage: 50vh;
+
+  /* ── Grades ───────────────────────────────────────────────────────────── */
+  --grid-template-columns-hero: minmax(0, 1fr) 20rem;
+  --grid-template-columns-hero-wide: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  /* Home: texto em 8 de 12 colunas, retrato nas 4 últimas */
+  --grid-template-columns-hero-portrait: minmax(0, 2fr) minmax(0, 1fr);
+  --grid-template-columns-split: minmax(0, 1fr) minmax(0, 0.9fr);
+  --grid-template-columns-lead: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  --grid-template-columns-row: minmax(0, 1.1fr) minmax(0, 1fr);
+  --grid-template-columns-form: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  --grid-template-columns-aside: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  --grid-template-columns-facts: minmax(0, 1.6fr) minmax(0, 1fr);
+  --grid-template-columns-ruled: minmax(0, 17rem) minmax(0, 1fr);
+  --grid-template-columns-showcase: minmax(0, 1.75fr) minmax(0, 1fr);
+  --grid-template-columns-fill-auto: minmax(0, 1fr) auto;
+  --grid-template-columns-footer: minmax(0, 1.2fr) minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr);
+  /* Índice de serviços: frase do cliente | serviço */
+  --grid-template-columns-index: minmax(0, 7fr) minmax(0, 4fr);
+  /* Passos do método: numeral | título e texto */
+  --grid-template-columns-step: 2.75rem minmax(0, 1fr);
+  --grid-template-columns-step-lg: 5rem minmax(0, 1fr);
+  /* Dentro do passo, no desktop: título | texto */
+  --grid-template-columns-step-text: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  --grid-template-columns-numbered: 1.75rem minmax(0, 1fr);
+  --grid-template-columns-steps: 2.25rem minmax(0, 1fr);
+  --grid-template-rows-head-body: auto 1fr;
+
+  --aspect-screen: 16 / 10;
+  --aspect-portrait: 4 / 5;
+  --aspect-landscape: 3 / 2;
+  --aspect-wide: 4 / 3;
+
+  /* ── Forma ────────────────────────────────────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-control: 10px;
+  --radius-card: 14px;
+  --radius-pill: 999px;
+  /* Celular de demonstração */
+  --radius-phone: 2.75rem;
+  --radius-screen: 2.2rem;
+
+  --shadow-raised: 0 1px 2px rgb(28 29 33 / 0.06), 0 14px 32px -14px rgb(28 29 33 / 0.22);
+  --shadow-lift: 0 2px 4px rgb(28 29 33 / 0.08), 0 24px 44px -18px rgb(28 29 33 / 0.3);
+  --shadow-drawer: 0 18px 30px -24px rgb(28 29 33 / 0.35);
+  --shadow-phone: 0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45);
+  --shadow-focus: 0 0 0 3px var(--color-accent-tint);
+  --shadow-dialog: 0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45);
+
+  /* Foco do teclado */
+  --focus-width: 2px;
+  --outline-offset-focus: 3px;
+  --outline-offset-inset: -2px;
+
+  --opacity-faint: 0.6;
+  --opacity-dim: 0.7;
+  --opacity-disabled: 0.55;
+
+  --z-index-header: 50;
+  --z-index-skip-link: 100;
+
+  /* ── Movimento ────────────────────────────────────────────────────────── */
+  --ease-standard: ease;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --transition-duration-fast: 150ms;
+  --transition-duration-control: 180ms;
+  --transition-duration-quick: 200ms;
+  --transition-duration-base: 250ms;
+  --transition-duration-pop: 260ms;
+  --transition-duration-relaxed: 300ms;
+  --transition-duration-enter: 350ms;
+  --transition-duration-slide: 400ms;
+  --transition-duration-morph: 450ms;
+  --transition-duration-pulse: 900ms;
+  /* Revelação: texto 500ms, imagem 700ms; escalonamento entre os elementos da abertura */
+  --transition-duration-reveal: 500ms;
+  --transition-duration-image: 700ms;
+  --transition-delay-stagger: 60ms;
+
+  --default-transition-duration: var(--transition-duration-fast);
+  --default-transition-timing-function: var(--ease-standard);
+
+  --transition-property-lift: translate, box-shadow;
+  --transition-property-nudge: translate, color;
+
+  /* Entrada de um painel que acabou de aparecer (abas). */
+  --animate-fade-up: fade-up var(--transition-duration-enter) var(--ease-out);
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(--spacing(1));
+    }
+  }
+
+  /* ── Pontos de quebra (mobile first) ──────────────────────────────────── */
+  --breakpoint-sm: 30rem; /* 480px */
+  --breakpoint-pair: 35rem; /* 560px: dois itens curtos lado a lado */
+  --breakpoint-inline: 40rem; /* 640px: dados curtos em linha */
+  --breakpoint-md: 45rem; /* 720px */
+  --breakpoint-columns: 50rem; /* 800px: rodapé em três colunas */
+  --breakpoint-lg: 55rem; /* 880px */
+  --breakpoint-split: 56.25rem; /* 900px: navegação completa e seções em duas colunas */
+  --breakpoint-xl: 60rem; /* 960px */
+  --breakpoint-2xl: 64rem; /* 1024px */
+}
+
+:root {
+  color-scheme: light;
+}

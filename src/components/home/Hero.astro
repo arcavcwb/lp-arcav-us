@@ -1,80 +1,35 @@
 ---
-import Icon from '../ui/Icon.astro';
-import Portrait from '../ui/Portrait.astro';
-import { BRAND, home } from '../../data/site';
+// Hero da home: título, subtítulo e ações à esquerda (8 de 12 colunas); o retrato de trabalho à
+// direita (4 colunas), centrado na altura do texto. O título fica na escala normal dos heros: a frase
+// é longa, e grande demais ela vira um cartaz (feedback de 2026-11-21). No celular, o retrato vem
+// depois das ações, a toda a largura, em 4:3. Ao carregar, o texto entra em sequência e o retrato
+// se descobre de baixo para cima. A ação principal abre a janela do formulário.
+import { Icon, Photo } from '@components/ui';
+import { ANCHOR, home, toAnchor, ui } from '@data';
+import { photoShown } from '@lib';
 
 const { hero } = home;
+const withPhoto = photoShown('work');
 ---
-<section class="page-hero hero-home" aria-labelledby="hero-title">
-  <div class="container">
-    <h1 class="h1" id="hero-title">{hero.title}</h1>
-    <div class="hero-home__row">
-      <div>
-        <p class="lead">{hero.subtitle}</p>
-        <div class="page-hero__actions">
-          <a class="btn btn--primary" href="#contato">
-            {hero.primaryCta}
-            <Icon name="arrow-right" />
-          </a>
-          <a class="btn btn--ghost" href="#solucoes">{hero.secondaryCta}</a>
-        </div>
-      </div>
-      <div class="hero-home__byline">
-        <Portrait size="avatar" />
-        <p>
-          <strong>{BRAND.author}</strong>
-          <span>{BRAND.statement}</span>
-        </p>
+<section class:list={['page-hero hero', { 'hero--with-photo': withPhoto }]} aria-labelledby="hero-title">
+  <div class="shell hero__grid">
+    <div class="enter-group">
+      <h1 class="h1" id="hero-title">{hero.title}</h1>
+      <p class="lead">{hero.subtitle}</p>
+      <div class="page-hero__actions">
+        <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
+          {hero.primaryCta}
+          <Icon name="arrow-right" />
+        </button>
+        <a class="btn btn--ghost" href={toAnchor(ANCHOR.solutions)}>{hero.secondaryCta}</a>
       </div>
     </div>
+
+    {withPhoto && (
+      <figure class="enter-image hero__figure">
+        <Photo photo="work" class="hero__photo" eager />
+        <figcaption class="hero__caption">{ui.photo.caption}</figcaption>
+      </figure>
+    )}
   </div>
 </section>
-
-<style>
-  .hero-home .h1 {
-    max-width: 19em;
-  }
-
-  .hero-home__row {
-    display: grid;
-    gap: 2rem;
-    align-items: end;
-  }
-
-  .hero-home__byline {
-    display: flex;
-    align-items: center;
-    gap: 0.875rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
-    max-width: 22rem;
-  }
-
-  .hero-home__byline p {
-    display: grid;
-    line-height: 1.4;
-  }
-
-  .hero-home__byline strong {
-    font-weight: 600;
-  }
-
-  .hero-home__byline span {
-    font-size: var(--text-sm);
-    color: var(--muted);
-  }
-
-  @media (min-width: 960px) {
-    .hero-home__row {
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 4rem;
-    }
-
-    .hero-home__byline {
-      padding-top: 0;
-      padding-left: 1.5rem;
-      border-top: 0;
-      border-left: 1px solid var(--line);
-    }
-  }
-</style>

@@ -1,0 +1,35 @@
+---
+// Uma foto real do site (data/photos.ts). Com o arquivo em src/assets/fotos/, mostra a foto; sem ele,
+// um marcador cinza com o que a foto deve mostrar, a proporção e o tamanho mínimo.
+// O recorte padrão vem da proporção da foto; quem usa troca pela própria classe (ex.: .hero__photo).
+import { ASPECT_LABEL, PHOTOS, SHOW_PHOTO_PLACEHOLDERS, ui, type PhotoId } from '@data';
+import { photoFor } from '@lib';
+
+interface Props {
+  photo: PhotoId;
+  eager?: boolean;
+  class?: string;
+}
+
+const { photo: id, eager = false, class: className } = Astro.props;
+const spec = PHOTOS[id];
+const image = photoFor(id);
+const frame = ['photo', `photo--${spec.aspect}`, className];
+---
+{image ? (
+  <img
+    class:list={[...frame, 'photo__image']}
+    src={image.src}
+    width={image.width}
+    height={image.height}
+    alt={spec.alt}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+) : SHOW_PHOTO_PLACEHOLDERS && (
+  <div class:list={[...frame, 'photo__placeholder']} aria-hidden="true" data-photo-placeholder={spec.file}>
+    <span class="photo__pending">{ui.photo.pending}</span>
+    <span class="photo__brief">{spec.brief}</span>
+    <span class="photo__spec">{ui.photo.spec(ASPECT_LABEL[spec.aspect], spec.min.width, spec.min.height)}</span>
+  </div>
+)}

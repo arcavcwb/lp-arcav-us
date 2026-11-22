@@ -1,0 +1,392 @@
+/* PhoneDemo — celular de demonstração (loja → mensagem do WhatsApp) e o guia "Experimente".
+   Muitos estados (passos do guia, telas, destaque no "+"), por isso em CSS próprio, com escopo .phone-demo.
+   As medidas do aparelho são da ilustração e ficam nomeadas uma vez, logo abaixo. */
+
+.phone-demo {
+  /* Aparelho */
+  --phone-bezel: --spacing(2.5);
+  --phone-notch-width: --spacing(21);
+  --phone-notch-height: --spacing(5.5);
+  /* Altura da tela: a parte fixa (barra, resumo, botão) mais uma linha por produto (--rows). */
+  --phone-screen-min: --spacing(104);
+  --phone-screen-chrome: --spacing(62);
+  --phone-row: --spacing(16.5);
+  /* Passagem da loja para a mensagem */
+  --phone-store-exit: -24%;
+  --phone-bubble-width: 88%;
+  /* Anel do destaque no "+" */
+  --phone-nudge-ring: --spacing(2.5);
+
+  display: grid;
+  justify-items: center;
+  gap: --spacing(4);
+  margin: 0;
+}
+
+/* Guia "Experimente" (opcional) */
+.phone-demo .demo-guide {
+  display: grid;
+  gap: --spacing(2);
+  width: min(100%, var(--container-phone));
+}
+
+.phone-demo .demo-guide__title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-title);
+  color: var(--color-ink);
+  text-align: center;
+}
+
+.phone-demo .demo-guide__steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: --spacing(1.5);
+}
+
+.phone-demo .demo-guide__steps li {
+  display: inline-flex;
+  align-items: center;
+  gap: --spacing(1.5);
+  padding: --spacing(1.25) --spacing(2.5) --spacing(1.25) --spacing(1.5);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+  color: var(--color-muted);
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-semibold);
+  transition:
+    background-color var(--transition-duration-base) var(--ease-out),
+    border-color var(--transition-duration-base) var(--ease-out),
+    color var(--transition-duration-base) var(--ease-out);
+}
+
+.phone-demo .demo-guide__steps li[aria-current='step'] {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+}
+
+.phone-demo .demo-guide__steps li[data-done] {
+  color: var(--color-ink);
+}
+
+.phone-demo .demo-guide__n {
+  display: grid;
+  place-items: center;
+  width: --spacing(5);
+  height: --spacing(5);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-strong);
+  color: var(--color-ink);
+  font-size: var(--text-micro);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.phone-demo li[aria-current='step'] .demo-guide__n {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.phone-demo li[data-done] .demo-guide__n {
+  background: var(--color-accent-tint);
+  color: var(--color-accent);
+}
+
+.phone-demo .demo-guide__n .demo-guide__check {
+  display: none;
+  width: --spacing(3.5);
+  height: --spacing(3.5);
+}
+
+.phone-demo li[data-done] .demo-guide__num {
+  display: none;
+}
+
+.phone-demo li[data-done] .demo-guide__n .demo-guide__check {
+  display: block;
+}
+
+/* Destaque único no primeiro "+" */
+@media (prefers-reduced-motion: no-preference) {
+  .phone-demo .stepper button.is-nudging {
+    animation: phone-nudge var(--transition-duration-pulse) var(--ease-out) 3;
+  }
+}
+
+@keyframes phone-nudge {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent);
+    color: var(--color-accent);
+  }
+  to {
+    box-shadow: 0 0 0 var(--phone-nudge-ring) color-mix(in srgb, var(--color-accent) 0%, transparent);
+  }
+}
+
+.phone-demo .phone {
+  width: min(100%, var(--container-phone));
+  padding: var(--phone-bezel);
+  border-radius: var(--radius-phone);
+  background: var(--color-dark);
+  box-shadow: var(--shadow-phone);
+}
+
+.phone-demo .phone__screen {
+  position: relative;
+  height: max(var(--phone-screen-min), calc(var(--phone-screen-chrome) + var(--rows, 4) * var(--phone-row)));
+  overflow: hidden;
+  border-radius: var(--radius-screen);
+  background: var(--color-paper);
+}
+
+.phone-demo .phone__notch {
+  position: absolute;
+  top: var(--phone-bezel);
+  left: 50%;
+  z-index: 3;
+  width: var(--phone-notch-width);
+  height: var(--phone-notch-height);
+  border-radius: var(--radius-pill);
+  background: var(--color-dark);
+  transform: translateX(-50%);
+}
+
+.phone-demo .screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: --spacing(11) --spacing(4) --spacing(4);
+  transition:
+    transform var(--transition-duration-slide) var(--ease-out),
+    opacity var(--transition-duration-relaxed) var(--ease-standard);
+}
+
+.phone-demo .screen--message {
+  transform: translateX(100%);
+  background: var(--color-paper);
+}
+
+.phone-demo [data-state='message'] .screen--store {
+  transform: translateX(var(--phone-store-exit));
+  opacity: 0;
+}
+
+.phone-demo [data-state='message'] .screen--message {
+  transform: none;
+}
+
+.phone-demo .app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: --spacing(3);
+  padding-bottom: --spacing(3.5);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.phone-demo .app-bar__title {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
+}
+
+.phone-demo .app-bar__note {
+  display: block;
+  font-size: var(--text-caption);
+  color: var(--color-muted);
+  line-height: var(--leading-title);
+}
+
+.phone-demo .cart-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: --spacing(1.2);
+  padding: --spacing(1.5) --spacing(2.5);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  font-size: var(--text-meta);
+  font-weight: var(--font-weight-semibold);
+}
+
+.phone-demo .cart-pill svg {
+  width: --spacing(4.2);
+  height: --spacing(4.2);
+}
+
+.phone-demo .products {
+  display: grid;
+  align-content: start;
+}
+
+.phone-demo .product {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: --spacing(3);
+  padding: --spacing(3.2) 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.phone-demo .product__text {
+  display: grid;
+  line-height: var(--leading-snug);
+}
+
+.phone-demo .product__text strong {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.phone-demo .product__text span {
+  font-size: var(--text-caption);
+  color: var(--color-muted);
+}
+
+.phone-demo .stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: --spacing(0.5);
+  padding: --spacing(0.75);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+}
+
+.phone-demo .stepper button {
+  display: grid;
+  place-items: center;
+  width: --spacing(7.5);
+  height: --spacing(7.5);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background-color var(--transition-duration-fast) var(--ease-standard);
+}
+
+.phone-demo .stepper button:hover {
+  background: var(--color-surface);
+}
+
+.phone-demo .stepper button svg {
+  width: --spacing(4);
+  height: --spacing(4);
+}
+
+.phone-demo .stepper__qty {
+  display: inline-block;
+  min-width: --spacing(5);
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.phone-demo .checkout {
+  display: grid;
+  gap: --spacing(2.5);
+  margin-top: auto;
+  padding-top: --spacing(3.5);
+}
+
+.phone-demo .checkout__summary {
+  font-size: var(--text-meta);
+  color: var(--color-muted);
+}
+
+.phone-demo .checkout__btn {
+  width: 100%;
+}
+
+.phone-demo .app-bar--message {
+  justify-content: flex-start;
+}
+
+.phone-demo .back {
+  display: grid;
+  place-items: center;
+  width: --spacing(9);
+  height: --spacing(9);
+  margin-left: --spacing(-1.5);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  cursor: pointer;
+}
+
+.phone-demo .back:hover {
+  background: var(--color-surface);
+}
+
+.phone-demo .back svg {
+  width: --spacing(5);
+  height: --spacing(5);
+}
+
+.phone-demo .bubble {
+  align-self: flex-end;
+  width: var(--phone-bubble-width);
+  margin-top: --spacing(5);
+  padding: --spacing(3.5) --spacing(4);
+  border-radius: var(--radius-card) var(--radius-card) var(--radius-xs) var(--radius-card);
+  background: var(--color-surface);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.phone-demo .bubble__lines {
+  margin-top: --spacing(1.5);
+}
+
+.phone-demo .send {
+  display: grid;
+  gap: --spacing(3);
+  margin-top: auto;
+}
+
+.phone-demo .send__hint {
+  font-size: var(--text-caption);
+  color: var(--color-muted);
+  line-height: var(--leading-caption);
+}
+
+.phone-demo .send__btn {
+  width: 100%;
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+}
+
+.phone-demo .send__btn:hover {
+  background: var(--color-ink-hover);
+}
+
+.phone-demo .phone-demo__next {
+  display: grid;
+  width: min(100%, var(--container-phone));
+  animation: phone-next-in var(--transition-duration-morph) var(--ease-out);
+}
+
+.phone-demo .phone-demo__next[hidden] {
+  display: none;
+}
+
+@keyframes phone-next-in {
+  from {
+    opacity: 0;
+    transform: translateY(--spacing(-1.5));
+  }
+}
+
+.phone-demo figcaption {
+  max-width: var(--container-phone);
+  font-size: var(--text-caption);
+  color: var(--color-muted);
+  text-align: center;
+  line-height: var(--leading-caption);
+}

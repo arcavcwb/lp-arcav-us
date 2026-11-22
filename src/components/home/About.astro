@@ -1,45 +1,44 @@
 ---
-import Icon from '../ui/Icon.astro';
-import Portrait from '../ui/Portrait.astro';
-import { BRAND, home } from '../../data/site';
-import { portraitUrl } from '../../lib/brand-assets';
+// Sobre: retrato próximo à esquerda e texto à direita. Sem foto e sem marcador, o texto ocupa a linha.
+import { Icon, Photo } from '@components/ui';
+import { ANCHOR, BRAND, home, ui } from '@data';
+import { EXTERNAL_LINK, photoShown } from '@lib';
 
 const { about } = home;
-// Sem a foto entregue, o texto ocupa a linha toda (sem um bloco cinza no lugar do retrato).
-const hasPhoto = Boolean(portraitUrl);
+const hasPhoto = photoShown('portrait');
 ---
-<section class="section section--muted" id="sobre" aria-labelledby="sobre-title">
-  <div class:list={['container', 'about', { 'about--photo': hasPhoto }]}>
-    {hasPhoto && <Portrait class="about__portrait" />}
+<section class:list={['section section--muted about', { 'about--with-photo': hasPhoto }]} id={ANCHOR.about} aria-labelledby="sobre-title">
+  <div class="shell about__grid">
+    {hasPhoto && <Photo photo="portrait" class="about__photo" />}
 
-    <div class="about__copy">
+    <div class="about__content">
       <h2 class="h2" id="sobre-title">{about.title}</h2>
-      <p class="lead">{about.text}</p>
+      <p class="lead about__lead">{about.text}</p>
 
       <dl class="about__facts">
         <div>
-          <dt>Trajetória</dt>
-          <dd>
-            <ol role="list" class="flow about__flow">
+          <dt class="about__term">{ui.labels.trajectory}</dt>
+          <dd class="about__value">
+            <ol role="list" class="flow about__trajectory">
               {BRAND.trajectory.map((place) => <li>{place}</li>)}
             </ol>
           </dd>
         </div>
         <div>
-          <dt>Base</dt>
-          <dd>{BRAND.location}</dd>
+          <dt class="about__term">{about.base}</dt>
+          <dd class="about__value">{BRAND.location}</dd>
         </div>
       </dl>
 
       <p class="about__statement">{about.statement}</p>
 
-      <ul role="list" class="about__links">
+      <ul role="list" class="about__social">
         {BRAND.social.map((item) => (
           <li>
-            <a class="link-arrow" href={item.href} target="_blank" rel="noopener noreferrer">
+            <a class="link-arrow" href={item.href} {...EXTERNAL_LINK}>
               {item.name}
               <Icon name="external" />
-              <span class="visually-hidden">(abre em nova aba)</span>
+              <span class="visually-hidden">{ui.a11y.newTab}</span>
             </a>
           </li>
         ))}
@@ -47,76 +46,3 @@ const hasPhoto = Boolean(portraitUrl);
     </div>
   </div>
 </section>
-
-<style>
-  .about {
-    display: grid;
-    gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
-    align-items: center;
-  }
-
-  .about :global(.about__portrait) {
-    width: 100%;
-    max-width: 26rem;
-  }
-
-  .about__copy {
-    max-width: 48rem;
-  }
-
-  .about__copy .lead {
-    margin-top: 1rem;
-  }
-
-  .about__facts {
-    display: grid;
-    gap: 1.25rem;
-    margin-top: 2rem;
-    padding-block: 1.5rem;
-    border-block: 1px solid var(--line);
-  }
-
-  .about__facts dt {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 0.375rem;
-  }
-
-  .about__facts dd {
-    margin: 0;
-    font-weight: 500;
-  }
-
-  .about__flow {
-    font-size: 1rem;
-    color: var(--ink);
-  }
-
-  .about__statement {
-    margin-top: 1.75rem;
-    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    line-height: 1.35;
-    max-width: 30rem;
-  }
-
-  .about__links {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  @media (min-width: 900px) {
-    .about--photo {
-      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    }
-  }
-
-  @media (min-width: 640px) {
-    .about__facts {
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-    }
-  }
-</style>

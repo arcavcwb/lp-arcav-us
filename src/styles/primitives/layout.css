@@ -1,0 +1,92 @@
+/* Estrutura: largura da página, seções e hero. */
+
+.shell {
+  width: min(100% - 2 * var(--spacing-gutter), var(--container-page));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--spacing-section);
+  border-top: 1px solid var(--color-line-strong);
+}
+
+/* Seção-respiro: grafite com mais ar, uma vez no meio da página (o manifesto). */
+.section--feature {
+  padding-block: var(--spacing-section-feature);
+}
+
+.section--muted {
+  background: var(--color-surface);
+}
+
+.section--dark {
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+  border-top-color: var(--color-dark);
+}
+
+.section--dark h2,
+.section--dark h3 {
+  color: var(--color-on-dark);
+}
+
+.section-head {
+  max-width: var(--container-xl);
+  margin-bottom: var(--spacing-head);
+}
+
+.section-head .lead {
+  margin-top: --spacing(4);
+}
+
+/* Hero das páginas: texto à esquerda, demonstração à direita */
+
+.page-hero {
+  padding-block: var(--spacing-hero-top) var(--spacing-hero-bottom);
+}
+
+/* A seção logo depois do hero começa mais perto, para aparecer antes da dobra
+   (só quando continua no mesmo fundo branco). O fio no topo de cada seção marca
+   onde uma termina e a outra começa, mesmo entre fundos parecidos. */
+.page-hero + .section:not(.section--muted) {
+  padding-top: var(--spacing-hero-bottom);
+}
+
+.page-hero__grid {
+  display: grid;
+  gap: var(--spacing-hero-gap);
+  align-items: center;
+}
+
+.page-hero .h1 {
+  max-width: var(--container-title);
+}
+
+.page-hero .lead {
+  margin-top: var(--spacing-hero-lead);
+}
+
+/* Nota curta sob as ações do hero (ex.: "Conversa sem compromisso…"). */
+.hero-note {
+  margin-top: --spacing(4);
+}
+
+.page-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: --spacing(3);
+  margin-top: var(--spacing-hero-actions);
+}
+
+@media (width >= theme(--breakpoint-xl)) {
+  .page-hero__grid {
+    grid-template-columns: var(--grid-template-columns-hero);
+  }
+}
+
+@media (width < theme(--breakpoint-sm)) {
+  .page-hero__actions .btn {
+    flex: 1 1 auto;
+    padding-inline: --spacing(4);
+  }
+}

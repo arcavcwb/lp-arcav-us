@@ -1,0 +1,22 @@
+/* Hero da home: título, subtítulo e ações (8 de 12 colunas) e o retrato de trabalho (4 colunas). */
+
+.hero__grid {
+  @apply grid gap-10;
+}
+
+.hero--with-photo .hero__grid {
+  @apply xl:grid-cols-hero-portrait xl:items-center xl:gap-16;
+}
+
+.hero__figure {
+  @apply m-0 grid content-start gap-3;
+}
+
+/* No celular, recorte 4:3 a toda a largura; no desktop, o retrato 4:5. */
+.hero__photo {
+  @apply aspect-wide xl:aspect-portrait;
+}
+
+.hero__caption {
+  @apply text-caption text-muted;
+}

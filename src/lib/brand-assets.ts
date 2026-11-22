@@ -7,11 +7,7 @@ const logos = import.meta.glob<string>('../assets/brand/arcav-logo.{svg,png,webp
   import: 'default',
 });
 
-const portraits = import.meta.glob<string>('../assets/brand/armando.{jpg,jpeg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-});
-
 export const logoUrl: string | null = Object.values(logos)[0] ?? null;
-export const portraitUrl: string | null = Object.values(portraits)[0] ?? null;
+
+/** Altura do logo em pixels (atributo da imagem, igual ao utilitário h-7 do componente Brand). */
+export const LOGO_HEIGHT = 28;

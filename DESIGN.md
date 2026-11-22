@@ -185,9 +185,9 @@ components:
 
 ## Overview
 
-**Creative North Star: "The Finished Standard"**
+**Creative North Star: "A obra em primeiro plano"** (the work up front; adopted 2026-11-21, replacing "The Finished Standard")
 
-ARCAV deliberately looks like the category: a clear studio page with a headline on the left, a product demonstration on the right, service cards, a method, an about section and a contact form. The distinction is in the finish, not in a concept. The bar is the craft of RD Station and Conta Azul on one side, and Vercel and Framer on the other: exact type, honest spacing, quiet surfaces and one working demo in place of a stock device mockup. Nothing on the page is a costume. There is no order pad, no tile wall, no flyer and no transit map. The visual register is sober and professional, and personality comes from the typography, the ordering of content, real copy and Armando's presence.
+ARCAV presents itself as a studio that publishes its work, not as a services page. The main material is the real work (screenshots of external projects) and the person (Armando), set in an editorial composition: strong contrast of type scale, an asymmetric 12-column grid, images that take real space and few surfaces. It is a way of composing, not a theme: nothing on the page is a costume (no order pad, tile wall, flyer or transit map). The previous North Star ("looks like the category, distinguished by finish") produced a tidy page that could belong to any consultant; tokens, type and brand rules stay, the composition and the material change. Audit and reasoning: `docs/auditorias/AUDITORIA-VISUAL-HOME.md`.
 
 The world is white paper, graphite ink and a single terracotta mark. Neutral zinc greys carry structure: alternating section grounds, hairlines and icon wells. Graphite is the only heavy fill and is used for emphasis blocks and the footer. Terracotta never fills a surface. It marks what to do (primary actions, text links, focus) and what has been confirmed or improved (check marks, diagnosis arrows, the suggested-plan badge). Density is moderate and mobile-first, because the primary reader is a Curitiba shop owner who opens the link from WhatsApp on a phone in daylight. That use case is why the system is light only.
 
@@ -197,7 +197,10 @@ The confirmed visual rejections are themed metaphors that dress up the site, the
 - White ground, graphite ink, and one terracotta accent that marks things and never fills them.
 - One self-hosted family (Schibsted Grotesk) for display and text, with weight carrying the hierarchy.
 - Hairlines first. Soft shadows appear only on the phone demo and on panels that hold an interaction or a result.
-- Sequences are ruled lists with inline `01`–`0n` numerals, never cards.
+- Editorial scale: a display H1, feature H2s and a large manifesto quote against precise 13–15px data.
+- Sequences are ruled lists with `01`–`0n` numerals, never cards; numerals appear only where the order is the information.
+- One graphite band mid-page (the manifesto) and a graphite close (contact and footer).
+- Motion happens once: an entrance on load, a staggered list, a wiped quote; nothing loops or decorates.
 - Authored line icons on a 24-unit grid with a 1.75 stroke.
 - A working phone demo (an order assembled and composed into a WhatsApp message) is the signature object.
 - Light theme only.
@@ -244,7 +247,11 @@ The palette is achromatic zinc and graphite with one warm, earthy accent. The ac
 **Character:** A sturdy, slightly editorial grotesk that holds a 52px headline with tight tracking and still reads plainly at 15px. Using one family for everything keeps the page calm, and steps of weight (400, 500, 600, 650, 700, 800) do the work that a second face would otherwise do.
 
 ### Hierarchy
-- **Display** (700, clamp 2rem→3.25rem, line-height 1.08, −0.028em): the H1 only, in page heroes, capped at about 17em wide so it wraps to three or four lines on desktop.
+- **Display** (700, clamp 2rem→3.25rem, line-height 1.08, −0.028em): the H1 of the other page heroes, capped at about 17em wide so it wraps to three or four lines on desktop.
+- **Feature headline** (700, clamp 2rem→3.5rem, 1.08, `.h2--feature`): the H2 of the home's key sections (services, method, contact).
+- **Quote** (600, clamp 1.75rem→3.5rem, 1.12, −0.024em): the manifesto quote, in 9 of 12 columns.
+- **Index phrase** (600, clamp 1.375rem→2.25rem, 1.25, −0.015em): the client's sentence in each services row.
+- **Numeral** (400, clamp 1.5rem→3rem, line-height 1, Quiet Graphite, tabular): method step numbers.
 - **Headline** (700, clamp 1.75rem→2.5rem, 1.12, −0.024em): section H2s. They are often hand-broken into two balanced lines, and `text-wrap: balance` is on for all headings.
 - **Title** (650, 1.25rem, 1.3, −0.012em): card and plan H3s.
 - **Subhead** (600–650, clamp 1.25rem→1.5rem, −0.015 to −0.02em): case titles and the About statement.
@@ -268,7 +275,7 @@ Big numbers (plan prices) are set at 700, clamp 2rem→2.5rem, −0.03em. Quanti
 
 ## Layout
 
-The layout is a single centred column: a 1200px container with a fluid gutter (16px→40px). Sections use fluid vertical padding (32px→52px), kept tight so one section leads straight into the next. The section directly after a page hero starts closer (32px→48px) so that it peeks above the fold. Section grounds alternate between Paper White and Zinc Mist, never two of the same ground in a row, and every section except a graphite one opens with a 1px Hairline Strong (#d4d4d8) rule across the full width so the boundary reads even where the two grounds are close. On the commerce and proposal pages a graphite closing section leads into the graphite footer.
+The layout is a single centred column: a 1200px container with a fluid gutter (16px→40px). Sections use fluid vertical padding (32px→52px), kept tight so one section leads straight into the next. The section directly after a page hero starts closer (32px→48px) so that it peeks above the fold. Section grounds alternate between Paper White and Zinc Mist, never two of the same ground in a row, and every section except a graphite one opens with a 1px Hairline Strong (#d4d4d8) rule across the full width so the boundary reads even where the two grounds are close. Every page ends with a graphite closing section that leads into the graphite footer, separated by a Graphite Rule.
 
 - **Page hero:** a single column on mobile. At 960px and above it becomes a two-column grid of fluid copy and a fixed 20rem demo column, with the phone vertically centred. On the home page a byline row (avatar, name, statement, with a hairline above) sits under the copy and stops at 30rem. The hero actions are a primary button plus a ghost button, and at 479px or less they flex to share the row.
 - **Section head:** max 44rem wide, followed by 36px→56px of space before the content.
@@ -285,6 +292,10 @@ Breakpoints in use are 480, 560, 640, 720, 800, 880, 900, 960 and 1024px, and th
 
 **The Peek Rule.** The first section after a hero uses the reduced top padding so that the next content is visible on first load.
 
+**The Home Rhythm Rule.** The home alternates kinds of moment, not just grounds: hero (paper, air, display type and portrait), services index (paper, dense type), examples (zinc, image), manifesto (graphite, air, one big quote), method (paper, dense table with a sticky title from 960px), about (zinc, portrait), contact (graphite, form on top), footer (graphite). Graphite appears once mid-page, then closes the page.
+
+**The 12 Columns Rule.** Asymmetric splits come from a 12-column grid (8/4 hero, 4/8 method, 5/6 manifesto head, 9 for the quote) inside the 1200px container, so every left edge stays aligned with the header.
+
 ## Elevation & Depth
 
 The system is flat and hairline-first. Surfaces at rest are separated by 1px borders and by the Paper White / Zinc Mist alternation, not by shadow. Shadows are soft, graphite-tinted and offset downward, and they appear only on objects that hold an interaction or a result: the phone demo, the contact-form card, the inbox illustration and the suggested plan. Focus is shown with an outline rather than a shadow, except on inputs, which use a tinted halo.
@@ -295,7 +306,7 @@ The system is flat and hairline-first. Surfaces at rest are separated by 1px bor
 - **Menu drop** (`box-shadow: 0 18px 30px -24px rgb(28 29 33 / 0.35)`): the mobile nav panel under the header.
 
 ### Named Rules
-**The Earned Shadow Rule.** A surface gets a shadow only when it holds something the visitor does or receives, such as an order, a form, a composed reply or a recommended plan. Ordinary cards stay flat with a Hairline border.
+**The Earned Shadow Rule.** A surface gets a shadow only when it holds something the visitor does or receives, such as an order, a form, a composed reply or a recommended plan, and, once the portfolio exists, project screenshots, because they are the product. Ordinary cards stay flat with a Hairline border.
 
 ## Shapes
 
@@ -337,43 +348,60 @@ This is an inline sequence of short words such as "Visita → Formulário → Le
 - **Composed message:** after submit, a Zinc Mist panel (14px) shows a 600-weight status line, then the exact message in a white, hairline-bordered 10px box, then small ghost buttons for "Abrir de novo" and "Copiar mensagem".
 
 ### Navigation
-- **Header:** the wordmark (or logo) with its byline on the left. On the right are nav links at 0.9375rem/500 in Quiet Graphite, which hover to Graphite Ink on a Zinc Mist 8px pill, followed by the small primary "Fale comigo". Proposal pages replace the nav with a short muted note.
-- **Mobile (below 900px):** a 44px menu toggle (Firm Hairline, 10px) swaps between menu and close glyphs. The nav drops down as a full-width white panel with the menu-drop shadow, and its links are 1.0625rem ink rows divided by Hairlines. Escape closes it and returns focus to the toggle. Below 480px the "por Armando Castro" byline hides.
+- **Header:** the wordmark (or logo) with its byline on the left. On the right are nav links at 0.9375rem/500 in Quiet Graphite, which hover to Graphite Ink on a Zinc Mist 8px pill, followed by the small primary "Fale comigo", which opens the contact form window.
+- **Mobile (below 900px):** a 44px menu toggle (Firm Hairline, 10px) swaps between menu and close glyphs. The nav is a popover: a full-width white panel under the header with the menu-drop shadow, its links 1.0625rem ink rows divided by Hairlines. The toggle, Escape and a tap outside close it without JavaScript; choosing a link also closes it. Below 480px the "por Armando Castro" byline hides.
 - **Footer:** see Layout. Links are Light on Graphite and underline on hover. Social links carry a small external glyph at 70% opacity.
 
 ### Ruled steps
 See The Ruled Sequence Rule. The compact variant has a 1.125rem/650 step title above a muted 0.9375rem line. The text-only variant (process and offers) sets a single 1rem/500 ink line per step.
 
 ### Phone demo (signature)
-A working order demo drawn in CSS rather than an image. It has a Graphite body (44px radius, 10px bezel, Phone shadow) with a pill notch, and a white screen whose height grows with the product count. The store view has an app bar (store name 1.0625rem/700, note in caption size, a Zinc Mist cart pill with a live count), product rows divided by Hairlines, and a pill stepper (Firm Hairline outline, round − and + buttons, and a tabular quantity that bumps from 1.35× scale over 260ms). At the bottom are a live summary and a full-width primary button labelled **"Revisar pedido"**. Pressing it slides in the message view (0.4s ease-out, with the store view sliding 24% left and fading). That view has a back button, the title "Pedido pronto", the composed order in a Zinc Mist bubble, a hint line and a full-width Graphite Ink "Enviar pelo WhatsApp" button. Without JavaScript the demo shows the initial order statically. A centred caption below states that the store is an example and not a real client.
+A working order demo drawn in CSS rather than an image. It has a Graphite body (44px radius, 10px bezel, Phone shadow) with a pill notch, and a white screen whose height grows with the product count. The store view has an app bar (store name 1.0625rem/700, note in caption size, a Zinc Mist cart pill with a live count), product rows divided by Hairlines, and a pill stepper (Firm Hairline outline, round − and + buttons, and a tabular quantity that bumps from 1.35× scale over 260ms). At the bottom are a live summary and a full-width primary button labelled **"Revisar pedido"**. Pressing it slides in the message view (0.4s ease-out, with the store view sliding 24% left and fading). That view has a back button, the title "Pedido pronto", the composed order in a Zinc Mist bubble, a hint line and a full-width Graphite Ink "Enviar pelo WhatsApp" button. Without JavaScript the demo shows the initial order statically. A centred caption below states that the store is an example and not a real client. It stays on the commerce page until the external store example exists; then it becomes a screenshot with a link, and its code leaves this repository.
 
 ### Inbox illustration (signature)
 This is the shop's side of the same order: a white Raised-panel card (14px) with a header row (a Zinc Shade initial avatar and "Cliente pelo site" with a muted channel line), an incoming Zinc Mist bubble holding the order lines in 600 weight, and an outgoing Graphite Ink bubble with the shop's reply. Under the thread sits a 600-weight note led by a terracotta check. A caption labels it as an illustration, not a screenshot.
 
-### Diagnosis table (proposals)
-A white, hairline-bordered 14px table with two columns, "today" and "opportunity". The current state is in Quiet Graphite. The opportunity is in 500 weight, led by a terracotta arrow. Below 720px each row stacks, and the column names reappear as caption-size labels above each cell.
-
-### Plan cards (proposals)
-White 14px cards (Hairline border, 24px→32px padding) with a Title and an optional "Sugestão de início" pill badge (Terracotta Wash, Deep Terracotta, 0.8125rem/600). Next comes a big tabular price with a muted note, then a Hairline divider, then inclusions led by terracotta check marks. A suggested plan swaps its border to Graphite Ink and takes the Raised shadow.
-
 ### Brand mark & portrait slots
 - **Logo:** if a file named `src/assets/brand/arcav-logo.(svg|png|webp)` exists, it replaces the text wordmark at a height of 28px in the header and footer automatically. Until then the wordmark is the logo.
-- **Portrait:** if a file named `src/assets/brand/armando.(jpg|jpeg|png|webp)` exists, it appears as a 4:5, 14px-radius portrait beside the About copy (columns at about 0.8 : 1.2 from 900px) and as the 44px round hero avatar. Without the photo, the About section renders text-only at full width, and the avatar shows the initials **"AC"** (700 weight, Graphite Ink on Zinc Shade). A fake or stock photo is never used.
+- **Photos:** real photos only, listed in `src/data/photos.ts` and stored in `src/assets/fotos/` (`retrato-trabalho` for the home hero, `retrato` for About and the 44px round avatar of whoever answers). Until a photo arrives, its slot shows a labelled grey marker during build-out; the avatar shows the initials **"AC"** (700 weight, Graphite Ink on Zinc Shade). A fake or stock photo is never used.
 - **Favicon:** a provisional monogram: a Graphite rounded square with a light "A" whose crossbar is terracotta. It is replaced when the official symbol arrives.
 - **Open:** the footer reuses the same logo file on Graphite, and no light or inverse logo slot exists yet.
+
+### Implementação (Tailwind v4, 2026-11-21)
+
+Os tokens deste documento vivem em `src/styles/tokens.css` como tema do Tailwind (`@theme`), sem o tema padrão do Tailwind (`--*: initial`): só existem as cores, tamanhos, entrelinhas, espaços, larguras, grades, raios, sombras, durações, curvas e pontos de quebra da marca. **Nenhum valor solto:** uma cor, um tamanho ou um espaço novo entra primeiro aqui e no `tokens.css`, com nome, e nunca direto no componente, no CSS ou num script. O mesmo vale para o texto: componentes não escrevem palavras, leem de `src/data/`. As peças compartilhadas (shell, section, page-hero, h1/h2/lead, btn, link-arrow, card, steps, flow) ficam em `src/styles/primitives/`; cada componente tem o seu CSS em `src/styles/components/<pasta>/`, com classes próprias (ver o parágrafo seguinte). Detalhes no README.
+
+**Classes próprias (2026-11-21).** Os componentes não usam utilitários do Tailwind no marcado: cada elemento tem uma classe com nome (BEM, `.services__link`) e o estilo fica em `src/styles/components/<pasta>/<componente>.css`, montado com `@apply` e os tokens. Camadas: `theme < base < primitives < components < utilities` (vazia).
+
+A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda tem valores muito próximos (13 entrelinhas, 9 pontos de quebra, 3 distâncias de bloco dividido). A consolidação dessa escala faz parte do redesenho editorial (`docs/auditorias/AUDITORIA-VISUAL-HOME.md`).
+
+### Fase A da direção editorial (2026-11-21)
+
+- **Hero:** H1 na escala normal dos heros (o título gigante foi rejeitado em 2026-11-21), com subtítulo e ações em 8 de 12 colunas e o retrato de trabalho nas 4 últimas, centrado na altura do texto. A ação principal abre a janela do formulário.
+- **Serviços:** índice editorial sem caixa (fio grafite em cima, filetes entre linhas). Cada linha: a frase do cliente em `text-index`, o serviço e a frase curta à direita, seta; no hover a linha anda 4px e a seta fica terracota. Linhas tocáveis com 64px ou mais no celular.
+- **Manifesto (antigo Problema):** seção grafite com mais ar (`section--feature`); título e texto menores no alto, a citação em `text-quote` em 9 colunas com a assinatura, e Hoje/Depois em duas colunas com filetes grafite claro (Hoje apagado, Depois claro com checks Pale Clay). Sem cartões.
+- **Método:** título fixo à esquerda (4 colunas, a partir de 960px) e os seis passos à direita como tabela: numeral grande, título, texto.
+- **Contato:** o mesmo fechamento grafite das outras páginas (`ClosingContact` com `channels` e `feature`): título maior, quem responde, canais e um botão. O formulário não ocupa a página: abre numa janela (`popover`) clara sobre fundo escurecido, que no celular ocupa a tela inteira. "Fale comigo", a ação do hero e "Quero isso na minha loja" abrem a mesma janela.
+- **Rodapé:** quatro colunas (marca, navegação numa coluna só, contato e localização, trajetória), com um filete grafite claro em cima, separando do fechamento escuro.
+
+### Fotos (2026-11-21)
+
+- Fotos reais, nunca de banco de imagens nem geradas por IA. Lista, proporção e tamanho mínimo em `src/data/photos.ts`; arquivos em `src/assets/fotos/`.
+- **Hero da home:** retrato de trabalho 4:5 nas quatro últimas colunas (`grid-cols-hero-portrait`, 2:1), centrado na altura do texto, com a legenda "Armando Castro · Curitiba" no lugar da antiga assinatura. No celular, depois das ações, a toda a largura, em 4:3.
+- **Sobre:** retrato próximo 4:5 à esquerda, texto à direita (`grid-cols-aside` a partir de 900px).
+- Enquanto a foto não chega, o lugar mostra um marcador `surface-strong` com "Foto em breve", a descrição e o tamanho; não é uma foto falsa.
 
 ### Soluções e exemplos (2026-11-21)
 
 - **Solution page** (`src/components/solution/SolutionPage.astro`, rota `src/pages/solucoes/[slug].astro`, dados em `src/data/solutions.ts`): hero com a captura do exemplo à direita, "Para quem é" e "O que está incluído" como listas com filete (sem cartões), "Como funciona" como sequência numerada com filetes, perguntas frequentes, "Outras soluções" e o bloco de contato escuro. Cabeçalho mínimo (marca + "Fale comigo"), rodapé com todas as soluções.
-- **Example frame** (`ExampleFrame.astro`): captura 16:10 de um exemplo dentro de uma janela de navegador (barra `surface`, três pontos `line-strong`, URL em pílula), raio de cartão, sombra elevada; sobe 3px no hover. Legenda sempre diz "Exemplo ilustrativo · <cliente fictício>".
-- **Solution tiles** (`home/Services.astro` + `home/SolutionDiagram.astro`): dois grupos ("Landing pages" e "Também para o seu negócio"). Cada bloco-link tem um esquema em linha da solução (geometria SVG: grafite para estrutura, cinza para conteúdo, terracota só onde acontece a ação), nome curto, uma linha e seta. Os esquemas se desenham uma vez quando o grupo entra na tela; no hover, a parte da ação se move (o pedido viaja até o WhatsApp, a luz entra, o botão sobe). No celular o esquema fica à esquerda do texto.
-- **Serviços por situação** (`home/Services.astro`, 2026-11-21): a home mostra os cinco serviços com o mesmo peso (site institucional, migração, landing pages, comércio, automação), cada um numa linha de uma lista branca com divisórias: à esquerda a frase do cliente entre aspas ("Preciso de um site para a minha empresa."), à direita o nome do serviço em terracota escuro e a frase curta, seta no fim. Antes da lista: "Qual destas frases parece com o seu momento?". Os tipos de landing page saíram da home e vivem em `/solucoes/landing-pages/`. A mesma lista (`SERVICES`) alimenta o rodapé e "Outras soluções".
-- **Landing flow** (`solution/LandingFlow.astro`, só em `/solucoes/landing-pages/`): ficha para leigos. Primeiro a pessoa escolhe o objetivo em linguagem simples ("Quero passar confiança", "Quero contatos de um anúncio", "Quero vender um produto", "Quero inscrições para um evento"); embaixo aparece uma ficha só daquela página: o nome e a frase curta, "O caminho do seu cliente" (`SolutionFlow` sem moldura, as mesmas três frases do hero da solução) e, ao lado, "Para quem é", "O que entra" (4 itens) e o link. Uma linha antes das abas explica o que é uma landing page. Não se mostra mais o mapa com todas as opções apagadas: os visitantes se perdiam nele (feedback de 2026-11-21).
+- **Example frame** (`ExampleFrame.astro`): captura 16:10 de um exemplo dentro de uma janela de navegador (barra `surface`, três pontos `line-strong`, URL em pílula), raio de cartão, sombra elevada; sobe 3px no hover. Legenda: "Exemplo · <nome do exemplo>".
+- **Serviços por situação** (`home/Services.astro`): os cinco serviços com o mesmo peso (site institucional, migração, landing pages, comércio, automação) como índice editorial (ver "Fase A"): a frase do cliente entre aspas, o serviço e a frase curta, seta. Antes da lista: "Qual destas frases parece com o seu momento?". Os tipos de landing page vivem em `/solucoes/landing-pages/`. A mesma lista (`SERVICES`) alimenta o rodapé e "Outras soluções".
+- **Landing flow** (`solution/LandingFlow.astro`, só em `/solucoes/landing-pages/`): ficha para leigos. A pessoa escolhe o objetivo em linguagem simples ("Quero passar confiança", "Quero contatos de um anúncio", "Quero vender um produto", "Quero inscrições para um evento"), em botões de opção nativos (as setas do teclado trocam a opção, sem JavaScript); embaixo aparece a ficha só daquela página: o nome e a frase curta, "O caminho do seu cliente" (`SolutionFlow` sem moldura) e, ao lado, "Para quem é", "O que entra" (4 itens) e o link. Não se mostra o mapa com todas as opções apagadas: os visitantes se perdiam nele (feedback de 2026-11-21).
 - **Transição entre páginas**: `@view-transition { navigation: auto; }` (navegadores compatíveis). O nome curto do bloco tem `view-transition-name: sol-<slug>` e viaja até o H1 da página da solução; o cabeçalho fica fixo durante a troca. Tudo desligado com `prefers-reduced-motion`.
-- **Exemplos** (`home/Examples.astro` + `home/ExampleShowcase.astro`): seção própria (fora do hero) com abas em pílula (ativa em grafite cheio, as demais com contorno), uma por solução; cada painel mostra a captura grande à esquerda e, à direita, nome, uma linha, "Abrir o exemplo" e "Ver a solução". Setas do teclado navegam entre abas. O hero da home é só texto.
-- **FAQ** (`Faq.astro`) e **Closing contact** (`ClosingContact.astro`): componentes compartilhados entre comércios e soluções; o bloco final mostra "Quem responde é o Armando Castro", o WhatsApp e o formulário.
-- **Exemplos reservados** (decisão do usuário, 2026-11-21): os exemplos serão baseados em projetos reais. Enquanto não existem, `ExampleFrame` mostra um espaço reservado (janela de navegador vazia, fundo `surface`, "Exemplo real em preparação") e os botões "Ver/Abrir o exemplo" somem. Só o de comércio (o celular interativo, nascido do caso Center Gás) está ativo. As demos fictícias anteriores ficaram guardadas em `docs/exemplos-ficticios/` como referência, fora do site.
-- **Hero de solução sem exemplo** (fase 1 de conversão, 2026-11-21): no lugar do espaço reservado, o hero mostra `SolutionFlow` ("O caminho do seu cliente"): três frases completas e numeradas, de onde a pessoa vem → o que ela faz na sua página → onde você recebe (`journey` em `solutions.ts`). Sem rótulos soltos nem botõezinhos de canais: essa versão não se entendia (feedback de 2026-11-21). O mostruário da home lista só exemplos que funcionam; com um só, as abas não aparecem.
+- **Exemplos** (`home/Examples.astro` + `home/ExampleShowcase.astro`): seção própria com a captura grande do exemplo que funciona e, ao lado, o nome, uma linha, "Abrir o exemplo" e "Ver a solução". Hoje há um só (comércio); o portfólio "Trabalhos" a substitui quando houver três ou mais projetos externos (`docs/CASES.md`).
+- **FAQ** (`Faq.astro`) e **Closing contact** (`ClosingContact.astro`): componentes compartilhados entre home, comércio e soluções; o bloco final mostra "Quem responde é o Armando Castro", os canais e o botão que abre a janela do formulário.
+- **Exemplos reservados** (decisão do usuário, 2026-11-21): os exemplos serão projetos reais ou exemplos feitos pela ARCAV, cada um no seu próprio repositório. Enquanto não existem, `ExampleFrame` mostra um espaço reservado ("Exemplo real em preparação") e os botões "Ver/Abrir o exemplo" somem. Só o de comércio (o celular interativo) está ativo, até existir o exemplo externo de loja. As demos fictícias antigas saíram do repositório (histórico do git).
+- **Hero de solução sem exemplo** (fase 1 de conversão, 2026-11-21): no lugar do espaço reservado, o hero mostra `SolutionFlow` ("O caminho do seu cliente"): três frases completas e numeradas, de onde a pessoa vem → o que ela faz na sua página → onde você recebe (`journey` em `solutions.ts`). Sem rótulos soltos nem botõezinhos de canais: essa versão não se entendia (feedback de 2026-11-21).
 
 ## Do's and Don'ts
 
@@ -387,6 +415,8 @@ White 14px cards (Hairline border, 24px→32px padding) with a Title and an opti
 - **Do** caption every illustrative demo or mock as an example or illustration.
 - **Do** keep touch targets at 44px or more, keep focus visible (2px terracotta outline, 3px offset), meet WCAG AA contrast, and honour `prefers-reduced-motion` (the build collapses all transitions and animations).
 - **Do** use the house ease-out `cubic-bezier(0.16, 1, 0.3, 1)` for movement, with state colour changes at 0.15 to 0.2s.
+- **Do** make motion happen once and differ by moment: the home opening enters on load with CSS only (text 500ms, 60ms apart; the portrait uncovers bottom-up in 700ms), services rows fade up as each one enters the screen, the manifesto quote wipes left to right. All of it is CSS: the opening is a load animation and the rows and quote use scroll-driven animations (`animation-timeline: view()`); content is visible without JavaScript, without scroll-timeline support and with reduced motion (`styles/primitives/motion.css`).
+- **Do** number only real sequences (the method). The services index has no numerals: the services are not an order.
 
 ### Don't:
 - **Don't** fill a section, band, card or panel with terracotta.
@@ -398,4 +428,4 @@ White 14px cards (Hairline border, 24px→32px padding) with a Title and an opti
 - **Don't** add a dark theme. The system is light only (`color-scheme: light`).
 - **Don't** add a second typeface or fall back to a system display face for headings.
 - **Don't** replace the phone demo with a stock device mockup or a screenshot.
-- **Don't** fill brand slots with placeholders. With no photo, About stays text-only and the avatar shows "AC".
+- **Don't** publish brand slots with placeholders. During build-out, a missing photo shows a labelled grey marker (`SHOW_PHOTO_PLACEHOLDERS`); before publishing, either the photo exists or the marker is off, in which case About stays text-only and the avatar shows the initials.

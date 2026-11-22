@@ -1,0 +1,13 @@
+/* Avatar — retrato redondo de quem responde, ou as iniciais enquanto a foto não chega. */
+
+.avatar {
+  @apply block size-11 flex-none overflow-hidden rounded-full bg-surface-strong text-muted;
+}
+
+.avatar__image {
+  @apply size-full object-cover;
+}
+
+.avatar__initials {
+  @apply grid size-full place-items-center text-sm font-bold tracking-wide text-ink;
+}

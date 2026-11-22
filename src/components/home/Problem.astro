@@ -1,144 +1,44 @@
 ---
-import Icon from '../ui/Icon.astro';
-import { BRAND, home } from '../../data/site';
+// Manifesto: a seção inteira em grafite, um respiro no meio da página. A citação é a protagonista
+// e se revela da esquerda para a direita ao chegar à tela; o título e o texto ficam acima, menores;
+// o antes e o depois em duas colunas com fios, sem caixas.
+import { Icon } from '@components/ui';
+import { BRAND, home } from '@data';
+import { quoted } from '@lib';
 
 const { problem } = home;
 ---
-<section class="section section--muted" aria-labelledby="problema-title">
-  <div class="container problem">
-    <div class="problem__copy">
-      <h2 class="h2" id="problema-title">{problem.title}</h2>
-      <p class="lead">{problem.text}</p>
-      <figure class="problem__quote">
-        <blockquote><p>{problem.quote}</p></blockquote>
-        <figcaption>{BRAND.author}</figcaption>
-      </figure>
+<section class="section section--dark section--feature manifesto" aria-labelledby="problema-title">
+  <div class="shell manifesto__shell">
+    <div class="manifesto__head">
+      <h2 class="manifesto__title" id="problema-title">{problem.title}</h2>
+      <p class="manifesto__text">{problem.text}</p>
     </div>
 
-    <div class="compare">
-      <div class="compare__col">
-        <h3 class="compare__label">{problem.before.label}</h3>
-        <ul role="list">
+    <figure class="manifesto__figure">
+      <blockquote class="manifesto__quote reveal-wipe">
+        <p>{quoted(problem.quote)}</p>
+      </blockquote>
+      <figcaption class="manifesto__author">{BRAND.author}</figcaption>
+    </figure>
+
+    <div class="manifesto__compare">
+      <div>
+        <h3 class="manifesto__label">{problem.before.label}</h3>
+        <ul role="list" class="manifesto__list">
           {problem.before.items.map((item) => (
-            <li><Icon name="minus" class="compare__mark" />{item}</li>
+            <li class="manifesto__row"><Icon name="minus" class="manifesto__mark" />{item}</li>
           ))}
         </ul>
       </div>
-      <div class="compare__col compare__col--after">
-        <h3 class="compare__label">{problem.after.label}</h3>
-        <ul role="list">
+      <div>
+        <h3 class="manifesto__label manifesto__label--after">{problem.after.label}</h3>
+        <ul role="list" class="manifesto__list">
           {problem.after.items.map((item) => (
-            <li><Icon name="check" class="compare__mark" />{item}</li>
+            <li class="manifesto__row manifesto__row--after"><Icon name="check" class="manifesto__mark manifesto__mark--after" />{item}</li>
           ))}
         </ul>
       </div>
     </div>
   </div>
 </section>
-
-<style>
-  .problem {
-    display: grid;
-    gap: clamp(2.5rem, 1.5rem + 3vw, 4rem);
-    align-items: center;
-  }
-
-  .problem__copy .lead {
-    margin-top: 1rem;
-  }
-
-  .problem__quote {
-    margin-top: 2rem;
-  }
-
-  .problem__quote blockquote {
-    font-size: 1.125rem;
-    font-weight: 500;
-    line-height: 1.5;
-    max-width: 34rem;
-  }
-
-  .problem__quote blockquote p::before {
-    content: '“';
-  }
-
-  .problem__quote blockquote p::after {
-    content: '”';
-  }
-
-  .problem__quote figcaption {
-    margin-top: 0.5rem;
-    font-size: var(--text-sm);
-    color: var(--muted);
-  }
-
-  .compare {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .compare__col {
-    padding: 1.5rem 1.75rem;
-    border-radius: var(--radius-card);
-    background: var(--bg);
-    border: 1px solid var(--line);
-  }
-
-  .compare__col--after {
-    background: var(--dark);
-    border-color: var(--dark);
-    color: var(--on-dark);
-  }
-
-  .compare__label {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 1rem;
-  }
-
-  .compare__col--after .compare__label {
-    color: var(--on-dark-muted);
-  }
-
-  .compare ul {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  .compare li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    font-size: 1.25rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  .compare__col:not(.compare__col--after) li {
-    color: var(--muted);
-  }
-
-  .compare :global(.compare__mark) {
-    width: 1.25rem;
-    height: 1.25rem;
-    flex: none;
-    margin-top: 0.2em;
-  }
-
-  .compare__col--after :global(.compare__mark) {
-    color: #e7a27f;
-  }
-
-  @media (min-width: 900px) {
-    .problem {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    }
-  }
-
-  @media (min-width: 560px) and (max-width: 899px) {
-    .compare {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-</style>

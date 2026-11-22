@@ -1,0 +1,38 @@
+/* Método: título parado à esquerda (a partir de 960px) e os seis passos como tabela:
+   numeral grande, título e texto. No celular, a lista compacta. */
+
+.method__grid {
+  @apply grid gap-8 lg:grid-cols-12 lg:gap-x-columns;
+}
+
+.method__head {
+  @apply lg:col-span-4;
+}
+
+.method__title {
+  @apply xl:sticky xl:top-sticky;
+}
+
+.method__steps {
+  @apply border-t border-ink lg:col-span-8;
+}
+
+.method__step {
+  @apply grid grid-cols-step items-baseline gap-x-3 border-b border-line-strong py-2.5 lg:grid-cols-step-lg lg:py-4;
+}
+
+.method__numeral {
+  @apply text-numeral font-normal text-muted tabular-nums;
+}
+
+.method__body {
+  @apply grid gap-0.5 lg:grid-cols-step-text lg:items-baseline lg:gap-x-8;
+}
+
+.method__step-title {
+  @apply text-base leading-snug font-title lg:text-h3;
+}
+
+.method__step-text {
+  @apply text-sm leading-caption text-muted lg:text-base;
+}

@@ -1,12 +1,12 @@
 ---
 export const prerender = true;
 
-import SolutionPage from '../../components/solution/SolutionPage.astro';
-import { SOLUTIONS } from '../../data/solutions';
+import { SolutionPage } from '@components/solution';
+import { DEDICATED_PAGES, SOLUTIONS } from '@data';
 
 export function getStaticPaths() {
-  // Comércio e Landing pages têm arquivo próprio (comercio-digital.astro, landing-pages.astro).
-  return SOLUTIONS.filter((s) => !['comercio-digital', 'landing-pages'].includes(s.slug)).map((solution) => ({
+  // As soluções com página própria (DEDICATED_PAGES) não passam por esta rota.
+  return SOLUTIONS.filter((s) => !DEDICATED_PAGES.includes(s.slug)).map((solution) => ({
     params: { slug: solution.slug },
     props: { solution },
   }));

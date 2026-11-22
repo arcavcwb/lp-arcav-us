@@ -4,18 +4,17 @@
 // do objetivo com a ficha de cada tipo e o link para a página dele.
 export const prerender = true;
 
-import SolutionPage from '../../components/solution/SolutionPage.astro';
-import LandingFlow from '../../components/solution/LandingFlow.astro';
-import { solutionBySlug } from '../../data/solutions';
+import { LandingFlow, SolutionPage } from '@components/solution';
+import { LANDING_PICKER, solutionBySlug } from '@data';
 
 const solution = solutionBySlug('landing-pages');
 ---
 <SolutionPage solution={solution}>
   <section class="section" aria-labelledby="tipos-title" slot="fit">
-    <div class="container">
+    <div class="shell">
       <div class="section-head">
-        <h2 class="h2" id="tipos-title">O que você quer com a sua página?</h2>
-        <p class="lead">Escolha o objetivo. Cada tipo de página tem o seu caminho, para quem é e o que entra.</p>
+        <h2 class="h2" id="tipos-title">{LANDING_PICKER.title}</h2>
+        <p class="lead">{LANDING_PICKER.lead}</p>
       </div>
       <LandingFlow />
     </div>

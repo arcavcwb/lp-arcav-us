@@ -1,0 +1,111 @@
+/* LandingFlow — escolha do tipo de landing page com botões de opção nativos (as setas do teclado
+   já trocam a opção) e a ficha da opção marcada, sem JavaScript. As opções e as fichas ficam
+   num só fluxo: as opções dividem a primeira linha e a ficha marcada vem depois (order). */
+
+.landing-flow {
+  @apply m-0 flex min-w-0 flex-wrap gap-2 border-0 p-0;
+}
+
+.landing-flow__option {
+  @apply flex min-h-14 cursor-pointer items-center gap-3 rounded-control border border-line-strong bg-paper px-3.5 py-3 text-left text-ink transition-colors duration-quick hover:border-ink;
+  /* Uma por linha; duas a partir de `pair`; quatro a partir de `lg` (descontado o espaço entre elas). */
+  flex: 1 1 100%;
+}
+
+@media (width >= theme(--breakpoint-pair)) {
+  .landing-flow__option {
+    flex-basis: calc(50% - --spacing(2));
+  }
+}
+
+@media (width >= theme(--breakpoint-lg)) {
+  .landing-flow__option {
+    flex-basis: calc(25% - --spacing(2));
+  }
+}
+
+.landing-flow__input:checked + .landing-flow__option {
+  @apply border-ink bg-ink text-on-dark;
+}
+
+.landing-flow__input:focus-visible + .landing-flow__option {
+  outline: var(--focus-width) solid var(--color-accent);
+  outline-offset: var(--outline-offset-focus);
+}
+
+.landing-flow__icon-well {
+  @apply grid size-9 flex-none place-items-center rounded-control bg-surface text-ink;
+}
+
+.landing-flow__input:checked + .landing-flow__option .landing-flow__icon-well {
+  @apply bg-accent text-white;
+}
+
+.landing-flow__icon {
+  @apply size-5;
+}
+
+.landing-flow__labels {
+  @apply grid leading-snug;
+}
+
+.landing-flow__goal {
+  @apply text-sm font-title;
+}
+
+.landing-flow__type {
+  @apply text-caption text-muted;
+}
+
+.landing-flow__input:checked + .landing-flow__option .landing-flow__type {
+  @apply text-on-dark-muted;
+}
+
+.landing-flow__panel {
+  flex: 1 1 100%;
+  @apply order-1 mt-1 hidden gap-5 rounded-card border border-line bg-paper p-panel-tight lg:grid-cols-2 lg:grid-rows-head-body lg:gap-x-columns;
+}
+
+.landing-flow__input:checked + .landing-flow__option + .landing-flow__panel {
+  @apply grid motion-safe:animate-fade-up;
+}
+
+.landing-flow__name {
+  @apply lg:col-start-2 lg:row-start-1;
+}
+
+.landing-flow__title {
+  @apply text-h3 leading-tight font-bold tracking-title;
+}
+
+.landing-flow__tagline {
+  @apply mt-1 text-muted;
+}
+
+.landing-flow__path {
+  @apply lg:col-start-1 lg:row-span-2 lg:row-start-1;
+}
+
+.landing-flow__info {
+  @apply grid content-start gap-5 lg:col-start-2 lg:row-start-2;
+}
+
+.landing-flow__list-title {
+  @apply mb-2 text-meta font-title text-ink;
+}
+
+.landing-flow__list {
+  @apply grid gap-1.5;
+}
+
+.landing-flow__for {
+  @apply relative pl-4 leading-caption text-muted before:absolute before:top-bullet before:left-0.5 before:size-1.25 before:rounded-full before:bg-line-strong;
+}
+
+.landing-flow__include {
+  @apply flex gap-2 leading-caption text-ink;
+}
+
+.landing-flow__check {
+  @apply mt-optical-sm size-4.5 flex-none text-accent;
+}
