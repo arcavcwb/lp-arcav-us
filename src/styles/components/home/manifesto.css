@@ -1,4 +1,4 @@
-/* Manifesto (antigo Problema): grafite com mais ar. Título e texto menores no alto, a citação grande,
+/* Manifesto (antigo Problema): azul profundo com mais ar. Título e texto menores no alto, a citação grande,
    e o antes/depois em duas colunas com filetes, sem caixas. */
 
 .manifesto__shell {
@@ -22,7 +22,7 @@
 }
 
 .manifesto__quote {
-  @apply text-quote font-semibold tracking-heading text-on-dark lg:col-span-9;
+  @apply font-heading text-quote font-semibold tracking-heading text-on-dark lg:col-span-9;
 }
 
 .manifesto__author {
@@ -58,5 +58,5 @@
 }
 
 .manifesto__mark--after {
-  @apply text-clay;
+  @apply text-highlight;
 }

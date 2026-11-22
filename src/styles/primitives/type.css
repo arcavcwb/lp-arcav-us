@@ -1,5 +1,11 @@
 /* Tipografia: títulos, lead, textos auxiliares e utilidades de acessibilidade. */
 
+.h1,
+.h2,
+.h3 {
+  font-family: var(--font-heading);
+}
+
 .h1 {
   font-size: var(--text-h1);
   line-height: var(--text-h1--line-height);

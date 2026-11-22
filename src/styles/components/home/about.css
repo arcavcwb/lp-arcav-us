@@ -38,7 +38,7 @@
 }
 
 .about__statement {
-  @apply mt-7 max-w-md text-statement leading-title font-semibold tracking-title;
+  @apply mt-7 max-w-md font-heading text-statement leading-title font-semibold tracking-title;
 }
 
 .about__social {

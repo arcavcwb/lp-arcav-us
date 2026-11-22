@@ -1,5 +1,5 @@
-/* Serviços: índice editorial. Fio grafite em cima, filetes entre as linhas, sem caixa.
-   No hover, a linha anda 4px e a seta fica terracota. */
+/* Serviços: índice editorial. Fio escuro em cima, filetes entre as linhas, sem caixa.
+   No hover, a linha anda 4px e a seta fica azul. */
 
 .services__intro {
   @apply mb-4 text-base font-title;
@@ -18,7 +18,7 @@
 }
 
 .services__situation {
-  @apply text-index font-semibold tracking-title text-balance;
+  @apply font-heading text-index font-semibold tracking-title text-balance;
 }
 
 .services__service {

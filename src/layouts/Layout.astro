@@ -33,7 +33,7 @@ const { title, description, noindex = false, canonical } = Astro.props;
   <link rel="icon" type="image/svg+xml" href={SITE.icons.svg} />
   <link rel="apple-touch-icon" href={SITE.icons.apple} />
 
-  <link rel="preload" href={SITE.fontPreload} as="font" type="font/woff2" crossorigin>
+  {SITE.fontPreloads.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
   {CF_WEB_ANALYTICS_TOKEN && (
     <script
       is:inline

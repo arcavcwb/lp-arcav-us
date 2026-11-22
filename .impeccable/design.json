@@ -1,94 +1,110 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-21T11:45:04Z",
+  "generatedAt": "2026-11-22T14:08:14Z",
   "title": "Design System: ARCAV",
   "extensions": {
     "colorMeta": {
       "accent": {
         "role": "primary",
-        "displayName": "Fired Terracotta",
-        "canonical": "#b4532a",
-        "oklch": "oklch(55.7% 0.137 41.9)",
+        "displayName": "Action Blue",
+        "canonical": "#2a5598",
+        "oklch": "oklch(45.5% 0.120 259.0)",
         "tonalRamp": [
-          "#140804",
-          "#401605",
-          "#6f2907",
-          "#9d4118",
-          "#c3643d",
-          "#de8e6e",
-          "#f2bba5",
-          "#fdeae2"
+          "#000923",
+          "#002358",
+          "#153f80",
+          "#345fa3",
+          "#5380c7",
+          "#7ca6e7",
+          "#afccf9",
+          "#e5effe"
         ],
-        "cssVar": "--accent"
+        "cssVar": "--color-accent"
       },
       "accent-strong": {
         "role": "primary",
-        "displayName": "Deep Terracotta",
-        "canonical": "#9a4521",
-        "oklch": "oklch(49.5% 0.124 41.9)",
+        "displayName": "Deep Blue",
+        "canonical": "#1f4380",
+        "oklch": "oklch(39.2% 0.111 260.3)",
         "tonalRamp": [
-          "#130805",
-          "#3e1809",
-          "#6b2c11",
-          "#974624",
-          "#bd6846",
-          "#d99074",
-          "#eebca9",
-          "#fceae4"
+          "#000925",
+          "#062354",
+          "#1c407c",
+          "#3a5f9f",
+          "#5880c2",
+          "#80a5e3",
+          "#b2ccf6",
+          "#e6efff"
         ],
-        "cssVar": "--accent-strong"
+        "cssVar": "--color-accent-strong"
       },
-      "accent-on-dark": {
+      "accent-tint": {
         "role": "primary",
-        "displayName": "Pale Clay",
-        "canonical": "#e7a27f",
-        "oklch": "oklch(77.1% 0.095 47.8)",
+        "displayName": "Blue Wash",
+        "canonical": "rgb(42 85 152 / 0.1)",
+        "flattenedOnWhite": "#eaeef5",
         "tonalRamp": [
-          "#110906",
-          "#381d0e",
-          "#62341c",
-          "#8b5030",
-          "#af7151",
-          "#cd977c",
-          "#e5c0ae",
-          "#f8ebe5"
+          "#000923",
+          "#002358",
+          "#153f80",
+          "#345fa3",
+          "#5380c7",
+          "#7ca6e7",
+          "#afccf9",
+          "#e5effe"
         ],
-        "cssVar": null,
-        "note": "Hard-coded in source (global.css .section--dark .link-arrow, Problem.astro); no custom property yet."
+        "cssVar": "--color-accent-tint"
+      },
+      "highlight": {
+        "role": "secondary",
+        "displayName": "Amber",
+        "canonical": "#f59e0b",
+        "oklch": "oklch(76.9% 0.165 70.1)",
+        "tonalRamp": [
+          "#140800",
+          "#382101",
+          "#5d3902",
+          "#855404",
+          "#b07005",
+          "#de9223",
+          "#f4c083",
+          "#feebd6"
+        ],
+        "cssVar": "--color-highlight"
       },
       "ink": {
         "role": "neutral",
-        "displayName": "Graphite Ink",
-        "canonical": "#1c1d21",
-        "oklch": "oklch(23.1% 0.008 274.6)",
+        "displayName": "Deep Navy Ink",
+        "canonical": "#0b1f3b",
+        "oklch": "oklch(24.0% 0.060 257.3)",
         "tonalRamp": [
-          "#0b0b0c",
-          "#242527",
-          "#414245",
-          "#606166",
-          "#818287",
-          "#a4a5a9",
-          "#c8c9cc",
-          "#eeeeef"
+          "#030b19",
+          "#15273f",
+          "#2e4362",
+          "#4b6282",
+          "#6a82a4",
+          "#90a6c6",
+          "#bccce2",
+          "#e9eff7"
         ],
-        "cssVar": "--ink"
+        "cssVar": "--color-ink"
       },
       "muted": {
         "role": "neutral",
-        "displayName": "Quiet Graphite",
-        "canonical": "#5b5d63",
-        "oklch": "oklch(47.9% 0.010 271.2)",
+        "displayName": "Slate",
+        "canonical": "#334155",
+        "oklch": "oklch(37.2% 0.039 257.3)",
         "tonalRamp": [
-          "#0b0b0c",
-          "#242528",
-          "#404246",
-          "#5f6167",
-          "#808288",
-          "#a3a5aa",
-          "#c8c9cc",
-          "#eeeef0"
+          "#060b14",
+          "#1c2737",
+          "#354357",
+          "#526177",
+          "#728198",
+          "#97a6bb",
+          "#c1cbda",
+          "#ebeff4"
         ],
-        "cssVar": "--muted"
+        "cssVar": "--color-muted"
       },
       "bg": {
         "role": "neutral",
@@ -97,168 +113,202 @@
         "oklch": "oklch(100.0% 0.000 89.9)",
         "tonalRamp": [
           "#0b0b0b",
-          "#252525",
+          "#262626",
           "#424242",
-          "#616161",
-          "#828282",
-          "#a5a5a5",
-          "#c9c9c9",
+          "#606060",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
           "#eeeeee"
         ],
-        "cssVar": "--bg"
+        "cssVar": "--color-paper"
       },
       "surface": {
         "role": "neutral",
-        "displayName": "Zinc Mist",
-        "canonical": "#f4f4f5",
-        "oklch": "oklch(96.7% 0.001 286.4)",
+        "displayName": "Sand",
+        "canonical": "#f5f3ee",
+        "oklch": "oklch(96.4% 0.007 88.6)",
         "tonalRamp": [
-          "#0b0b0b",
-          "#252525",
-          "#424242",
-          "#616162",
-          "#828283",
-          "#a5a5a6",
-          "#c9c9c9",
-          "#eeeeee"
+          "#0c0b09",
+          "#282623",
+          "#44423e",
+          "#62605c",
+          "#82807c",
+          "#a6a4a0",
+          "#cbcac7",
+          "#efeeed"
         ],
-        "cssVar": "--surface"
+        "cssVar": "--color-surface"
       },
       "surface-strong": {
         "role": "neutral",
-        "displayName": "Zinc Shade",
-        "canonical": "#e9e9ec",
-        "oklch": "oklch(93.5% 0.004 286.3)",
+        "displayName": "Deep Sand",
+        "canonical": "#eae6dc",
+        "oklch": "oklch(92.5% 0.014 88.7)",
         "tonalRamp": [
-          "#0b0b0b",
-          "#252526",
-          "#424244",
-          "#616163",
-          "#828285",
-          "#a5a5a7",
-          "#c9c9ca",
-          "#eeeeef"
+          "#0c0b08",
+          "#292620",
+          "#45423a",
+          "#646058",
+          "#848077",
+          "#a8a49c",
+          "#cdcac4",
+          "#efeeec"
         ],
-        "cssVar": "--surface-strong"
+        "cssVar": "--color-surface-strong"
       },
       "line": {
         "role": "neutral",
         "displayName": "Hairline",
-        "canonical": "#e4e4e7",
-        "oklch": "oklch(92.0% 0.004 286.3)",
+        "canonical": "#e2e8f0",
+        "oklch": "oklch(92.9% 0.013 255.5)",
         "tonalRamp": [
-          "#0b0b0b",
-          "#252526",
-          "#424244",
-          "#616163",
-          "#828285",
-          "#a5a5a7",
-          "#c9c9ca",
-          "#eeeeef"
+          "#090b0e",
+          "#23272c",
+          "#3e4349",
+          "#5c6168",
+          "#7b8188",
+          "#a0a5ac",
+          "#c7cbcf",
+          "#edeef0"
         ],
-        "cssVar": "--line"
+        "cssVar": "--color-line"
       },
       "line-strong": {
         "role": "neutral",
         "displayName": "Firm Hairline",
-        "canonical": "#d4d4d8",
-        "oklch": "oklch(87.1% 0.005 286.3)",
+        "canonical": "#cbd5e1",
+        "oklch": "oklch(86.9% 0.020 252.9)",
         "tonalRamp": [
-          "#0b0b0b",
-          "#252526",
-          "#424244",
-          "#616164",
-          "#828285",
-          "#a5a5a8",
-          "#c9c9cb",
-          "#eeeeef"
+          "#080b10",
+          "#21272f",
+          "#3b434d",
+          "#59616c",
+          "#78818c",
+          "#9da6b0",
+          "#c5cbd2",
+          "#eceff1"
         ],
-        "cssVar": "--line-strong"
+        "cssVar": "--color-line-strong"
+      },
+      "line-control": {
+        "role": "neutral",
+        "displayName": "Control Line",
+        "canonical": "#7c8ca2",
+        "oklch": "oklch(63.5% 0.038 256.4)",
+        "tonalRamp": [
+          "#060b14",
+          "#1c2736",
+          "#354357",
+          "#536276",
+          "#728297",
+          "#97a6ba",
+          "#c1cbd9",
+          "#ebeff4"
+        ],
+        "cssVar": "--color-line-control"
       },
       "dark": {
         "role": "neutral",
-        "displayName": "Graphite",
-        "canonical": "#1c1d21",
-        "oklch": "oklch(23.1% 0.008 274.6)",
+        "displayName": "Deep Navy",
+        "canonical": "#0b1f3b",
+        "oklch": "oklch(24.0% 0.060 257.3)",
         "tonalRamp": [
-          "#0b0b0c",
-          "#242527",
-          "#414245",
-          "#606166",
-          "#818287",
-          "#a4a5a9",
-          "#c8c9cc",
-          "#eeeeef"
+          "#030b19",
+          "#15273f",
+          "#2e4362",
+          "#4b6282",
+          "#6a82a4",
+          "#90a6c6",
+          "#bccce2",
+          "#e9eff7"
         ],
-        "cssVar": "--dark"
+        "cssVar": "--color-dark"
       },
       "dark-raised": {
         "role": "neutral",
-        "displayName": "Raised Graphite",
-        "canonical": "#26282d",
-        "oklch": "oklch(27.7% 0.010 268.3)",
+        "displayName": "Raised Navy",
+        "canonical": "#13294b",
+        "oklch": "oklch(28.3% 0.069 258.9)",
         "tonalRamp": [
-          "#0b0b0c",
-          "#242528",
-          "#404246",
-          "#5f6167",
-          "#808288",
-          "#a3a5aa",
-          "#c8c9cc",
-          "#eeeeef"
+          "#030b1b",
+          "#132643",
+          "#2b4367",
+          "#486187",
+          "#6781aa",
+          "#8ea6cb",
+          "#bbcce6",
+          "#e9eff8"
         ],
-        "cssVar": "--dark-raised"
+        "cssVar": "--color-dark-raised"
       },
       "on-dark": {
         "role": "neutral",
-        "displayName": "Light on Graphite",
-        "canonical": "#f4f4f5",
-        "oklch": "oklch(96.7% 0.001 286.4)",
+        "displayName": "White on Navy",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
         "tonalRamp": [
           "#0b0b0b",
-          "#252525",
+          "#262626",
           "#424242",
-          "#616162",
-          "#828283",
-          "#a5a5a6",
-          "#c9c9c9",
+          "#606060",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
           "#eeeeee"
         ],
-        "cssVar": "--on-dark"
+        "cssVar": "--color-on-dark"
       },
       "on-dark-muted": {
         "role": "neutral",
-        "displayName": "Muted on Graphite",
-        "canonical": "#a9abb2",
-        "oklch": "oklch(74.2% 0.010 273.3)",
+        "displayName": "Muted on Navy",
+        "canonical": "#cbd5e1",
+        "oklch": "oklch(86.9% 0.020 252.9)",
         "tonalRamp": [
-          "#0b0b0c",
-          "#242528",
-          "#404246",
-          "#5f6167",
-          "#808288",
-          "#a3a5aa",
-          "#c8c9cd",
-          "#eeeef0"
+          "#080b10",
+          "#21272f",
+          "#3b434d",
+          "#59616c",
+          "#78818c",
+          "#9da6b0",
+          "#c5cbd2",
+          "#eceff1"
         ],
-        "cssVar": "--on-dark-muted"
+        "cssVar": "--color-on-dark-muted"
       },
       "on-dark-line": {
         "role": "neutral",
-        "displayName": "Graphite Rule",
-        "canonical": "#34363c",
-        "oklch": "oklch(33.3% 0.011 271.1)",
+        "displayName": "Navy Rule",
+        "canonical": "#1e3355",
+        "oklch": "oklch(32.2% 0.067 259.6)",
         "tonalRamp": [
-          "#0b0b0c",
-          "#242528",
-          "#404247",
-          "#5f6167",
-          "#808289",
-          "#a3a5ab",
-          "#c8c9cd",
-          "#eeeef0"
+          "#030b1b",
+          "#152642",
+          "#2d4266",
+          "#4a6186",
+          "#6981a8",
+          "#8fa6ca",
+          "#bccce5",
+          "#e9eff8"
         ],
-        "cssVar": "--on-dark-line"
+        "cssVar": "--color-on-dark-line"
+      },
+      "on-dark-line-control": {
+        "role": "neutral",
+        "displayName": "Control Line on Navy",
+        "canonical": "#657690",
+        "oklch": "oklch(56.2% 0.045 258.8)",
+        "tonalRamp": [
+          "#050b16",
+          "#1b273a",
+          "#34435b",
+          "#51617a",
+          "#70819c",
+          "#96a6be",
+          "#c0cbdc",
+          "#ebeff5"
+        ],
+        "cssVar": "--color-on-dark-line-control"
       },
       "status-error": {
         "role": "status",
@@ -266,117 +316,95 @@
         "canonical": "#b42318",
         "oklch": "oklch(50.0% 0.182 29.5)",
         "tonalRamp": [
-          "#160604",
-          "#490a05",
-          "#7d1009",
-          "#af251a",
-          "#d74e3e",
-          "#f17f6f",
-          "#ffb2a5",
-          "#ffe7e2"
+          "#1f0000",
+          "#4f0100",
+          "#810300",
+          "#b01e14",
+          "#d74839",
+          "#f97866",
+          "#ffb5a9",
+          "#fee9e5"
         ],
-        "cssVar": null,
-        "note": "Hard-coded in ContactForm.astro; validation only, not a brand colour."
-      },
-      "accent-tint": {
-        "role": "primary",
-        "displayName": "Terracotta Wash",
-        "canonical": "rgb(180 83 42 / 0.1)",
-        "flattenedOnWhite": "#f8eeea",
-        "tonalRamp": [
-          "#140804",
-          "#401605",
-          "#6f2907",
-          "#9d4118",
-          "#c3643d",
-          "#de8e6e",
-          "#f2bba5",
-          "#fdeae2"
-        ],
-        "cssVar": "--accent-tint"
+        "cssVar": "--color-danger"
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Page-hero H1 only; ~17em max width, 3–4 lines on desktop."
+        "purpose": "Manrope. Page-hero H1 only; ~17em max width, 3–4 lines on desktop."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Section H2s; balanced, often two lines; never preceded by a kicker."
+        "purpose": "Manrope. Section H2s; balanced, often two lines; never preceded by a kicker."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Card and plan H3s; step titles at 1.125rem in the same weight."
+        "purpose": "Manrope. Card and plan H3s; step titles at 1.125rem in the same weight."
       },
       "lead": {
         "displayName": "Lead",
-        "purpose": "Paragraph under a heading, Quiet Graphite, max 38em."
+        "purpose": "Inter. Paragraph under a heading, Slate, max 38em."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Running text; pretty wrapping."
+        "purpose": "Inter. Running text; pretty wrapping."
       },
       "body-sm": {
         "displayName": "Body small",
-        "purpose": "Notes, hints, plan inclusions, step descriptions."
+        "purpose": "Inter. Notes, hints, plan inclusions, step descriptions."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Form labels, comparison column labels, table headers; nav links at 500."
+        "purpose": "Inter. Form labels, comparison column labels, table headers; nav links at 500."
       },
       "button": {
         "displayName": "Button",
-        "purpose": "All button labels; 0.9375rem in the small variant."
+        "purpose": "Inter. All button labels; 0.9375rem in the small variant."
       },
       "caption": {
         "displayName": "Caption",
-        "purpose": "Demo captions (400), process flows (500), badges and footer terms (600)."
-      },
-      "wordmark": {
-        "displayName": "Wordmark",
-        "purpose": "Text fallback for the ARCAV logo until the official file is placed in src/assets/brand/."
+        "purpose": "Inter. Demo captions (400), process flows (500), badges and footer terms (600)."
       },
       "subhead": {
         "displayName": "Subhead",
-        "purpose": "Case titles and the About statement (600–650, fluid 1.25rem→1.5rem)."
+        "purpose": "Manrope. Case titles and the About statement (600–650, fluid 1.25rem→1.5rem)."
       },
       "title-sm": {
         "displayName": "Title small",
-        "purpose": "Step titles, the pricing suggestion line and the Problem quote (1.125rem)."
+        "purpose": "Manrope. Step titles, the pricing suggestion line and the Problem quote (1.125rem)."
       },
       "meta": {
         "displayName": "Meta",
-        "purpose": "Form hints and errors, case metadata, About fact terms, the phone's cart count and summary (0.875rem)."
+        "purpose": "Inter. Form hints and errors, case metadata, About fact terms, the phone's cart count and summary (0.875rem)."
       }
     },
     "shadows": [
       {
         "name": "raised",
         "cssVar": "--shadow-raised",
-        "value": "0 1px 2px rgb(28 29 33 / 0.06), 0 14px 32px -14px rgb(28 29 33 / 0.22)",
+        "value": "0 1px 2px rgb(11 31 59 / 0.06), 0 14px 32px -14px rgb(11 31 59 / 0.22)",
         "purpose": "Contact-form card, inbox illustration, suggested plan: panels holding an interaction or a result."
       },
       {
         "name": "phone",
         "cssVar": "--shadow-phone",
-        "value": "0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45)",
+        "value": "0 2px 6px rgb(11 31 59 / 0.1), 0 40px 70px -30px rgb(11 31 59 / 0.45)",
         "purpose": "Hero phone demo only."
       },
       {
         "name": "menu-drop",
-        "value": "0 18px 30px -24px rgb(28 29 33 / 0.35)",
+        "value": "0 18px 30px -24px rgb(11 31 59 / 0.35)",
         "purpose": "Mobile nav dropdown panel under the header (literal in Header.astro)."
       },
       {
         "name": "focus-outline",
-        "value": "outline: 2px solid #b4532a; outline-offset: 3px",
-        "purpose": "Global :focus-visible ring."
+        "value": "outline: 2px solid var(--color-focus); outline-offset: 3px",
+        "purpose": "Global :focus-visible ring. The focus colour is the action blue (#2a5598) on light grounds and amber (#f59e0b) on navy."
       },
       {
         "name": "input-focus-halo",
-        "value": "0 0 0 3px rgb(180 83 42 / 0.1)",
-        "purpose": "Input and textarea focus, paired with a terracotta border."
+        "value": "0 0 0 3px rgb(42 85 152 / 0.1)",
+        "purpose": "Input and textarea focus, paired with a blue border."
       }
     ],
     "motion": [
@@ -419,9 +447,14 @@
     ],
     "breakpoints": [
       {
+        "name": "logo",
+        "value": "420px",
+        "purpose": "Header shows the full logo from here; the symbol alone below (validated at 320, 360, 390 and 430px)."
+      },
+      {
         "name": "xs-max",
         "value": "479px",
-        "purpose": "Full-width CTAs, hero actions share the row, header byline hidden."
+        "purpose": "Full-width CTAs, hero actions share the row."
       },
       {
         "name": "compare-2col",
@@ -429,7 +462,8 @@
       },
       {
         "name": "facts-2col",
-        "value": "640px"
+        "value": "640px",
+        "purpose": "Header byline \"por Armando Castro\" shows from here."
       },
       {
         "name": "steps-2col",
@@ -462,10 +496,10 @@
       }
     ],
     "brandAssets": {
-      "logoSlot": "src/assets/brand/arcav-logo.(svg|png|webp) replaces the text wordmark automatically; no inverse variant slot for graphite grounds.",
-      "portraitSlot": "src/assets/brand/armando.(jpg|jpeg|png|webp) feeds the 4:5 About portrait and the 44px hero avatar; without it About is text-only and the avatar shows \"AC\".",
-      "favicon": "public/favicon.svg, provisional monogram (graphite square, light A, terracotta crossbar) until the official symbol arrives.",
-      "font": "public/fonts/schibsted-grotesk-latin(-ext).woff2, self-hosted, SIL OFL, weights 400–900."
+      "logo": "src/components/ui/Logo.astro: the Brand Kit V3 drawing inline (bar and letters in currentColor, triangle in --color-highlight); 34px tall, 161px wide, symbol alone below 420px; accessible name \"ARCAV\". Reference SVGs in docs/brand/v3/logos-svg/.",
+      "portraitSlot": "src/data/photos.ts lists the real photos stored in src/assets/fotos/ (retrato-trabalho, retrato); without them About is text-only and the avatar shows \"AC\".",
+      "favicon": "public/favicon.svg (kit symbol in white and amber on a deep-navy rounded square), favicon.ico (16, 32, 48) and a full-bleed 180px apple-touch-icon.png.",
+      "font": "public/fonts/inter-latin(-ext).woff2 and manrope-latin(-ext).woff2, self-hosted variable fonts, SIL OFL; both latin subsets are preloaded."
     },
     "theme": "light-only"
   },
@@ -474,163 +508,180 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The one main action in a region: terracotta fill, white label, optional trailing arrow.",
+      "description": "The one main action in a region: sober blue fill, white label, optional trailing arrow.",
       "html": "<a class=\"ds-btn-primary\" href=\"#\">Falar com a ARCAV <svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
-      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3rem;padding:0 1.25rem;border:1px solid transparent;border-radius:var(--radius-control,10px);font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);font-size:1rem;font-weight:600;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .18s ease,border-color .18s ease,color .18s ease,transform .18s cubic-bezier(0.16,1,0.3,1);background:var(--accent,#b4532a);color:#fff;}.ds-btn-primary .ds-ico{width:1.125rem;height:1.125rem;flex:none;}.ds-btn-primary:hover{background:var(--accent-strong,#9a4521);}.ds-btn-primary:active{transform:translateY(1px);}.ds-btn-primary:focus-visible{outline:2px solid var(--accent,#b4532a);outline-offset:3px;}"
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3rem;padding:0 1.25rem;border:1px solid transparent;border-radius:var(--radius-control,10px);font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);font-size:1rem;font-weight:600;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .18s ease,border-color .18s ease,color .18s ease,transform .18s cubic-bezier(0.16,1,0.3,1);background:var(--accent,#2a5598);color:#fff;}.ds-btn-primary .ds-ico{width:1.125rem;height:1.125rem;flex:none;}.ds-btn-primary:hover{background:var(--accent-strong,#1f4380);}.ds-btn-primary:active{transform:translateY(1px);}.ds-btn-primary:focus-visible{outline:2px solid var(--accent,#2a5598);outline-offset:3px;}"
     },
     {
       "name": "Ghost Button",
       "kind": "button",
       "refersTo": "button-ghost",
-      "description": "Secondary action beside a primary: white face, firm hairline border, border goes ink on hover.",
+      "description": "Secondary action beside a primary: white face, control-line border (3:1), border goes ink on hover.",
       "html": "<a class=\"ds-btn-ghost\" href=\"#\">Ver serviços</a>",
-      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3rem;padding:0 1.25rem;border:1px solid transparent;border-radius:var(--radius-control,10px);font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);font-size:1rem;font-weight:600;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .18s ease,border-color .18s ease,color .18s ease,transform .18s cubic-bezier(0.16,1,0.3,1);background:var(--bg,#fff);border-color:var(--line-strong,#d4d4d8);color:var(--ink,#1c1d21);}.ds-btn-ghost:hover{border-color:var(--ink,#1c1d21);}.ds-btn-ghost:active{transform:translateY(1px);}.ds-btn-ghost:focus-visible{outline:2px solid var(--accent,#b4532a);outline-offset:3px;}"
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;min-height:3rem;padding:0 1.25rem;border:1px solid transparent;border-radius:var(--radius-control,10px);font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);font-size:1rem;font-weight:600;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .18s ease,border-color .18s ease,color .18s ease,transform .18s cubic-bezier(0.16,1,0.3,1);background:var(--bg,#fff);border-color:var(--line-control,#7c8ca2);color:var(--ink,#0b1f3b);}.ds-btn-ghost:hover{border-color:var(--ink,#0b1f3b);}.ds-btn-ghost:active{transform:translateY(1px);}.ds-btn-ghost:focus-visible{outline:2px solid var(--accent,#2a5598);outline-offset:3px;}"
     },
     {
       "name": "Text Link with Arrow",
       "kind": "custom",
       "refersTo": "link-arrow",
-      "description": "Inline navigation in deep terracotta; underlines and nudges its arrow on hover.",
+      "description": "Inline navigation in deep blue (amber on navy); underlines and nudges its arrow on hover.",
       "html": "<a class=\"ds-link-arrow\" href=\"#\">Tem um comércio? Conheça as soluções<svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
-      "css": ".ds-link-arrow{font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);font-size:0.9375rem;font-weight:600;color:var(--accent-strong,#9a4521);text-decoration:none;text-underline-offset:0.22em;text-decoration-thickness:1px;}.ds-link-arrow .ds-ico{display:inline-block;width:1.05rem;height:1.05rem;margin-left:0.3rem;vertical-align:-0.2em;transition:transform .2s cubic-bezier(0.16,1,0.3,1);}.ds-link-arrow:hover{text-decoration-line:underline;}.ds-link-arrow:hover .ds-ico{transform:translateX(3px);}.ds-link-arrow:focus-visible{outline:2px solid var(--accent,#b4532a);outline-offset:3px;border-radius:4px;}"
+      "css": ".ds-link-arrow{font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);font-size:0.9375rem;font-weight:600;color:var(--accent-strong,#1f4380);text-decoration:none;text-underline-offset:0.22em;text-decoration-thickness:1px;}.ds-link-arrow .ds-ico{display:inline-block;width:1.05rem;height:1.05rem;margin-left:0.3rem;vertical-align:-0.2em;transition:transform .2s cubic-bezier(0.16,1,0.3,1);}.ds-link-arrow:hover{text-decoration-line:underline;}.ds-link-arrow:hover .ds-ico{transform:translateX(3px);}.ds-link-arrow:focus-visible{outline:2px solid var(--accent,#2a5598);outline-offset:3px;border-radius:4px;}"
     },
     {
       "name": "Text Field",
       "kind": "input",
       "refersTo": "input",
-      "description": "Labelled field with hint; terracotta border and wash halo on focus, validation red on error.",
+      "description": "Labelled field with hint: control-line border, ink on hover, blue border and wash halo on focus, validation red on error.",
       "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-f1\">E-mail ou WhatsApp para a resposta</label><input class=\"ds-input\" id=\"ds-f1\" type=\"text\" placeholder=\"\" /><p class=\"ds-hint\">Respondo por onde for mais prático para você.</p></div>",
-      "css": ".ds-field{display:grid;gap:0.4rem;font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#1c1d21);max-width:28rem;}.ds-label{font-size:0.9375rem;font-weight:600;}.ds-input{width:100%;min-height:3rem;padding:0.75rem 0.875rem;border:1px solid var(--line-strong,#d4d4d8);border-radius:var(--radius-control,10px);background:var(--bg,#fff);font:inherit;font-size:1rem;line-height:1.5;color:inherit;caret-color:var(--accent,#b4532a);transition:border-color .15s ease,box-shadow .15s ease;}.ds-input:hover{border-color:#a1a1aa;}.ds-input:focus-visible{outline:none;border-color:var(--accent,#b4532a);box-shadow:0 0 0 3px var(--accent-tint,rgb(180 83 42 / 0.1));}.ds-input[aria-invalid='true']{border-color:#b42318;}.ds-hint{margin:0;font-size:0.875rem;color:var(--muted,#5b5d63);}"
+      "css": ".ds-field{display:grid;gap:0.4rem;font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#0b1f3b);max-width:28rem;}.ds-label{font-size:0.9375rem;font-weight:600;}.ds-input{width:100%;min-height:3rem;padding:0.75rem 0.875rem;border:1px solid var(--line-control,#7c8ca2);border-radius:var(--radius-control,10px);background:var(--bg,#fff);font:inherit;font-size:1rem;line-height:1.5;color:inherit;caret-color:var(--accent,#2a5598);transition:border-color .15s ease,box-shadow .15s ease;}.ds-input:hover{border-color:var(--ink,#0b1f3b);}.ds-input:focus-visible{outline:none;border-color:var(--accent,#2a5598);box-shadow:0 0 0 3px var(--accent-tint,rgb(42 85 152 / 0.1));}.ds-input[aria-invalid='true']{border-color:#b42318;}.ds-hint{margin:0;font-size:0.875rem;color:var(--muted,#334155);}"
     },
     {
       "name": "Header Navigation",
       "kind": "nav",
       "refersTo": "nav-link",
-      "description": "Sticky white header: wordmark with byline, muted nav links with zinc hover pill, small primary CTA.",
-      "html": "<header class=\"ds-header\"><a class=\"ds-brand\" href=\"#\"><span class=\"ds-word\">ARCAV</span><span class=\"ds-by\">por Armando Castro</span></a><nav class=\"ds-nav\"><a href=\"#\">Serviços</a><a href=\"#\">Comércios</a><a href=\"#\">Trabalho</a><a href=\"#\">Método</a><a href=\"#\">Sobre</a></nav><a class=\"ds-cta\" href=\"#\">Fale comigo</a></header>",
-      "css": ".ds-header{display:flex;align-items:center;gap:1.5rem;min-height:4.25rem;padding:0 1.5rem;background:var(--bg,#fff);border-bottom:1px solid var(--line,#e4e4e7);font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);}.ds-brand{display:inline-flex;align-items:baseline;gap:0.625rem;white-space:nowrap;color:var(--ink,#1c1d21);text-decoration:none;}.ds-word{font-size:1.375rem;font-weight:800;letter-spacing:0.04em;line-height:1;}.ds-by{font-size:0.875rem;font-weight:500;color:var(--muted,#5b5d63);}.ds-nav{display:flex;gap:0.25rem;margin-left:auto;}.ds-nav a{display:block;padding:0.5rem 0.75rem;border-radius:8px;font-size:0.9375rem;font-weight:500;color:var(--muted,#5b5d63);text-decoration:none;transition:color .15s ease,background-color .15s ease;}.ds-nav a:hover{color:var(--ink,#1c1d21);background:var(--surface,#f4f4f5);}.ds-nav a:focus-visible{outline:2px solid var(--accent,#b4532a);outline-offset:3px;}.ds-cta{display:inline-flex;align-items:center;min-height:2.5rem;padding:0 1rem;border-radius:var(--radius-control,10px);background:var(--accent,#b4532a);color:#fff;font-size:0.9375rem;font-weight:600;text-decoration:none;transition:background-color .18s ease;}.ds-cta:hover{background:var(--accent-strong,#9a4521);}.ds-cta:focus-visible{outline:2px solid var(--accent,#b4532a);outline-offset:3px;}"
+      "description": "Sticky white header: the logo (symbol alone below 420px) with its byline from 640px, muted nav links with a sand hover pill, small primary CTA.",
+      "html": "<header class=\"ds-header\"><a class=\"ds-brand\" href=\"#\"><svg class=\"ds-logo\" viewBox=\"0 0 970 205\" role=\"img\" aria-label=\"ARCAV\"><polygon points=\"104,8 182,8 79,196 0,196\"/><polygon class=\"ds-logo-mark\" points=\"211,59 280,177 142,177\"/><path d=\"M9 0H341L449 325H1006L1110 0H1451L928 1490H532ZM532 571 583 725C631 877 677 1029 731 1214C784 1029 830 877 876 725L926 571Z\" transform=\"translate(335 159) scale(0.0845 -0.0845)\"/><path d=\"M111 0H419V521H689C690 521 691 521 692 521L956 0H1286L987 579C1154 656 1253 804 1253 1001C1253 1301 1043 1490 707 1490H111ZM419 768V1234H688C851 1234 952 1143 952 1001C952 859 851 768 689 768Z\" transform=\"translate(460.4545 159) scale(0.0845 -0.0845)\"/><path d=\"M771 -24C1120 -24 1380 191 1427 523H1117C1079 348 951 248 775 248C521 248 373 441 373 744C373 1049 522 1242 775 1242C952 1242 1081 1141 1116 965H1427C1380 1298 1120 1514 771 1514C361 1514 63 1220 63 744C63 271 362 -24 771 -24Z\" transform=\"translate(575.0085 159) scale(0.0845 -0.0845)\"/><path d=\"M9 0H341L449 325H1006L1110 0H1451L928 1490H532ZM532 571 583 725C631 877 677 1029 731 1214C784 1029 830 877 876 725L926 571Z\" transform=\"translate(702.66 159) scale(0.0845 -0.0845)\"/><path d=\"M532 0H924L1436 1490H1105L872 765C829 623 783 463 731 280C677 463 630 623 585 765L344 1490H9Z\" transform=\"translate(828.1145 159) scale(0.0845 -0.0845)\"/></svg><span class=\"ds-by\">por Armando Castro</span></a><nav class=\"ds-nav\"><a href=\"#\">Serviços</a><a href=\"#\">Comércios</a><a href=\"#\">Trabalho</a><a href=\"#\">Método</a><a href=\"#\">Sobre</a></nav><a class=\"ds-cta\" href=\"#\">Fale comigo</a></header>",
+      "css": ".ds-header{display:flex;align-items:center;gap:1.5rem;min-height:4.25rem;padding:0 1.5rem;background:var(--bg,#fff);border-bottom:1px solid var(--line,#e2e8f0);font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);}.ds-brand{display:inline-flex;align-items:center;gap:0.75rem;white-space:nowrap;color:var(--ink,#0b1f3b);text-decoration:none;}.ds-logo{display:block;height:2.125rem;width:auto;aspect-ratio:970/205;fill:currentColor;flex:none;}.ds-logo-mark{fill:var(--highlight,#f59e0b);}.ds-by{padding-top:0.5rem;font-size:0.875rem;font-weight:400;color:var(--muted,#334155);}.ds-nav{display:flex;gap:0.25rem;margin-left:auto;}.ds-nav a{display:block;padding:0.5rem 0.75rem;border-radius:8px;font-size:0.9375rem;font-weight:500;color:var(--muted,#334155);text-decoration:none;transition:color .15s ease,background-color .15s ease;}.ds-nav a:hover{color:var(--ink,#0b1f3b);background:var(--surface,#f5f3ee);}.ds-nav a:focus-visible{outline:2px solid var(--accent,#2a5598);outline-offset:3px;}.ds-cta{display:inline-flex;align-items:center;min-height:2.5rem;padding:0 1rem;border-radius:var(--radius-control,10px);background:var(--accent,#2a5598);color:#fff;font-size:0.9375rem;font-weight:600;text-decoration:none;transition:background-color .18s ease;}.ds-cta:hover{background:var(--accent-strong,#1f4380);}.ds-cta:focus-visible{outline:2px solid var(--accent,#2a5598);outline-offset:3px;}"
     },
     {
       "name": "Service Card",
       "kind": "card",
       "refersTo": "card",
-      "description": "Flat white card with hairline border: icon well, title, muted text, and a process flow under a divider.",
+      "description": "Flat white card with hairline border: sand icon well, Manrope title, muted text, and a process flow under a divider.",
       "html": "<article class=\"ds-card\"><span class=\"ds-badge-ico\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18M7.5 13h9M7.5 16.5h5\"/></svg></span><h3 class=\"ds-card-title\">Landing pages conectadas</h3><p class=\"ds-card-text\">Design e desenvolvimento de landing pages integradas a formulários, CRM e automações.</p><ol class=\"ds-flow\"><li>Visita</li><li>Formulário</li><li>Lead</li><li>Automação</li></ol></article>",
-      "css": ".ds-card{display:flex;flex-direction:column;gap:0.875rem;max-width:24rem;padding:clamp(1.5rem,1.2rem + 1vw,2rem);background:var(--bg,#fff);border:1px solid var(--line,#e4e4e7);border-radius:var(--radius-card,14px);font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#1c1d21);}.ds-badge-ico{display:grid;place-items:center;width:2.75rem;height:2.75rem;margin-bottom:0.5rem;border-radius:var(--radius-control,10px);background:var(--surface,#f4f4f5);color:var(--ink,#1c1d21);}.ds-badge-ico .ds-ico{width:1.375rem;height:1.375rem;}.ds-card-title{margin:0;font-size:1.25rem;font-weight:650;line-height:1.3;letter-spacing:-0.012em;}.ds-card-text{margin:0;font-size:1.0625rem;line-height:1.6;color:var(--muted,#5b5d63);}.ds-flow{display:flex;flex-wrap:wrap;align-items:center;gap:0.375rem 0.25rem;margin:0;padding:1.125rem 0 0;list-style:none;border-top:1px solid var(--line,#e4e4e7);font-size:0.8125rem;font-weight:500;color:var(--muted,#5b5d63);}.ds-flow li{display:inline-flex;align-items:center;gap:0.25rem;}.ds-flow li+li::before{content:'\\2192';opacity:0.6;}"
+      "css": ".ds-card{display:flex;flex-direction:column;gap:0.875rem;max-width:24rem;padding:clamp(1.5rem,1.2rem + 1vw,2rem);background:var(--bg,#fff);border:1px solid var(--line,#e2e8f0);border-radius:var(--radius-card,14px);font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#0b1f3b);}.ds-badge-ico{display:grid;place-items:center;width:2.75rem;height:2.75rem;margin-bottom:0.5rem;border-radius:var(--radius-control,10px);background:var(--surface,#f5f3ee);color:var(--ink,#0b1f3b);}.ds-badge-ico .ds-ico{width:1.375rem;height:1.375rem;}.ds-card-title{font-family:var(--font-heading, 'Manrope', 'Inter', ui-sans-serif, system-ui, sans-serif);margin:0;font-size:1.25rem;font-weight:650;line-height:1.3;letter-spacing:-0.012em;}.ds-card-text{margin:0;font-size:1.0625rem;line-height:1.6;color:var(--muted,#334155);}.ds-flow{display:flex;flex-wrap:wrap;align-items:center;gap:0.375rem 0.25rem;margin:0;padding:1.125rem 0 0;list-style:none;border-top:1px solid var(--line,#e2e8f0);font-size:0.8125rem;font-weight:500;color:var(--muted,#334155);}.ds-flow li{display:inline-flex;align-items:center;gap:0.25rem;}.ds-flow li+li::before{content:'\\2192';opacity:0.6;}"
     },
     {
       "name": "Suggested Plan Badge",
       "kind": "chip",
       "refersTo": "plan-badge",
-      "description": "Pill with a 10% terracotta wash and deep terracotta text; marks the recommended starting plan.",
+      "description": "Pill with a 10% blue wash and deep blue text; marks the recommended starting plan.",
       "html": "<span class=\"ds-plan-badge\">Sugestão de início</span>",
-      "css": ".ds-plan-badge{display:inline-block;padding:0.25rem 0.625rem;border-radius:999px;background:var(--accent-tint,rgb(180 83 42 / 0.1));color:var(--accent-strong,#9a4521);font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);font-size:0.8125rem;font-weight:600;line-height:1.4;}"
+      "css": ".ds-plan-badge{display:inline-block;padding:0.25rem 0.625rem;border-radius:999px;background:var(--accent-tint,rgb(42 85 152 / 0.1));color:var(--accent-strong,#1f4380);font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);font-size:0.8125rem;font-weight:600;line-height:1.4;}"
     },
     {
       "name": "Ruled Steps",
       "kind": "custom",
       "description": "Ordered sequence as a ruled list: ink top rule, hairline under each item, inline 01–0n tabular numerals. Never cards.",
       "html": "<ol class=\"ds-steps\"><li><strong>Entender</strong><p>A necessidade real do negócio.</p></li><li><strong>Mapear</strong><p>Usuários, fluxos, dados e pontos críticos.</p></li><li><strong>Simplificar</strong><p>Escopo claro e um objetivo principal.</p></li></ol>",
-      "css": ".ds-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(1.5rem,1rem + 2vw,3rem);margin:0;padding:0;list-style:none;counter-reset:ds-step;border-top:1px solid var(--ink,#1c1d21);font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#1c1d21);}.ds-steps>li{counter-increment:ds-step;display:grid;grid-template-columns:2.25rem minmax(0,1fr);align-content:start;column-gap:0.5rem;row-gap:0.25rem;padding:1.125rem 0 1.25rem;border-bottom:1px solid var(--line-strong,#d4d4d8);}.ds-steps>li::before{content:counter(ds-step,decimal-leading-zero);grid-row:span 2;padding-top:0.125rem;font-size:0.9375rem;font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted,#5b5d63);}.ds-steps strong{font-size:1.125rem;font-weight:650;letter-spacing:-0.01em;}.ds-steps p{margin:0;font-size:0.9375rem;line-height:1.6;color:var(--muted,#5b5d63);}"
+      "css": ".ds-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(1.5rem,1rem + 2vw,3rem);margin:0;padding:0;list-style:none;counter-reset:ds-step;border-top:1px solid var(--ink,#0b1f3b);font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#0b1f3b);}.ds-steps>li{counter-increment:ds-step;display:grid;grid-template-columns:2.25rem minmax(0,1fr);align-content:start;column-gap:0.5rem;row-gap:0.25rem;padding:1.125rem 0 1.25rem;border-bottom:1px solid var(--line-strong,#cbd5e1);}.ds-steps>li::before{content:counter(ds-step,decimal-leading-zero);grid-row:span 2;padding-top:0.125rem;font-size:0.9375rem;font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted,#334155);}.ds-steps strong{font-size:1.125rem;font-weight:650;letter-spacing:-0.01em;}.ds-steps p{margin:0;font-size:0.9375rem;line-height:1.6;color:var(--muted,#334155);}"
     },
     {
       "name": "Phone Demo Store Row",
       "kind": "custom",
       "refersTo": "phone-frame",
-      "description": "Signature working demo: graphite phone with product rows, pill steppers, and the full-width \"Revisar pedido\" action.",
+      "description": "Signature working demo: deep-navy phone with product rows, pill steppers with a control-line outline, and the full-width \"Revisar pedido\" action.",
       "html": "<div class=\"ds-phone\"><div class=\"ds-screen\"><div class=\"ds-appbar\"><div><strong>Sua loja</strong><span>Escolha os produtos e as quantidades</span></div><span class=\"ds-cart\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 4h2.2l2.1 10.1a1.2 1.2 0 0 0 1.2 1h8.8a1.2 1.2 0 0 0 1.1-.8L20.5 8H6.2\"/><circle cx=\"9.5\" cy=\"19.5\" r=\"1.3\"/><circle cx=\"17\" cy=\"19.5\" r=\"1.3\"/></svg><b>3</b></span></div><div class=\"ds-row\"><span><strong>Café 500 g</strong><small>Pacote</small></span><span class=\"ds-stepper\"><button type=\"button\" aria-label=\"Tirar um\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/></svg></button><b>2</b><button type=\"button\" aria-label=\"Adicionar um\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></button></span></div><div class=\"ds-row\"><span><strong>Leite 1 L</strong><small>Integral</small></span><span class=\"ds-stepper\"><button type=\"button\" aria-label=\"Tirar um\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/></svg></button><b>1</b><button type=\"button\" aria-label=\"Adicionar um\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></button></span></div><p class=\"ds-sum\">3 itens no pedido</p><button type=\"button\" class=\"ds-review\">Revisar pedido <svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button></div></div>",
-      "css": ".ds-phone{width:19.75rem;max-width:100%;padding:0.625rem;border-radius:2.75rem;background:var(--dark,#1c1d21);box-shadow:var(--shadow-phone,0 2px 6px rgb(28 29 33 / 0.1),0 40px 70px -30px rgb(28 29 33 / 0.45));font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#1c1d21);}.ds-screen{display:flex;flex-direction:column;padding:2.75rem 1rem 1rem;border-radius:2.2rem;background:var(--bg,#fff);}.ds-appbar{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding-bottom:0.875rem;border-bottom:1px solid var(--line,#e4e4e7);}.ds-appbar strong{display:block;font-size:1.0625rem;font-weight:700;letter-spacing:-0.01em;line-height:1.3;}.ds-appbar span{display:block;font-size:0.8125rem;color:var(--muted,#5b5d63);line-height:1.35;}.ds-cart{display:inline-flex!important;align-items:center;gap:0.3rem;padding:0.375rem 0.625rem;border-radius:999px;background:var(--surface,#f4f4f5);font-size:0.875rem;font-weight:600;color:var(--ink,#1c1d21)!important;}.ds-cart .ds-ico{width:1.05rem;height:1.05rem;}.ds-row{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0.8rem 0;border-bottom:1px solid var(--line,#e4e4e7);}.ds-row>span:first-child{display:grid;line-height:1.3;}.ds-row strong{font-size:0.9375rem;font-weight:600;}.ds-row small{font-size:0.8125rem;color:var(--muted,#5b5d63);}.ds-stepper{display:inline-flex;align-items:center;gap:0.125rem;padding:0.1875rem;border:1px solid var(--line-strong,#d4d4d8);border-radius:999px;}.ds-stepper b{min-width:1.25rem;text-align:center;font-size:0.9375rem;font-weight:700;font-variant-numeric:tabular-nums;}.ds-stepper button{display:grid;place-items:center;width:1.875rem;height:1.875rem;padding:0;border:0;border-radius:999px;background:transparent;color:var(--ink,#1c1d21);cursor:pointer;transition:background-color .15s ease;}.ds-stepper button:hover{background:var(--surface,#f4f4f5);}.ds-stepper button:focus-visible{outline:2px solid var(--accent,#b4532a);outline-offset:3px;}.ds-stepper .ds-ico{width:1rem;height:1rem;}.ds-sum{margin:1.5rem 0 0.625rem;font-size:0.875rem;color:var(--muted,#5b5d63);}.ds-review{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;min-height:3rem;border:0;border-radius:var(--radius-control,10px);background:var(--accent,#b4532a);color:#fff;font:inherit;font-size:1rem;font-weight:600;cursor:pointer;transition:background-color .18s ease;}.ds-review:hover{background:var(--accent-strong,#9a4521);}.ds-review:focus-visible{outline:2px solid var(--accent,#b4532a);outline-offset:3px;}.ds-review .ds-ico{width:1.125rem;height:1.125rem;}"
+      "css": ".ds-phone{width:19.75rem;max-width:100%;padding:0.625rem;border-radius:2.75rem;background:var(--dark,#0b1f3b);box-shadow:var(--shadow-phone,0 2px 6px rgb(11 31 59 / 0.1),0 40px 70px -30px rgb(11 31 59 / 0.45));font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#0b1f3b);}.ds-screen{display:flex;flex-direction:column;padding:2.75rem 1rem 1rem;border-radius:2.2rem;background:var(--bg,#fff);}.ds-appbar{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding-bottom:0.875rem;border-bottom:1px solid var(--line,#e2e8f0);}.ds-appbar strong{display:block;font-size:1.0625rem;font-weight:700;letter-spacing:-0.01em;line-height:1.3;}.ds-appbar span{display:block;font-size:0.8125rem;color:var(--muted,#334155);line-height:1.35;}.ds-cart{display:inline-flex!important;align-items:center;gap:0.3rem;padding:0.375rem 0.625rem;border-radius:999px;background:var(--surface,#f5f3ee);font-size:0.875rem;font-weight:600;color:var(--ink,#0b1f3b)!important;}.ds-cart .ds-ico{width:1.05rem;height:1.05rem;}.ds-row{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0.8rem 0;border-bottom:1px solid var(--line,#e2e8f0);}.ds-row>span:first-child{display:grid;line-height:1.3;}.ds-row strong{font-size:0.9375rem;font-weight:600;}.ds-row small{font-size:0.8125rem;color:var(--muted,#334155);}.ds-stepper{display:inline-flex;align-items:center;gap:0.125rem;padding:0.1875rem;border:1px solid var(--line-control,#7c8ca2);border-radius:999px;}.ds-stepper b{min-width:1.25rem;text-align:center;font-size:0.9375rem;font-weight:700;font-variant-numeric:tabular-nums;}.ds-stepper button{display:grid;place-items:center;width:1.875rem;height:1.875rem;padding:0;border:0;border-radius:999px;background:transparent;color:var(--ink,#0b1f3b);cursor:pointer;transition:background-color .15s ease;}.ds-stepper button:hover{background:var(--surface,#f5f3ee);}.ds-stepper button:focus-visible{outline:2px solid var(--accent,#2a5598);outline-offset:3px;}.ds-stepper .ds-ico{width:1rem;height:1rem;}.ds-sum{margin:1.5rem 0 0.625rem;font-size:0.875rem;color:var(--muted,#334155);}.ds-review{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;min-height:3rem;border:0;border-radius:var(--radius-control,10px);background:var(--accent,#2a5598);color:#fff;font:inherit;font-size:1rem;font-weight:600;cursor:pointer;transition:background-color .18s ease;}.ds-review:hover{background:var(--accent-strong,#1f4380);}.ds-review:focus-visible{outline:2px solid var(--accent,#2a5598);outline-offset:3px;}.ds-review .ds-ico{width:1.125rem;height:1.125rem;}"
     },
     {
       "name": "Inbox Illustration",
       "kind": "custom",
       "refersTo": "bubble-in",
-      "description": "The shop's side of the order: raised white panel, zinc incoming bubble, graphite outgoing reply, terracotta check note.",
+      "description": "The shop's side of the order: raised white panel, sand incoming bubble, navy outgoing reply, blue check note.",
       "html": "<div class=\"ds-inbox\"><div class=\"ds-in\"><p>Olá! Quero fazer um pedido:</p><b>1 × Gás P13<br>1 × Água 20 L</b></div><div class=\"ds-out\">Recebido! Já vamos separar seu pedido.</div><p class=\"ds-note\"><svg class=\"ds-ico\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/></svg>O atendimento continua com você, no WhatsApp de sempre.</p></div>",
-      "css": ".ds-inbox{display:grid;gap:0.75rem;max-width:26rem;padding:clamp(1.25rem,1rem + 1vw,1.75rem);border-radius:var(--radius-card,14px);background:var(--bg,#fff);box-shadow:var(--shadow-raised,0 1px 2px rgb(28 29 33 / 0.06),0 14px 32px -14px rgb(28 29 33 / 0.22));font-family:var(--font, 'Schibsted Grotesk', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#1c1d21);line-height:1.5;}.ds-in{justify-self:start;max-width:85%;padding:0.875rem 1rem;border-radius:14px 14px 14px 4px;background:var(--surface,#f4f4f5);}.ds-in p{margin:0 0 0.25rem;}.ds-in b{font-weight:600;font-variant-numeric:tabular-nums;}.ds-out{justify-self:end;max-width:85%;padding:0.875rem 1rem;border-radius:14px 14px 4px 14px;background:var(--ink,#1c1d21);color:var(--on-dark,#f4f4f5);}.ds-note{display:flex;align-items:center;gap:0.5rem;margin:0.5rem 0 0;font-size:0.9375rem;font-weight:600;}.ds-note .ds-ico{width:1.125rem;height:1.125rem;flex:none;color:var(--accent,#b4532a);}"
+      "css": ".ds-inbox{display:grid;gap:0.75rem;max-width:26rem;padding:clamp(1.25rem,1rem + 1vw,1.75rem);border-radius:var(--radius-card,14px);background:var(--bg,#fff);box-shadow:var(--shadow-raised,0 1px 2px rgb(11 31 59 / 0.06),0 14px 32px -14px rgb(11 31 59 / 0.22));font-family:var(--font-sans, 'Inter', ui-sans-serif, system-ui, sans-serif);color:var(--ink,#0b1f3b);line-height:1.5;}.ds-in{justify-self:start;max-width:85%;padding:0.875rem 1rem;border-radius:14px 14px 14px 4px;background:var(--surface,#f5f3ee);}.ds-in p{margin:0 0 0.25rem;}.ds-in b{font-weight:600;font-variant-numeric:tabular-nums;}.ds-out{justify-self:end;max-width:85%;padding:0.875rem 1rem;border-radius:14px 14px 4px 14px;background:var(--ink,#0b1f3b);color:var(--on-dark,#ffffff);}.ds-note{display:flex;align-items:center;gap:0.5rem;margin:0.5rem 0 0;font-size:0.9375rem;font-weight:600;}.ds-note .ds-ico{width:1.125rem;height:1.125rem;flex:none;color:var(--accent,#2a5598);}"
     }
   ],
   "narrative": {
-    "northStar": "The Finished Standard",
-    "overview": "ARCAV deliberately looks like the category: a clear studio page with a headline on the left, a product demonstration on the right, service cards, a method, an about section and a contact form. The distinction is in the finish, not in a concept. The bar is the craft of RD Station and Conta Azul on one side, and Vercel and Framer on the other: exact type, honest spacing, quiet surfaces and one working demo in place of a stock device mockup. Nothing on the page is a costume. There is no order pad, no tile wall, no flyer and no transit map. The visual register is sober and professional, and personality comes from the typography, the ordering of content, real copy and Armando's presence.\n\nThe world is white paper, graphite ink and a single terracotta mark. Neutral zinc greys carry structure: alternating section grounds, hairlines and icon wells. Graphite is the only heavy fill and is used for emphasis blocks and the footer. Terracotta never fills a surface. It marks what to do (primary actions, text links, focus) and what has been confirmed or improved (check marks, diagnosis arrows, the suggested-plan badge). Density is moderate and mobile-first, because the primary reader is a Curitiba shop owner who opens the link from WhatsApp on a phone in daylight. That use case is why the system is light only.\n\nThe confirmed visual rejections are themed metaphors that dress up the site, the old dark-navy-and-coral tech look, gradients, glass effects, section kickers or eyebrows, and yellow, red, cobalt or green as brand colours.",
+    "northStar": "A obra em primeiro plano",
+    "overview": "**Creative North Star: \"A obra em primeiro plano\"** (the work up front; adopted 2026-11-21, replacing \"The Finished Standard\")\n\nARCAV presents itself as a studio that publishes its work, not as a services page. The main material is the real work (screenshots of external projects) and the person (Armando), set in an editorial composition: strong contrast of type scale, an asymmetric 12-column grid, images that take real space and few surfaces. It is a way of composing, not a theme: nothing on the page is a costume (no order pad, tile wall, flyer or transit map). The previous North Star (\"looks like the category, distinguished by finish\") produced a tidy page that could belong to any consultant; tokens, type and brand rules stay, the composition and the material change. Audit and reasoning: `docs/auditorias/AUDITORIA-VISUAL-HOME.md`.\n\nThe world is white paper and warm sand, deep-navy ink, a sober blue for what you can do and one small amber mark. Cool slate neutrals carry structure: hairlines, dividers and the borders that identify controls. Sand is the alternate section ground. Deep navy is the only heavy fill and is used for emphasis blocks, the closing sections, the footer and the phone body. The action blue never fills a surface: it marks what to do (primary actions, text links, focus on light grounds) and what has been confirmed on a light ground (check marks). Amber is the secondary accent: the triangle of the logo, marks and links on navy, focus on navy and the progress of the demo guide. Density is moderate and mobile-first, because the primary reader is a Curitiba shop owner who opens the link from WhatsApp on a phone in daylight. That use case is why the system is light only.\n\nThe identity comes from the ARCAV Brand Kit V3 (`docs/brand/v3/`, approved 2026-11-21), which replaced the graphite-and-terracotta palette and Schibsted Grotesk. The confirmed visual rejections are themed metaphors that dress up the site, neon and glows, gradients, glass effects, section kickers or eyebrows, invented metrics, and any colour outside the kit used as a brand colour (red and green included).",
     "keyCharacteristics": [
-      "White ground, graphite ink, and one terracotta accent that marks things and never fills them.",
-      "One self-hosted family (Schibsted Grotesk) for display and text, with weight carrying the hierarchy.",
+      "White and sand grounds, deep-navy ink, sober blue actions and one amber accent; neither accent fills a surface.",
+      "Two self-hosted families: Manrope for headings and editorial lines, Inter for text and interface.",
+      "The logo is a drawing (`Logo.astro`): a slanted bar, an amber triangle and the ARCAV letters in curves. Below 420px the header shows the symbol alone.",
       "Hairlines first. Soft shadows appear only on the phone demo and on panels that hold an interaction or a result.",
-      "Sequences are ruled lists with inline `01`–`0n` numerals, never cards.",
+      "Editorial scale: a display H1, feature H2s and a large manifesto quote against precise 13–15px data.",
+      "Sequences are ruled lists with `01`–`0n` numerals, never cards; numerals appear only where the order is the information.",
+      "One deep-navy band mid-page (the manifesto) and a deep-navy close (contact and footer).",
+      "Motion happens once: an entrance on load, a staggered list, a wiped quote; nothing loops or decorates.",
       "Authored line icons on a 24-unit grid with a 1.75 stroke.",
       "A working phone demo (an order assembled and composed into a WhatsApp message) is the signature object.",
       "Light theme only."
     ],
     "rules": [
       {
-        "name": "The Terracotta Marks, Never Fills Rule",
-        "body": "Terracotta appears as a filled button, a line, a glyph, a text link, a focus ring or a 10% tint badge. It never becomes the background of a section, band, panel or card. When a block needs emphasis, it goes graphite.",
-        "section": "colors"
+        "name": "The Blue Acts, Never Fills Rule",
+        "body": "The action blue appears as a filled button, a text link, a check mark on a light ground, a focus ring or a 10% tint. It never becomes the background of a section, band, panel or card. When a block needs emphasis, it goes navy."
       },
       {
-        "name": "The Graphite Is the Second Voice Rule",
-        "body": "The system has no second hue. Emphasis that isn't an action is carried by a Graphite fill (the commerce band, the \"after\" panel, closing sections and the footer), not by a new colour.",
-        "section": "colors"
+        "name": "The Navy Is the Second Voice Rule",
+        "body": "Emphasis that isn't an action is carried by a navy fill (the manifesto, closing sections and the footer), not by a new colour."
+      },
+      {
+        "name": "The Amber Stays Small Rule",
+        "body": "Amber is a mark, never a surface and never text on a light ground: the logo triangle, marks, links and focus on navy, and the demo's progress badges with a navy glyph. On white or sand a mark that must be read goes blue instead."
+      },
+      {
+        "name": "The Focus Follows the Ground Rule",
+        "body": "The focus outline uses `--color-focus`: Action Blue on light grounds, Amber inside `.section--dark` and the footer, where blue would fall to 2.24:1."
       },
       {
         "name": "The Status Is Not Brand Rule",
-        "body": "Yellow, red, cobalt and green are not ARCAV colours. Validation Red exists only to say \"this field needs attention\" and is never used for decoration or emphasis.",
-        "section": "colors"
+        "body": "Red and green are not ARCAV colours. Validation Red exists only to say \"this field needs attention\" and is never used for decoration or emphasis."
       },
       {
-        "name": "The One Family Rule",
-        "body": "Schibsted Grotesk is the only typeface. Hierarchy comes from size, weight and tracking, never from a second family or a system display face.",
-        "section": "typography"
+        "name": "The Two Families Rule",
+        "body": "Manrope sets headings and editorial lines (h1–h3, the manifesto quote, the services phrases, the method titles and numerals, the About statement); Inter sets everything else. There is no third family and no system display face."
       },
       {
         "name": "The Heading Stands Alone Rule",
-        "body": "No kicker, eyebrow or small label sits above a section heading. The H2 opens the section by itself, and an optional lead follows beneath it.",
-        "section": "typography"
+        "body": "No kicker, eyebrow or small label sits above a section heading. The H2 opens the section by itself, and an optional lead follows beneath it."
       },
       {
         "name": "The Sentence Case Rule",
-        "body": "Labels, buttons, nav and captions are in sentence case. Uppercase appears only in the ARCAV wordmark itself.",
-        "section": "typography"
+        "body": "Labels, buttons, nav and captions are in sentence case. Uppercase appears only in the ARCAV letters of the logo."
       },
       {
         "name": "The Ruled Sequence Rule",
-        "body": "Anything ordered (method, process, offer steps) is a ruled list. A 1px Graphite Ink rule opens it, each item sits on a Firm Hairline, and an inline `01`, `02`, … numeral in Quiet Graphite tabular figures leads each item. Sequences are never boxed into cards. The case list uses the same ink-topped, hairline-divided construction.",
-        "section": "layout"
+        "body": "Anything ordered (method, process, offer steps) is a ruled list. A 1px Deep Navy Ink rule opens it, each item sits on a Firm Hairline, and an inline `01`, `02`, … numeral in Slate tabular figures leads each item. Sequences are never boxed into cards. The case list uses the same ink-topped, hairline-divided construction."
       },
       {
         "name": "The Peek Rule",
-        "body": "The first section after a hero uses the reduced top padding so that the next content is visible on first load.",
-        "section": "layout"
+        "body": "The first section after a hero uses the reduced top padding so that the next content is visible on first load."
+      },
+      {
+        "name": "The Home Rhythm Rule",
+        "body": "The home alternates kinds of moment, not just grounds: hero (paper, air, display type and portrait), services index (paper, dense type), examples (sand, image), manifesto (navy, air, one big quote), method (paper, dense table with a sticky title from 960px), about (sand, portrait), contact (navy, form on top), footer (navy). Navy appears once mid-page, then closes the page."
+      },
+      {
+        "name": "The 12 Columns Rule",
+        "body": "Asymmetric splits come from a 12-column grid (8/4 hero, 4/8 method, 5/6 manifesto head, 9 for the quote) inside the 1200px container, so every left edge stays aligned with the header."
       },
       {
         "name": "The Earned Shadow Rule",
-        "body": "A surface gets a shadow only when it holds something the visitor does or receives, such as an order, a form, a composed reply or a recommended plan. Ordinary cards stay flat with a Hairline border.",
-        "section": "elevation"
+        "body": "A surface gets a shadow only when it holds something the visitor does or receives, such as an order, a form, a composed reply or a recommended plan, and, once the portfolio exists, project screenshots, because they are the product. Ordinary cards stay flat with a Hairline border."
       }
     ],
     "dos": [
-      "Do keep terracotta (#b4532a, hover #9a4521) to marks: filled primary buttons, arrowed text links in the darker shade, check marks, diagnosis arrows, the suggested-plan badge tint, focus and caret.",
-      "Do carry emphasis with a Graphite (#1c1d21) panel or section when a block must stand out without being an action.",
-      "Do alternate Paper White and Zinc Mist (#f4f4f5) section grounds, and separate surfaces with 1px Hairlines (#e4e4e7 / #d4d4d8).",
-      "Do set every word in Schibsted Grotesk, building hierarchy from weight (400 to 800) and negative tracking on headings.",
+      "Do keep the action blue (#2a5598, hover #1f4380) to actions and marks: filled primary buttons, arrowed text links in the darker shade, check marks on light grounds, focus and caret.",
+      "Do keep amber (#f59e0b) small: the logo triangle, marks, links and focus on navy, and the demo's progress badges with a navy glyph.",
+      "Do carry emphasis with a Deep Navy (#0b1f3b) panel or section when a block must stand out without being an action.",
+      "Do alternate Paper White and Sand (#f5f3ee) section grounds, separate surfaces with 1px Hairlines (#e2e8f0 / #cbd5e1), and give every control a Control Line border (#7c8ca2, 3:1 or more).",
+      "Do set headings and editorial lines in Manrope and everything else in Inter, building hierarchy from weight and negative tracking on headings.",
+      "Do use the logo component (`Logo.astro`) wherever the brand appears, at 34px tall, with its clear space; let it crop to the symbol only where the full logo doesn't fit.",
       "Do present ordered content as a ruled list with an ink top rule and `01`–`0n` tabular numerals.",
       "Do use the authored line icon set (24 grid, 1.75 stroke, round caps) at 16–24px in `currentColor`.",
       "Do caption every illustrative demo or mock as an example or illustration.",
-      "Do keep touch targets at 44px or more, keep focus visible (2px terracotta outline, 3px offset), meet WCAG AA contrast, and honour `prefers-reduced-motion` (the build collapses all transitions and animations).",
-      "Do use the house ease-out `cubic-bezier(0.16, 1, 0.3, 1)` for movement, with state colour changes at 0.15 to 0.2s."
+      "Do keep touch targets at 44px or more, keep focus visible (2px outline, 3px offset, blue on light and amber on navy), meet WCAG AA contrast, and honour `prefers-reduced-motion` (the build collapses all transitions and animations).",
+      "Do use the house ease-out `cubic-bezier(0.16, 1, 0.3, 1)` for movement, with state colour changes at 0.15 to 0.2s.",
+      "Do make motion happen once and differ by moment: the home opening enters on load with CSS only (text 500ms, 60ms apart; the portrait uncovers bottom-up in 700ms), services rows fade up as each one enters the screen, the manifesto quote wipes left to right. All of it is CSS: the opening is a load animation and the rows and quote use scroll-driven animations (`animation-timeline: view()`); content is visible without JavaScript, without scroll-timeline support and with reduced motion (`styles/primitives/motion.css`).",
+      "Do number only real sequences (the method). The services index has no numerals: the services are not an order."
     ],
     "donts": [
-      "Don't fill a section, band, card or panel with terracotta.",
-      "Don't introduce yellow, red, cobalt or green as brand colours. Validation Red (#b42318) is for form errors only.",
+      "Don't fill a section, band, card or panel with blue or amber.",
+      "Don't set amber text on white or sand (2.15:1), or blue text, marks or focus on navy (2.24:1).",
+      "Don't introduce colours outside the kit as brand colours. Validation Red (#b42318) is for form errors only.",
       "Don't put kickers or eyebrows above section headings.",
       "Don't box steps or sequences into cards.",
-      "Don't use gradients, glass or backdrop blur, or hard offset shadows. Don't add shadows to ordinary cards.",
-      "Don't dress the site in a themed metaphor (order pad, tiles, offer flyer, transit map), and don't return to the dark-navy-and-coral tech look.",
+      "Don't use gradients, glass, glows, neon or backdrop blur, or hard offset shadows. Don't add shadows to ordinary cards.",
+      "Don't dress the site in a themed metaphor (order pad, tiles, offer flyer, transit map).",
       "Don't add a dark theme. The system is light only (`color-scheme: light`).",
-      "Don't add a second typeface or fall back to a system display face for headings.",
+      "Don't add a third typeface or fall back to a system display face for headings.",
+      "Don't redraw, stretch, recolour or retype the logo, or set it over a photo without a solid ground.",
       "Don't replace the phone demo with a stock device mockup or a screenshot.",
-      "Don't fill brand slots with placeholders. With no photo, About stays text-only and the avatar shows \"AC\"."
+      "Don't publish brand slots with placeholders. During build-out, a missing photo shows a labelled grey marker (`SHOW_PHOTO_PLACEHOLDERS`); before publishing, either the photo exists or the marker is off, in which case About stays text-only and the avatar shows the initials."
     ]
   }
 }

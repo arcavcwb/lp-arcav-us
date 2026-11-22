@@ -41,7 +41,7 @@ Los componentes no usan utilidades de Tailwind en el marcado. Cada elemento llev
 
 - **Entrada única:** `src/styles/global.css`. Capas, de la más débil a la más fuerte: `theme < base < primitives < components < utilities`. La capa `components` vence a `primitives` (por eso `.about__lead` puede dar margen a `.lead`). `utilities` queda vacía: Tailwind no busca clases en los archivos (`source(none)`) y solo genera lo que piden los `@apply`. Sin el *preflight*: el reset propio está en `base.css`.
 - **Tokens:** `src/styles/tokens.css` (`@theme`). El tema por defecto de Tailwind no se carga (`--*: initial`): solo existe lo de la marca.
-  - color: `paper`, `surface`, `ink`, `muted`, `line`, `line-strong`, `line-hover`, `accent`, `dark`, `on-dark`, `clay`, `danger`, `selection`, `backdrop`…;
+  - color: `paper`, `surface`, `ink`, `muted`, `line`, `line-strong`, `line-hover`, `line-control`, `accent`, `highlight` (ámbar), `focus`, `dark`, `on-dark`, `danger`, `selection`, `backdrop`…;
   - texto: `text-micro` … `text-h1`, más `text-lg`, `text-md`, `text-index`, `text-quote`, `text-numeral`, `text-h2-feature`…; entrelínea (`leading-body`, `leading-title`…) y tracking (`tracking-tight`, `tracking-title`…);
   - espacio: la unidad `--spacing` (0,25rem) para `p-4`, `gap-3`… y medidas con nombre: `gap-split`, `p-panel`, `p-card`, `px-gutter`, `min-h-header`, `top-sticky`, `mt-optical`…;
   - anchos (`max-w-xs` … `max-w-2xl`, `max-w-measure`), grillas (`grid-cols-form`, `grid-cols-hero-portrait`, `grid-cols-index`…), proporciones (`aspect-screen`, `aspect-portrait`, `aspect-wide`);
@@ -60,7 +60,7 @@ Los componentes no usan utilidades de Tailwind en el marcado. Cada elemento llev
 ### Textos, datos e importaciones
 
 - **`src/data/`** — todo el texto del sitio: `site.ts` (marca, `SITE`, home, 404), `solutions.ts` (soluciones, `SOLUTION_PAGE`, `LANDING_PICKER`), `commerce-service.ts`, `ui.ts` (textos de interfaz que se repiten), `anchors.ts` (ids de sección y de la ventana del formulario), `navigation.ts`, `photos.ts`, `types.ts`.
-- **`src/lib/`** — reglas puras: `order.ts`, `contact-message.ts`, `contact.ts`, `links.ts` (`EXTERNAL_LINK`), `text.ts` (`initials`, `firstName`, `quoted`, `ordinal`), `view-transitions.ts`, `photos.ts`, `brand-assets.ts`.
+- **`src/lib/`** — reglas puras: `order.ts`, `contact-message.ts`, `contact.ts`, `links.ts` (`EXTERNAL_LINK`), `text.ts` (`initials`, `firstName`, `quoted`, `ordinal`), `view-transitions.ts`, `photos.ts`.
 - **Alias** (`tsconfig.json`): `@components/*`, `@layouts/*`, `@data`, `@lib`, `@scripts/*`, `@styles/*`, `@assets/*`. No hay importaciones con `../`.
 - **Barriles** (`index.ts`): componentes y páginas importan de `@data`, `@lib`, `@components/ui`, `@components/home`, `@components/solution`. Dos excepciones:
   - dentro de una misma carpeta se importa el archivo vecino (`./Icon.astro`), para no crear ciclos;

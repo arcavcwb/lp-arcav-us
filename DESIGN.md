@@ -1,93 +1,89 @@
 ---
 name: ARCAV
-description: The category-standard studio page, finished to a product-company bar. White ground, graphite ink, one terracotta mark.
+description: The category-standard studio page, finished to a product-company bar. White ground, deep-navy ink, sober blue actions and one amber mark (Brand Kit V3).
 colors:
-  accent: "#b4532a"
-  accent-strong: "#9a4521"
-  accent-tint: "rgb(180 83 42 / 0.1)"
-  accent-on-dark: "#e7a27f"
-  ink: "#1c1d21"
-  muted: "#5b5d63"
+  accent: "#2a5598"
+  accent-strong: "#1f4380"
+  accent-tint: "rgb(42 85 152 / 0.1)"
+  highlight: "#f59e0b"
+  ink: "#0b1f3b"
+  muted: "#334155"
   bg: "#ffffff"
-  surface: "#f4f4f5"
-  surface-strong: "#e9e9ec"
-  line: "#e4e4e7"
-  line-strong: "#d4d4d8"
-  dark: "#1c1d21"
-  dark-raised: "#26282d"
-  on-dark: "#f4f4f5"
-  on-dark-muted: "#a9abb2"
-  on-dark-line: "#34363c"
+  surface: "#f5f3ee"
+  surface-strong: "#eae6dc"
+  line: "#e2e8f0"
+  line-strong: "#cbd5e1"
+  line-control: "#7c8ca2"
+  dark: "#0b1f3b"
+  dark-raised: "#13294b"
+  on-dark: "#ffffff"
+  on-dark-muted: "#cbd5e1"
+  on-dark-line: "#1e3355"
+  on-dark-line-control: "#657690"
   status-error: "#b42318"
 typography:
   display:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Manrope, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "clamp(2rem, 1.4rem + 2.4vw, 3.25rem)"
     fontWeight: 700
     lineHeight: 1.08
     letterSpacing: "-0.028em"
   headline:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Manrope, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem)"
     fontWeight: 700
     lineHeight: 1.12
     letterSpacing: "-0.024em"
   title:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Manrope, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "1.25rem"
     fontWeight: 650
     lineHeight: 1.3
     letterSpacing: "-0.012em"
   lead:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "clamp(1.0625rem, 1rem + 0.35vw, 1.25rem)"
     fontWeight: 400
     lineHeight: 1.55
   body:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "1.0625rem"
     fontWeight: 400
     lineHeight: 1.6
   body-sm:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 400
     lineHeight: 1.6
   label:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: 600
     lineHeight: 1.4
   button:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "1rem"
     fontWeight: 600
     lineHeight: 1.2
   caption:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "0.8125rem"
     fontWeight: 400
     lineHeight: 1.45
-  wordmark:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
-    fontSize: "1.375rem"
-    fontWeight: 800
-    lineHeight: 1
-    letterSpacing: "0.04em"
   subhead:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Manrope, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem)"
     fontWeight: 600
     lineHeight: 1.3
     letterSpacing: "-0.015em"
   title-sm:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Manrope, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "1.125rem"
     fontWeight: 650
     lineHeight: 1.4
     letterSpacing: "-0.01em"
   meta:
-    fontFamily: "Schibsted Grotesk, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+    fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 500
     lineHeight: 1.45
@@ -132,12 +128,12 @@ components:
   link-arrow:
     textColor: "{colors.accent-strong}"
   link-arrow-on-dark:
-    textColor: "{colors.accent-on-dark}"
+    textColor: "{colors.highlight}"
   card:
     backgroundColor: "{colors.bg}"
     rounded: "{rounded.card}"
     padding: "{spacing.card-padding}"
-  panel-graphite:
+  panel-dark:
     backgroundColor: "{colors.dark}"
     textColor: "{colors.on-dark}"
     rounded: "{rounded.card}"
@@ -189,17 +185,18 @@ components:
 
 ARCAV presents itself as a studio that publishes its work, not as a services page. The main material is the real work (screenshots of external projects) and the person (Armando), set in an editorial composition: strong contrast of type scale, an asymmetric 12-column grid, images that take real space and few surfaces. It is a way of composing, not a theme: nothing on the page is a costume (no order pad, tile wall, flyer or transit map). The previous North Star ("looks like the category, distinguished by finish") produced a tidy page that could belong to any consultant; tokens, type and brand rules stay, the composition and the material change. Audit and reasoning: `docs/auditorias/AUDITORIA-VISUAL-HOME.md`.
 
-The world is white paper, graphite ink and a single terracotta mark. Neutral zinc greys carry structure: alternating section grounds, hairlines and icon wells. Graphite is the only heavy fill and is used for emphasis blocks and the footer. Terracotta never fills a surface. It marks what to do (primary actions, text links, focus) and what has been confirmed or improved (check marks, diagnosis arrows, the suggested-plan badge). Density is moderate and mobile-first, because the primary reader is a Curitiba shop owner who opens the link from WhatsApp on a phone in daylight. That use case is why the system is light only.
+The world is white paper and warm sand, deep-navy ink, a sober blue for what you can do and one small amber mark. Cool slate neutrals carry structure: hairlines, dividers and the borders that identify controls. Sand is the alternate section ground. Deep navy is the only heavy fill and is used for emphasis blocks, the closing sections, the footer and the phone body. The action blue never fills a surface: it marks what to do (primary actions, text links, focus on light grounds) and what has been confirmed on a light ground (check marks). Amber is the secondary accent: the triangle of the logo, marks and links on navy, focus on navy and the progress of the demo guide. Density is moderate and mobile-first, because the primary reader is a Curitiba shop owner who opens the link from WhatsApp on a phone in daylight. That use case is why the system is light only.
 
-The confirmed visual rejections are themed metaphors that dress up the site, the old dark-navy-and-coral tech look, gradients, glass effects, section kickers or eyebrows, and yellow, red, cobalt or green as brand colours.
+The identity comes from the ARCAV Brand Kit V3 (`docs/brand/v3/`, approved 2026-11-21), which replaced the graphite-and-terracotta palette and Schibsted Grotesk. The confirmed visual rejections are themed metaphors that dress up the site, neon and glows, gradients, glass effects, section kickers or eyebrows, invented metrics, and any colour outside the kit used as a brand colour (red and green included).
 
 **Key Characteristics:**
-- White ground, graphite ink, and one terracotta accent that marks things and never fills them.
-- One self-hosted family (Schibsted Grotesk) for display and text, with weight carrying the hierarchy.
+- White and sand grounds, deep-navy ink, sober blue actions and one amber accent; neither accent fills a surface.
+- Two self-hosted families: Manrope for headings and editorial lines, Inter for text and interface.
+- The logo is a drawing (`Logo.astro`): a slanted bar, an amber triangle and the ARCAV letters in curves. Below 420px the header shows the symbol alone.
 - Hairlines first. Soft shadows appear only on the phone demo and on panels that hold an interaction or a result.
 - Editorial scale: a display H1, feature H2s and a large manifesto quote against precise 13–15px data.
 - Sequences are ruled lists with `01`–`0n` numerals, never cards; numerals appear only where the order is the information.
-- One graphite band mid-page (the manifesto) and a graphite close (contact and footer).
+- One deep-navy band mid-page (the manifesto) and a deep-navy close (contact and footer).
 - Motion happens once: an entrance on load, a staggered list, a wiped quote; nothing loops or decorates.
 - Authored line icons on a 24-unit grid with a 1.75 stroke.
 - A working phone demo (an order assembled and composed into a WhatsApp message) is the signature object.
@@ -207,103 +204,113 @@ The confirmed visual rejections are themed metaphors that dress up the site, the
 
 ## Colors
 
-The palette is achromatic zinc and graphite with one warm, earthy accent. The accent's restraint is what makes it read as premium rather than loud.
+The palette is cool slate and deep navy, with a sober blue for action and one warm amber accent. Restraint with the two accents is what keeps the page calm. Values live in `src/styles/tokens.css`; the derived tones (hover, lines, raised navy, muted text on navy, control borders) were approved with the migration plan, with their contrast measured.
 
 ### Primary
-- **Fired Terracotta** (#b4532a): fills primary buttons (white label, 4.99:1). It also strokes check marks in plan lists and in the inbox note, colours the arrows in the diagnosis table, sets the caret colour, and draws the 2px focus outline. It is never used as a section, band or card fill.
-- **Deep Terracotta** (#9a4521): the hover state of primary buttons and the colour of text links with an arrow (6.47:1 on white). Text-sized terracotta always uses this darker shade so that it reads as text.
-- **Terracotta Wash** (rgb(180 83 42 / 0.1)): the tinted ground of the "Sugestão de início" plan badge (Deep Terracotta text, 5.67:1) and the 3px focus halo on inputs. Text selection uses the same hue at 0.2 alpha.
-- **Pale Clay** (#e7a27f): terracotta translated for graphite grounds. It appears on check marks in the graphite "after" panel and on text links inside dark sections (7.92:1 on graphite).
+- **Action Blue** (#2a5598): fills primary buttons (white label, 7.37:1), draws the 2px focus outline and the input focus border on light grounds, sets the caret, strokes check marks on light grounds ("O que entra", "Para quem é", the inbox note, the sent confirmation), the services arrow on hover and the icon well of the selected landing option. It is never a section, band or card fill. On navy it drops to 2.24:1, so it never sets text, marks or focus there. It is the kit's electric blue (#2563eb) toned down at the user's request (2026-11-22): same role and hue family, half the chroma (OKLCH C 0.12 against 0.215).
+- **Deep Blue** (#1f4380): the hover state of primary buttons and the colour of text links with an arrow and of the service names (9.66:1 on white, 8.72:1 on sand). Text-sized blue always uses this darker shade.
+- **Blue Wash** (rgb(42 85 152 / 0.1)): the 3px focus halo on inputs. Text selection uses the same hue at 0.2 alpha.
+- **Amber** (#f59e0b): the secondary accent. The triangle of the logo, the check marks in the manifesto "after" column, text links on navy and the keyboard focus on navy (7.68:1 on navy), and the progress of the demo guide (current and done step badges, with the number or check in deep navy, 7.68:1). It never sets text on white or sand (2.15:1).
 
 ### Neutral
 - **Paper White** (#ffffff): page ground, card faces, input faces, the phone screen and the ghost button face. It is also the browser theme colour.
-- **Zinc Mist** (#f4f4f5): alternate section ground (`muted` sections), icon-badge wells, the cart pill, the incoming chat bubble, the composed-message panel, and hover fills on nav links and steppers.
-- **Zinc Shade** (#e9e9ec): avatar and portrait placeholder ground (behind the "AC" initials).
-- **Graphite Ink** (#1c1d21): all headings and body text. It also draws the 1px rule that opens a ruled list, the outgoing chat bubble, the phone's send button and the border of the suggested plan.
-- **Quiet Graphite** (#5b5d63): secondary text such as leads, card descriptions, captions, nav links at rest, step numerals and form hints (6.58:1 on white, 5.99:1 on Zinc Mist).
-- **Hairline** (#e4e4e7): card borders, row dividers, the scrolled header border and the divider inside cards.
-- **Firm Hairline** (#d4d4d8): ghost-button and input borders, stepper outlines, the menu toggle and the dividers under each ruled step.
-- **Graphite** (#1c1d21, the fill role of Graphite Ink): the footer, dark closing sections, the commerce band, the "after" comparison panel and the phone body.
-- **Raised Graphite** (#26282d): icon wells sitting on a graphite panel.
-- **Light on Graphite** (#f4f4f5): text on graphite.
-- **Muted on Graphite** (#a9abb2): secondary text on graphite (7.34:1).
-- **Graphite Rule** (#34363c): dividers and ghost-button borders on graphite.
+- **Sand** (#f5f3ee): alternate section ground (`muted` sections), icon wells, the cart pill, the incoming chat bubble, the composed-message panel, and hover fills on nav links and steppers.
+- **Deep Sand** (#eae6dc): avatar and portrait placeholder ground (behind the "AC" initials) and the demo guide's resting number badges.
+- **Deep Navy Ink** (#0b1f3b): all headings and body text (16.49:1 on white, 14.87:1 on sand). It also draws the 1px rule that opens a ruled list, the outgoing chat bubble, the phone's send button, the selected landing option and the current step of the demo guide.
+- **Slate** (#334155): secondary text such as leads, descriptions, captions, nav links at rest, step numerals and form hints (10.35:1 on white, 9.34:1 on sand).
+- **Hairline** (#e2e8f0): card borders, row dividers, the scrolled header border and the divider inside cards.
+- **Firm Hairline** (#cbd5e1): decorative dividers only: the rule that opens each section, the rows of services, method and FAQ, the demo guide pills and the scrollbar.
+- **Control Line** (#7c8ca2): the border that identifies a control: ghost buttons, inputs, the menu toggle, the window's close button, the demo steppers and the landing options (3.43:1 on white, 3.09:1 on sand).
+- **Deep Navy** (#0b1f3b, the fill role of the ink): the footer, the closing sections, the manifesto and the phone body.
+- **Raised Navy** (#13294b): wells sitting on a navy panel (amber on it: 6.76:1).
+- **White on Navy** (#ffffff): text on navy.
+- **Muted on Navy** (#cbd5e1): secondary text on navy (11.11:1).
+- **Navy Rule** (#1e3355): dividers on navy.
+- **Control Line on Navy** (#657690): ghost-button borders on navy (3.57:1).
 
 ### Status
 - **Validation Red** (#b42318): form validation only, used for the invalid input border and the error message text (6.57:1). It is a status signal and not a brand colour.
 
 ### Named Rules
-**The Terracotta Marks, Never Fills Rule.** Terracotta appears as a filled button, a line, a glyph, a text link, a focus ring or a 10% tint badge. It never becomes the background of a section, band, panel or card. When a block needs emphasis, it goes graphite.
+**The Blue Acts, Never Fills Rule.** The action blue appears as a filled button, a text link, a check mark on a light ground, a focus ring or a 10% tint. It never becomes the background of a section, band, panel or card. When a block needs emphasis, it goes navy.
 
-**The Graphite Is the Second Voice Rule.** The system has no second hue. Emphasis that isn't an action is carried by a Graphite fill (the commerce band, the "after" panel, closing sections and the footer), not by a new colour.
+**The Navy Is the Second Voice Rule.** Emphasis that isn't an action is carried by a navy fill (the manifesto, closing sections and the footer), not by a new colour.
 
-**The Status Is Not Brand Rule.** Yellow, red, cobalt and green are not ARCAV colours. Validation Red exists only to say "this field needs attention" and is never used for decoration or emphasis.
+**The Amber Stays Small Rule.** Amber is a mark, never a surface and never text on a light ground: the logo triangle, marks, links and focus on navy, and the demo's progress badges with a navy glyph. On white or sand a mark that must be read goes blue instead.
+
+**The Focus Follows the Ground Rule.** The focus outline uses `--color-focus`: Action Blue on light grounds, Amber inside `.section--dark` and the footer, where blue would fall to 2.24:1.
+
+**The Status Is Not Brand Rule.** Red and green are not ARCAV colours. Validation Red exists only to say "this field needs attention" and is never used for decoration or emphasis.
 
 ## Typography
 
-**Display Font:** Schibsted Grotesk (self-hosted variable woff2, weights 400 to 900, latin and latin-ext subsets, SIL OFL), falling back to ui-sans-serif and system-ui
-**Body Font:** Schibsted Grotesk (same family)
+**Heading Font:** Manrope (self-hosted variable woff2, weights 200 to 800, latin and latin-ext subsets, SIL OFL), falling back to Inter and system-ui. Token: `--font-heading`.
+**Body Font:** Inter (self-hosted variable woff2, weights 100 to 900, latin and latin-ext subsets, SIL OFL), falling back to ui-sans-serif and system-ui. Token: `--font-sans`.
 
-**Character:** A sturdy, slightly editorial grotesk that holds a 52px headline with tight tracking and still reads plainly at 15px. Using one family for everything keeps the page calm, and steps of weight (400, 500, 600, 650, 700, 800) do the work that a second face would otherwise do.
+**Character:** Manrope is a geometric grotesk with open counters that holds a 52px headline with tight tracking; Inter is a neutral interface face that stays plain at 13–15px. The split follows the Brand Kit V3: Manrope for titles and editorial lines, Inter for text, navigation, controls, forms and metadata. Inside each family, steps of weight (400, 500, 600, 650, 700) carry the hierarchy.
+
+**Loading:** both latin subsets are preloaded (Inter 48 KB, Manrope 25 KB). Without Inter preloaded, text swapped fonts after the first frame and the solution pages jumped (CLS up to 0.035). The latin-ext subsets load only when a page uses one of their characters.
 
 ### Hierarchy
-- **Display** (700, clamp 2rem→3.25rem, line-height 1.08, −0.028em): the H1 of the other page heroes, capped at about 17em wide so it wraps to three or four lines on desktop.
-- **Feature headline** (700, clamp 2rem→3.5rem, 1.08, `.h2--feature`): the H2 of the home's key sections (services, method, contact).
-- **Quote** (600, clamp 1.75rem→3.5rem, 1.12, −0.024em): the manifesto quote, in 9 of 12 columns.
-- **Index phrase** (600, clamp 1.375rem→2.25rem, 1.25, −0.015em): the client's sentence in each services row.
-- **Numeral** (400, clamp 1.5rem→3rem, line-height 1, Quiet Graphite, tabular): method step numbers.
-- **Headline** (700, clamp 1.75rem→2.5rem, 1.12, −0.024em): section H2s. They are often hand-broken into two balanced lines, and `text-wrap: balance` is on for all headings.
-- **Title** (650, 1.25rem, 1.3, −0.012em): card and plan H3s.
-- **Subhead** (600–650, clamp 1.25rem→1.5rem, −0.015 to −0.02em): case titles and the About statement.
-- **Title small** (650, 1.125rem): step titles, the pricing suggestion line and the Problem quote (500).
-- **Lead** (400, clamp 1.0625rem→1.25rem, 1.55, Quiet Graphite, max 38em): the paragraph under a heading.
-- **Body** (400, 1.0625rem, 1.6): running text, with `text-wrap: pretty` on paragraphs and list items.
+- **Display** (Manrope 700, clamp 2rem→3.25rem, line-height 1.08, −0.028em): the H1 of the other page heroes, capped at about 17em wide so it wraps to three or four lines on desktop.
+- **Feature headline** (Manrope 700, clamp 2rem→3.5rem, 1.08, `.h2--feature`): the H2 of the home's key sections (services, method, contact).
+- **Quote** (Manrope 600, clamp 1.75rem→3.5rem, 1.12, −0.024em): the manifesto quote, in 9 of 12 columns.
+- **Index phrase** (Manrope 600, clamp 1.375rem→2.25rem, 1.25, −0.015em): the client's sentence in each services row.
+- **Numeral** (Manrope 400, clamp 1.5rem→3rem, line-height 1, Slate, tabular): method step numbers.
+- **Headline** (Manrope 700, clamp 1.75rem→2.5rem, 1.12, −0.024em): section H2s. They are often hand-broken into two balanced lines, and `text-wrap: balance` is on for all headings.
+- **Title** (Manrope 650, 1.25rem, 1.3, −0.012em): card and plan H3s.
+- **Subhead** (Manrope 600–650, clamp 1.25rem→1.5rem, −0.015 to −0.02em): case titles and the About statement.
+- **Title small** (Manrope 650, 1.125rem): step titles, the pricing suggestion line and the Problem quote (500).
+- **Lead** (Inter 400, clamp 1.0625rem→1.25rem, 1.55, Slate, max 38em): the paragraph under a heading.
+- **Body** (Inter 400, 1.0625rem, 1.6): running text, with `text-wrap: pretty` on paragraphs and list items.
 - **Body small** (400, 0.9375rem): notes, hints, plan inclusions and step descriptions.
 - **Label** (600, 0.9375rem): form labels, comparison column labels and table headers. Nav links use the same size at 500.
 - **Meta** (400 to 600, 0.875rem): form hints and errors, the form note, case metadata, About fact terms, the phone's cart count and order summary.
 - **Caption** (400 to 600, 0.8125rem, 1.45): figure captions under demos, process flows (500), badges (600) and footer fact terms (600).
-- **Wordmark** (800, 1.375rem, +0.04em): the text fallback for the ARCAV logo, followed by "por Armando Castro" at 0.875rem/500 in Quiet Graphite.
+- **Logo:** not type. The ARCAV letters are part of the drawing (`Logo.astro`); "por Armando Castro" beside it is Inter 0.875rem/400 in Slate, set 4px lower so its baseline meets the baseline of the letters.
+
+Everything not named Manrope above (body small, label, meta, caption, buttons, nav, forms, the phone demo) is Inter.
 
 Big numbers (plan prices) are set at 700, clamp 2rem→2.5rem, −0.03em. Quantities, counters and step numerals use tabular figures.
 
 ### Named Rules
-**The One Family Rule.** Schibsted Grotesk is the only typeface. Hierarchy comes from size, weight and tracking, never from a second family or a system display face.
+**The Two Families Rule.** Manrope sets headings and editorial lines (h1–h3, the manifesto quote, the services phrases, the method titles and numerals, the About statement); Inter sets everything else. There is no third family and no system display face.
 
 **The Heading Stands Alone Rule.** No kicker, eyebrow or small label sits above a section heading. The H2 opens the section by itself, and an optional lead follows beneath it.
 
-**The Sentence Case Rule.** Labels, buttons, nav and captions are in sentence case. Uppercase appears only in the ARCAV wordmark itself.
+**The Sentence Case Rule.** Labels, buttons, nav and captions are in sentence case. Uppercase appears only in the ARCAV letters of the logo.
 
 ## Layout
 
-The layout is a single centred column: a 1200px container with a fluid gutter (16px→40px). Sections use fluid vertical padding (32px→52px), kept tight so one section leads straight into the next. The section directly after a page hero starts closer (32px→48px) so that it peeks above the fold. Section grounds alternate between Paper White and Zinc Mist, never two of the same ground in a row, and every section except a graphite one opens with a 1px Hairline Strong (#d4d4d8) rule across the full width so the boundary reads even where the two grounds are close. Every page ends with a graphite closing section that leads into the graphite footer, separated by a Graphite Rule.
+The layout is a single centred column: a 1200px container with a fluid gutter (16px→40px). Sections use fluid vertical padding (32px→52px), kept tight so one section leads straight into the next. The section directly after a page hero starts closer (32px→48px) so that it peeks above the fold. Section grounds alternate between Paper White and Sand, never two of the same ground in a row, and every section except a navy one opens with a 1px Firm Hairline (#cbd5e1) rule across the full width so the boundary reads even where the two grounds are close. Every page ends with a navy closing section that leads into the navy footer, separated by a Navy Rule.
 
 - **Page hero:** a single column on mobile. At 960px and above it becomes a two-column grid of fluid copy and a fixed 20rem demo column, with the phone vertically centred. On the home page a byline row (avatar, name, statement, with a hairline above) sits under the copy and stops at 30rem. The hero actions are a primary button plus a ghost button, and at 479px or less they flex to share the row.
 - **Section head:** max 44rem wide, followed by 36px→56px of space before the content.
 - **Card grids:** a single column, becoming three equal columns at 880px with a 16px gap. Service cards use subgrid rows so that the icon, title, text and flow line up across cards.
 - **Splits:** text beside an illustration or form from 880 to 900px, weighted about 1 : 0.9 (the contact section reverses this to give the form the wider column). The contact copy column is sticky under the header.
 - **Ruled steps:** one column, two at 720px, and three or four at 1024px.
-- **Header:** sticky, 68px tall, on Paper White. A Hairline border fades in after 8px of scroll. Below 900px the nav collapses into a dropdown panel.
-- **Footer:** graphite, with three columns at 800px (brand and statement, links, facts) and then a Graphite Rule over the copyright and social row.
+- **Header:** sticky, 68px tall, on Paper White. A Hairline border fades in after 8px of scroll. Below 900px the nav collapses into a dropdown panel. The logo shows as the symbol alone below 420px and in full from 420px; "por Armando Castro" joins it from 640px.
+- **Footer:** deep navy, with three columns at 800px (brand and statement, links, facts) and then a Navy Rule over the copyright and social row.
 
-Breakpoints in use are 480, 560, 640, 720, 800, 880, 900, 960 and 1024px, and the base styles are mobile first. Reference widths are 360 and 390px.
+Breakpoints in use are 420 (logo), 480, 560, 640, 720, 800, 880, 900, 960 and 1024px, and the base styles are mobile first. Reference widths are 360 and 390px; the header is validated at 320, 360, 390 and 430px.
 
 ### Named Rules
-**The Ruled Sequence Rule.** Anything ordered (method, process, offer steps) is a ruled list. A 1px Graphite Ink rule opens it, each item sits on a Firm Hairline, and an inline `01`, `02`, … numeral in Quiet Graphite tabular figures leads each item. Sequences are never boxed into cards. The case list uses the same ink-topped, hairline-divided construction.
+**The Ruled Sequence Rule.** Anything ordered (method, process, offer steps) is a ruled list. A 1px Deep Navy Ink rule opens it, each item sits on a Firm Hairline, and an inline `01`, `02`, … numeral in Slate tabular figures leads each item. Sequences are never boxed into cards. The case list uses the same ink-topped, hairline-divided construction.
 
 **The Peek Rule.** The first section after a hero uses the reduced top padding so that the next content is visible on first load.
 
-**The Home Rhythm Rule.** The home alternates kinds of moment, not just grounds: hero (paper, air, display type and portrait), services index (paper, dense type), examples (zinc, image), manifesto (graphite, air, one big quote), method (paper, dense table with a sticky title from 960px), about (zinc, portrait), contact (graphite, form on top), footer (graphite). Graphite appears once mid-page, then closes the page.
+**The Home Rhythm Rule.** The home alternates kinds of moment, not just grounds: hero (paper, air, display type and portrait), services index (paper, dense type), examples (sand, image), manifesto (navy, air, one big quote), method (paper, dense table with a sticky title from 960px), about (sand, portrait), contact (navy, form on top), footer (navy). Navy appears once mid-page, then closes the page.
 
 **The 12 Columns Rule.** Asymmetric splits come from a 12-column grid (8/4 hero, 4/8 method, 5/6 manifesto head, 9 for the quote) inside the 1200px container, so every left edge stays aligned with the header.
 
 ## Elevation & Depth
 
-The system is flat and hairline-first. Surfaces at rest are separated by 1px borders and by the Paper White / Zinc Mist alternation, not by shadow. Shadows are soft, graphite-tinted and offset downward, and they appear only on objects that hold an interaction or a result: the phone demo, the contact-form card, the inbox illustration and the suggested plan. Focus is shown with an outline rather than a shadow, except on inputs, which use a tinted halo.
+The system is flat and hairline-first. Surfaces at rest are separated by 1px borders and by the Paper White / Sand alternation, not by shadow. Shadows are soft, navy-tinted and offset downward, and they appear only on objects that hold an interaction or a result: the phone demo, the contact-form card, the inbox illustration and the suggested plan. Focus is shown with an outline rather than a shadow, except on inputs, which use a tinted halo.
 
 ### Shadow Vocabulary
-- **Raised panel** (`box-shadow: 0 1px 2px rgb(28 29 33 / 0.06), 0 14px 32px -14px rgb(28 29 33 / 0.22)`): the contact-form card (whose border goes transparent), the inbox illustration and the suggested plan card.
-- **Phone** (`box-shadow: 0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45)`): the hero phone demo only.
-- **Menu drop** (`box-shadow: 0 18px 30px -24px rgb(28 29 33 / 0.35)`): the mobile nav panel under the header.
+- **Raised panel** (`box-shadow: 0 1px 2px rgb(11 31 59 / 0.06), 0 14px 32px -14px rgb(11 31 59 / 0.22)`): the contact-form card (whose border goes transparent), the inbox illustration and the suggested plan card.
+- **Phone** (`box-shadow: 0 2px 6px rgb(11 31 59 / 0.1), 0 40px 70px -30px rgb(11 31 59 / 0.45)`): the hero phone demo only.
+- **Menu drop** (`box-shadow: 0 18px 30px -24px rgb(11 31 59 / 0.35)`): the mobile nav panel under the header.
 
 ### Named Rules
 **The Earned Shadow Rule.** A surface gets a shadow only when it holds something the visitor does or receives, such as an order, a form, a composed reply or a recommended plan, and, once the portfolio exists, project screenshots, because they are the product. Ordinary cards stay flat with a Hairline border.
@@ -317,55 +324,54 @@ The corner language has two radii plus the pill. Controls (buttons, inputs, icon
 ### Buttons
 Buttons are solid and plain: a label, an optional trailing arrow (or a leading glyph for mail and send), and no ornament.
 - **Shape:** gently rounded controls (10px), at least 48px tall, with 20px inline padding, a 1rem/600 label and an 18px icon with an 8px gap.
-- **Primary:** Fired Terracotta with a white label. It is used for the one main action in each region, such as "Falar com a ARCAV", "Fale comigo", the commerce CTA, form submit and the closing CTA.
-- **Hover / Active / Focus:** hover deepens the fill to Deep Terracotta over 0.18s. Active nudges the button down 1px with the house ease-out. Focus draws a 2px terracotta outline offset by 3px.
-- **Ghost:** Paper White face, Firm Hairline border and Graphite Ink label. On hover the border goes to Graphite Ink. On graphite grounds it turns transparent with a Graphite Rule border and a Light on Graphite label.
+- **Primary:** Action Blue with a white label. It is used for the one main action in each region, such as "Falar com a ARCAV", "Fale comigo", the commerce CTA, form submit and the closing CTA.
+- **Hover / Active / Focus:** hover deepens the fill to Deep Blue over 0.18s. Active nudges the button down 1px with the house ease-out. Focus draws a 2px outline offset by 3px in the focus colour (blue on light grounds, amber on navy).
+- **Ghost:** Paper White face, Control Line border and Deep Navy Ink label. On hover the border goes to the ink. On navy grounds it turns transparent with a Control Line on Navy border and a white label.
 - **Small:** 40px tall with 16px padding and a 0.9375rem label. It is used for the header CTA and for the actions in the composed-message panel. This size sits below the 44px touch-target commitment, so don't extend it to new primary mobile actions.
 - **Disabled:** 55% opacity, a not-allowed cursor and no motion. Example: "Revisar pedido" when the cart is empty.
 - **Mobile:** at 479px or less, closing CTAs, demo CTAs, the form submit and the commerce CTA go full width.
 
 ### Text link with arrow
-- **Style:** 600 weight in Deep Terracotta, with a trailing arrow (or an external-link glyph) inline at about 17px.
+- **Style:** 600 weight in Deep Blue, with a trailing arrow (or an external-link glyph) inline at about 17px.
 - **Hover:** underline (1px, offset 0.22em), and the arrow slides 3px right.
-- **On graphite:** Pale Clay.
+- **On navy:** Amber.
 
 ### Cards / Containers
 - **Corner Style:** 14px.
 - **Background:** Paper White with a 1px Hairline border. Cards sit on either section ground.
 - **Shadow Strategy:** flat. See The Earned Shadow Rule.
 - **Internal Padding:** fluid, 24px→32px.
-- **Service / feature card:** a 44px icon well (Zinc Mist, 10px, with a 22px line icon) above a Title, a muted description and, for services, a process flow under a Hairline divider.
-- **Graphite panel:** a Graphite fill at 14px used for one emphasis block, such as the "Tem um comércio local em Curitiba?" band (icon well in Raised Graphite, white title, muted body, and a terracotta button pushed to the right at 880px) or the "after" column of the before/after comparison, whose check marks are Pale Clay. The "before" column is a white card with muted text and minus marks.
+- **Service / feature card:** a 44px icon well (Sand, 10px, with a 22px line icon) above a Title, a muted description and, for services, a process flow under a Hairline divider.
+- **Navy panel:** a Deep Navy fill at 14px used for one emphasis block, such as the "Tem um comércio local em Curitiba?" band (icon well in Raised Navy, white title, muted body, and a blue button pushed to the right at 880px) or the "after" column of the before/after comparison, whose check marks are Amber. The "before" column is a white card with muted text and minus marks.
 
 ### Process flow
-This is an inline sequence of short words such as "Visita → Formulário → Lead → Automação" at 0.8125rem/500 in Quiet Graphite, joined by small arrow glyphs at 60% opacity. It wraps freely. It is also used for Armando's trajectory, in ink on light grounds and in Light on Graphite in the footer.
+This is an inline sequence of short words such as "Visita → Formulário → Lead → Automação" at 0.8125rem/500 in Slate, joined by small arrow glyphs at 60% opacity. It wraps freely. It is also used for Armando's trajectory, in ink on light grounds and in white on navy in the footer.
 
 ### Inputs / Fields
-- **Style:** Paper White face, Firm Hairline border, 10px radius, at least 48px tall (textareas start at 136px and resize vertically) and a 1rem text size. A 600-weight label sits above, with "(opcional)" in Quiet Graphite at 400. Hints are 0.875rem in Quiet Graphite.
-- **Hover:** the border darkens to a mid zinc.
-- **Focus:** the border turns Fired Terracotta and a 3px Terracotta Wash halo appears, with no outline.
+- **Style:** Paper White face, Control Line border, 10px radius, at least 48px tall (textareas start at 136px and resize vertically) and a 1rem text size. A 600-weight label sits above, with "(opcional)" in Slate at 400. Hints are 0.875rem in Slate.
+- **Hover:** the border darkens to the ink.
+- **Focus:** the border turns Action Blue and a 3px Blue Wash halo appears, with no outline.
 - **Error:** the border and the message text turn Validation Red (message 0.875rem/500). Messages are written in a friendly first person, and the error is cleared as the visitor types.
-- **Composed message:** after submit, a Zinc Mist panel (14px) shows a 600-weight status line, then the exact message in a white, hairline-bordered 10px box, then small ghost buttons for "Abrir de novo" and "Copiar mensagem".
+- **Composed message:** after submit, a Sand panel (14px) shows a 600-weight status line, then the exact message in a white, hairline-bordered 10px box, then small ghost buttons for "Abrir de novo" and "Copiar mensagem".
 
 ### Navigation
-- **Header:** the wordmark (or logo) with its byline on the left. On the right are nav links at 0.9375rem/500 in Quiet Graphite, which hover to Graphite Ink on a Zinc Mist 8px pill, followed by the small primary "Fale comigo", which opens the contact form window.
-- **Mobile (below 900px):** a 44px menu toggle (Firm Hairline, 10px) swaps between menu and close glyphs. The nav is a popover: a full-width white panel under the header with the menu-drop shadow, its links 1.0625rem ink rows divided by Hairlines. The toggle, Escape and a tap outside close it without JavaScript; choosing a link also closes it. Below 480px the "por Armando Castro" byline hides.
-- **Footer:** see Layout. Links are Light on Graphite and underline on hover. Social links carry a small external glyph at 70% opacity.
+- **Header:** the logo with its byline on the left. On the right are nav links at 0.9375rem/500 in Slate, which hover to the ink on a Sand 8px pill, followed by the small primary "Fale comigo", which opens the contact form window.
+- **Mobile (below 900px):** a 44px menu toggle (Control Line, 10px) swaps between menu and close glyphs. The nav is a popover: a full-width white panel under the header with the menu-drop shadow, its links 1.0625rem ink rows divided by Hairlines. The toggle, Escape and a tap outside close it without JavaScript; choosing a link also closes it. Below 640px the "por Armando Castro" byline hides, and below 420px the logo shows the symbol alone.
+- **Footer:** see Layout. Links are white on navy and underline on hover. Social links carry a small external glyph at 70% opacity.
 
 ### Ruled steps
 See The Ruled Sequence Rule. The compact variant has a 1.125rem/650 step title above a muted 0.9375rem line. The text-only variant (process and offers) sets a single 1rem/500 ink line per step.
 
 ### Phone demo (signature)
-A working order demo drawn in CSS rather than an image. It has a Graphite body (44px radius, 10px bezel, Phone shadow) with a pill notch, and a white screen whose height grows with the product count. The store view has an app bar (store name 1.0625rem/700, note in caption size, a Zinc Mist cart pill with a live count), product rows divided by Hairlines, and a pill stepper (Firm Hairline outline, round − and + buttons, and a tabular quantity that bumps from 1.35× scale over 260ms). At the bottom are a live summary and a full-width primary button labelled **"Revisar pedido"**. Pressing it slides in the message view (0.4s ease-out, with the store view sliding 24% left and fading). That view has a back button, the title "Pedido pronto", the composed order in a Zinc Mist bubble, a hint line and a full-width Graphite Ink "Enviar pelo WhatsApp" button. Without JavaScript the demo shows the initial order statically. A centred caption below states that the store is an example and not a real client. It stays on the commerce page until the external store example exists; then it becomes a screenshot with a link, and its code leaves this repository.
+A working order demo drawn in CSS rather than an image. It has a Deep Navy body (44px radius, 10px bezel, Phone shadow) with a pill notch, and a white screen whose height grows with the product count. The store view has an app bar (store name 1.0625rem/700, note in caption size, a Sand cart pill with a live count), product rows divided by Hairlines, and a pill stepper (Control Line outline, round − and + buttons, and a tabular quantity that bumps from 1.35× scale over 260ms). At the bottom are a live summary and a full-width primary button labelled **"Revisar pedido"**. Pressing it slides in the message view (0.4s ease-out, with the store view sliding 24% left and fading). That view has a back button, the title "Pedido pronto", the composed order in a Sand bubble, a hint line and a full-width Deep Navy Ink "Enviar pelo WhatsApp" button. Above the phone, the optional "Experimente" guide shows three steps as pills: the current one is a navy pill, and the current and done steps carry an amber badge with the number or a check in navy (progress is the one place amber appears on a light page). Without JavaScript the demo shows the initial order statically. A centred caption below states that the store is an example and not a real client. It stays on the commerce page until the external store example exists; then it becomes a screenshot with a link, and its code leaves this repository.
 
 ### Inbox illustration (signature)
-This is the shop's side of the same order: a white Raised-panel card (14px) with a header row (a Zinc Shade initial avatar and "Cliente pelo site" with a muted channel line), an incoming Zinc Mist bubble holding the order lines in 600 weight, and an outgoing Graphite Ink bubble with the shop's reply. Under the thread sits a 600-weight note led by a terracotta check. A caption labels it as an illustration, not a screenshot.
+This is the shop's side of the same order: a white Raised-panel card (14px) with a header row (a Deep Sand initial avatar and "Cliente pelo site" with a muted channel line), an incoming Sand bubble holding the order lines in 600 weight, and an outgoing Deep Navy Ink bubble with the shop's reply. Under the thread sits a 600-weight note led by a blue check. A caption labels it as an illustration, not a screenshot.
 
 ### Brand mark & portrait slots
-- **Logo:** if a file named `src/assets/brand/arcav-logo.(svg|png|webp)` exists, it replaces the text wordmark at a height of 28px in the header and footer automatically. Until then the wordmark is the logo.
-- **Photos:** real photos only, listed in `src/data/photos.ts` and stored in `src/assets/fotos/` (`retrato-trabalho` for the home hero, `retrato` for About and the 44px round avatar of whoever answers). Until a photo arrives, its slot shows a labelled grey marker during build-out; the avatar shows the initials **"AC"** (700 weight, Graphite Ink on Zinc Shade). A fake or stock photo is never used.
-- **Favicon:** a provisional monogram: a Graphite rounded square with a light "A" whose crossbar is terracotta. It is replaced when the official symbol arrives.
-- **Open:** the footer reuses the same logo file on Graphite, and no light or inverse logo slot exists yet.
+- **Logo:** `src/components/ui/Logo.astro`, the Brand Kit V3 drawing inline (reference files in `docs/brand/v3/logos-svg/`). The bar and the letters take `currentColor` (navy on light grounds, white in the footer) and the triangle takes `--color-highlight`, so one component serves both grounds. Height 34px (`--spacing-logo`): the full logo is 161px wide (kit minimum 160px) and the symbol alone 31px tall (kit minimum 24px). In the header, below 420px (`--breakpoint-logo`), the same drawing is cropped to the symbol (`preserveAspectRatio` slice). The accessible name is always "ARCAV". Usage rules are in `docs/BRAND.md`.
+- **Photos:** real photos only, listed in `src/data/photos.ts` and stored in `src/assets/fotos/` (`retrato-trabalho` for the home hero, `retrato` for About and the 44px round avatar of whoever answers). Until a photo arrives, its slot shows a labelled grey marker during build-out; the avatar shows the initials **"AC"** (700 weight, Deep Navy Ink on Deep Sand). A fake or stock photo is never used.
+- **Favicon:** the kit symbol (white bar, amber triangle) on a deep-navy rounded square, a square version of `docs/brand/v3/logos-svg/favicon.svg`: `public/favicon.svg`, `public/favicon.ico` (16, 32 and 48px) and a full-bleed 180px `public/apple-touch-icon.png` (iOS applies its own mask).
 
 ### Implementação (Tailwind v4, 2026-11-21)
 
@@ -378,11 +384,17 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 ### Fase A da direção editorial (2026-11-21)
 
 - **Hero:** H1 na escala normal dos heros (o título gigante foi rejeitado em 2026-11-21), com subtítulo e ações em 8 de 12 colunas e o retrato de trabalho nas 4 últimas, centrado na altura do texto. A ação principal abre a janela do formulário.
-- **Serviços:** índice editorial sem caixa (fio grafite em cima, filetes entre linhas). Cada linha: a frase do cliente em `text-index`, o serviço e a frase curta à direita, seta; no hover a linha anda 4px e a seta fica terracota. Linhas tocáveis com 64px ou mais no celular.
-- **Manifesto (antigo Problema):** seção grafite com mais ar (`section--feature`); título e texto menores no alto, a citação em `text-quote` em 9 colunas com a assinatura, e Hoje/Depois em duas colunas com filetes grafite claro (Hoje apagado, Depois claro com checks Pale Clay). Sem cartões.
+- **Serviços:** índice editorial sem caixa (fio escuro em cima, filetes entre linhas). Cada linha: a frase do cliente em `text-index`, o serviço e a frase curta à direita, seta; no hover a linha anda 4px e a seta fica azul. Linhas tocáveis com 64px ou mais no celular.
+- **Manifesto (antigo Problema):** seção azul profundo com mais ar (`section--feature`); título e texto menores no alto, a citação em `text-quote` em 9 colunas com a assinatura, e Hoje/Depois em duas colunas com filetes (Hoje apagado, Depois claro com checks âmbar). Sem cartões.
 - **Método:** título fixo à esquerda (4 colunas, a partir de 960px) e os seis passos à direita como tabela: numeral grande, título, texto.
-- **Contato:** o mesmo fechamento grafite das outras páginas (`ClosingContact` com `channels` e `feature`): título maior, quem responde, canais e um botão. O formulário não ocupa a página: abre numa janela (`popover`) clara sobre fundo escurecido, que no celular ocupa a tela inteira. "Fale comigo", a ação do hero e "Quero isso na minha loja" abrem a mesma janela.
-- **Rodapé:** quatro colunas (marca, navegação numa coluna só, contato e localização, trajetória), com um filete grafite claro em cima, separando do fechamento escuro.
+- **Contato:** o mesmo fechamento azul profundo das outras páginas (`ClosingContact` com `channels` e `feature`): título maior, quem responde, canais e um botão. O formulário não ocupa a página: abre numa janela (`popover`) clara sobre fundo escurecido, que no celular ocupa a tela inteira. "Fale comigo", a ação do hero e "Quero isso na minha loja" abrem a mesma janela.
+- **Rodapé:** quatro colunas (marca, navegação numa coluna só, contato e localização, trajetória), com um filete em cima, separando do fechamento escuro.
+
+### Brand Kit V3 (2026-11-22)
+
+- Paleta, fontes, logo e ícones do kit (`docs/brand/v3/`) aplicados só pelos tokens: os nomes ficaram, os valores mudaram (`clay` virou `highlight`; entraram `--color-focus`, `--color-line-control`, `--color-on-dark-line-control`, `--font-heading`, `--spacing-logo`, `--aspect-logo`, `--aspect-symbol` e `--breakpoint-logo`).
+- Medido por etapa: Inter deixou as páginas de 0 a 2,6% mais altas (parágrafos); Manrope encurtou quatro títulos em uma linha. Sem estouro em 320–1440px; CLS 0; contraste AA em todos os textos; foco com 4,66:1 ou mais.
+- Azul de ação mais sóbrio que o do kit (pedido do usuário, 2026-11-22): `#2a5598` no lugar de `#2563eb` e `#1f4380` no hover e nos links, no mesmo papel. Metade da saturação e o tom puxado para o azul profundo; o contraste sobe (7,37:1 com rótulo branco, 6,64:1 na areia). No fechamento escuro, o botão fica mais discreto (2,24:1 contra o azul profundo, antes 3,19:1); o rótulo branco continua com 7,37:1.
 
 ### Fotos (2026-11-21)
 
@@ -406,26 +418,30 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep terracotta (#b4532a, hover #9a4521) to marks: filled primary buttons, arrowed text links in the darker shade, check marks, diagnosis arrows, the suggested-plan badge tint, focus and caret.
-- **Do** carry emphasis with a Graphite (#1c1d21) panel or section when a block must stand out without being an action.
-- **Do** alternate Paper White and Zinc Mist (#f4f4f5) section grounds, and separate surfaces with 1px Hairlines (#e4e4e7 / #d4d4d8).
-- **Do** set every word in Schibsted Grotesk, building hierarchy from weight (400 to 800) and negative tracking on headings.
+- **Do** keep the action blue (#2a5598, hover #1f4380) to actions and marks: filled primary buttons, arrowed text links in the darker shade, check marks on light grounds, focus and caret.
+- **Do** keep amber (#f59e0b) small: the logo triangle, marks, links and focus on navy, and the demo's progress badges with a navy glyph.
+- **Do** carry emphasis with a Deep Navy (#0b1f3b) panel or section when a block must stand out without being an action.
+- **Do** alternate Paper White and Sand (#f5f3ee) section grounds, separate surfaces with 1px Hairlines (#e2e8f0 / #cbd5e1), and give every control a Control Line border (#7c8ca2, 3:1 or more).
+- **Do** set headings and editorial lines in Manrope and everything else in Inter, building hierarchy from weight and negative tracking on headings.
+- **Do** use the logo component (`Logo.astro`) wherever the brand appears, at 34px tall, with its clear space; let it crop to the symbol only where the full logo doesn't fit.
 - **Do** present ordered content as a ruled list with an ink top rule and `01`–`0n` tabular numerals.
 - **Do** use the authored line icon set (24 grid, 1.75 stroke, round caps) at 16–24px in `currentColor`.
 - **Do** caption every illustrative demo or mock as an example or illustration.
-- **Do** keep touch targets at 44px or more, keep focus visible (2px terracotta outline, 3px offset), meet WCAG AA contrast, and honour `prefers-reduced-motion` (the build collapses all transitions and animations).
+- **Do** keep touch targets at 44px or more, keep focus visible (2px outline, 3px offset, blue on light and amber on navy), meet WCAG AA contrast, and honour `prefers-reduced-motion` (the build collapses all transitions and animations).
 - **Do** use the house ease-out `cubic-bezier(0.16, 1, 0.3, 1)` for movement, with state colour changes at 0.15 to 0.2s.
 - **Do** make motion happen once and differ by moment: the home opening enters on load with CSS only (text 500ms, 60ms apart; the portrait uncovers bottom-up in 700ms), services rows fade up as each one enters the screen, the manifesto quote wipes left to right. All of it is CSS: the opening is a load animation and the rows and quote use scroll-driven animations (`animation-timeline: view()`); content is visible without JavaScript, without scroll-timeline support and with reduced motion (`styles/primitives/motion.css`).
 - **Do** number only real sequences (the method). The services index has no numerals: the services are not an order.
 
 ### Don't:
-- **Don't** fill a section, band, card or panel with terracotta.
-- **Don't** introduce yellow, red, cobalt or green as brand colours. Validation Red (#b42318) is for form errors only.
+- **Don't** fill a section, band, card or panel with blue or amber.
+- **Don't** set amber text on white or sand (2.15:1), or blue text, marks or focus on navy (2.24:1).
+- **Don't** introduce colours outside the kit as brand colours. Validation Red (#b42318) is for form errors only.
 - **Don't** put kickers or eyebrows above section headings.
 - **Don't** box steps or sequences into cards.
-- **Don't** use gradients, glass or backdrop blur, or hard offset shadows. Don't add shadows to ordinary cards.
-- **Don't** dress the site in a themed metaphor (order pad, tiles, offer flyer, transit map), and don't return to the dark-navy-and-coral tech look.
+- **Don't** use gradients, glass, glows, neon or backdrop blur, or hard offset shadows. Don't add shadows to ordinary cards.
+- **Don't** dress the site in a themed metaphor (order pad, tiles, offer flyer, transit map).
 - **Don't** add a dark theme. The system is light only (`color-scheme: light`).
-- **Don't** add a second typeface or fall back to a system display face for headings.
+- **Don't** add a third typeface or fall back to a system display face for headings.
+- **Don't** redraw, stretch, recolour or retype the logo, or set it over a photo without a solid ground.
 - **Don't** replace the phone demo with a stock device mockup or a screenshot.
 - **Don't** publish brand slots with placeholders. During build-out, a missing photo shows a labelled grey marker (`SHOW_PHOTO_PLACEHOLDERS`); before publishing, either the photo exists or the marker is off, in which case About stays text-only and the avatar shows the initials.

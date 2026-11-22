@@ -1,24 +1,19 @@
 ---
-// Marca ARCAV. Se existir um arquivo em src/assets/brand/arcav-logo.(svg|png|webp),
-// ele substitui o wordmark de texto automaticamente no próximo build.
-import { BRAND, ui } from '@data';
-import { LOGO_HEIGHT, logoUrl as logo } from '@lib';
+// Marca ARCAV: o logo (Logo.astro) e, ao lado, "por Armando Castro" em texto.
+import Logo from './Logo.astro';
+import { ui } from '@data';
 
 interface Props {
   /** Mostra "por Armando Castro" ao lado da marca. */
   byline?: boolean;
   tone?: 'light' | 'dark';
-  /** Esconde "por Armando Castro" abaixo do ponto `sm` (cabeçalho no celular). */
+  /** Cabeçalho: só o símbolo abaixo de 420px e sem "por Armando Castro" abaixo de 640px. */
   compact?: boolean;
 }
 
 const { byline = true, tone = 'light', compact = false } = Astro.props;
 ---
 <span class:list={['brand', { 'brand--dark': tone === 'dark', 'brand--compact': compact }]}>
-  {logo ? (
-    <img class="brand__logo" src={logo} alt={BRAND.name} height={LOGO_HEIGHT} />
-  ) : (
-    <span class="brand__wordmark">{BRAND.name}</span>
-  )}
+  <Logo compact={compact} />
   {byline && <span class="brand__byline">{ui.brand.byline}</span>}
 </span>

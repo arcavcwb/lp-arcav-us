@@ -1,6 +1,7 @@
-/* Footer — grafite, quatro colunas a partir de 880px (marca, navegação, contato, trajetória). */
+/* Footer — azul profundo, quatro colunas a partir de 880px (marca, navegação, contato, trajetória). */
 
 .site-footer {
+  --color-focus: var(--color-highlight);
   @apply border-t border-on-dark-line bg-dark pt-footer pb-5 text-on-dark;
 }
 

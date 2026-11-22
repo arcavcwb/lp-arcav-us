@@ -22,7 +22,7 @@
 }
 
 .method__numeral {
-  @apply text-numeral font-normal text-muted tabular-nums;
+  @apply font-heading text-numeral font-normal text-muted tabular-nums;
 }
 
 .method__body {
@@ -30,7 +30,7 @@
 }
 
 .method__step-title {
-  @apply text-base leading-snug font-title lg:text-h3;
+  @apply font-heading text-base leading-snug font-title lg:text-h3;
 }
 
 .method__step-text {

@@ -1,26 +1,20 @@
-/* Brand — wordmark ARCAV (ou o logo) com "por Armando Castro". */
+/* Brand — logo da ARCAV com "por Armando Castro". Sem espaço ao lado, a assinatura desce para
+   baixo do logo (rodapé em 320px) com folga igual à área de reserva do kit. */
 
 .brand {
-  @apply inline-flex items-baseline gap-2.5 whitespace-nowrap;
+  @apply inline-flex flex-wrap items-center gap-3;
 }
 
-.brand__logo {
-  @apply h-7 w-auto self-center;
-}
-
-.brand__wordmark {
-  @apply text-brand leading-none font-extrabold tracking-brand;
-}
-
+/* `pt-2` desce a assinatura 4px: a linha de base dela cai na linha de base do "ARCAV" do logo. */
 .brand__byline {
-  @apply text-meta font-normal text-muted;
+  @apply pt-2 text-meta font-normal whitespace-nowrap text-muted;
 }
 
 .brand--dark .brand__byline {
   @apply text-on-dark-muted;
 }
 
-/* No cabeçalho do celular, só o wordmark. */
+/* No cabeçalho, a assinatura só aparece quando cabe ao lado do logo inteiro e das ações (640px). */
 .brand--compact .brand__byline {
-  @apply max-sm:hidden;
+  @apply max-inline:hidden;
 }

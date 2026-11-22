@@ -1,6 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <!-- Monograma provisório da ARCAV até o logo oficial chegar (ver src/assets/brand/README.md). -->
-  <rect width="128" height="128" rx="28" fill="#1C1D21"/>
-  <path d="M38 98 64 30l26 68" fill="none" stroke="#F4F4F5" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M48 76h32" fill="none" stroke="#B4532A" stroke-width="12" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 350">
+  <!-- Símbolo da ARCAV (Brand Kit V3, docs/brand/v3/logos-svg/favicon.svg) em formato quadrado. -->
+  <rect width="350" height="350" rx="58" fill="#0B1F3B"/>
+  <g transform="translate(35 73)">
+    <polygon points="104,8 182,8 79,196 0,196" fill="#FFFFFF"/>
+    <polygon points="211,59 280,177 142,177" fill="#F59E0B"/>
+  </g>
 </svg>

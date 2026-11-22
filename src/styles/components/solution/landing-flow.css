@@ -7,7 +7,7 @@
 }
 
 .landing-flow__option {
-  @apply flex min-h-14 cursor-pointer items-center gap-3 rounded-control border border-line-strong bg-paper px-3.5 py-3 text-left text-ink transition-colors duration-quick hover:border-ink;
+  @apply flex min-h-14 cursor-pointer items-center gap-3 rounded-control border border-line-control bg-paper px-3.5 py-3 text-left text-ink transition-colors duration-quick hover:border-ink;
   /* Uma por linha; duas a partir de `pair`; quatro a partir de `lg` (descontado o espaço entre elas). */
   flex: 1 1 100%;
 }
@@ -29,7 +29,7 @@
 }
 
 .landing-flow__input:focus-visible + .landing-flow__option {
-  outline: var(--focus-width) solid var(--color-accent);
+  outline: var(--focus-width) solid var(--color-focus);
   outline-offset: var(--outline-offset-focus);
 }
 

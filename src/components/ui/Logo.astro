@@ -1,0 +1,30 @@
+---
+// Logo da ARCAV (Brand Kit V3, docs/brand/v3/logos-svg/logo-primary.svg), em linha: barra
+// inclinada, triângulo âmbar e "ARCAV" em curvas. A barra e as letras usam a cor do texto
+// (azul profundo no claro, branco no escuro); o triângulo, o âmbar (--color-highlight).
+// `compact`: abaixo de --breakpoint-logo a mesma figura é recortada no símbolo
+// (preserveAspectRatio slice, alinhada à esquerda). O nome acessível é sempre "ARCAV".
+import { BRAND } from '@data';
+
+interface Props {
+  /** Só o símbolo quando a tela é estreita (cabeçalho do celular). */
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+<svg
+  class:list={['logo', { 'logo--compact': compact }]}
+  viewBox="0 0 970 205"
+  preserveAspectRatio="xMinYMid slice"
+  role="img"
+  aria-label={BRAND.name}
+>
+  <polygon points="104,8 182,8 79,196 0,196" />
+  <polygon class="logo__mark" points="211,59 280,177 142,177" />
+  <path d="M9 0H341L449 325H1006L1110 0H1451L928 1490H532ZM532 571 583 725C631 877 677 1029 731 1214C784 1029 830 877 876 725L926 571Z" transform="translate(335 159) scale(0.0845 -0.0845)" />
+  <path d="M111 0H419V521H689C690 521 691 521 692 521L956 0H1286L987 579C1154 656 1253 804 1253 1001C1253 1301 1043 1490 707 1490H111ZM419 768V1234H688C851 1234 952 1143 952 1001C952 859 851 768 689 768Z" transform="translate(460.4545 159) scale(0.0845 -0.0845)" />
+  <path d="M771 -24C1120 -24 1380 191 1427 523H1117C1079 348 951 248 775 248C521 248 373 441 373 744C373 1049 522 1242 775 1242C952 1242 1081 1141 1116 965H1427C1380 1298 1120 1514 771 1514C361 1514 63 1220 63 744C63 271 362 -24 771 -24Z" transform="translate(575.0085 159) scale(0.0845 -0.0845)" />
+  <path d="M9 0H341L449 325H1006L1110 0H1451L928 1490H532ZM532 571 583 725C631 877 677 1029 731 1214C784 1029 830 877 876 725L926 571Z" transform="translate(702.66 159) scale(0.0845 -0.0845)" />
+  <path d="M532 0H924L1436 1490H1105L872 765C829 623 783 463 731 280C677 463 630 623 585 765L344 1490H9Z" transform="translate(828.1145 159) scale(0.0845 -0.0845)" />
+</svg>

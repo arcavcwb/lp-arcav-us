@@ -8,33 +8,46 @@
 @theme static {
   --*: initial;
 
-  /* ── Cor ─────────────────────────────────────────────────────────────── */
+  /* ── Cor (Brand Kit V3) ──────────────────────────────────────────────── */
+  /* Do kit: azul profundo #0b1f3b, âmbar #f59e0b, pizarra #334155, areia #f5f3ee e branco.
+     O azul de ação é o azul elétrico do kit (#2563eb) mais sóbrio: metade da saturação, no tom do
+     azul profundo (decisão de 2026-11-22). Os demais tons são derivados e têm o contraste anotado.
+     Azul de ação sobre azul profundo dá 2,24:1: no escuro, texto e foco vão em branco ou âmbar.
+     Âmbar sobre claro dá 2,15:1: nunca é texto sobre branco ou areia. */
   --color-white: #ffffff;
   --color-paper: #ffffff;
-  --color-surface: #f4f4f5;
-  --color-surface-strong: #e9e9ec;
-  --color-ink: #1c1d21;
-  --color-ink-hover: #34363c;
-  --color-muted: #5b5d63;
-  --color-line: #e4e4e7;
-  --color-line-strong: #d4d4d8;
-  --color-line-hover: #a1a1aa;
-  --color-accent: #b4532a;
-  --color-accent-strong: #9a4521;
-  --color-accent-tint: rgb(180 83 42 / 0.1);
-  --color-selection: rgb(180 83 42 / 0.2);
+  --color-surface: #f5f3ee; /* areia */
+  --color-surface-strong: #eae6dc;
+  --color-ink: #0b1f3b; /* azul profundo: 16,5:1 no branco, 14,9:1 na areia */
+  --color-ink-hover: #1e3a5f;
+  --color-muted: #334155; /* pizarra: 10,35:1 no branco, 9,34:1 na areia */
+  --color-line: #e2e8f0;
+  --color-line-strong: #cbd5e1;
+  --color-line-hover: #94a3b8;
+  /* Borda que identifica um controle (botão secundário, campo, opção): 3,43:1 no branco, 3,09:1 na areia. */
+  --color-line-control: #7c8ca2;
+  --color-accent: #2a5598; /* azul de ação: 7,37:1 no branco, 6,64:1 na areia */
+  --color-accent-strong: #1f4380; /* 9,66:1 no branco */
+  --color-accent-tint: rgb(42 85 152 / 0.1);
+  --color-selection: rgb(42 85 152 / 0.2);
   /* Fundo atrás de uma janela (formulário de contato) */
-  --color-backdrop: rgb(28 29 33 / 0.6);
-  --color-clay: #e7a27f;
-  --color-dark: #1c1d21;
-  --color-dark-raised: #26282d;
-  --color-on-dark: #f4f4f5;
-  --color-on-dark-muted: #a9abb2;
-  --color-on-dark-line: #34363c;
+  --color-backdrop: rgb(11 31 59 / 0.6);
+  /* Âmbar: acento secundário. Sobre azul profundo (7,68:1), no logo e em sinais de progresso. */
+  --color-highlight: #f59e0b;
+  --color-dark: #0b1f3b;
+  --color-dark-raised: #13294b; /* âmbar 6,76:1 */
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted: #cbd5e1; /* 11,1:1 no azul profundo */
+  --color-on-dark-line: #1e3355;
+  /* Borda de controle no escuro: 3,57:1 no azul profundo. */
+  --color-on-dark-line-control: #657690;
   --color-danger: #b42318;
+  /* Contorno do foco: azul no claro; as superfícies escuras trocam para o âmbar. */
+  --color-focus: var(--color-accent);
 
-  /* ── Tipo: uma família; a hierarquia vem do tamanho e do peso ─────────── */
-  --font-sans: 'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* ── Tipo: Inter no texto e na interface; Manrope nos títulos (Brand Kit V3) ── */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Manrope', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -69,7 +82,6 @@
   --text-lg: 1.125rem;
   --text-h3: 1.25rem;
   --text-h3--line-height: var(--leading-snug);
-  --text-brand: 1.375rem;
   --text-statement: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
   --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
   --text-lead--line-height: var(--leading-lead);
@@ -96,7 +108,6 @@
   --tracking-subtitle: -0.012em;
   --tracking-tight: -0.01em;
   --tracking-wide: 0.02em;
-  --tracking-brand: 0.04em;
 
   --text-underline-offset-link: 0.22em;
 
@@ -110,6 +121,8 @@
   /* Seção-respiro (manifesto): mais ar que as outras */
   --spacing-section-feature: clamp(3.5rem, 2rem + 5vw, 7.5rem);
   --spacing-header: 4.25rem;
+  /* Altura do logo (Logo.astro): 161px de largura no logotipo, 31px de altura no símbolo. */
+  --spacing-logo: 2.125rem;
   --spacing-anchor: calc(var(--spacing-header) + 1rem);
   --spacing-sticky: calc(var(--spacing-header) + 2rem);
   --spacing-head: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
@@ -187,6 +200,9 @@
   --aspect-portrait: 4 / 5;
   --aspect-landscape: 3 / 2;
   --aspect-wide: 4 / 3;
+  /* Proporções do desenho do logo (viewBox do kit): inteiro e só o símbolo. */
+  --aspect-logo: 970 / 205;
+  --aspect-symbol: 280 / 205;
 
   /* ── Forma ────────────────────────────────────────────────────────────── */
   --radius-xs: 4px;
@@ -197,12 +213,13 @@
   --radius-phone: 2.75rem;
   --radius-screen: 2.2rem;
 
-  --shadow-raised: 0 1px 2px rgb(28 29 33 / 0.06), 0 14px 32px -14px rgb(28 29 33 / 0.22);
-  --shadow-lift: 0 2px 4px rgb(28 29 33 / 0.08), 0 24px 44px -18px rgb(28 29 33 / 0.3);
-  --shadow-drawer: 0 18px 30px -24px rgb(28 29 33 / 0.35);
-  --shadow-phone: 0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45);
+  /* Sombras tingidas de azul profundo (--color-ink). */
+  --shadow-raised: 0 1px 2px rgb(11 31 59 / 0.06), 0 14px 32px -14px rgb(11 31 59 / 0.22);
+  --shadow-lift: 0 2px 4px rgb(11 31 59 / 0.08), 0 24px 44px -18px rgb(11 31 59 / 0.3);
+  --shadow-drawer: 0 18px 30px -24px rgb(11 31 59 / 0.35);
+  --shadow-phone: 0 2px 6px rgb(11 31 59 / 0.1), 0 40px 70px -30px rgb(11 31 59 / 0.45);
   --shadow-focus: 0 0 0 3px var(--color-accent-tint);
-  --shadow-dialog: 0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45);
+  --shadow-dialog: 0 2px 6px rgb(11 31 59 / 0.1), 0 40px 70px -30px rgb(11 31 59 / 0.45);
 
   /* Foco do teclado */
   --focus-width: 2px;
@@ -252,6 +269,9 @@
   }
 
   /* ── Pontos de quebra (mobile first) ──────────────────────────────────── */
+  /* 420px: logotipo inteiro no cabeçalho. Medido: em 390px faltam 5px na home e 17px em
+     comércio digital; em 420px sobram 12px na página com a ação mais longa. */
+  --breakpoint-logo: 26.25rem;
   --breakpoint-sm: 30rem; /* 480px */
   --breakpoint-pair: 35rem; /* 560px: dois itens curtos lado a lado */
   --breakpoint-inline: 40rem; /* 640px: dados curtos em linha */

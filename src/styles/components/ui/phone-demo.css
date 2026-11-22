@@ -84,14 +84,12 @@
   font-variant-numeric: tabular-nums;
 }
 
-.phone-demo li[aria-current='step'] .demo-guide__n {
-  background: var(--color-accent);
-  color: var(--color-white);
-}
-
+/* Progresso em âmbar (Brand Kit V3): o passo atual e os feitos. O número e o ✓ ficam em
+   azul profundo sobre o âmbar (7,68:1); o azul continua só para o que se toca. */
+.phone-demo li[aria-current='step'] .demo-guide__n,
 .phone-demo li[data-done] .demo-guide__n {
-  background: var(--color-accent-tint);
-  color: var(--color-accent);
+  background: var(--color-highlight);
+  color: var(--color-ink);
 }
 
 .phone-demo .demo-guide__n .demo-guide__check {
@@ -252,7 +250,7 @@
   align-items: center;
   gap: --spacing(0.5);
   padding: --spacing(0.75);
-  border: 1px solid var(--color-line-strong);
+  border: 1px solid var(--color-line-control);
   border-radius: var(--radius-pill);
 }
 
