@@ -1,6 +1,6 @@
-/* ClosingContact — fechamento grafite: chamada, quem responde, canais e o botão do formulário.
+/* ClosingContact — fechamento em azul profundo: chamada, quem responde, canais e o botão do formulário.
    O formulário abre numa janela (atributo popover): botão para abrir, X, Esc ou toque fora para
-   fechar, sem JavaScript. Mesmo dentro da seção grafite, a janela é uma superfície clara;
+   fechar, sem JavaScript. Mesmo dentro da seção escura, a janela é uma superfície clara;
    no celular, ocupa a tela inteira. */
 
 .closing__grid {

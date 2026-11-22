@@ -61,7 +61,7 @@ Ingeniería seria con alcance de pequeño negocio. ARCAV no reemplaza lo que ya 
 - Registro visual (decisión del usuario, 2026-11-21, después de rechazar dos tandas de mundos temáticos): **sobrio y profesional**. Nada de metáforas que disfracen el sitio (talonario, azulejos, folleto de ofertas, mapa de transporte). Amarillo, rojo, azul cobalto y verde no son colores de marca. Tampoco puede verse barato ni frío o genérico: la personalidad sale de la tipografía, el orden, el contenido real y la presencia de Armando. Desde el 2026-11-21 la dirección es **"A obra em primeiro plano"**: portafolio editorial de estudio, con el trabajo real y la persona al frente (DESIGN.md y `docs/auditorias/AUDITORIA-VISUAL-HOME.md`).
 - Voz: clara, directa, sin hype ni buzzwords (revolucionário, disruptivo, 10x…). Beneficio antes que tecnología al hablarle a comerciantes.
 - WhatsApp comercial de ARCAV: (41) 99845-0477 (`ARCAV_WHATSAPP` en `src/lib/contact.ts`, confirmado por el usuario el 2026-11-21). Plazo de respuesta: el sitio no promete ninguno (`RESPONSE_TIME = null`) hasta que la automatización (n8n + Evolution API para WhatsApp) lo garantice; el endpoint `/api/contato` ya acepta `N8N_WEBHOOK_URL`. Precio y plazo de implantación se informan después de la evaluación; el sitio no publica precios genéricos.
-- Logo o símbolo ARCAV: todavía no está en el repo; hoy hay wordmark de texto y `public/favicon.svg`.
+- Logo y símbolo ARCAV: Brand Kit V3 (`docs/brand/v3/`), en el sitio como `src/components/ui/Logo.astro`, con favicon e ícono de Apple en `public/`.
 - Fotos de Armando: el usuario las entrega el 2026-11-22. Mientras tanto, la home muestra marcadores en sus lugares (`src/data/photos.ts`); no se publica con marcadores.
 
 ## Evidence on Hand

@@ -1,6 +1,6 @@
 # ARCAV — Brand
 
-**Last updated:** 2026-11-21. Visual system: [`DESIGN.md`](../DESIGN.md). Product and audience: [`PRODUCT.md`](../PRODUCT.md).
+**Last updated:** 2026-11-22. Visual system: [`DESIGN.md`](../DESIGN.md). Product and audience: [`PRODUCT.md`](../PRODUCT.md). Identity kit: [`brand/v3/`](brand/v3/).
 
 ## Identity
 
@@ -15,6 +15,20 @@ Produtos digitais e evolução de processos
 **por Armando Castro**
 
 ARCAV may grow into services, products, tools, templates, articles, and collaborations without pretending to be a large agency. It is a one-person product studio in Curitiba.
+
+## Logo
+
+The logo comes from the ARCAV Brand Kit V3 (approved 2026-11-21): a slanted deep-navy bar and an amber triangle that suggest an abstract A, followed by the ARCAV letters drawn as curves. The kit's guide and the 11 SVG files are in [`brand/v3/`](brand/v3/); on the site it is `src/components/ui/Logo.astro`.
+
+- **Versions:** primary (navy and amber, for white and sand grounds), on dark (white and amber, for deep navy), one-colour navy or white, stacked, and the symbol alone. The site uses one inline drawing that takes the text colour, so the header shows the primary version and the footer the one on dark.
+- **Minimum size:** the horizontal logo at 160px wide on screen; the symbol alone at 24px. The site sets it 34px tall (161px wide; symbol 31px tall).
+- **Symbol alone:** only where the full logo doesn't fit, such as the site header below 420px. The accessible name stays "ARCAV".
+- **Clear space:** at least half the height of the A on every side (about 10px at the site's size). Nothing enters that space, "por Armando Castro" included.
+- **Don't:** stretch, rotate, recolour, reorder the colours, add shadows or effects, retype the letters with a font, or set the two-colour logo over a photo without a solid ground under it.
+- **Before print or registration:** the drawing is a vector reconstruction of the approved concept; review the curves and letter spacing optically first (note from the kit).
+- **Favicon and app icon:** the symbol in white and amber on a deep-navy square (`public/favicon.svg`, `favicon.ico`, `apple-touch-icon.png`).
+
+The kit's tagline "Tecnologia para negócios e marketing" is not used on the site; the site keeps "Produtos digitais e evolução de processos".
 
 ## Brand personality
 
