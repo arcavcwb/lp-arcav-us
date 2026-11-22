@@ -7,5 +7,18 @@
   ],
   "exclude": [
     "dist"
-  ]
+  ],
+  "compilerOptions": {
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@data": ["./src/data/index.ts"],
+      "@data/*": ["./src/data/*"],
+      "@lib": ["./src/lib/index.ts"],
+      "@lib/*": ["./src/lib/*"],
+      "@scripts/*": ["./src/scripts/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@assets/*": ["./src/assets/*"]
+    }
+  }
 }
