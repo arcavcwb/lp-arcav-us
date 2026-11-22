@@ -20,6 +20,7 @@
 }
 
 .section--dark {
+  --color-focus: var(--color-highlight);
   background: var(--color-dark);
   color: var(--color-on-dark);
   border-top-color: var(--color-dark);

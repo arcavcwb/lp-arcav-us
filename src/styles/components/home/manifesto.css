@@ -58,5 +58,5 @@
 }
 
 .manifesto__mark--after {
-  @apply text-clay;
+  @apply text-highlight;
 }

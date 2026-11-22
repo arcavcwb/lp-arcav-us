@@ -8,30 +8,37 @@
 @theme static {
   --*: initial;
 
-  /* ── Cor ─────────────────────────────────────────────────────────────── */
+  /* ── Cor (Brand Kit V3) ──────────────────────────────────────────────── */
+  /* Do kit: azul profundo #0b1f3b, azul elétrico #2563eb, âmbar #f59e0b, pizarra #334155,
+     areia #f5f3ee e branco. Os demais tons são derivados e têm o contraste anotado.
+     Azul elétrico sobre azul profundo dá 3,19:1: no escuro, texto e foco vão em branco ou âmbar.
+     Âmbar sobre claro dá 2,15:1: nunca é texto sobre branco ou areia. */
   --color-white: #ffffff;
   --color-paper: #ffffff;
-  --color-surface: #f4f4f5;
-  --color-surface-strong: #e9e9ec;
-  --color-ink: #1c1d21;
-  --color-ink-hover: #34363c;
-  --color-muted: #5b5d63;
-  --color-line: #e4e4e7;
-  --color-line-strong: #d4d4d8;
-  --color-line-hover: #a1a1aa;
-  --color-accent: #b4532a;
-  --color-accent-strong: #9a4521;
-  --color-accent-tint: rgb(180 83 42 / 0.1);
-  --color-selection: rgb(180 83 42 / 0.2);
+  --color-surface: #f5f3ee; /* areia */
+  --color-surface-strong: #eae6dc;
+  --color-ink: #0b1f3b; /* azul profundo: 16,5:1 no branco, 14,9:1 na areia */
+  --color-ink-hover: #1e3a5f;
+  --color-muted: #334155; /* pizarra: 10,35:1 no branco, 9,34:1 na areia */
+  --color-line: #e2e8f0;
+  --color-line-strong: #cbd5e1;
+  --color-line-hover: #94a3b8;
+  --color-accent: #2563eb; /* azul elétrico: 5,17:1 no branco, 4,66:1 na areia */
+  --color-accent-strong: #1d4ed8; /* 6,70:1 no branco */
+  --color-accent-tint: rgb(37 99 235 / 0.1);
+  --color-selection: rgb(37 99 235 / 0.2);
   /* Fundo atrás de uma janela (formulário de contato) */
-  --color-backdrop: rgb(28 29 33 / 0.6);
-  --color-clay: #e7a27f;
-  --color-dark: #1c1d21;
-  --color-dark-raised: #26282d;
-  --color-on-dark: #f4f4f5;
-  --color-on-dark-muted: #a9abb2;
-  --color-on-dark-line: #34363c;
+  --color-backdrop: rgb(11 31 59 / 0.6);
+  /* Âmbar: acento secundário. Sobre azul profundo (7,68:1), no logo e em sinais de progresso. */
+  --color-highlight: #f59e0b;
+  --color-dark: #0b1f3b;
+  --color-dark-raised: #13294b; /* âmbar 6,76:1 */
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted: #cbd5e1; /* 11,1:1 no azul profundo */
+  --color-on-dark-line: #1e3355;
   --color-danger: #b42318;
+  /* Contorno do foco: azul no claro; as superfícies escuras trocam para o âmbar. */
+  --color-focus: var(--color-accent);
 
   /* ── Tipo: uma família; a hierarquia vem do tamanho e do peso ─────────── */
   --font-sans: 'Schibsted Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -197,12 +204,13 @@
   --radius-phone: 2.75rem;
   --radius-screen: 2.2rem;
 
-  --shadow-raised: 0 1px 2px rgb(28 29 33 / 0.06), 0 14px 32px -14px rgb(28 29 33 / 0.22);
-  --shadow-lift: 0 2px 4px rgb(28 29 33 / 0.08), 0 24px 44px -18px rgb(28 29 33 / 0.3);
-  --shadow-drawer: 0 18px 30px -24px rgb(28 29 33 / 0.35);
-  --shadow-phone: 0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45);
+  /* Sombras tingidas de azul profundo (--color-ink). */
+  --shadow-raised: 0 1px 2px rgb(11 31 59 / 0.06), 0 14px 32px -14px rgb(11 31 59 / 0.22);
+  --shadow-lift: 0 2px 4px rgb(11 31 59 / 0.08), 0 24px 44px -18px rgb(11 31 59 / 0.3);
+  --shadow-drawer: 0 18px 30px -24px rgb(11 31 59 / 0.35);
+  --shadow-phone: 0 2px 6px rgb(11 31 59 / 0.1), 0 40px 70px -30px rgb(11 31 59 / 0.45);
   --shadow-focus: 0 0 0 3px var(--color-accent-tint);
-  --shadow-dialog: 0 2px 6px rgb(28 29 33 / 0.1), 0 40px 70px -30px rgb(28 29 33 / 0.45);
+  --shadow-dialog: 0 2px 6px rgb(11 31 59 / 0.1), 0 40px 70px -30px rgb(11 31 59 / 0.45);
 
   /* Foco do teclado */
   --focus-width: 2px;
