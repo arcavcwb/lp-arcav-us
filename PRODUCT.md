@@ -67,7 +67,7 @@ Ingeniería seria con alcance de pequeño negocio. ARCAV no reemplaza lo que ya 
 ## Evidence on Hand
 
 - Demo de propuesta para Center Gás: `https://centergas-v3.pages.dev/`. Es un trabajo para un prospecto, no un caso público, salvo autorización.
-- Diagnóstico y copy aprobados: `docs/propostas/center-gas/`.
+- Diagnóstico y copy aprobados de la propuesta: en el repositorio de Center Gás (salieron de este el 2026-11-21).
 - Repositorio público `https://github.com/arcavcwb/arcav-ia-flow`.
 - Trayectoria: Arkus Nexus (Frontend Developer), Drata (Frontend React Developer), según `docs/BRAND.md`.
 - **Ausencias que no se inventan:** testimonios, logos de clientes, métricas o resultados, capturas publicables de casos. El trabajo actual para empresas o clientes es confidencial.
@@ -83,3 +83,14 @@ Ingeniería seria con alcance de pequeño negocio. ARCAV no reemplaza lo que ya 
 ## Accessibility & Inclusion
 
 Mobile-first (360 y 390 px como mínimo de referencia), contraste WCAG AA, navegación completa por teclado, foco visible, objetivos táctiles de 44 px o más y respeto por `prefers-reduced-motion`. Contenido en `lang="pt-BR"`.
+
+- HTML semántico: un solo H1 por página, títulos en orden, listas y tablas reales, etiquetas con sentido en formularios y botones.
+- Ningún estado se comunica solo con color; los SVG decorativos quedan ocultos para lectores de pantalla.
+- Menú del celular, ventana del formulario y selector de landing pages usables con teclado (popover y botones de opción nativos).
+
+## Performance
+
+- Render de Astro, CSS y SVG; el mínimo de JavaScript en el navegador (hoy: el celular de demostración, el formulario y el cierre del menú).
+- El sitio se entiende y funciona sin JavaScript donde es posible: la ventana, el menú, el selector y el movimiento son HTML y CSS.
+- Imágenes con tamaño reservado y carga diferida fuera de la primera pantalla.
+- Fuera: librerías 3D o de mapas, frameworks de animación pesados, video de fondo, hidratación innecesaria, imágenes gigantes.
