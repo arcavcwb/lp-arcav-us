@@ -32,3 +32,6 @@ pnpm-debug.log*
 .impeccable/hook.cache.json
 .impeccable/chrome-profile*/
 .impeccable/reference/
+
+# propostas para prospectos vivem no repositório de cada projeto, não aqui
+docs/propostas/
