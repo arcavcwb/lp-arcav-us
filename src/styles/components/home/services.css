@@ -18,7 +18,7 @@
 }
 
 .services__situation {
-  @apply text-index font-semibold tracking-title text-balance;
+  @apply font-heading text-index font-semibold tracking-title text-balance;
 }
 
 .services__service {

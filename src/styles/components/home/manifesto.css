@@ -22,7 +22,7 @@
 }
 
 .manifesto__quote {
-  @apply text-quote font-semibold tracking-heading text-on-dark lg:col-span-9;
+  @apply font-heading text-quote font-semibold tracking-heading text-on-dark lg:col-span-9;
 }
 
 .manifesto__author {

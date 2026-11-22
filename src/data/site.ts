@@ -20,13 +20,14 @@ export const BRAND = {
   statement: 'Focados em escopo. Sérios em engenharia.',
 } as const;
 
-/** Documento: idioma, cor do navegador, ícones e a fonte pré-carregada (Layout.astro). */
+/** Documento: idioma, cor do navegador, ícones e as fontes pré-carregadas (Layout.astro). */
 export const SITE = {
   lang: 'pt-BR',
   ogLocale: 'pt_BR',
   /** Cor da barra do navegador no celular: a mesma de --color-paper (tokens.css). */
   themeColor: '#ffffff',
-  fontPreload: '/fonts/schibsted-grotesk-latin.woff2',
+  /** O recorte latin das duas famílias: sem Inter aqui, o texto troca de fonte depois do primeiro quadro e a página pula. */
+  fontPreloads: ['/fonts/inter-latin.woff2', '/fonts/manrope-latin.woff2'],
   icons: { ico: '/favicon.ico', svg: '/favicon.svg', apple: '/apple-touch-icon.png' },
 } as const;
 
