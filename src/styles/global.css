@@ -31,6 +31,7 @@
 @import './primitives/surfaces.css' layer(primitives);
 @import './primitives/sequences.css' layer(primitives);
 @import './primitives/motion.css' layer(primitives);
+@import './primitives/glass.css' layer(primitives);
 
 /* Interface compartilhada */
 @import './components/ui/header.css' layer(components);
@@ -51,10 +52,10 @@
 @import './components/home/hero.css' layer(components);
 @import './components/home/services.css' layer(components);
 @import './components/home/service-preview.css' layer(components);
+@import './components/home/service-icon.css' layer(components);
 @import './components/home/examples.css' layer(components);
 @import './components/home/manifesto.css' layer(components);
 @import './components/home/method.css' layer(components);
-@import './components/home/about.css' layer(components);
 
 /* Soluções e páginas soltas */
 @import './components/solution/solution-page.css' layer(components);

@@ -43,14 +43,18 @@ const dialogId = ANCHOR.contactForm;
 /** O botão que abre a janela diz o mesmo que o envio da página (ex.: "Quero uma loja assim"). */
 const openLabel = submit ?? (variant === 'store' ? ui.contactForm.submit.store : dialog.open);
 ---
-<section class="section section--dark closing" id={ANCHOR.contact} aria-labelledby="contato-title">
+<section class="section section--dark closing has-orbs" id={ANCHOR.contact} aria-labelledby="contato-title">
+  <div class="orbs" aria-hidden="true">
+    <span class="orbs__orb orbs__orb--blue"></span>
+    <span class="orbs__orb orbs__orb--amber"></span>
+  </div>
   <div class="shell closing__grid">
     <div class="closing__intro">
       <h2 class:list={['h2', { 'h2--feature': feature }]} id="contato-title">{title}</h2>
       <p class="lead">{text}</p>
     </div>
 
-    <div class="closing__aside">
+    <div class="closing__aside glass glass--dark">
       <div class="closing__responder">
         <Avatar />
         <p class="closing__responder-text">

@@ -1,35 +1,55 @@
 ---
-// Hero da home: título, subtítulo e ações à esquerda (8 de 12 colunas); o retrato de trabalho à
-// direita (4 colunas), centrado na altura do texto. O título fica na escala normal dos heros: a frase
-// é longa, e grande demais ela vira um cartaz (feedback de 2026-11-21). No celular, o retrato vem
-// depois das ações, a toda a largura, em 4:3. Ao carregar, o texto entra em sequência e o retrato
-// se descobre de baixo para cima. A ação principal abre a janela do formulário.
-import { Icon, Photo } from '@components/ui';
-import { ANCHOR, home, toAnchor, ui } from '@data';
-import { photoShown } from '@lib';
+// Hero da home: título, subtítulo e ações à esquerda; à direita, a arte aprovada (2026-11-22): laptop
+// com o logo da ARCAV, três ícones e curvas azul e âmbar. A arte é decorativa (os textos e as ações
+// são HTML; o logo acessível é o do cabeçalho) e não flutua nem se mexe em loop. A partir de 960px
+// ela se encosta no canto de cima, à direita, do hero (as bordas de cima e da direita da arte são
+// duras; as da esquerda e de baixo se desfazem no fundo), atrás do texto. No celular, a arte vem
+// depois das ações, menor, para o hero caber numa tela; `<picture>` baixa só o enquadramento da
+// tela. O título fica na escala normal dos heros (feedback de 2026-11-21). Ao carregar, o texto
+// entra em sequência e a arte se descobre de baixo para cima. A ação principal abre a janela do
+// formulário.
+import { Icon } from '@components/ui';
+import { ANCHOR, home, toAnchor } from '@data';
 
 const { hero } = home;
-const withPhoto = photoShown('work');
+const { art } = hero;
 ---
-<section class:list={['page-hero hero', { 'hero--with-photo': withPhoto }]} aria-labelledby="hero-title">
+<section class="page-hero hero has-orbs" aria-labelledby="hero-title">
+  <div class="orbs" aria-hidden="true">
+    <span class="orbs__orb orbs__orb--blue"></span>
+    <span class="orbs__orb orbs__orb--amber"></span>
+  </div>
   <div class="shell hero__grid">
     <div class="enter-group">
       <h1 class="h1" id="hero-title">{hero.title}</h1>
       <p class="lead">{hero.subtitle}</p>
       <div class="page-hero__actions">
         <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
+          <Icon name="chat" />
           {hero.primaryCta}
-          <Icon name="arrow-right" />
         </button>
-        <a class="btn btn--ghost" href={toAnchor(ANCHOR.solutions)}>{hero.secondaryCta}</a>
+        <a class="btn btn--ghost" href={toAnchor(ANCHOR.solutions)}>
+          <Icon name="grid" />
+          {hero.secondaryCta}
+          <Icon name="arrow-right" />
+        </a>
       </div>
     </div>
+  </div>
 
-    {withPhoto && (
-      <figure class="enter-image hero__figure">
-        <Photo photo="work" class="hero__photo" eager />
-        <figcaption class="hero__caption">{ui.photo.caption}</figcaption>
-      </figure>
-    )}
+  <div class="enter-image hero__art" aria-hidden="true">
+    <picture>
+      <source media={art.desktopMedia} srcset={art.desktop.src} width={art.desktop.width} height={art.desktop.height} />
+      <img
+        class="hero__art-image"
+        src={art.mobile.src}
+        width={art.mobile.width}
+        height={art.mobile.height}
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
   </div>
 </section>

@@ -1,38 +1,215 @@
-/* Método: título parado à esquerda (a partir de 960px) e os seis passos como tabela:
-   numeral grande, título e texto. No celular, a lista compacta. */
+/* Método: seis cartões de vidro (.glass) lado a lado (pedido do usuário, 2026-11-22; a borda e a
+   sombra duras da primeira versão saíram a pedido dele). Atrás deles, as luzes da marca (.orbs).
+   Até 1200px a fila desliza de lado (com encaixe em cada cartão); a partir daí, os seis cabem.
+   Movimento, só com "reduzir movimento" desligado:
+   1. os cartões entram um depois do outro conforme a seção chega à tela, e a linha do tempo acima
+      deles se desenha da esquerda para a direita (animações ligadas à rolagem; sem suporte, tudo
+      já aparece pronto);
+   2. depois flutuam devagar, cada um no seu tempo (keyframes `float`, primitives/glass.css);
+   3. um foco passa por cada passo, de dois em dois segundos: o cartão sobe, o ícone fica azul
+      profundo, a barra de avanço e o ponto da linha do tempo acendem em âmbar.
+   O índice de cada cartão vem em --step (Method.astro). */
 
-.method__grid {
-  @apply grid gap-8 lg:grid-cols-12 lg:gap-x-columns;
+.method {
+  view-timeline-name: --method;
 }
 
-.method__head {
-  @apply lg:col-span-4;
-}
+/* ── Fila ──────────────────────────────────────────────────────────────────────────────────── */
 
 .method__title {
-  @apply xl:sticky xl:top-sticky;
+  @apply mb-head;
 }
 
+/* A faixa vai até a borda da tela no celular e deixa espaço para a sombra dura dos cartões. */
+.method__track {
+  @apply -mx-gutter overflow-x-auto px-gutter pt-2 pb-6 3xl:mx-0 3xl:overflow-visible 3xl:px-0;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--spacing-gutter);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-control) transparent;
+}
+
+.method__track:focus-visible {
+  outline-offset: var(--outline-offset-inset);
+}
+
+/* Linha do tempo acima dos cartões, com um ponto por passo; o ponto acende em âmbar quando o
+   foco passa pelo cartão dele. */
 .method__steps {
-  @apply border-t border-ink lg:col-span-8;
+  @apply relative m-0 grid grid-cols-method gap-5 p-0 pt-7 pr-3 3xl:grid-cols-6 3xl:pr-0;
+  list-style: none;
+}
+
+.method__steps::before {
+  @apply absolute top-2.25 right-0 left-0 h-0.5 origin-left bg-ink;
+  content: '';
 }
 
 .method__step {
-  @apply grid grid-cols-step items-baseline gap-x-3 border-b border-line-strong py-2.5 lg:grid-cols-step-lg lg:py-4;
+  @apply relative;
+  scroll-snap-align: start;
 }
 
-.method__numeral {
-  @apply font-heading text-numeral font-normal text-muted tabular-nums;
+.method__step::before {
+  @apply absolute -top-6 left-5 size-3 rounded-pill border-2 border-ink bg-paper;
+  content: '';
 }
 
-.method__body {
-  @apply grid gap-0.5 lg:grid-cols-step-text lg:items-baseline lg:gap-x-8;
+/* ── Cartão ────────────────────────────────────────────────────────────────────────────────── */
+
+/* Acabamento de produto: vidro mais denso, filete cinza, ícone num poço quadrado, contador
+   discreto e uma barra com o avanço no processo (passo/total). */
+.method__card {
+  @apply relative grid h-full grid-rows-card gap-3 rounded-card border-line bg-glass-strong p-5 transition duration-control ease-out;
+  transition-property: transform, box-shadow;
+}
+
+@media (hover: hover) {
+  .method__card:hover {
+    @apply shadow-glass-lift;
+    transform: translateY(--spacing(-1));
+  }
+}
+
+.method__top {
+  @apply mb-1 flex items-center justify-between gap-3;
+}
+
+.method__well {
+  @apply grid size-10 place-items-center rounded-control bg-surface text-ink transition duration-control ease-out;
+}
+
+.method__icon {
+  @apply size-5;
+}
+
+.method__count {
+  @apply text-caption font-semibold text-muted tabular-nums;
 }
 
 .method__step-title {
-  @apply font-heading text-base leading-snug font-title lg:text-h3;
+  @apply font-heading text-h3 leading-snug font-title tracking-title text-ink;
 }
 
 .method__step-text {
-  @apply text-sm leading-caption text-muted lg:text-base;
+  @apply text-sm leading-caption text-muted;
+}
+
+.method__progress {
+  @apply mt-2 block h-1 overflow-hidden rounded-pill bg-line;
+}
+
+.method__progress-bar {
+  @apply block h-full rounded-pill bg-ink transition duration-control ease-out;
+  width: calc((var(--step) + 1) / var(--steps) * 100%);
+}
+
+/* ── Movimento ─────────────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .method__card {
+    animation:
+      float var(--transition-duration-float) ease-in-out infinite,
+      method-spot var(--transition-duration-spotlight) linear infinite;
+    animation-delay:
+      calc(var(--step) * var(--transition-duration-float) / -6),
+      calc(var(--step) * var(--transition-delay-spotlight));
+  }
+
+  .method__well {
+    animation: method-spot-well var(--transition-duration-spotlight) linear infinite;
+    animation-delay: calc(var(--step) * var(--transition-delay-spotlight));
+  }
+
+  .method__progress-bar {
+    animation: method-spot-bar var(--transition-duration-spotlight) linear infinite;
+    animation-delay: calc(var(--step) * var(--transition-delay-spotlight));
+  }
+
+  .method__step::before {
+    animation: method-spot-dot var(--transition-duration-spotlight) linear infinite;
+    animation-delay: calc(var(--step) * var(--transition-delay-spotlight));
+  }
+
+  @supports (animation-timeline: view()) {
+    .method__step {
+      animation: method-in linear both;
+      animation-timeline: --method;
+      animation-range: cover calc(8% + var(--step) * 4%) cover calc(22% + var(--step) * 4%);
+    }
+
+    .method__steps::before {
+      animation: method-line linear both;
+      animation-timeline: --method;
+      animation-range: cover 10% cover 45%;
+    }
+  }
+}
+
+@keyframes method-in {
+  from {
+    opacity: 0;
+    transform: translateY(--spacing(6));
+  }
+}
+
+@keyframes method-line {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+/* O foco fica em cada cartão por 1/6 do ciclo (2s de 12s); os cartões começam 2s um depois do outro. */
+@keyframes method-spot {
+  0%,
+  14% {
+    box-shadow: var(--shadow-glass-lift);
+    scale: 1.02;
+  }
+
+  17%,
+  100% {
+    box-shadow: var(--shadow-glass);
+    scale: 1;
+  }
+}
+
+@keyframes method-spot-bar {
+  0%,
+  14% {
+    background-color: var(--color-highlight);
+  }
+
+  17%,
+  100% {
+    background-color: var(--color-ink);
+  }
+}
+
+@keyframes method-spot-well {
+  0%,
+  14% {
+    background-color: var(--color-ink);
+    color: var(--color-white);
+  }
+
+  17%,
+  100% {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+  }
+}
+
+@keyframes method-spot-dot {
+  0%,
+  14% {
+    background-color: var(--color-highlight);
+    scale: 1.35;
+  }
+
+  17%,
+  100% {
+    background-color: var(--color-paper);
+    scale: 1;
+  }
 }

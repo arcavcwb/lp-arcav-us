@@ -1,20 +1,13 @@
-/* Footer — azul profundo, quatro colunas a partir de 880px (marca, navegação, contato, trajetória). */
+/* Footer — azul profundo, numa faixa só (pedido do usuário, 2026-11-22: mais simples e mais
+   baixo). A partir de 880px: marca | links numa linha | contato; embaixo, direitos e redes. */
 
 .site-footer {
   --color-focus: var(--color-highlight);
-  @apply border-t border-on-dark-line bg-dark pt-footer pb-5 text-on-dark;
+  @apply border-t border-on-dark-line bg-dark pt-8 pb-5 text-on-dark;
 }
 
-.site-footer__grid {
-  @apply grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-footer lg:gap-x-10;
-}
-
-.site-footer__brand {
-  @apply col-span-2 lg:col-span-1;
-}
-
-.site-footer__nav {
-  @apply col-span-2 columns:col-span-1;
+.site-footer__top {
+  @apply grid items-center gap-x-10 gap-y-5 lg:grid-cols-footer;
 }
 
 .site-footer__link {
@@ -25,33 +18,16 @@
   @apply inline-flex items-center gap-1.5;
 }
 
-.site-footer__statement {
-  @apply mt-2 max-w-xs text-on-dark-muted;
-}
-
-/* Rótulo de cada coluna (Navegação, Contato, Localização, Trajetória). */
-.site-footer__term {
-  @apply mb-1 text-caption font-semibold text-on-dark-muted;
-}
-
 .site-footer__links {
-  @apply grid content-start gap-1.5 text-sm;
-}
-
-.site-footer__facts {
-  @apply grid content-start gap-3 text-sm;
+  @apply flex flex-wrap gap-x-5 gap-y-1.5 text-sm lg:justify-center;
 }
 
 .site-footer__contacts {
-  @apply grid gap-1;
+  @apply grid gap-1 text-sm lg:justify-items-end;
 }
 
 .site-footer__phone {
   @apply whitespace-nowrap;
-}
-
-.site-footer__trajectory {
-  @apply text-sm text-on-dark;
 }
 
 .site-footer__bottom {

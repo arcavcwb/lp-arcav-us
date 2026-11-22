@@ -1,53 +1,80 @@
 ---
-// "O que eu construo": catálogo dos cinco serviços, todos com o mesmo peso. Cada linha entra pela
-// frase do cliente ("Preciso de um site para a minha empresa.") com o serviço embaixo; a linha
-// escolhida mostra a ilustração do serviço, a descrição e o botão para a página dele.
-// Sem JavaScript: cada linha é um botão de opção nativo (as setas do teclado trocam o serviço) e o
-// CSS mostra a ficha da opção marcada. O botão fica dentro da linha para o foco não rolar a página
-// até o topo da lista. A partir de 960px a ficha fica numa coluna ao lado; antes disso, abre logo
-// abaixo da frase escolhida.
+// "O que eu construo": os cinco serviços, com o mesmo peso, como discos com a ilustração de cada
+// um (ServiceIcon). O disco escolhido fica azul profundo e abre a ficha do serviço: o nome, a frase
+// do cliente e o botão no alto; embaixo, a ilustração do serviço e "Como funciona" desenhado (três
+// passos, cada um com o seu ícone, ligados por uma linha).
+// A partir de 960px, os discos ficam numa coluna à esquerda, com o nome ao lado, e a ficha à
+// direita; antes disso, os discos ficam numa fila e a ficha embaixo.
+// Sem JavaScript: cada disco é um botão de opção nativo (as setas do teclado trocam o serviço) e o
+// CSS mostra só a ficha da opção marcada. Na marcação, cada ficha vem logo depois do seu disco: o
+// Tab sai do disco escolhido direto para o botão da ficha dele. A grade é que põe os discos numa
+// fila (ou coluna) e a ficha aberta embaixo (ou ao lado).
 import { Icon } from '@components/ui';
+import ServiceIcon from './ServiceIcon.astro';
 import ServicePreview from './ServicePreview.astro';
 import { ANCHOR, SERVICES, home, ui } from '@data';
 import { quoted, solutionTransition } from '@lib';
 
 const { services } = home;
+const { catalog } = services;
 const GROUP = 'servico';
-const index = (i: number) => String(i + 1).padStart(2, '0');
 ---
-<section class="section services" id={ANCHOR.solutions} aria-labelledby="solucoes-title">
+<section class="section services has-orbs" id={ANCHOR.solutions} aria-labelledby="solucoes-title">
+  <div class="orbs orbs--mirror" aria-hidden="true">
+    <span class="orbs__orb orbs__orb--blue"></span>
+    <span class="orbs__orb orbs__orb--amber"></span>
+  </div>
   <div class="shell">
-    <div class="section-head">
+    <div class="section-head section-head--split">
       <h2 class="h2 h2--feature" id="solucoes-title">{services.title}</h2>
-      <p class="lead">{services.subtitle}</p>
+      <p class="lead lead--md">{services.subtitle}</p>
     </div>
 
     <p class="services__intro" id="solucoes-intro">{services.intro}</p>
     <fieldset class="services__catalog reveal-rows" aria-labelledby="solucoes-intro" data-services>
-      {SERVICES.map((s, i) => (
-        <Fragment>
-          <label class="services__option">
-            <input class="visually-hidden services__input" type="radio" name={GROUP} value={s.slug} checked={i === 0} />
-            <span class="services__number" aria-hidden="true">{index(i)}</span>
-            <span class="services__text">
-              <span class="services__situation">{quoted(s.situation!)}</span>
-              <span class="services__service">
-                <span class="services__name" style={solutionTransition(s.slug)}>{s.name}</span>
-                <span class="services__tagline">{s.tagline}</span>
+      {SERVICES.map((s, i) => {
+        const id = `servico-${s.slug}`;
+        return (
+          <Fragment>
+            <label class="services__option">
+              <input class="visually-hidden services__input" type="radio" name={GROUP} value={s.slug} checked={i === 0} />
+              <span class="services__disc float" style={`--float: ${i}`}>
+                <ServiceIcon slug={s.slug} class="services__icon" />
+                <span class="services__go" aria-hidden="true"><Icon name="arrow-right" class="services__go-icon" /></span>
               </span>
-            </span>
-            <Icon name="arrow-right" class="services__arrow" />
-          </label>
-          <div class="services__panel">
-            <ServicePreview solution={s} />
-            <p class="services__short">{s.short}</p>
-            <a class="btn btn--primary services__cta" href={s.path} aria-label={services.catalog.cta(s.name)} data-analytics-event="services_catalog_cta">
-              {ui.examples.solution}
-              <Icon name="arrow-right" />
-            </a>
-          </div>
-        </Fragment>
-      ))}
+              <span class="services__name" style={solutionTransition(s.slug)}>{s.disc ?? s.label}</span>
+            </label>
+            <div class="services__panel glass">
+              <div class="services__top">
+                <h3 class="services__service">{s.name}</h3>
+                <p class="services__situation">{quoted(s.situation!)}</p>
+                <a class="btn btn--primary services__cta" href={s.path} aria-label={catalog.cta(s.name)} data-analytics-event="services_catalog_cta">
+                  {ui.examples.solution}
+                  <Icon name="arrow-right" />
+                </a>
+              </div>
+
+              <div class="services__body">
+                <ServicePreview solution={s} />
+                <div class="services__process">
+                  <p class="services__process-title" id={`${id}-como`}>{catalog.how}</p>
+                  <ol role="list" class="services__steps" aria-labelledby={`${id}-como`}>
+                    {s.journey!.map((line, n) => (
+                      <li class="services__step">
+                        <span class="services__node">
+                          <Icon name={s.journeyIcons![n]} class="services__node-icon" />
+                          <span class="services__node-number" aria-hidden="true">{n + 1}</span>
+                        </span>
+                        <span class="services__step-text">{line}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </Fragment>
+        );
+      })}
     </fieldset>
   </div>
 </section>

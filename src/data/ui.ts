@@ -30,12 +30,8 @@ export const ui = {
     homeLink: `${BRAND.name}, página inicial`,
   },
 
-  /** Rótulos de dados que se repetem (rodapé, Sobre). */
+  /** Rótulos de dados que se repetem (rodapé). */
   labels: {
-    location: 'Localização',
-    trajectory: 'Trajetória',
-    trajectoryList: 'Trajetória profissional',
-    contact: 'Contato',
     whatsapp: WHATSAPP,
   },
 
@@ -55,7 +51,6 @@ export const ui = {
 
   footer: {
     nav: 'Rodapé',
-    navTitle: 'Navegação',
   },
 
   faq: {

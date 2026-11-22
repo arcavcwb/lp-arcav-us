@@ -13,7 +13,6 @@ export function mainNav(base = ''): NavLink[] {
     { href: toAnchor(ANCHOR.solutions, base), label: 'Soluções' },
     { href: toAnchor(ANCHOR.examples, base), label: 'Exemplos' },
     { href: toAnchor(ANCHOR.method, base), label: 'Método' },
-    { href: toAnchor(ANCHOR.about, base), label: 'Sobre' },
   ];
 }
 

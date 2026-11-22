@@ -12,7 +12,7 @@
 }
 
 .closing__aside {
-  @apply grid gap-6 lg:pt-2;
+  @apply grid gap-6 rounded-card p-card;
 }
 
 .closing__responder {

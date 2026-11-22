@@ -3,7 +3,7 @@ export const prerender = true;
 
 import Layout from '@layouts/Layout.astro';
 import { Footer, Header } from '@components/ui';
-import { About, Contact, Examples, Hero, Method, Problem, Services } from '@components/home';
+import { Contact, Examples, Hero, Method, Problem, Services } from '@components/home';
 import { ANCHOR, footerNav, home, mainNav, ui } from '@data';
 
 const canonical = new URL('/', Astro.site).href;
@@ -16,7 +16,6 @@ const canonical = new URL('/', Astro.site).href;
     <Examples />
     <Problem />
     <Method />
-    <About />
     <Contact />
   </main>
   <Footer links={footerNav({ fromHome: true })} />

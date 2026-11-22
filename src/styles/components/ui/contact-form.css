@@ -159,8 +159,9 @@
 
 /* O formulário é sempre uma superfície clara, mesmo dentro de uma seção escura. */
 .contact-form .btn--ghost {
-  background: var(--color-paper);
+  background: var(--gradient-sheen), var(--color-ghost-glass);
   border-color: var(--color-line-control);
+  box-shadow: var(--shadow-bevel-light);
   color: var(--color-ink);
 }
 

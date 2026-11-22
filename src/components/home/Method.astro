@@ -1,28 +1,43 @@
 ---
-// Método: o título fica parado à esquerda (4 de 12 colunas, a partir de 960px) enquanto os seis passos
-// passam à direita, cada um numa linha: numeral grande, título e texto. No celular, a lista compacta,
-// sem nada fixo. Aqui os numerais têm razão de ser: a ordem dos passos é a informação.
+// Método: os seis passos, do problema ao produto, em cartões de vidro lado a lado (pedido do
+// usuário, 2026-11-22), com acabamento de produto: ícone num poço, contador "01 / 06", título,
+// texto e uma barra com o avanço no processo. As duas luzes da marca (.orbs) ficam atrás dos cartões para o vidro ter o
+// que desfocar. Até 1200px a fila desliza de lado; a partir daí, os seis
+// cabem na largura. O movimento é todo CSS: os cartões entram um depois do outro conforme a seção
+// chega à tela, a linha do tempo acima deles se desenha, eles flutuam devagar e um foco passa por
+// cada passo. Com "reduzir movimento", nada se mexe; sem JavaScript, tudo aparece igual.
+import { Icon } from '@components/ui';
 import { ANCHOR, home } from '@data';
 import { ordinal } from '@lib';
 
 const { method } = home;
+const total = method.steps.length;
 ---
-<section class="section method" id={ANCHOR.method} aria-labelledby="metodo-title">
-  <div class="shell method__grid">
-    <div class="method__head">
-      <h2 class="h2 h2--feature method__title" id="metodo-title">{method.title}</h2>
-    </div>
+<section class="section method has-orbs" id={ANCHOR.method} aria-labelledby="metodo-title">
+  <div class="orbs" aria-hidden="true">
+    <span class="orbs__orb orbs__orb--blue"></span>
+    <span class="orbs__orb orbs__orb--amber"></span>
+  </div>
 
-    <ol role="list" class="method__steps">
-      {method.steps.map((step, i) => (
-        <li class="method__step">
-          <span class="method__numeral" aria-hidden="true">{ordinal(i)}</span>
-          <div class="method__body">
-            <strong class="method__step-title">{step.title}</strong>
-            <p class="method__step-text">{step.text}</p>
-          </div>
-        </li>
-      ))}
-    </ol>
+  <div class="shell">
+    <h2 class="h2 h2--feature method__title" id="metodo-title">{method.title}</h2>
+
+    <div class="method__track" tabindex="0" role="region" aria-labelledby="metodo-title">
+      <ol role="list" class="method__steps" style={`--steps: ${total}`}>
+        {method.steps.map((step, i) => (
+          <li class="method__step" style={`--step: ${i}`}>
+            <div class="method__card glass">
+              <span class="method__top">
+                <span class="method__well"><Icon name={step.icon} class="method__icon" /></span>
+                <span class="method__count" aria-hidden="true">{ordinal(i)} / {ordinal(total - 1)}</span>
+              </span>
+              <strong class="method__step-title">{step.title}</strong>
+              <p class="method__step-text">{step.text}</p>
+              <span class="method__progress" aria-hidden="true"><span class="method__progress-bar"></span></span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
   </div>
 </section>

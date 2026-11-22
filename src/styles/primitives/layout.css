@@ -10,16 +10,28 @@
   border-top: 1px solid var(--color-line-strong);
 }
 
+/* Seções como folhas (pedido do usuário, 2026-11-22): cada seção sobe um pouco sobre a anterior,
+   com os cantos de cima arredondados e uma sombra suave para cima, para a divisão ficar clara
+   mesmo entre fundos parecidos. Ao rolar, o conteúdo da seção que sai desce mais devagar e
+   esmaece (paralaxe, primitives/glass.css). Só nas <section>: a página 404 não é uma folha. */
+section.section {
+  position: relative;
+  margin-top: calc(var(--radius-sheet) * -1);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  background-color: var(--color-paper);
+  box-shadow: var(--shadow-sheet);
+}
+
 /* Seção-respiro: azul profundo com mais ar, uma vez no meio da página (o manifesto). */
 .section--feature {
   padding-block: var(--spacing-section-feature);
 }
 
-.section--muted {
+.section.section--muted {
   background: var(--color-surface);
 }
 
-.section--dark {
+.section.section--dark {
   --color-focus: var(--color-highlight);
   background: var(--color-dark);
   color: var(--color-on-dark);
@@ -38,6 +50,34 @@
 
 .section-head .lead {
   margin-top: --spacing(4);
+}
+
+/* Cabeçalho dividido: título à esquerda e o texto à direita, alinhados pela base, a partir de 960px.
+   Economiza altura para a seção caber numa tela. */
+.section-head--split {
+  display: grid;
+  gap: --spacing(4);
+  margin-bottom: --spacing(6);
+}
+
+.section-head--split .lead {
+  margin-top: 0;
+}
+
+@media (width >= theme(--breakpoint-xl)) {
+  .section-head--split {
+    grid-template-columns: var(--grid-template-columns-lead);
+    align-items: end;
+    column-gap: --spacing(12);
+    max-width: none;
+  }
+}
+
+/* Texto de apoio que só aparece a partir de 720px: no celular, a seção cabe numa tela sem ele. */
+@media (width < theme(--breakpoint-md)) {
+  .lead--md {
+    display: none;
+  }
 }
 
 /* Hero das páginas: texto à esquerda, demonstração à direita */

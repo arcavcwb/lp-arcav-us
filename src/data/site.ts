@@ -2,6 +2,8 @@
 // Fonte: o antigo src/i18n/translations.ts (versão PT) e docs/BRAND.md.
 // Não adicionar depoimentos, métricas ou logos de clientes sem evidência.
 
+import type { IconName } from '@components/ui/icons';
+
 const CITY = 'Curitiba';
 
 export const BRAND = {
@@ -43,18 +45,31 @@ export const home = {
       'Sites institucionais, migração de sites e sistemas, landing pages, lojas com pedido pelo WhatsApp e automações para a operação.',
     primaryCta: 'Contar como funciona hoje',
     secondaryCta: 'Ver as soluções',
+    /**
+     * Arte do hero aprovada pelo usuário (2026-11-22), decorativa: laptop com o logo, ícones e curvas.
+     * Uma imagem por enquadramento; `<picture>` baixa só uma. `desktopMedia` acompanha
+     * --breakpoint-xl (60rem) dos tokens. Proveniência no .json ao lado de cada arquivo.
+     */
+    art: {
+      desktopMedia: '(min-width: 60rem)',
+      desktop: { src: '/hero/hero-arte-desktop.webp', width: 762, height: 696 },
+      mobile: { src: '/hero/hero-arte-mobile.webp', width: 697, height: 654 },
+    },
   },
   services: {
     title: 'O que eu construo para o seu negócio.',
     subtitle:
       'Começo pelo que já funciona no seu negócio e entrego algo que você e sua equipe conseguem operar no dia a dia.',
-    intro: 'Qual destas frases parece com o seu momento?',
+    /** Acima dos discos: diz o que fazer, já que a frase do cliente agora abre a história de cada serviço. */
+    intro: 'Escolha um serviço e veja como ele funciona.',
     /**
-     * Catálogo: o que só as ilustrações dizem. Nome, frases e descrição de cada serviço vêm de
-     * solutions.ts; a legenda das ilustrações conceituais é a da página de comércio.
+     * Ficha de cada serviço: nome, frase do cliente e botão no alto; embaixo, a ilustração do serviço
+     * e "Como funciona" desenhado (as três frases de `journey`, cada uma com o seu ícone,
+     * `journeyIcons` em solutions.ts). A legenda das ilustrações conceituais é a da página de comércio.
      */
     catalog: {
       cta: (name: string) => `Ver a solução: ${name}`,
+      how: 'Como funciona',
       before: 'Antes',
       after: 'Depois',
       /** Captura real do celular de exemplo no passo "Pedido pronto" (proveniência no .json ao lado). */
@@ -97,21 +112,17 @@ export const home = {
   },
   method: {
     title: 'Do problema ao produto.',
+    /** Cada passo com o ícone de linha do cartão (Method.astro). */
     steps: [
-      { title: 'Entender', text: 'O que o seu negócio precisa de verdade.' },
-      { title: 'Mapear', text: 'Quem atende, quem compra e onde as coisas travam.' },
-      { title: 'Simplificar', text: 'Um escopo claro, com um objetivo principal.' },
-      { title: 'Construir', text: 'A ferramenta e a ligação com o que você já usa.' },
-      { title: 'Observar', text: 'Como ela é usada no dia a dia.' },
-      { title: 'Melhorar', text: 'Ajustes com base no que o uso mostrou.' },
+      { title: 'Entender', text: 'O que o seu negócio precisa de verdade.', icon: 'chat' as IconName },
+      { title: 'Mapear', text: 'Quem atende, quem compra e onde as coisas travam.', icon: 'people' as IconName },
+      { title: 'Simplificar', text: 'Um escopo claro, com um objetivo principal.', icon: 'target' as IconName },
+      { title: 'Construir', text: 'A ferramenta e a ligação com o que você já usa.', icon: 'workflow' as IconName },
+      { title: 'Observar', text: 'Como ela é usada no dia a dia.', icon: 'chart' as IconName },
+      { title: 'Melhorar', text: 'Ajustes com base no que o uso mostrou.', icon: 'refresh' as IconName },
     ],
   },
-  about: {
-    base: 'Base',
-    title: 'A tecnologia tem mais valor quando resolve problemas reais.',
-    text: 'Sou Armando Castro, desenvolvedor de produtos e criador da ARCAV. Comecei a carreira no frontend e ampliei minha atuação para backend, banco de dados, infraestrutura e automação.',
-    statement: 'Ferramentas mudam. O problema do negócio vem em primeiro lugar.',
-  },
+
   contact: {
     title: 'Tem um processo que pode evoluir?',
     subtitle:

@@ -1,4 +1,7 @@
-/* Ações: botões e link com seta. */
+/* Ações: botões e link com seta.
+   Botões de vidro com bisel (pedido do usuário, 2026-11-22): o azul de ação translúcido com o
+   brilho no topo, filete de luz em cima e sombra embaixo; ao apertar, o bisel se inverte. O botão
+   fantasma é o vidro claro (ou escuro, nas seções escuras), com o filete que identifica o controle. */
 
 .btn {
   display: inline-flex;
@@ -8,7 +11,7 @@
   min-height: --spacing(12);
   padding: 0 --spacing(5);
   border: 1px solid transparent;
-  border-radius: var(--radius-control);
+  border-radius: var(--radius-button);
   font-size: var(--text-md);
   font-weight: var(--font-weight-semibold);
   line-height: var(--leading-control);
@@ -16,10 +19,12 @@
   text-align: start;
   text-decoration: none;
   cursor: pointer;
+  backdrop-filter: blur(var(--blur-glass)) saturate(1.4);
   transition:
     background-color var(--transition-duration-control) var(--ease-standard),
     border-color var(--transition-duration-control) var(--ease-standard),
     color var(--transition-duration-control) var(--ease-standard),
+    box-shadow var(--transition-duration-control) var(--ease-standard),
     transform var(--transition-duration-control) var(--ease-out);
 }
 
@@ -34,17 +39,25 @@
 }
 
 .btn--primary {
-  background: var(--color-accent);
+  background: var(--gradient-sheen), var(--color-action-glass);
+  border-color: var(--color-action-glass-line);
+  box-shadow: var(--shadow-bevel);
   color: var(--color-white);
 }
 
 .btn--primary:hover {
-  background: var(--color-accent-strong);
+  background: var(--gradient-sheen), var(--color-action-glass-hover);
+  box-shadow: var(--shadow-bevel-hover);
+}
+
+.btn--primary:active {
+  box-shadow: var(--shadow-bevel-pressed);
 }
 
 .btn--ghost {
-  background: var(--color-paper);
+  background: var(--gradient-sheen), var(--color-ghost-glass);
   border-color: var(--color-line-control);
+  box-shadow: var(--shadow-bevel-light);
   color: var(--color-ink);
 }
 
@@ -52,9 +65,14 @@
   border-color: var(--color-ink);
 }
 
+.btn--ghost:active {
+  box-shadow: var(--shadow-bevel-pressed);
+}
+
 .section--dark .btn--ghost {
-  background: transparent;
+  background: var(--gradient-sheen), var(--color-ghost-glass-dark);
   border-color: var(--color-on-dark-line-control);
+  box-shadow: var(--shadow-bevel-dark);
   color: var(--color-on-dark);
 }
 

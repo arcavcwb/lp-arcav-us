@@ -13,6 +13,8 @@ export interface Solution {
   name: string;
   /** Nome curto para cards e abas (ex.: "Campanhas"). */
   label: string;
+  /** Nome no disco do catálogo da home, quando `label` não cabe embaixo de um círculo. Padrão: `label`. */
+  disc?: string;
   /** Frase curta para os cards simplificados da home. */
   tagline: string;
   /**
@@ -32,6 +34,8 @@ export interface Solution {
   journey?: [string, string, string];
   /** Título do bloco de três frases. Padrão: "O caminho do seu cliente". */
   journeyTitle?: string;
+  /** Ícone de cada uma das três frases de `journey`, no processo desenhado da ficha da home. */
+  journeyIcons?: [IconName, IconName, IconName];
   /** Objetivo em linguagem simples ("Quero ...") para as abas da home. */
   goal?: string;
   icon: IconName;
@@ -69,7 +73,10 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     slug: 'site-institucional',
     name: 'Site institucional',
     label: 'Site institucional',
+    // Hífen discreto (\u00AD): só quebra quando a palavra não cabe embaixo do disco (360px ou menos).
+    disc: 'Site insti\u00ADtucional',
     situation: 'Preciso de um site para a minha empresa.',
+    journeyIcons: ['people', 'layout', 'chat'],
     journey: [
       'Alguém ouve falar da sua empresa e procura o nome no Google.',
       'Abre o seu site, entende o que vocês fazem e chama no WhatsApp ou preenche o formulário.',
@@ -122,6 +129,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     label: 'Migração',
     situation: 'Meu site está velho, lento ou preso numa plataforma.',
     journeyTitle: 'Como é uma migração',
+    journeyIcons: ['grid', 'refresh', 'check'],
     journey: [
       'Levantamos o que existe hoje: páginas, conteúdo, domínio, e-mails e dados.',
       'Montamos a base nova e levamos o conteúdo, com o site atual funcionando até a troca.',
@@ -173,6 +181,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     name: 'Landing pages',
     label: 'Landing pages',
     situation: 'Vou anunciar, lançar um produto ou fazer um evento.',
+    journeyIcons: ['target', 'layout', 'chat'],
     journey: [
       'Alguém vê o seu anúncio, recebe o seu link ou procura você no Google.',
       'Abre uma página feita para uma ação só e chama, compra ou se inscreve.',
@@ -416,8 +425,16 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     situation: 'Vendo pelo WhatsApp e quero receber pedidos organizados.',
     name: 'Site para comércio com pedido no WhatsApp',
     label: 'Comércio com pedido no WhatsApp',
+    disc: 'Comércio',
     tagline: 'O pedido chega pronto no WhatsApp da loja.',
     group: 'main',
+    // As três frases saem do texto aprovado do exemplo da página de comércio (commerce-service.ts).
+    journeyIcons: ['cart', 'send', 'chat'],
+    journey: [
+      'O cliente escolhe os produtos e as quantidades no site.',
+      'Revisa o pedido e envia a mensagem já organizada para o WhatsApp da loja.',
+      'O atendimento continua com você, do jeito que já funciona.',
+    ],
     short: 'Catálogo com carrinho que envia o pedido pronto para o WhatsApp da loja, com ofertas que você só aprova.',
     icon: 'cart',
     meta: { title: '', description: '' },
@@ -433,8 +450,10 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     situation: 'Faço tudo à mão, entre planilha, e-mail e WhatsApp.',
     name: 'Sistemas e automação',
     label: 'Sistemas e automação',
+    disc: 'Auto\u00ADmação',
     tagline: 'O trabalho repetido acontece sozinho.',
     group: 'main',
+    journeyIcons: ['form', 'workflow', 'chart'],
     journey: [
       'Seu cliente faz um pedido pelo formulário ou pelo WhatsApp.',
       'A automação confirma o pedido para ele e registra tudo sozinha.',

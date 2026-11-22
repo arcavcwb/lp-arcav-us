@@ -6,7 +6,6 @@ export const ANCHOR = {
   solutions: 'solucoes',
   examples: 'exemplos',
   method: 'metodo',
-  about: 'sobre',
   contact: 'contato',
   /** Janela com o formulário de contato (popover): os botões "Fale comigo" e as CTAs a abrem. */
   contactForm: 'contato-janela',
