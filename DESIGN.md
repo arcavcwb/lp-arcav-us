@@ -193,11 +193,11 @@ The identity comes from the ARCAV Brand Kit V3 (`docs/brand/v3/`, approved 2026-
 - White and sand grounds, deep-navy ink, sober blue actions and one amber accent; neither accent fills a surface.
 - Two self-hosted families: Manrope for headings and editorial lines, Inter for text and interface.
 - The logo is a drawing (`Logo.astro`): a slanted bar, an amber triangle and the ARCAV letters in curves. Below 420px the header shows the symbol alone.
-- Hairlines first. Soft shadows appear only on the phone demo and on panels that hold an interaction or a result.
+- Glass surfaces (2026-11-22): the header, the menu, the services card, the method cards, the closing contact card and the buttons are translucent glass over two blurred brand lights (blue and amber); see "Vidro, folhas e movimento" below.
 - Editorial scale: a display H1, feature H2s and a large manifesto quote against precise 13–15px data.
-- Sequences are ruled lists with `01`–`0n` numerals, never cards; numerals appear only where the order is the information.
-- One deep-navy band mid-page (the manifesto) and a deep-navy close (contact and footer).
-- Motion happens once: an entrance on load, a staggered list, a wiped quote; nothing loops or decorates.
+- Sequences are ruled lists with `01`–`0n` numerals, except the home method, which is six glass cards with a timeline (user request, 2026-11-22).
+- One deep-navy band mid-page (the manifesto) and a deep-navy close (contact and footer). Every section is a sheet with rounded top corners that rests on the previous one.
+- Motion: an entrance on load, staggered reveals, a wiped quote, slow floating (service discs, method cards, the example frame), drifting lights and scroll parallax; all of it off with reduced motion.
 - Authored line icons on a 24-unit grid with a 1.75 stroke.
 - A working phone demo (an order assembled and composed into a WhatsApp message) is the signature object.
 - Light theme only.
@@ -215,7 +215,7 @@ The palette is cool slate and deep navy, with a sober blue for action and one wa
 ### Neutral
 - **Paper White** (#ffffff): page ground, card faces, input faces, the phone screen and the ghost button face. It is also the browser theme colour.
 - **Sand** (#f5f3ee): alternate section ground (`muted` sections), icon wells, the cart pill, the incoming chat bubble, the composed-message panel, and hover fills on nav links and steppers.
-- **Deep Sand** (#eae6dc): avatar and portrait placeholder ground (behind the "AC" initials) and the demo guide's resting number badges.
+- **Deep Sand** (#eae6dc): photo placeholder ground, icon wells in the service illustrations and the demo guide's resting number badges. The responder avatar shows the ARCAV symbol on white until the portrait exists (no "AC" initials, 2026-11-22).
 - **Deep Navy Ink** (#0b1f3b): all headings and body text (16.49:1 on white, 14.87:1 on sand). It also draws the 1px rule that opens a ruled list, the outgoing chat bubble, the phone's send button, the selected landing option and the current step of the demo guide.
 - **Slate** (#334155): secondary text such as leads, descriptions, captions, nav links at rest, step numerals and form hints (10.35:1 on white, 9.34:1 on sand).
 - **Hairline** (#e2e8f0): card borders, row dividers, the scrolled header border and the divider inside cards.
@@ -289,8 +289,8 @@ The layout is a single centred column: a 1200px container with a fluid gutter (1
 - **Card grids:** a single column, becoming three equal columns at 880px with a 16px gap. Service cards use subgrid rows so that the icon, title, text and flow line up across cards.
 - **Splits:** text beside an illustration or form from 880 to 900px, weighted about 1 : 0.9 (the contact section reverses this to give the form the wider column). The contact copy column is sticky under the header.
 - **Ruled steps:** one column, two at 720px, and three or four at 1024px.
-- **Header:** sticky, 68px tall, on Paper White. A Hairline border fades in after 8px of scroll. Below 900px the nav collapses into a dropdown panel. The logo shows as the symbol alone below 420px and in full from 420px; "por Armando Castro" joins it from 640px.
-- **Footer:** deep navy, with three columns at 800px (brand and statement, links, facts) and then a Navy Rule over the copyright and social row.
+- **Header:** sticky, 68px tall, glass (white at 78% with blur), so content passes blurred under it. A Hairline border fades in after 8px of scroll. Below 900px the nav collapses into a dropdown panel, also glass. The logo shows as the symbol alone below 420px and in full from 420px; "por Armando Castro" joins it from 640px.
+- **Footer:** deep navy, one compact band (2026-11-22): logo | the links in one row | WhatsApp and e-mail, then a Navy Rule over the copyright and social row. No columns, titles, location or trajectory.
 
 Breakpoints in use are 420 (logo), 480, 560, 640, 720, 800, 880, 900, 960 and 1024px, and the base styles are mobile first. Reference widths are 360 and 390px; the header is validated at 320, 360, 390 and 430px.
 
@@ -299,7 +299,7 @@ Breakpoints in use are 420 (logo), 480, 560, 640, 720, 800, 880, 900, 960 and 10
 
 **The Peek Rule.** The first section after a hero uses the reduced top padding so that the next content is visible on first load.
 
-**The Home Rhythm Rule.** The home alternates kinds of moment, not just grounds: hero (paper, air, display type and portrait), services index (paper, dense type), examples (sand, image), manifesto (navy, air, one big quote), method (paper, dense table with a sticky title from 960px), about (sand, portrait), contact (navy, form on top), footer (navy). Navy appears once mid-page, then closes the page.
+**The Home Rhythm Rule.** The home alternates kinds of moment: hero (text and the approved laptop art), services (discs and a glass card), examples (sand, image), manifesto (navy, one quote), method (glass cards), contact (navy, glass card), footer (navy). The About section was removed (2026-11-22: "para o cliente comum é desnecessário"). Each section fits one screen at 1440×900 and on a 390px phone.
 
 **The 12 Columns Rule.** Asymmetric splits come from a 12-column grid (8/4 hero, 4/8 method, 5/6 manifesto head, 9 for the quote) inside the 1200px container, so every left edge stays aligned with the header.
 
@@ -313,7 +313,7 @@ The system is flat and hairline-first. Surfaces at rest are separated by 1px bor
 - **Menu drop** (`box-shadow: 0 18px 30px -24px rgb(11 31 59 / 0.35)`): the mobile nav panel under the header.
 
 ### Named Rules
-**The Earned Shadow Rule.** A surface gets a shadow only when it holds something the visitor does or receives, such as an order, a form, a composed reply or a recommended plan, and, once the portfolio exists, project screenshots, because they are the product. Ordinary cards stay flat with a Hairline border.
+**The Earned Shadow Rule.** Hard offset shadows are never used (brutalism was tried and rejected on 2026-11-22). Soft navy-tinted shadows belong to glass surfaces, the phone demo and the section sheets' upward edge.
 
 ## Shapes
 
@@ -323,10 +323,10 @@ The corner language has two radii plus the pill. Controls (buttons, inputs, icon
 
 ### Buttons
 Buttons are solid and plain: a label, an optional trailing arrow (or a leading glyph for mail and send), and no ornament.
-- **Shape:** gently rounded controls (10px), at least 48px tall, with 20px inline padding, a 1rem/600 label and an 18px icon with an 8px gap.
-- **Primary:** Action Blue with a white label. It is used for the one main action in each region, such as "Falar com a ARCAV", "Fale comigo", the commerce CTA, form submit and the closing CTA.
+- **Shape:** semi-rounded (14px, `--radius-button`), at least 48px tall, with 20px inline padding, a 1rem/600 label and an 18px icon with an 8px gap. Glass with a bevel (2026-11-22): a sheen at the top, a light inner line above and a darker one below; pressing inverts the bevel.
+- **Primary:** Action Blue at 90% with blur, sheen and bevel, and a soft blue glow; white label (5.1:1 or more at the label's height on white, sand or the lights). It is used for the one main action in each region, such as "Contar como funciona hoje", "Fale comigo", the commerce CTA, form submit and the closing CTA.
 - **Hover / Active / Focus:** hover deepens the fill to Deep Blue over 0.18s. Active nudges the button down 1px with the house ease-out. Focus draws a 2px outline offset by 3px in the focus colour (blue on light grounds, amber on navy).
-- **Ghost:** Paper White face, Control Line border and Deep Navy Ink label. On hover the border goes to the ink. On navy grounds it turns transparent with a Control Line on Navy border and a white label.
+- **Ghost:** light glass (white at 55%) with the Control Line border, a light bevel and Deep Navy Ink label. On hover the border goes to the ink. On navy grounds it is dark glass with the Control Line on Navy border and a white label.
 - **Small:** 40px tall with 16px padding and a 0.9375rem label. It is used for the header CTA and for the actions in the composed-message panel. This size sits below the 44px touch-target commitment, so don't extend it to new primary mobile actions.
 - **Disabled:** 55% opacity, a not-allowed cursor and no motion. Example: "Revisar pedido" when the cart is empty.
 - **Mobile:** at 479px or less, closing CTAs, demo CTAs, the form submit and the commerce CTA go full width.
@@ -355,7 +355,7 @@ This is an inline sequence of short words such as "Visita → Formulário → Le
 - **Composed message:** after submit, a Sand panel (14px) shows a 600-weight status line, then the exact message in a white, hairline-bordered 10px box, then small ghost buttons for "Abrir de novo" and "Copiar mensagem".
 
 ### Navigation
-- **Header:** the logo with its byline on the left. On the right are nav links at 0.9375rem/500 in Slate, which hover to the ink on a Sand 8px pill, followed by the small primary "Fale comigo", which opens the contact form window.
+- **Header:** the logo with its byline on the left. On the right are nav links (Soluções, Exemplos, Método) at 0.9375rem/500 in Slate, which hover to the ink on a Sand pill, followed by the small primary "Fale comigo", which opens the contact form window.
 - **Mobile (below 900px):** a 44px menu toggle (Control Line, 10px) swaps between menu and close glyphs. The nav is a popover: a full-width white panel under the header with the menu-drop shadow, its links 1.0625rem ink rows divided by Hairlines. The toggle, Escape and a tap outside close it without JavaScript; choosing a link also closes it. Below 640px the "por Armando Castro" byline hides, and below 420px the logo shows the symbol alone.
 - **Footer:** see Layout. Links are white on navy and underline on hover. Social links carry a small external glyph at 70% opacity.
 
@@ -370,7 +370,7 @@ This is the shop's side of the same order: a white Raised-panel card (14px) with
 
 ### Brand mark & portrait slots
 - **Logo:** `src/components/ui/Logo.astro`, the Brand Kit V3 drawing inline (reference files in `docs/brand/v3/logos-svg/`). The bar and the letters take `currentColor` (navy on light grounds, white in the footer) and the triangle takes `--color-highlight`, so one component serves both grounds. Height 34px (`--spacing-logo`): the full logo is 161px wide (kit minimum 160px) and the symbol alone 31px tall (kit minimum 24px). In the header, below 420px (`--breakpoint-logo`), the same drawing is cropped to the symbol (`preserveAspectRatio` slice). The accessible name is always "ARCAV". Usage rules are in `docs/BRAND.md`.
-- **Photos:** real photos only, listed in `src/data/photos.ts` and stored in `src/assets/fotos/` (`retrato-trabalho` for the home hero, `retrato` for About and the 44px round avatar of whoever answers). Until a photo arrives, its slot shows a labelled grey marker during build-out; the avatar shows the initials **"AC"** (700 weight, Deep Navy Ink on Deep Sand). A fake or stock photo is never used.
+- **Photos:** real photos only, listed in `src/data/photos.ts` and stored in `src/assets/fotos/` (`retrato` for the 44px round avatar of whoever answers; `retrato-trabalho` is no longer shown: the hero uses the approved art). Until a photo arrives, the avatar shows the ARCAV symbol on white (2026-11-22, in place of the "AC" initials). A fake or stock photo is never used.
 - **Favicon:** the kit symbol (white bar, amber triangle) on a deep-navy rounded square, a square version of `docs/brand/v3/logos-svg/favicon.svg`: `public/favicon.svg`, `public/favicon.ico` (16, 32 and 48px) and a full-bleed 180px `public/apple-touch-icon.png` (iOS applies its own mask).
 
 ### Implementação (Tailwind v4, 2026-11-21)
@@ -383,10 +383,10 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 
 ### Fase A da direção editorial (2026-11-21)
 
-- **Hero:** H1 na escala normal dos heros (o título gigante foi rejeitado em 2026-11-21), com subtítulo e ações em 8 de 12 colunas e o retrato de trabalho nas 4 últimas, centrado na altura do texto. A ação principal abre a janela do formulário.
-- **Serviços (catálogo editorial, 2026-11-22):** lista sem caixas (fio escuro em cima, filetes entre linhas). Cada linha é um botão de opção nativo: número discreto `01`–`05` (legenda, Slate), a frase do cliente em `text-index`, o nome do serviço em azul profundo e a frase curta embaixo. A linha escolhida fica em areia e mostra a ficha do serviço: a ilustração (esquema de site, comparador antes/depois, oferta com formulário, a captura real do celular de exemplo no comércio, painel de automação com dados fictícios), a descrição curta e o botão primário para a página da solução. As ilustrações conceituais levam a legenda "Ilustração conceitual. Não representa um cliente real.". A partir de 960px a ficha fica numa coluna ao lado, presa sob o cabeçalho; antes disso abre logo abaixo da frase. Funciona sem JavaScript; sem `:has()`, todas as fichas aparecem abertas. Linhas tocáveis com 64px ou mais.
+- **Hero:** H1 na escala normal dos heros (o título gigante foi rejeitado em 2026-11-21), subtítulo e ações ("Contar como funciona hoje" com o ícone de conversa; "Ver as soluções" com grade e seta). À direita, a arte aprovada em 2026-11-22 (`public/hero/`, laptop com o logo, três ícones e curvas azul e âmbar), decorativa: a partir de 960px ela se encosta no canto de cima, à direita, do hero, atrás do texto; no celular vem depois das ações, com 256px. `<picture>` baixa só o enquadramento da tela.
+- **Serviços (2026-11-22):** cinco discos com uma ilustração própria de cada serviço (`ServiceIcon.astro`, grade de 64, cores dos tokens), botões de opção nativos que flutuam devagar; o escolhido fica azul profundo com um selo âmbar apontando para a ficha. A partir de 960px os discos ficam numa coluna à esquerda, com o nome ao lado, e a ficha à direita; antes disso, numa fila com a ficha embaixo. A ficha é vidro: nome, frase do cliente e o botão no alto; embaixo, a ilustração do serviço (`ServicePreview.astro`) e "Como funciona" desenhado (três nós com ícone, número âmbar e a frase de `journey`). No celular a ilustração sai para a seção caber numa tela. Funciona sem JavaScript.
 - **Manifesto (antigo Problema):** seção azul profundo com mais ar (`section--feature`); título e texto menores no alto, a citação em `text-quote` em 9 colunas com a assinatura, e Hoje/Depois em duas colunas com filetes (Hoje apagado, Depois claro com checks âmbar). Sem cartões.
-- **Método:** título fixo à esquerda (4 colunas, a partir de 960px) e os seis passos à direita como tabela: numeral grande, título, texto.
+- **Método (2026-11-22):** seis cartões de vidro lado a lado (até 1200px a fila desliza de lado), com uma linha do tempo acima e um ponto por passo. Cada cartão: ícone num poço quadrado, contador "01 / 06", título, texto e uma barra com o avanço no processo. Entram um depois do outro com a rolagem, flutuam e um foco passa por cada passo (o cartão sobe, o ícone fica azul profundo, barra e ponto acendem em âmbar).
 - **Contato:** o mesmo fechamento azul profundo das outras páginas (`ClosingContact` com `channels` e `feature`): título maior, quem responde, canais e um botão. O formulário não ocupa a página: abre numa janela (`popover`) clara sobre fundo escurecido, que no celular ocupa a tela inteira. "Fale comigo", a ação do hero e "Quero isso na minha loja" abrem a mesma janela.
 - **Rodapé:** quatro colunas (marca, navegação numa coluna só, contato e localização, trajetória), com um filete em cima, separando do fechamento escuro.
 
@@ -396,11 +396,21 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 - Medido por etapa: Inter deixou as páginas de 0 a 2,6% mais altas (parágrafos); Manrope encurtou quatro títulos em uma linha. Sem estouro em 320–1440px; CLS 0; contraste AA em todos os textos; foco com 4,66:1 ou mais.
 - Azul de ação mais sóbrio que o do kit (pedido do usuário, 2026-11-22): `#2a5598` no lugar de `#2563eb` e `#1f4380` no hover e nos links, no mesmo papel. Metade da saturação e o tom puxado para o azul profundo; o contraste sobe (7,37:1 com rótulo branco, 6,64:1 na areia). No fechamento escuro, o botão fica mais discreto (2,24:1 contra o azul profundo, antes 3,19:1); o rótulo branco continua com 7,37:1.
 
+### Vidro, folhas e movimento (2026-11-22)
+
+Pedidos do usuário no mesmo dia, depois de ver o resultado no navegador: "usa efecto glass en la navbar y en el sitio en general y mucha flotación", "quita el brutalismo, rompe el diseño", "en las divisiones de las secciones… usa paralax", botões "biselados y glass", "cada sección quepa en el vh".
+
+- **Peças compartilhadas** (`src/styles/primitives/glass.css`): `.glass` (branco a 62% com desfoque, filete claro e sombra suave) e `.glass--dark` (sobre azul profundo); `.has-orbs` + `.orbs` com as duas luzes desfocadas da marca (azul e âmbar) atrás do conteúdo, `.orbs--mirror` troca os lados; `.float` (flutua 6px em 7s; `--float` desencontra o ritmo). Tokens em `tokens.css` (`--color-glass*`, `--color-orb-*`, `--blur-*`, `--shadow-glass*`, `--shadow-bevel*`, `--gradient-sheen`, `--radius-button`, `--radius-sheet`, `--shadow-sheet`).
+- **Seções como folhas** (`primitives/layout.css`): toda `<section class="section">` sobe 2rem sobre a anterior, com os cantos de cima arredondados e uma sombra suave para cima, para a divisão ficar clara mesmo entre fundos parecidos.
+- **Paralaxe**: as luzes atravessam a seção mais devagar que o conteúdo, e o conteúdo da seção que sai pela parte de cima desce um pouco e esmaece enquanto a folha seguinte sobe (animações ligadas à rolagem; sem suporte, nada muda).
+- **Uma tela por seção**: na home, cada seção cabe em 1440×900 e num celular de 390px (o texto de apoio de serviços e exemplos só aparece a partir de 720px; no celular, a ficha de serviços mostra o processo sem a ilustração). Em 1280×800 a seção de serviços passa 13px (só o respiro de baixo). Abaixo de 390px, o hero e o manifesto pedem rolagem.
+- **Desempenho**: o vidro e as luzes custam pintura; com 4G lenta e CPU 4× a home mostra o conteúdo principal em cerca de 2,0s (antes 1,65s), dentro dos 2,5s considerados bons. CLS 0.
+
 ### Fotos (2026-11-21)
 
 - Fotos reais, nunca de banco de imagens nem geradas por IA. Lista, proporção e tamanho mínimo em `src/data/photos.ts`; arquivos em `src/assets/fotos/`.
-- **Hero da home:** retrato de trabalho 4:5 nas quatro últimas colunas (`grid-cols-hero-portrait`, 2:1), centrado na altura do texto, com a legenda "Armando Castro · Curitiba" no lugar da antiga assinatura. No celular, depois das ações, a toda a largura, em 4:3.
-- **Sobre:** retrato próximo 4:5 à esquerda, texto à direita (`grid-cols-aside` a partir de 900px).
+- **Hero da home:** a arte aprovada ocupa o lugar do retrato de trabalho (2026-11-22); o retrato continua listado em `src/data/photos.ts` para quando chegar.
+- **Sobre:** a seção saiu da home em 2026-11-22; o retrato próximo fica para o avatar de quem responde.
 - Enquanto a foto não chega, o lugar mostra um marcador `surface-strong` com "Foto em breve", a descrição e o tamanho; não é uma foto falsa.
 
 ### Soluções e exemplos (2026-11-21)
@@ -429,7 +439,7 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 - **Do** caption every illustrative demo or mock as an example or illustration.
 - **Do** keep touch targets at 44px or more, keep focus visible (2px outline, 3px offset, blue on light and amber on navy), meet WCAG AA contrast, and honour `prefers-reduced-motion` (the build collapses all transitions and animations).
 - **Do** use the house ease-out `cubic-bezier(0.16, 1, 0.3, 1)` for movement, with state colour changes at 0.15 to 0.2s.
-- **Do** make motion happen once and differ by moment: the home opening enters on load with CSS only (text 500ms, 60ms apart; the portrait uncovers bottom-up in 700ms), services rows fade up as each one enters the screen, the manifesto quote wipes left to right. All of it is CSS: the opening is a load animation and the rows and quote use scroll-driven animations (`animation-timeline: view()`); content is visible without JavaScript, without scroll-timeline support and with reduced motion (`styles/primitives/motion.css`).
+- **Do** keep motion slow and purposeful: the home opening enters on load (text 500ms, 60ms apart; the hero art uncovers bottom-up), reveals and the manifesto wipe are scroll-driven, floating elements bob 6px over 7s out of phase, the lights drift, and section content recedes with parallax as the next sheet covers it. Everything is CSS and stops with reduced motion; content is visible without JavaScript or scroll-timeline support (`styles/primitives/motion.css`, `primitives/glass.css`).
 - **Do** number only real sequences (the method). The one exception is the services catalog: its small `01`–`05` (caption size, Slate, ink when selected) are discreet index marks the client asked for (2026-11-22), never display numerals.
 
 ### Don't:
@@ -437,11 +447,11 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 - **Don't** set amber text on white or sand (2.15:1), or blue text, marks or focus on navy (2.24:1).
 - **Don't** introduce colours outside the kit as brand colours. Validation Red (#b42318) is for form errors only.
 - **Don't** put kickers or eyebrows above section headings.
-- **Don't** box steps or sequences into cards.
-- **Don't** use gradients, glass, glows, neon or backdrop blur, or hard offset shadows. Don't add shadows to ordinary cards.
+- **Don't** box steps or sequences into cards, except the home method cards.
+- **Don't** use hard offset shadows, neon or glows. Glass and the two blurred brand lights are the only translucent effects; the only gradient is the buttons' top sheen.
 - **Don't** dress the site in a themed metaphor (order pad, tiles, offer flyer, transit map).
 - **Don't** add a dark theme. The system is light only (`color-scheme: light`).
 - **Don't** add a third typeface or fall back to a system display face for headings.
 - **Don't** redraw, stretch, recolour or retype the logo, or set it over a photo without a solid ground.
 - **Don't** replace the phone demo with a stock device mockup or a screenshot.
-- **Don't** publish brand slots with placeholders. During build-out, a missing photo shows a labelled grey marker (`SHOW_PHOTO_PLACEHOLDERS`); before publishing, either the photo exists or the marker is off, in which case About stays text-only and the avatar shows the initials.
+- **Don't** publish brand slots with placeholders. During build-out, a missing photo shows a labelled grey marker (`SHOW_PHOTO_PLACEHOLDERS`); before publishing, either the photo exists or the marker is off, in which case the avatar shows the ARCAV symbol.
