@@ -1,0 +1,4 @@
+{
+  "prompt": "Origin: not generated. Headless Chrome screenshot (2x, transparent background) of the phone demo on the ARCAV page /solucoes/comercio-digital/ at the 'Pedido pronto' step, after adding Café 500 g and Leite 1 L; the store caption under the phone is hidden. Captured with the two-selector fix of fix/demo-pedido-pronto (merged into main in PR #8), which makes the demo show this screen. Resized to 640 px wide and converted to WebP with ImageMagick. Used by the home services catalog. Recapture whenever the demo changes.",
+  "createdAt": "2026-11-22T16:13:05.000Z"
+}
