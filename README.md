@@ -72,7 +72,7 @@ Los componentes no usan utilidades de Tailwind en el marcado. Cada elemento llev
 
 Las fotos reales van en `src/assets/fotos/` con el nombre de `src/data/photos.ts` (`retrato-trabalho`, `retrato`, `processo`, `curitiba`). Mientras falta una, su lugar muestra un marcador gris con la descripción, la proporción y el tamaño mínimo. `SHOW_PHOTO_PLACEHOLDERS = false` oculta los marcadores (desactivarlo antes de publicar si falta alguna foto).
 
-Las rutas antiguas `/pt/…`, `/es` y `/en` redirigen con 301, y también `/propostas/center-gas/`: la propuesta salió de este repositorio y el destino será su proyecto nuevo cuando exista (ver `redirects` en `astro.config.mjs`).
+Las rutas antiguas `/pt/…`, `/es` y `/en` redirigen con 301, y también `/propostas/center-gas/`, que lleva al proyecto de Center Gás (`https://centergas-v3.pages.dev/`), publicado aparte (ver `redirects` en `astro.config.mjs`).
 
 ---
 

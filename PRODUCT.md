@@ -37,7 +37,7 @@ Ingeniería seria con alcance de pequeño negocio. ARCAV no reemplaza lo que ya 
 
 ## Operating Context
 
-- Prospección: mensaje corto de WhatsApp con enlace a una propuesta personalizada. Las propuestas y sus demos viven en proyectos propios, fuera de este repositorio (decisión del 2026-11-21); la de Center Gás salió de aquí y su dirección vieja (`/propostas/center-gas/`) redirige a la home hasta que exista la del proyecto nuevo.
+- Prospección: mensaje corto de WhatsApp con enlace a una propuesta personalizada. Las propuestas y sus demos viven en proyectos propios, fuera de este repositorio (decisión del 2026-11-21); la de Center Gás salió de aquí y su dirección vieja (`/propostas/center-gas/`) redirige con 301 a su proyecto, `https://centergas-v3.pages.dev/`.
 - La demo de cada prospecto se aloja aparte (ej. `https://centergas-v3.pages.dev/`) y siempre se rotula como demonstração, no como el sitio oficial del cliente.
 - Contacto con ARCAV: `hola@arcav.us` y WhatsApp comercial (41) 99845-0477 (`ARCAV_WHATSAPP` en `src/lib/contact.ts`).
 - **Este repositorio es solo el sitio comercial y el portafolio** (decisión del 2026-11-21). Propuestas, productos white-label y ejemplos se construyen y publican en repositorios propios; aquí solo entran capturas, datos y el enlace. El celular de demostración de la página de comercio se queda hasta que exista el ejemplo externo de tienda.
