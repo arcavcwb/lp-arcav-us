@@ -169,12 +169,12 @@
   background: var(--color-paper);
 }
 
-.phone-demo [data-state='message'] .screen--store {
+.phone-demo[data-state='message'] .screen--store {
   transform: translateX(var(--phone-store-exit));
   opacity: 0;
 }
 
-.phone-demo [data-state='message'] .screen--message {
+.phone-demo[data-state='message'] .screen--message {
   transform: none;
 }
 
