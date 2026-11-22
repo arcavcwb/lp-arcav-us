@@ -667,7 +667,7 @@
       "Do keep touch targets at 44px or more, keep focus visible (2px outline, 3px offset, blue on light and amber on navy), meet WCAG AA contrast, and honour `prefers-reduced-motion` (the build collapses all transitions and animations).",
       "Do use the house ease-out `cubic-bezier(0.16, 1, 0.3, 1)` for movement, with state colour changes at 0.15 to 0.2s.",
       "Do make motion happen once and differ by moment: the home opening enters on load with CSS only (text 500ms, 60ms apart; the portrait uncovers bottom-up in 700ms), services rows fade up as each one enters the screen, the manifesto quote wipes left to right. All of it is CSS: the opening is a load animation and the rows and quote use scroll-driven animations (`animation-timeline: view()`); content is visible without JavaScript, without scroll-timeline support and with reduced motion (`styles/primitives/motion.css`).",
-      "Do number only real sequences (the method). The services index has no numerals: the services are not an order."
+      "Do number only real sequences (the method). The one exception is the services catalog: its small `01`–`05` (caption size, Slate, ink when selected) are discreet index marks the client asked for (2026-11-22), never display numerals."
     ],
     "donts": [
       "Don't fill a section, band, card or panel with blue or amber.",

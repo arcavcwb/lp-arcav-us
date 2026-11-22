@@ -1,12 +1,19 @@
 ---
-// "O que eu construo": índice editorial dos cinco serviços, todos com o mesmo peso. Cada linha entra
-// pela frase do cliente, grande ("Preciso de um site para a minha empresa."), com o serviço ao lado,
-// e leva à página dele. Sem numerais: os serviços não são uma sequência.
+// "O que eu construo": catálogo dos cinco serviços, todos com o mesmo peso. Cada linha entra pela
+// frase do cliente ("Preciso de um site para a minha empresa.") com o serviço embaixo; a linha
+// escolhida mostra a ilustração do serviço, a descrição e o botão para a página dele.
+// Sem JavaScript: cada linha é um botão de opção nativo (as setas do teclado trocam o serviço) e o
+// CSS mostra a ficha da opção marcada. O botão fica dentro da linha para o foco não rolar a página
+// até o topo da lista. A partir de 960px a ficha fica numa coluna ao lado; antes disso, abre logo
+// abaixo da frase escolhida.
 import { Icon } from '@components/ui';
-import { ANCHOR, SERVICES, home } from '@data';
+import ServicePreview from './ServicePreview.astro';
+import { ANCHOR, SERVICES, home, ui } from '@data';
 import { quoted, solutionTransition } from '@lib';
 
 const { services } = home;
+const GROUP = 'servico';
+const index = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <section class="section services" id={ANCHOR.solutions} aria-labelledby="solucoes-title">
   <div class="shell">
@@ -16,19 +23,37 @@ const { services } = home;
     </div>
 
     <p class="services__intro" id="solucoes-intro">{services.intro}</p>
-    <ul role="list" class="services__list reveal-rows" aria-labelledby="solucoes-intro">
-      {SERVICES.map((s) => (
-        <li class="services__item">
-          <a class="services__link" href={s.path}>
-            <span class="services__situation">{quoted(s.situation!)}</span>
-            <span class="services__service">
-              <span class="services__name" style={solutionTransition(s.slug)}>{s.name}</span>
-              <span class="services__tagline">{s.tagline}</span>
+    <fieldset class="services__catalog reveal-rows" aria-labelledby="solucoes-intro" data-services>
+      {SERVICES.map((s, i) => (
+        <Fragment>
+          <label class="services__option">
+            <input class="visually-hidden services__input" type="radio" name={GROUP} value={s.slug} checked={i === 0} />
+            <span class="services__number" aria-hidden="true">{index(i)}</span>
+            <span class="services__text">
+              <span class="services__situation">{quoted(s.situation!)}</span>
+              <span class="services__service">
+                <span class="services__name" style={solutionTransition(s.slug)}>{s.name}</span>
+                <span class="services__tagline">{s.tagline}</span>
+              </span>
             </span>
             <Icon name="arrow-right" class="services__arrow" />
-          </a>
-        </li>
+          </label>
+          <div class="services__panel">
+            <ServicePreview solution={s} />
+            <p class="services__short">{s.short}</p>
+            <a class="btn btn--primary services__cta" href={s.path} aria-label={services.catalog.cta(s.name)} data-analytics-event="services_catalog_cta">
+              {ui.examples.solution}
+              <Icon name="arrow-right" />
+            </a>
+          </div>
+        </Fragment>
       ))}
-    </ul>
+    </fieldset>
   </div>
 </section>
+
+<script>
+  import { initServicesCatalog } from '@scripts/services-catalog';
+
+  initServicesCatalog();
+</script>

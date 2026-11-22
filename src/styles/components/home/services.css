@@ -1,20 +1,59 @@
-/* Serviços: índice editorial. Fio escuro em cima, filetes entre as linhas, sem caixa.
-   No hover, a linha anda 4px e a seta fica azul. */
+/* Serviços: catálogo editorial. As cinco frases do cliente numa lista com fio escuro em cima e
+   filetes entre as linhas, sem caixas; a linha escolhida fica em areia e mostra a ficha do serviço
+   (ilustração, descrição e botão). Até 960px a ficha abre logo abaixo da frase escolhida, no mesmo
+   bloco de areia; a partir daí fica numa coluna ao lado, presa sob o cabeçalho enquanto a lista
+   rola. A troca é feita por botões de opção nativos, sem JavaScript.
+   Cada botão de opção fica dentro da sua linha: assim, ao receber o foco, a página rola até a
+   linha, e não até o topo da lista. A linha escolhida é reconhecida com :has(); onde o navegador
+   ainda não tem :has(), todas as fichas aparecem abertas, uma embaixo da outra. */
 
 .services__intro {
   @apply mb-4 text-base font-title;
 }
 
-.services__list {
-  @apply border-t border-ink;
+.services__catalog {
+  @apply m-0 grid min-w-0 p-0;
+  border: 0;
+  border-top: 1px solid var(--color-ink);
 }
 
-.services__item {
-  @apply border-b border-line-strong;
+.services__option {
+  @apply relative isolate grid min-h-16 cursor-pointer grid-cols-steps gap-x-2 scroll-mt-anchor border-b border-line-strong py-4 text-ink xl:py-5 xl:pr-12;
 }
 
-.services__link {
-  @apply relative grid min-h-16 gap-2 py-4 pr-10 text-ink no-underline transition-transform duration-quick ease-out hover:translate-x-1 focus-visible:outline-offset-inset lg:grid-cols-index lg:items-center lg:gap-x-12 lg:py-7 lg:pr-16;
+/* O fundo de areia fica fora da caixa do texto, para o texto continuar alinhado ao título: no
+   celular vai até as bordas da tela; com a ficha ao lado, passa só um pouco das linhas. */
+.services__option::before,
+.services__panel::before {
+  @apply absolute top-0 -bottom-px -inset-x-gutter -z-1 bg-surface xl:-inset-x-3;
+  content: '';
+  display: none;
+}
+
+.services__option:has(.services__input:checked)::before {
+  display: block;
+}
+
+.services__option:has(.services__input:checked) {
+  @apply border-b-transparent xl:border-b-line-strong;
+}
+
+/* O foco contorna a área de areia, não só o texto. */
+.services__option:has(.services__input:focus-visible)::before {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: var(--outline-offset-inset);
+}
+
+.services__number {
+  @apply pt-1.5 text-caption font-semibold text-muted tabular-nums lg:pt-2.5;
+}
+
+.services__option:has(.services__input:checked) .services__number {
+  @apply text-ink;
+}
+
+.services__text {
+  @apply grid gap-2;
 }
 
 .services__situation {
@@ -29,14 +68,64 @@
   @apply font-title text-accent-strong;
 }
 
+.services__option:hover .services__name {
+  @apply underline underline-offset-4;
+}
+
 .services__tagline {
   @apply text-sm leading-caption text-muted;
 }
 
+/* A seta só aparece na linha escolhida, apontando para a ficha ao lado. */
 .services__arrow {
-  @apply absolute top-5 right-0 size-6 text-muted transition-colors duration-quick lg:top-1/2 lg:-mt-3;
+  @apply absolute top-1/2 right-3 hidden size-6 -translate-y-1/2 text-ink;
 }
 
-.services__link:hover .services__arrow {
-  @apply text-accent;
+.services__panel {
+  @apply relative isolate grid content-start gap-4 border-b border-line-strong pt-1 pb-6;
+}
+
+.services__panel::before {
+  display: block;
+}
+
+.services__short {
+  @apply max-w-measure text-sm text-muted;
+}
+
+.services__cta {
+  @apply justify-self-start max-sm:w-full;
+}
+
+@supports selector(:has(*)) {
+  .services__option:not(:has(.services__input:checked)) + .services__panel {
+    display: none;
+  }
+
+  /* Ao trocar de serviço, a ilustração nova aparece com um esmaecer curto (nada com "reduzir movimento"). */
+  .services__option:has(.services__input:checked) + .services__panel .service-preview__plate {
+    @apply motion-safe:animate-fade-up;
+  }
+
+  @media (width >= theme(--breakpoint-xl)) {
+    .services__catalog {
+      @apply grid-cols-lead gap-x-12;
+    }
+
+    .services__option {
+      @apply col-start-1;
+    }
+
+    .services__option:has(.services__input:checked) .services__arrow {
+      display: block;
+    }
+
+    .services__panel {
+      @apply sticky top-anchor col-start-2 row-span-5 row-start-1 self-start border-b-0 pt-5 pb-0;
+    }
+
+    .services__panel::before {
+      display: none;
+    }
+  }
 }
