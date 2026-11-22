@@ -50,6 +50,7 @@
 /* Home (depois de ui: o recorte das fotos da home vence o recorte padrão de .photo) */
 @import './components/home/hero.css' layer(components);
 @import './components/home/services.css' layer(components);
+@import './components/home/service-preview.css' layer(components);
 @import './components/home/examples.css' layer(components);
 @import './components/home/manifesto.css' layer(components);
 @import './components/home/method.css' layer(components);

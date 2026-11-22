@@ -49,6 +49,34 @@ export const home = {
     subtitle:
       'Começo pelo que já funciona no seu negócio e entrego algo que você e sua equipe conseguem operar no dia a dia.',
     intro: 'Qual destas frases parece com o seu momento?',
+    /**
+     * Catálogo: o que só as ilustrações dizem. Nome, frases e descrição de cada serviço vêm de
+     * solutions.ts; a legenda das ilustrações conceituais é a da página de comércio.
+     */
+    catalog: {
+      cta: (name: string) => `Ver a solução: ${name}`,
+      before: 'Antes',
+      after: 'Depois',
+      /** Captura real do celular de exemplo no passo "Pedido pronto" (proveniência no .json ao lado). */
+      order: {
+        image: '/exemplos/comercio-pedido.webp',
+        width: 640,
+        height: 989,
+        alt: 'Celular da loja de exemplo com o pedido pronto: “Olá! Quero fazer um pedido: 1 × Café 500 g, 1 × Leite 1 L”.',
+      },
+      /** Painel de automação com dados fictícios: o estado vem no título do grupo e no ícone, não só na cor. */
+      log: {
+        done: 'Feito hoje',
+        scheduled: 'Agendado',
+        events: [
+          { text: 'Orçamento recebido pelo formulário', when: '09:12', done: true },
+          { text: 'Cliente adicionado à planilha', when: '09:12', done: true },
+          { text: 'Confirmação enviada no WhatsApp', when: '09:13', done: true },
+          { text: 'Lembrete da visita', when: 'Amanhã, 8h', done: false },
+          { text: 'Relatório da semana por e-mail', when: 'Sexta, 18h', done: false },
+        ],
+      },
+    },
   },
   examples: {
     title: 'Veja um exemplo funcionando.',

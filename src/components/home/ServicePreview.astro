@@ -1,0 +1,153 @@
+---
+// Ilustração de um serviço no catálogo da home, sempre na mesma placa 4:3 para a ficha não pular
+// ao trocar de serviço. Três esquemas de página (site, migração, landing) em blocos, sem texto
+// inventado; o painel de automação com dados fictícios; e, no comércio, a captura real do celular
+// de exemplo com o pedido pronto. As conceituais levam a legenda aprovada da página de comércio.
+import { Icon } from '@components/ui';
+import { commerceService, home, ui, type Solution } from '@data';
+
+interface Props {
+  solution: Solution;
+}
+
+const { solution } = Astro.props;
+const copy = home.services.catalog;
+const concept = commerceService.example.order.caption;
+const caption = solution.slug === 'comercio-digital' ? ui.exampleFrame.caption(solution.example.client) : concept;
+const done = copy.log.events.filter((e) => e.done);
+const scheduled = copy.log.events.filter((e) => !e.done);
+const logId = `registro-${solution.slug}`;
+---
+<figure class="service-preview">
+  <div class:list={['service-preview__plate', `service-preview__plate--${solution.slug}`]}>
+    {solution.slug === 'site-institucional' && (
+      <div class="service-preview__window" aria-hidden="true">
+        <span class="service-preview__bar"><i class="service-preview__dot"></i><i class="service-preview__dot"></i><i class="service-preview__dot"></i></span>
+        <div class="service-preview__body">
+          <svg class="service-preview__sketch" viewBox="0 0 320 200">
+            <rect class="service-preview__ink" x="16" y="13" width="26" height="8" rx="2" />
+            <rect class="service-preview__text" x="168" y="15" width="20" height="4" rx="2" />
+            <rect class="service-preview__text" x="194" y="15" width="20" height="4" rx="2" />
+            <rect class="service-preview__text" x="220" y="15" width="20" height="4" rx="2" />
+            <rect class="service-preview__action" x="250" y="11" width="54" height="12" rx="3" />
+            <line class="service-preview__rule" x1="0" y1="34.5" x2="320" y2="34.5" />
+            <rect class="service-preview__ink" x="16" y="50" width="148" height="11" rx="2" />
+            <rect class="service-preview__ink" x="16" y="66" width="112" height="11" rx="2" />
+            <rect class="service-preview__text" x="16" y="86" width="140" height="4" rx="2" />
+            <rect class="service-preview__text" x="16" y="95" width="118" height="4" rx="2" />
+            <rect class="service-preview__action" x="16" y="108" width="54" height="14" rx="3" />
+            <rect class="service-preview__media" x="184" y="46" width="120" height="80" rx="4" />
+            {[16, 116, 216].map((x) => (
+              <g>
+                <rect class="service-preview__sand" x={x} y="142" width="14" height="14" rx="3" />
+                <rect class="service-preview__ink" x={x} y="162" width="60" height="5" rx="2" />
+                <rect class="service-preview__text" x={x} y="172" width="84" height="3.5" rx="1.75" />
+                <rect class="service-preview__text" x={x} y="179" width="68" height="3.5" rx="1.75" />
+              </g>
+            ))}
+            <rect class="service-preview__navy" x="0" y="191" width="320" height="9" />
+          </svg>
+        </div>
+      </div>
+    )}
+
+    {solution.slug === 'migracao' && (
+      <div class="service-preview__window">
+        <span class="service-preview__bar" aria-hidden="true"><i class="service-preview__dot"></i><i class="service-preview__dot"></i><i class="service-preview__dot"></i></span>
+        <div class="service-preview__body">
+          <svg class="service-preview__sketch" viewBox="0 0 320 200" aria-hidden="true">
+            <rect class="service-preview__media" x="10" y="28" width="140" height="24" />
+            <rect class="service-preview__text" x="10" y="56" width="140" height="7" />
+            <rect class="service-preview__sand" x="10" y="68" width="34" height="110" />
+            {[74, 82, 90, 98, 106, 114, 122].map((y) => <rect class="service-preview__text" x="14" y={y} width="26" height="3" />)}
+            {[70, 76, 82, 88, 94].map((y) => <rect class="service-preview__text" x="50" y={y} width="100" height="2.5" />)}
+            <rect class="service-preview__media" x="50" y="102" width="44" height="30" />
+            {[104, 110, 116, 122, 128].map((y) => <rect class="service-preview__text" x="98" y={y} width="52" height="2.5" />)}
+            {[140, 146, 152, 158, 164, 170].map((y) => <rect class="service-preview__text" x="50" y={y} width="100" height="2.5" />)}
+            <rect class="service-preview__text" x="10" y="184" width="140" height="6" />
+
+            <rect class="service-preview__ink" x="174" y="30" width="20" height="6" rx="1.5" />
+            <rect class="service-preview__action" x="270" y="28" width="38" height="10" rx="3" />
+            <line class="service-preview__rule" x1="160" y1="46.5" x2="320" y2="46.5" />
+            <rect class="service-preview__ink" x="174" y="62" width="110" height="9" rx="2" />
+            <rect class="service-preview__ink" x="174" y="76" width="84" height="9" rx="2" />
+            <rect class="service-preview__text" x="174" y="94" width="104" height="3.5" rx="1.75" />
+            <rect class="service-preview__text" x="174" y="102" width="88" height="3.5" rx="1.75" />
+            <rect class="service-preview__action" x="174" y="114" width="44" height="12" rx="3" />
+            <rect class="service-preview__media" x="174" y="138" width="134" height="48" rx="4" />
+            <line class="service-preview__divider" x1="160" y1="0" x2="160" y2="200" />
+          </svg>
+          <span class="service-preview__tag service-preview__tag--before">{copy.before}</span>
+          <span class="service-preview__tag service-preview__tag--after">{copy.after}</span>
+        </div>
+      </div>
+    )}
+
+    {solution.slug === 'landing-pages' && (
+      <div class="service-preview__window" aria-hidden="true">
+        <span class="service-preview__bar"><i class="service-preview__dot"></i><i class="service-preview__dot"></i><i class="service-preview__dot"></i></span>
+        <div class="service-preview__body">
+          <svg class="service-preview__sketch" viewBox="0 0 320 200">
+            <rect class="service-preview__ink" x="16" y="13" width="26" height="8" rx="2" />
+            <rect class="service-preview__action" x="250" y="11" width="54" height="12" rx="3" />
+            <line class="service-preview__rule" x1="0" y1="34.5" x2="320" y2="34.5" />
+            <rect class="service-preview__ink" x="16" y="52" width="150" height="12" rx="2" />
+            <rect class="service-preview__ink" x="16" y="69" width="118" height="12" rx="2" />
+            <rect class="service-preview__text" x="16" y="90" width="140" height="4" rx="2" />
+            {[108, 122, 136].map((y) => (
+              <g>
+                <path class="service-preview__tick" d={`M17 ${y + 2} l3 3 l6 -6`} stroke-width="2" />
+                <rect class="service-preview__text" x="32" y={y} width="96" height="4" rx="2" />
+              </g>
+            ))}
+            <rect class="service-preview__card" x="186.5" y="48.5" width="117" height="128" rx="6" />
+            <rect class="service-preview__text" x="198" y="62" width="40" height="3.5" rx="1.75" />
+            <rect class="service-preview__field" x="198.5" y="70.5" width="93" height="16" rx="3" />
+            <rect class="service-preview__text" x="198" y="96" width="52" height="3.5" rx="1.75" />
+            <rect class="service-preview__field" x="198.5" y="104.5" width="93" height="16" rx="3" />
+            <rect class="service-preview__action" x="198" y="134" width="94" height="18" rx="3" />
+            <rect class="service-preview__text" x="214" y="161" width="62" height="3" rx="1.5" />
+          </svg>
+        </div>
+      </div>
+    )}
+
+    {solution.slug === 'comercio-digital' && (
+      <img
+        class="service-preview__phone"
+        src={copy.order.image}
+        alt={copy.order.alt}
+        width={copy.order.width}
+        height={copy.order.height}
+        loading="lazy"
+        decoding="async"
+      />
+    )}
+
+    {solution.slug === 'sistemas-e-automacao' && (
+      <div class="service-preview__app">
+        <p class="service-preview__group" id={`${logId}-feito`}>{copy.log.done}</p>
+        <ul role="list" class="service-preview__log" aria-labelledby={`${logId}-feito`}>
+          {done.map((e) => (
+            <li class="service-preview__event">
+              <Icon name="check" class="service-preview__mark service-preview__mark--done" />
+              <span class="service-preview__event-text">{e.text}</span>
+              <span class="service-preview__when">{e.when}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="service-preview__group" id={`${logId}-agendado`}>{copy.log.scheduled}</p>
+        <ul role="list" class="service-preview__log" aria-labelledby={`${logId}-agendado`}>
+          {scheduled.map((e) => (
+            <li class="service-preview__event">
+              <span class="service-preview__mark service-preview__mark--pending" aria-hidden="true"></span>
+              <span class="service-preview__event-text">{e.text}</span>
+              <span class="service-preview__when">{e.when}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+  <figcaption class="service-preview__caption">{caption}</figcaption>
+</figure>
