@@ -1,6 +1,6 @@
 # ARCAV Landing Page (lp-arcav-us)
 
-Sitio web de ARCAV, solo en portugués de Brasil (pt-BR), desarrollado con **Astro** y configurado para despliegue en **Cloudflare Workers**. Sistema visual en `DESIGN.md`.
+Sitio web de ARCAV, solo en portugués de Brasil (pt-BR), desarrollado con **Astro** y configurado para despliegue en **Cloudflare Workers**. Producto en `PRODUCT.md`, sistema visual en `DESIGN.md`, el resto de la documentación en [`docs/README.md`](docs/README.md).
 
 ---
 
@@ -10,7 +10,7 @@ Este repositorio es **solo el sitio comercial y el portafolio** de ARCAV. Propue
 
 ```text
 /
-├── docs/                 # Marca, contenido, auditorías y sistema de diseño
+├── docs/                 # Marca y reglas del portafolio (índice en docs/README.md)
 ├── public/               # Assets estáticos (favicon, fuentes, capturas de ejemplos)
 ├── src/
 │   ├── assets/           # brand/ (logo) y fotos/ (retratos; ver el README de cada carpeta)
