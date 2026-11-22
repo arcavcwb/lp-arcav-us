@@ -10,6 +10,7 @@ export { default as Faq } from './Faq.astro';
 export { default as Footer } from './Footer.astro';
 export { default as Header } from './Header.astro';
 export { default as Icon } from './Icon.astro';
+export { default as Logo } from './Logo.astro';
 export { default as OrderMessage } from './OrderMessage.astro';
 export { default as PhoneDemo } from './PhoneDemo.astro';
 export { default as Photo } from './Photo.astro';

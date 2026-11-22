@@ -14,7 +14,8 @@ Este repositorio es **solo el sitio comercial y el portafolio** de ARCAV. Cada t
 | Kit de identidad V3: guía del kit y logos en SVG (referencia) | [`brand/v3/`](brand/v3/) |
 | Cómo contar un trabajo en el portafolio | [`CASES.md`](CASES.md) |
 | Texto del sitio (pt-BR) | `src/data/` (no se copia en documentos) |
-| Fotos y logo | `src/assets/fotos/README.md` y `src/assets/brand/README.md` |
+| Fotos | `src/assets/fotos/README.md` |
+| Logo del sitio | `src/components/ui/Logo.astro` (dibujo del kit V3 en línea) |
 
 ## Fuera de este repositorio
 

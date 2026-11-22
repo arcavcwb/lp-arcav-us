@@ -1,0 +1,16 @@
+/* Logo — desenho do kit V3 em linha. Altura fixa (--spacing-logo, 34px): o logotipo fica com 161px
+   de largura (mínimo do kit: 160px) e o símbolo sozinho com 31px de altura (mínimo: 24px).
+   Área de reserva do kit: 0,5× a altura do "A" (≈10px) em volta; quem posiciona o logo garante. */
+
+.logo {
+  @apply aspect-logo h-logo w-auto flex-none fill-current;
+}
+
+.logo__mark {
+  @apply fill-highlight;
+}
+
+/* Cabeçalho do celular: abaixo de 420px só o símbolo (o mesmo desenho, recortado à esquerda). */
+.logo--compact {
+  @apply max-logo:aspect-symbol;
+}

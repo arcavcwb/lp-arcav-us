@@ -60,7 +60,7 @@ Los componentes no usan utilidades de Tailwind en el marcado. Cada elemento llev
 ### Textos, datos e importaciones
 
 - **`src/data/`** — todo el texto del sitio: `site.ts` (marca, `SITE`, home, 404), `solutions.ts` (soluciones, `SOLUTION_PAGE`, `LANDING_PICKER`), `commerce-service.ts`, `ui.ts` (textos de interfaz que se repiten), `anchors.ts` (ids de sección y de la ventana del formulario), `navigation.ts`, `photos.ts`, `types.ts`.
-- **`src/lib/`** — reglas puras: `order.ts`, `contact-message.ts`, `contact.ts`, `links.ts` (`EXTERNAL_LINK`), `text.ts` (`initials`, `firstName`, `quoted`, `ordinal`), `view-transitions.ts`, `photos.ts`, `brand-assets.ts`.
+- **`src/lib/`** — reglas puras: `order.ts`, `contact-message.ts`, `contact.ts`, `links.ts` (`EXTERNAL_LINK`), `text.ts` (`initials`, `firstName`, `quoted`, `ordinal`), `view-transitions.ts`, `photos.ts`.
 - **Alias** (`tsconfig.json`): `@components/*`, `@layouts/*`, `@data`, `@lib`, `@scripts/*`, `@styles/*`, `@assets/*`. No hay importaciones con `../`.
 - **Barriles** (`index.ts`): componentes y páginas importan de `@data`, `@lib`, `@components/ui`, `@components/home`, `@components/solution`. Dos excepciones:
   - dentro de una misma carpeta se importa el archivo vecino (`./Icon.astro`), para no crear ciclos;

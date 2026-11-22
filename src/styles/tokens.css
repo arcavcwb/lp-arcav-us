@@ -77,7 +77,6 @@
   --text-lg: 1.125rem;
   --text-h3: 1.25rem;
   --text-h3--line-height: var(--leading-snug);
-  --text-brand: 1.375rem;
   --text-statement: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
   --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
   --text-lead--line-height: var(--leading-lead);
@@ -104,7 +103,6 @@
   --tracking-subtitle: -0.012em;
   --tracking-tight: -0.01em;
   --tracking-wide: 0.02em;
-  --tracking-brand: 0.04em;
 
   --text-underline-offset-link: 0.22em;
 
@@ -118,6 +116,8 @@
   /* Seção-respiro (manifesto): mais ar que as outras */
   --spacing-section-feature: clamp(3.5rem, 2rem + 5vw, 7.5rem);
   --spacing-header: 4.25rem;
+  /* Altura do logo (Logo.astro): 161px de largura no logotipo, 31px de altura no símbolo. */
+  --spacing-logo: 2.125rem;
   --spacing-anchor: calc(var(--spacing-header) + 1rem);
   --spacing-sticky: calc(var(--spacing-header) + 2rem);
   --spacing-head: clamp(1.75rem, 1.5rem + 1vw, 2.5rem);
@@ -195,6 +195,9 @@
   --aspect-portrait: 4 / 5;
   --aspect-landscape: 3 / 2;
   --aspect-wide: 4 / 3;
+  /* Proporções do desenho do logo (viewBox do kit): inteiro e só o símbolo. */
+  --aspect-logo: 970 / 205;
+  --aspect-symbol: 280 / 205;
 
   /* ── Forma ────────────────────────────────────────────────────────────── */
   --radius-xs: 4px;
@@ -261,6 +264,9 @@
   }
 
   /* ── Pontos de quebra (mobile first) ──────────────────────────────────── */
+  /* 420px: logotipo inteiro no cabeçalho. Medido: em 390px faltam 5px na home e 17px em
+     comércio digital; em 420px sobram 12px na página com a ação mais longa. */
+  --breakpoint-logo: 26.25rem;
   --breakpoint-sm: 30rem; /* 480px */
   --breakpoint-pair: 35rem; /* 560px: dois itens curtos lado a lado */
   --breakpoint-inline: 40rem; /* 640px: dados curtos em linha */
