@@ -14,3 +14,8 @@
 .logo--compact {
   @apply max-logo:aspect-symbol;
 }
+
+/* Só o símbolo (avatar de quem responde): quem usa define o tamanho. */
+.logo--symbol {
+  @apply aspect-symbol h-auto w-full;
+}

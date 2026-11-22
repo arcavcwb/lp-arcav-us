@@ -1,8 +1,9 @@
 ---
-// Avatar redondo de quem responde: o retrato de data/photos.ts quando existir; até lá, as iniciais
-// (não é uma foto falsa).
-import { BRAND, PHOTOS } from '@data';
-import { initials, photoFor } from '@lib';
+// Avatar redondo de quem responde: o retrato de data/photos.ts quando existir; até lá, o símbolo da
+// ARCAV (pedido do usuário, 2026-11-22: o logo no lugar das iniciais "AC"; não é uma foto falsa).
+import Logo from './Logo.astro';
+import { PHOTOS } from '@data';
+import { photoFor } from '@lib';
 
 const photo = photoFor('portrait');
 ---
@@ -10,6 +11,6 @@ const photo = photoFor('portrait');
   {photo ? (
     <img class="avatar__image" src={photo.src} width={photo.width} height={photo.height} alt={PHOTOS.portrait.alt} decoding="async" />
   ) : (
-    <span class="avatar__initials" role="img" aria-label={BRAND.author}>{initials(BRAND.author)}</span>
+    <span class="avatar__symbol"><Logo symbol /></span>
   )}
 </span>

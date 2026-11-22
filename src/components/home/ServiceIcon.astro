@@ -1,0 +1,99 @@
+---
+// Ilustração pequena de cada serviço, para os discos do catálogo da home: formas geométricas na
+// grade de 64, com as cores da marca (papel, areia, azul profundo, um toque de azul de ação e de
+// âmbar). Contornos e setas soltas usam currentColor: azul profundo no disco de areia, branco no
+// disco escolhido (azul profundo). As peças sólidas em azul profundo levam contorno, para não
+// sumirem no disco escolhido. Decorativa: o nome do serviço está ao lado do disco.
+type Slug = 'site-institucional' | 'migracao' | 'landing-pages' | 'comercio-digital' | 'sistemas-e-automacao';
+
+interface Props {
+  slug: string;
+  class?: string;
+}
+
+const { slug, class: className } = Astro.props;
+const s = slug as Slug;
+---
+<svg class:list={['service-icon', className]} viewBox="0 0 64 64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {s === 'site-institucional' && (
+    <Fragment>
+      <rect class="service-icon__paper" x="7" y="12" width="50" height="40" rx="5" />
+      <path class="service-icon__line" d="M7 21h50" />
+      <circle class="service-icon__ink" cx="12.5" cy="16.5" r="1.4" />
+      <circle class="service-icon__ink" cx="17" cy="16.5" r="1.4" />
+      <circle class="service-icon__ink" cx="21.5" cy="16.5" r="1.4" />
+      <rect class="service-icon__ink" x="13" y="27" width="19" height="4.5" rx="1.5" />
+      <rect class="service-icon__text" x="13" y="35" width="16" height="2.5" rx="1.25" />
+      <rect class="service-icon__text" x="13" y="39.5" width="12" height="2.5" rx="1.25" />
+      <rect class="service-icon__action" x="13" y="44" width="11" height="4" rx="1.5" />
+      <rect class="service-icon__flat" x="37" y="27" width="14" height="21" rx="2" />
+      <circle class="service-icon__mark" cx="45.5" cy="32.5" r="2.6" />
+      <path class="service-icon__ink" d="M37 48l5.5-7 4 4.5 4.5-5.5V48z" />
+    </Fragment>
+  )}
+
+  {s === 'migracao' && (
+    <Fragment>
+      <rect class="service-icon__sheet" x="5" y="9" width="32" height="26" rx="4" />
+      <path class="service-icon__line" d="M5 16h32" />
+      <rect class="service-icon__text" x="10" y="21" width="16" height="2.5" rx="1.25" />
+      <rect class="service-icon__text" x="10" y="26" width="20" height="2.5" rx="1.25" />
+      <rect class="service-icon__paper" x="25" y="24" width="34" height="30" rx="4" />
+      <path class="service-icon__line" d="M25 31h34" />
+      <rect class="service-icon__ink" x="30" y="36" width="16" height="4" rx="1.5" />
+      <rect class="service-icon__text" x="30" y="43" width="22" height="2.5" rx="1.25" />
+      <rect class="service-icon__action" x="30" y="48" width="10" height="3.5" rx="1.5" />
+      <path class="service-icon__mark-line" d="M11 40c0 7 4 11 10 11" stroke-width="2.5" />
+      <path class="service-icon__mark-line" d="M17.5 47.5 21 51l-3.5 3.5" stroke-width="2.5" />
+    </Fragment>
+  )}
+
+  {s === 'landing-pages' && (
+    <Fragment>
+      <rect class="service-icon__paper" x="14" y="6" width="34" height="50" rx="4" />
+      <rect class="service-icon__ink" x="19" y="12" width="20" height="4.5" rx="1.5" />
+      <rect class="service-icon__ink" x="19" y="19" width="13" height="4.5" rx="1.5" />
+      <rect class="service-icon__text" x="19" y="27" width="24" height="2.5" rx="1.25" />
+      <rect class="service-icon__text" x="19" y="31.5" width="18" height="2.5" rx="1.25" />
+      <rect class="service-icon__action" x="19" y="38" width="24" height="7" rx="2" />
+      <rect class="service-icon__text" x="19" y="49" width="12" height="2.5" rx="1.25" />
+      <circle class="service-icon__mark-line" cx="38" cy="42" r="5" />
+      <path class="service-icon__paper" d="M38 42v14l3.5-3.2 2.8 5.7 2.9-1.4-2.8-5.6 4.6-.3z" />
+    </Fragment>
+  )}
+
+  {s === 'comercio-digital' && (
+    <Fragment>
+      <rect class="service-icon__paper" x="10" y="5" width="28" height="52" rx="6" />
+      <path class="service-icon__line" d="M20.5 10.5h7" />
+      <rect class="service-icon__flat" x="14.5" y="16" width="7" height="7" rx="1.5" />
+      <rect class="service-icon__text" x="24" y="17" width="10" height="2.2" rx="1.1" />
+      <rect class="service-icon__text" x="24" y="21" width="6" height="2.2" rx="1.1" />
+      <rect class="service-icon__flat" x="14.5" y="27" width="7" height="7" rx="1.5" />
+      <rect class="service-icon__text" x="24" y="28" width="10" height="2.2" rx="1.1" />
+      <rect class="service-icon__text" x="24" y="32" width="6" height="2.2" rx="1.1" />
+      <rect class="service-icon__action" x="14.5" y="45" width="19" height="6" rx="2" />
+      <path class="service-icon__solid" d="M33 31h20a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H42l-6 5v-5h-3a5 5 0 0 1-5-5v-8a5 5 0 0 1 5-5z" />
+      <rect class="service-icon__light" x="33.5" y="36" width="15" height="2.5" rx="1.25" />
+      <rect class="service-icon__light" x="33.5" y="41" width="10" height="2.5" rx="1.25" />
+      <circle class="service-icon__mark" cx="56" cy="31.5" r="4" />
+    </Fragment>
+  )}
+
+  {s === 'sistemas-e-automacao' && (
+    <Fragment>
+      <rect class="service-icon__paper" x="5" y="8" width="22" height="18" rx="3" />
+      <rect class="service-icon__text" x="9" y="12.5" width="10" height="2.2" rx="1.1" />
+      <rect class="service-icon__flat" x="9" y="17" width="14" height="5" rx="1.5" />
+      <path class="service-icon__line" d="M27 17h6.5M31 14l3 3-3 3" />
+      <circle class="service-icon__solid" cx="45" cy="17" r="10" />
+      <path class="service-icon__mark" d="M46.8 9.5 40 18.8h4.6L43 24.5l6.8-9.3h-4.6z" />
+      <path class="service-icon__line" d="M45 27v6.5M42 31l3 3 3-3" />
+      <rect class="service-icon__paper" x="22" y="35" width="36" height="22" rx="4" />
+      <path class="service-icon__check" d="M27 41.5l2 2 3.5-3.5" />
+      <rect class="service-icon__text" x="35" y="41" width="17" height="2.5" rx="1.25" />
+      <path class="service-icon__check" d="M27 49l2 2 3.5-3.5" />
+      <rect class="service-icon__text" x="35" y="48.5" width="13" height="2.5" rx="1.25" />
+    </Fragment>
+  )}
+</svg>

@@ -1,9 +1,9 @@
-/* Header — cabeçalho fixo no topo. Abaixo do ponto `split` (900px) a navegação vira um painel
+/* Header — cabeçalho fixo no topo, de vidro (o conteúdo passa desfocado por baixo). Abaixo do ponto `split` (900px) a navegação vira um painel
    (atributo popover): abre e fecha pelo botão, com Esc ou tocando fora, sem JavaScript.
    O fio inferior aparece ao rolar, com uma animação ligada à rolagem (só CSS). */
 
 .site-header {
-  @apply sticky top-0 z-header border-b border-transparent bg-paper;
+  @apply sticky top-0 z-header border-b border-transparent bg-glass-strong backdrop-blur-glass backdrop-saturate-150;
   view-transition-name: site-header;
 }
 
@@ -81,7 +81,7 @@
 
 @media (width < theme(--breakpoint-split)) {
   .site-nav {
-    @apply m-0 w-full border-0 border-b border-line bg-paper px-gutter pt-2 pb-5 shadow-drawer;
+    @apply m-0 w-full border-0 border-b border-line bg-glass-strong px-gutter pt-2 pb-5 shadow-drawer backdrop-blur-glass backdrop-saturate-150;
     inset: var(--spacing-header) 0 auto;
   }
 }

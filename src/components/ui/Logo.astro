@@ -3,16 +3,25 @@
 // inclinada, triângulo âmbar e "ARCAV" em curvas. A barra e as letras usam a cor do texto
 // (azul profundo no claro, branco no escuro); o triângulo, o âmbar (--color-highlight).
 // `compact`: abaixo de --breakpoint-logo a mesma figura é recortada no símbolo
-// (preserveAspectRatio slice, alinhada à esquerda). O nome acessível é sempre "ARCAV".
+// (preserveAspectRatio slice, alinhada à esquerda). `symbol`: só o símbolo, sempre (o avatar de quem
+// responde, no lugar das iniciais). O nome acessível é sempre "ARCAV".
 import { BRAND } from '@data';
 
 interface Props {
   /** Só o símbolo quando a tela é estreita (cabeçalho do celular). */
   compact?: boolean;
+  /** Só o símbolo, em qualquer tela. */
+  symbol?: boolean;
 }
 
-const { compact = false } = Astro.props;
+const { compact = false, symbol = false } = Astro.props;
 ---
+{symbol ? (
+<svg class="logo logo--symbol" viewBox="0 0 280 205" role="img" aria-label={BRAND.name}>
+  <polygon points="104,8 182,8 79,196 0,196" />
+  <polygon class="logo__mark" points="211,59 280,177 142,177" />
+</svg>
+) : (
 <svg
   class:list={['logo', { 'logo--compact': compact }]}
   viewBox="0 0 970 205"
@@ -28,3 +37,4 @@ const { compact = false } = Astro.props;
   <path d="M9 0H341L449 325H1006L1110 0H1451L928 1490H532ZM532 571 583 725C631 877 677 1029 731 1214C784 1029 830 877 876 725L926 571Z" transform="translate(702.66 159) scale(0.0845 -0.0845)" />
   <path d="M532 0H924L1436 1490H1105L872 765C829 623 783 463 731 280C677 463 630 623 585 765L344 1490H9Z" transform="translate(828.1145 159) scale(0.0845 -0.0845)" />
 </svg>
+)}

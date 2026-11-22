@@ -1,22 +1,22 @@
-/* Hero da home: título, subtítulo e ações (8 de 12 colunas) e o retrato de trabalho (4 colunas). */
+/* Hero da home: o texto e as ações na coluna da esquerda; a arte aprovada fica fora do shell.
+   - A partir de 960px, a arte se encosta no canto de cima, à direita, do hero, na altura dele e
+     atrás do texto (as bordas de cima e da direita da arte são duras; as da esquerda e de baixo se
+     desfazem no fundo). A coluna da direita da grade fica vazia, reservando o lugar dela.
+   - No celular, a arte vem depois das ações, centrada e menor, para o hero caber numa tela.
+   `object-fit: contain`: o logo na tela do laptop, os ícones e o aparelho nunca são cortados. */
 
 .hero__grid {
-  @apply grid gap-10;
+  @apply grid items-center gap-6 xl:grid-cols-hero-art xl:gap-10;
 }
 
-.hero--with-photo .hero__grid {
-  @apply xl:grid-cols-hero-portrait xl:items-center xl:gap-16;
+.hero__art {
+  @apply mx-auto mt-6 w-full max-w-64 md:max-w-sm xl:absolute xl:inset-y-0 xl:right-0 xl:-z-1 xl:mx-0 xl:mt-0 xl:w-1/2 xl:max-w-none;
 }
 
-.hero__figure {
-  @apply m-0 grid content-start gap-3;
+.hero__art picture {
+  @apply block xl:h-full;
 }
 
-/* No celular, recorte 4:3 a toda a largura; no desktop, o retrato 4:5. */
-.hero__photo {
-  @apply aspect-wide xl:aspect-portrait;
-}
-
-.hero__caption {
-  @apply text-caption text-muted;
+.hero__art-image {
+  @apply block h-auto w-full object-contain xl:size-full xl:object-right-top;
 }

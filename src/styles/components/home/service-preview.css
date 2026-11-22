@@ -8,7 +8,13 @@
 }
 
 .service-preview__plate {
-  @apply relative grid sm:aspect-wide sm:place-items-center sm:overflow-hidden sm:rounded-card sm:bg-surface sm:p-6 xl:p-8;
+  @apply relative grid sm:aspect-wide sm:place-items-center sm:overflow-hidden sm:rounded-card sm:bg-surface sm:p-6;
+}
+
+/* O painel de automação é uma lista: com a placa estreita da ficha, ela cresce com a lista em vez
+   de cortar as últimas linhas. */
+.service-preview__plate--sistemas-e-automacao {
+  @apply xl:aspect-auto;
 }
 
 /* Janela de navegador dos esquemas de página. */
@@ -109,7 +115,7 @@
 
 /* Automação: painel com dados fictícios. */
 .service-preview__app {
-  @apply grid w-full gap-1.5 rounded-control border border-line bg-paper p-4;
+  @apply grid w-full gap-1 rounded-control border border-line bg-paper p-3 sm:p-4;
 }
 
 .service-preview__group {
@@ -125,7 +131,7 @@
 }
 
 .service-preview__event {
-  @apply flex items-start gap-2.5 border-t border-line py-2 text-meta text-ink;
+  @apply flex items-start gap-2.5 border-t border-line py-1.5 text-caption text-ink;
 }
 
 .service-preview__event-text {
@@ -137,7 +143,7 @@
 }
 
 .service-preview__mark {
-  @apply mt-0.5 size-4 flex-none;
+  @apply mt-px size-4 flex-none;
 }
 
 .service-preview__mark--done {
@@ -149,5 +155,5 @@
 }
 
 .service-preview__caption {
-  @apply text-caption text-muted;
+  @apply text-caption text-balance text-muted;
 }

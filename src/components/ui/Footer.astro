@@ -1,4 +1,6 @@
 ---
+// Rodapé numa faixa só (pedido do usuário, 2026-11-22: mais simples e mais baixo): a marca, os
+// links numa linha e o contato; embaixo, os direitos e as redes.
 import Brand from './Brand.astro';
 import Icon from './Icon.astro';
 import { BRAND, HOME_PATH, home, ui, type NavLink } from '@data';
@@ -14,15 +16,11 @@ const { links = [] } = Astro.props;
 ---
 <footer class="site-footer">
   <div class="shell">
-    <div class="site-footer__grid">
-      <div class="site-footer__brand">
-        <a class="site-footer__link" href={HOME_PATH} aria-label={ui.a11y.homeLink}><Brand tone="dark" /></a>
-        <p class="site-footer__statement">{BRAND.statement}</p>
-      </div>
+    <div class="site-footer__top">
+      <a class="site-footer__link" href={HOME_PATH} aria-label={ui.a11y.homeLink}><Brand tone="dark" /></a>
 
       {links.length > 0 && (
         <nav class="site-footer__nav" aria-label={ui.footer.nav}>
-          <p class="site-footer__term">{ui.footer.navTitle}</p>
           <ul role="list" class="site-footer__links">
             {links.map((item) => (
               <li><a class="site-footer__link" href={item.href}>{item.label}</a></li>
@@ -31,35 +29,15 @@ const { links = [] } = Astro.props;
         </nav>
       )}
 
-      <dl class="site-footer__facts">
-        <div>
-          <dt class="site-footer__term">{ui.labels.contact}</dt>
-          <dd class="site-footer__contacts">
-            {wa && (
-              <a class="site-footer__link" href={wa} {...EXTERNAL_LINK}>
-                {ui.labels.whatsapp}{' '}
-                <span class="site-footer__phone">{ARCAV_WHATSAPP_DISPLAY}</span>
-              </a>
-            )}
-            <a class="site-footer__link" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
-          </dd>
-        </div>
-        <div>
-          <dt class="site-footer__term">{ui.labels.location}</dt>
-          <dd>{BRAND.location}</dd>
-        </div>
-      </dl>
-
-      <dl class="site-footer__facts">
-        <div>
-          <dt class="site-footer__term">{ui.labels.trajectory}</dt>
-          <dd>
-            <ol role="list" class="flow site-footer__trajectory" aria-label={ui.labels.trajectoryList}>
-              {BRAND.trajectory.map((place) => <li>{place}</li>)}
-            </ol>
-          </dd>
-        </div>
-      </dl>
+      <p class="site-footer__contacts">
+        {wa && (
+          <a class="site-footer__link" href={wa} {...EXTERNAL_LINK}>
+            {ui.labels.whatsapp}{' '}
+            <span class="site-footer__phone">{ARCAV_WHATSAPP_DISPLAY}</span>
+          </a>
+        )}
+        <a class="site-footer__link" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+      </p>
     </div>
 
     <div class="site-footer__bottom">

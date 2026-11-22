@@ -4,11 +4,15 @@ import { ANCHOR, home } from '@data';
 
 const { examples } = home;
 ---
-<section class="section section--muted" id={ANCHOR.examples} aria-labelledby="exemplos-title">
+<section class="section section--muted has-orbs" id={ANCHOR.examples} aria-labelledby="exemplos-title">
+  <div class="orbs" aria-hidden="true">
+    <span class="orbs__orb orbs__orb--blue"></span>
+    <span class="orbs__orb orbs__orb--amber"></span>
+  </div>
   <div class="shell">
-    <div class="section-head">
+    <div class="section-head section-head--split">
       <h2 class="h2" id="exemplos-title">{examples.title}</h2>
-      <p class="lead">{examples.lead}</p>
+      <p class="lead lead--md">{examples.lead}</p>
     </div>
     <ExampleShowcase />
   </div>
