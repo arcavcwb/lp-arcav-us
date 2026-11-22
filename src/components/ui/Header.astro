@@ -8,11 +8,9 @@ import { ui } from '../../data/ui';
 interface Props {
   links?: NavLink[];
   cta?: { href: string; label: string };
-  /** Texto curto à direita no lugar da navegação (ex.: página de proposta). */
-  note?: string;
 }
 
-const { links = [], cta, note } = Astro.props;
+const { links = [], cta } = Astro.props;
 const hasNav = links.length > 0;
 
 /** Abaixo do ponto `split` (900px) a navegação vira um menu sanfona sob o cabeçalho. */
@@ -43,7 +41,6 @@ const navLink =
     )}
 
     <div class:list={['flex items-center gap-3', hasNav ? 'ml-2 max-split:ml-auto' : 'ml-auto']}>
-      {note && <span class="text-sm font-medium text-muted max-sm:text-right max-sm:text-caption max-sm:leading-snug">{note}</span>}
       {cta && <a class="btn btn--primary btn--sm" href={cta.href}>{cta.label}</a>}
       {hasNav && (
         <button

@@ -1,6 +1,6 @@
 // src/data/ui.ts — Textos de interface: rótulos, botões, avisos e textos de acessibilidade que os
 // componentes e os scripts usam. O conteúdo de cada página fica em site.ts, solutions.ts,
-// commerce-service.ts e proposals/. Componentes e scripts não escrevem texto solto: leem daqui.
+// commerce-service.ts. Componentes e scripts não escrevem texto solto: leem daqui.
 import { BRAND, home } from './site';
 import { firstName } from '../lib/text';
 
@@ -176,11 +176,5 @@ export const ui = {
     note: 'O atendimento continua com você, no WhatsApp de sempre.',
     customer: 'Cliente pelo site',
     channel: 'WhatsApp da loja · agora',
-  },
-
-  proposal: {
-    demoCta: 'Testar a demonstração',
-    demoNext: 'Testar a demonstração completa',
-    storeNote: 'Exemplo de pedido',
   },
 };

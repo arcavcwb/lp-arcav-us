@@ -11,11 +11,9 @@ const wa = whatsappLink();
 
 interface Props {
   links?: NavLink[];
-  /** Aviso curto acima do rodapé legal (ex.: proposta independente). */
-  disclaimer?: string;
 }
 
-const { links = [], disclaimer } = Astro.props;
+const { links = [] } = Astro.props;
 
 /** Links do rodapé: claros sobre o grafite, sublinhado só no hover. */
 const link = 'text-on-dark no-underline hover:underline';
@@ -62,8 +60,6 @@ const term = 'mb-1 text-caption font-semibold text-on-dark-muted';
         </div>
       </dl>
     </div>
-
-    {disclaimer && <p class="mt-6 max-w-2xl border-t border-on-dark-line pt-4 text-sm text-on-dark-muted">{disclaimer}</p>}
 
     <div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-on-dark-line pt-4 text-sm text-on-dark-muted">
       <p>{home.footer.copyright}</p>

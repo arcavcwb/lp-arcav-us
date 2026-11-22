@@ -26,7 +26,6 @@
 
 @import './components/contact-form.css' layer(components);
 @import './components/phone-demo.css' layer(components);
-@import './components/proposal.css' layer(components);
 
 
 /* Só o código do site gera utilitários (não os documentos do repositório). */

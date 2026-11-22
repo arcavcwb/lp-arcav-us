@@ -1,7 +1,7 @@
 // src/data/commerce-service.ts — Copy pt-BR da página pública /solucoes/comercio-digital/.
-// Fonte: docs/propostas/center-gas/04-CONTENIDO-PT-BR.md (seção A). Não citar clientes
+// Fonte: o conteúdo aprovado da proposta da Center Gás (repositório próprio). Não citar clientes
 // nem preços de propostas individuais nesta página.
-import type { DemoProduct, IllustrativeOrder } from './proposals/types';
+import type { DemoProduct, IllustrativeOrder } from './types';
 import { ANCHOR, toAnchor } from './anchors';
 import { solutionPath } from './solutions';
 

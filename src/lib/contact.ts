@@ -1,5 +1,4 @@
 // src/lib/contact.ts — Canal de contato comercial da ARCAV para os CTAs.
-import { BRAND, SITE } from '../data/site';
 
 /**
  * Número comercial de WhatsApp da ARCAV em formato internacional, só dígitos.
@@ -31,40 +30,8 @@ export function whatsappLink(message?: string): string | null {
   return `https://wa.me/${ARCAV_WHATSAPP}${message ? `?text=${encodeURIComponent(message)}` : ''}`;
 }
 
-export type ContactChannel = 'whatsapp' | 'email';
-
-export interface ContactLink {
-  href: string;
-  channel: ContactChannel;
-}
-
-/** Monta o link de contato com a ARCAV com uma mensagem pronta. */
-export function arcavContactLink(subject: string, message: string): ContactLink {
-  if (ARCAV_WHATSAPP) {
-    return {
-      href: `https://wa.me/${ARCAV_WHATSAPP}?text=${encodeURIComponent(message)}`,
-      channel: 'whatsapp',
-    };
-  }
-  return {
-    href: `mailto:${BRAND.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`,
-    channel: 'email',
-  };
-}
-
 /** Rota que entrega o formulário quando DIRECT_SEND está ligado (src/pages/api/contato.ts). */
 export const CONTACT_ENDPOINT = '/api/contato';
 
 /** Quanto o formulário espera a resposta de CONTACT_ENDPOINT antes de usar o plano B. */
 export const CONTACT_TIMEOUT_MS = 8000;
-
-const brl = new Intl.NumberFormat(SITE.lang, {
-  style: 'currency',
-  currency: 'BRL',
-  maximumFractionDigits: 0,
-});
-
-/** Formata um valor em reais: 3900 → "R$ 3.900". */
-export function formatBRL(value: number): string {
-  return brl.format(value);
-}

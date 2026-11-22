@@ -9,7 +9,6 @@ export const ANCHOR = {
   about: 'sobre',
   contact: 'contato',
   demo: 'demo',
-  diagnosis: 'diagnostico',
 } as const;
 
 export const HOME_PATH = '/';
