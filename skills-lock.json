@@ -22,6 +22,20 @@
       "skillPath": "skills/cro/SKILL.md",
       "computedHash": "cc8040529654755144b4dedce5f075ead4667969978257596a05fa4282a5b42f"
     },
+    "frontend-design": {
+      "source": "anthropics/claude-plugins-official",
+      "commit": "73c8cf3ea7e296057b467990f2f5d61b4c922260",
+      "sourceType": "github",
+      "skillPath": "plugins/frontend-design/skills/frontend-design/SKILL.md",
+      "computedHash": "83485963700bcf11d5bf78118facb301676b69d918fee2e45a95e7f1a2840f6c"
+    },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "commit": "b49177d32788f2dc585c42831d845dacf1ebed2c",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "08bd5bf141cb507f46bd8347890cd985865606f15adf88295ed3a73bc9ad5d96"
+    },
     "marketing-psychology": {
       "source": "coreyhaines31/marketingskills",
       "commit": "5b2b400eec1e7e1cec76245a715d0b0d4fd2a9c1",
