@@ -130,6 +130,12 @@ export const home = {
       'Conte como funciona hoje. Eu respondo com os próximos passos e, se houver encaixe, preparo uma prévia resumida do seu projeto para acompanhar a proposta.',
     subject: 'Contato pelo site da ARCAV',
     waMessage: 'Olá, Armando! Vi o site da ARCAV e quero conversar sobre o meu negócio.',
+    /** Exemplo do que escrever no formulário: responde à pergunta da mensagem com palavras de dono
+     *  de negócio. Rotulado como exemplo; não é a mensagem de um cliente real. */
+    example: {
+      label: 'Exemplo do que escrever',
+      text: 'Tenho uma distribuidora. Os pedidos chegam pelo WhatsApp, eu anoto no caderno e à noite passo tudo para a planilha. Queria parar de perder pedido no caminho.',
+    },
   },
   footer: {
     copyright: '© 2026 ARCAV por Armando Castro. Todos os direitos reservados.',

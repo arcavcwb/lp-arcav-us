@@ -81,7 +81,8 @@ export const ui = {
 
   /** Janela com o formulário de contato. */
   contactDialog: {
-    open: 'Escrever minha mensagem',
+    /** O mesmo nome da ação principal do hero: os dois botões abrem esta janela. */
+    open: home.hero.primaryCta,
     title: 'Conte o que você precisa',
     close: 'Fechar',
   },

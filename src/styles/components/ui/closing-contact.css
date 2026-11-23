@@ -11,12 +11,28 @@
   @apply grid max-w-lg gap-5;
 }
 
+/* Exemplo do que escrever (home): o rótulo e um balão areia sobre o fundo escuro, como a mensagem
+   que chega. O balão é uma peça na frente do escenário (nível 3), sem brilho; areia e texto um
+   pouco menor para não pesar mais que o botão. */
+.closing__example {
+  @apply m-0 mt-2 grid max-w-md gap-2.5;
+}
+
+.closing__example-label {
+  @apply text-sm font-medium text-on-dark-muted;
+}
+
+.closing__bubble {
+  @apply rounded-card rounded-bl-xs bg-surface px-4 py-3.5 text-md leading-normal text-ink shadow-device;
+}
+
 .closing__aside {
   @apply grid gap-6 rounded-card p-card;
 }
 
+/* Quem responde abre o cartão: só a linha de baixo separa dos canais. */
 .closing__responder {
-  @apply flex items-center gap-3.5 border-y border-on-dark-line py-4;
+  @apply flex items-center gap-3.5 border-b border-on-dark-line pb-4;
 }
 
 .closing__responder-text {
@@ -45,6 +61,11 @@
 
 .closing__channel-link {
   @apply text-on-dark;
+}
+
+/* O número não se parte no meio (a 320px, "WhatsApp" fica numa linha e o número na outra). */
+.closing__number {
+  @apply whitespace-nowrap;
 }
 
 .closing__open {
