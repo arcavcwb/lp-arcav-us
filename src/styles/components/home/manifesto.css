@@ -1,21 +1,22 @@
-/* Manifesto (antigo Problema): azul profundo. Título e texto menores no alto, a citação, e o
-   antes/depois em duas colunas com filetes, sem caixas. Compacto para caber numa tela (pedido do
-   usuário, 2026-11-22). */
+/* Manifesto, sobre areia (2026-11-22). Título e texto menores no alto; a citação grande; e o
+   antes/depois como uma transformação por linha: "hoje" com borda tracejada e ícone apagado (o que
+   está solto), a seta azul, e "depois" num cartão firme com o ícone em azul num poço de areia (o que
+   ficou organizado). No celular, cada linha empilha: hoje, a seta para baixo, depois. */
 
 .manifesto__shell {
   @apply grid gap-6 lg:gap-9;
 }
 
 .manifesto__head {
-  @apply grid gap-4 lg:grid-cols-12 lg:gap-x-columns;
+  @apply grid gap-3 lg:grid-cols-12 lg:gap-x-columns;
 }
 
 .manifesto__title {
-  @apply text-h3 font-title lg:col-span-5;
+  @apply font-heading text-h3 font-title text-balance lg:col-span-5;
 }
 
 .manifesto__text {
-  @apply max-w-lead text-on-dark-muted lg:col-span-6 lg:col-start-7;
+  @apply max-w-lead text-muted lg:col-span-6 lg:col-start-7;
 }
 
 .manifesto__figure {
@@ -23,41 +24,62 @@
 }
 
 .manifesto__quote {
-  @apply font-heading text-statement leading-snug font-semibold tracking-heading text-balance text-on-dark md:text-h2 lg:col-span-10;
+  @apply font-heading text-statement leading-snug font-semibold tracking-heading text-balance text-ink md:text-h2 lg:col-span-10;
 }
 
 .manifesto__author {
-  @apply text-sm text-on-dark-muted lg:col-span-12;
+  @apply text-sm text-muted lg:col-span-12;
 }
+
+/* ── Hoje → Depois ─────────────────────────────────────────────────────────────────────────── */
 
 .manifesto__compare {
-  @apply grid gap-5 md:grid-cols-2 md:gap-x-split;
+  @apply grid gap-3;
 }
 
-.manifesto__label {
-  @apply mb-2 text-sm font-semibold text-on-dark-muted;
+.manifesto__labels {
+  @apply hidden text-sm font-semibold text-muted md:grid md:grid-cols-transform md:gap-x-4;
 }
 
-.manifesto__label--after {
-  @apply text-on-dark;
+/* O rótulo "Depois" começa na coluna de depois (a do meio é a da seta). */
+.manifesto__labels > :last-child {
+  @apply md:col-start-3;
 }
 
-.manifesto__list {
-  @apply border-t border-on-dark-line;
+.manifesto__rows {
+  @apply m-0 grid gap-4 p-0 md:gap-3;
+  list-style: none;
 }
 
 .manifesto__row {
-  @apply flex items-start gap-3 border-b border-on-dark-line py-2 text-sm font-medium text-on-dark-muted md:py-2.5 md:text-base;
+  @apply grid items-center gap-2 md:grid-cols-transform md:gap-x-4;
 }
 
-.manifesto__row--after {
-  @apply text-on-dark;
+.manifesto__before,
+.manifesto__after {
+  @apply flex min-h-14 items-center gap-3 rounded-card px-4 py-3 text-sm font-medium md:text-base;
 }
 
-.manifesto__mark {
-  @apply mt-optical size-5 flex-none;
+.manifesto__before {
+  @apply border border-dashed border-line-control text-muted;
 }
 
-.manifesto__mark--after {
-  @apply text-highlight;
+.manifesto__after {
+  @apply border border-line bg-paper text-ink shadow-glass;
+}
+
+.manifesto__icon {
+  @apply size-5 flex-none;
+}
+
+.manifesto__before .manifesto__icon {
+  @apply text-muted;
+}
+
+.manifesto__well {
+  @apply grid size-9 flex-none place-items-center rounded-control bg-surface text-accent;
+}
+
+.manifesto__arrow {
+  @apply size-5 justify-self-center text-accent max-md:rotate-90;
 }

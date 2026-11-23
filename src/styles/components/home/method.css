@@ -5,9 +5,8 @@
    1. os cartões entram um depois do outro conforme a seção chega à tela, e a linha do tempo acima
       deles se desenha da esquerda para a direita (animações ligadas à rolagem; sem suporte, tudo
       já aparece pronto);
-   2. depois flutuam devagar, cada um no seu tempo (keyframes `float`, primitives/glass.css);
-   3. um foco passa por cada passo, de dois em dois segundos: o cartão sobe, o ícone fica azul
-      profundo, a barra de avanço e o ponto da linha do tempo acendem em âmbar.
+   2. nada se mexe em loop (o foco que passava pelos passos e a flutuação saíram, 2026-11-22);
+      ao apontar, o cartão sobe um pouco.
    O índice de cada cartão vem em --step (Method.astro). */
 
 .method {
@@ -106,31 +105,9 @@
 
 /* ── Movimento ─────────────────────────────────────────────────────────────────────────────── */
 
+/* Só a entrada, uma vez, ligada à rolagem: os cartões chegam um depois do outro e a linha do tempo
+   se desenha. Nada em loop (decisão de 2026-11-22). */
 @media (prefers-reduced-motion: no-preference) {
-  .method__card {
-    animation:
-      float var(--transition-duration-float) ease-in-out infinite,
-      method-spot var(--transition-duration-spotlight) linear infinite;
-    animation-delay:
-      calc(var(--step) * var(--transition-duration-float) / -6),
-      calc(var(--step) * var(--transition-delay-spotlight));
-  }
-
-  .method__well {
-    animation: method-spot-well var(--transition-duration-spotlight) linear infinite;
-    animation-delay: calc(var(--step) * var(--transition-delay-spotlight));
-  }
-
-  .method__progress-bar {
-    animation: method-spot-bar var(--transition-duration-spotlight) linear infinite;
-    animation-delay: calc(var(--step) * var(--transition-delay-spotlight));
-  }
-
-  .method__step::before {
-    animation: method-spot-dot var(--transition-duration-spotlight) linear infinite;
-    animation-delay: calc(var(--step) * var(--transition-delay-spotlight));
-  }
-
   @supports (animation-timeline: view()) {
     .method__step {
       animation: method-in linear both;
@@ -156,60 +133,5 @@
 @keyframes method-line {
   from {
     transform: scaleX(0);
-  }
-}
-
-/* O foco fica em cada cartão por 1/6 do ciclo (2s de 12s); os cartões começam 2s um depois do outro. */
-@keyframes method-spot {
-  0%,
-  14% {
-    box-shadow: var(--shadow-glass-lift);
-    scale: 1.02;
-  }
-
-  17%,
-  100% {
-    box-shadow: var(--shadow-glass);
-    scale: 1;
-  }
-}
-
-@keyframes method-spot-bar {
-  0%,
-  14% {
-    background-color: var(--color-highlight);
-  }
-
-  17%,
-  100% {
-    background-color: var(--color-ink);
-  }
-}
-
-@keyframes method-spot-well {
-  0%,
-  14% {
-    background-color: var(--color-ink);
-    color: var(--color-white);
-  }
-
-  17%,
-  100% {
-    background-color: var(--color-surface);
-    color: var(--color-ink);
-  }
-}
-
-@keyframes method-spot-dot {
-  0%,
-  14% {
-    background-color: var(--color-highlight);
-    scale: 1.35;
-  }
-
-  17%,
-  100% {
-    background-color: var(--color-paper);
-    scale: 1;
   }
 }

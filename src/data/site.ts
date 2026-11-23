@@ -40,11 +40,12 @@ export const home = {
       'Transformo processos de negócio em produtos digitais simples, automatizados e fáceis de operar. Sites institucionais, migrações, landing pages, lojas com pedido pelo WhatsApp e automações em Curitiba, por Armando Castro.',
   },
   hero: {
-    title: BRAND.message,
+    /** Copy da arte aprovada do hero (decisão do usuário, 2026-11-22). A frase da marca segue em BRAND.message. */
+    title: 'Eu transformo processos travados em produtos digitais que funcionam.',
     subtitle:
       'Sites institucionais, migração de sites e sistemas, landing pages, lojas com pedido pelo WhatsApp e automações para a operação.',
-    primaryCta: 'Contar como funciona hoje',
-    secondaryCta: 'Ver as soluções',
+    primaryCta: 'Descrever meu caso',
+    secondaryCta: 'Conhecer soluções',
     /**
      * Arte do hero aprovada pelo usuário (2026-11-22), decorativa: laptop com o logo, ícones e curvas.
      * Uma imagem por enquadramento; `<picture>` baixa só uma. `desktopMedia` acompanha
@@ -100,14 +101,14 @@ export const home = {
   problem: {
     title: 'Quando o negócio cresce, o processo também precisa evoluir.',
     text: 'Planilhas e WhatsApp funcionam bem por um tempo. O problema aparece quando a operação passa a depender de dados espalhados e tarefas manuais.',
-    before: {
-      label: 'Hoje',
-      items: ['Pedido anotado no caderno', 'Informação espalhada entre WhatsApp e planilha', 'Difícil saber o que já foi feito'],
-    },
-    after: {
-      label: 'Depois',
-      items: ['Pedido que chega completo', 'Tudo em um só lugar', 'Você vê o que está acontecendo'],
-    },
+    before: { label: 'Hoje' },
+    after: { label: 'Depois' },
+    /** Cada linha: como é hoje → como fica. Os ícones nomeiam a mesma coisa dos dois lados (Problem.astro). */
+    rows: [
+      { before: 'Pedido anotado no caderno', after: 'Pedido que chega completo', icons: ['form', 'send'] as [IconName, IconName] },
+      { before: 'Informação espalhada entre WhatsApp e planilha', after: 'Tudo em um só lugar', icons: ['chat', 'layout'] as [IconName, IconName] },
+      { before: 'Difícil saber o que já foi feito', after: 'Você vê o que está acontecendo', icons: ['grid', 'chart'] as [IconName, IconName] },
+    ],
     quote: 'Não modernizo por modernizar. Primeiro entendo o que funciona e o que realmente precisa mudar.',
   },
   method: {

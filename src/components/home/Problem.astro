@@ -1,14 +1,16 @@
 ---
-// Manifesto: a seção inteira em azul profundo, um respiro no meio da página. A citação é a protagonista
-// e se revela da esquerda para a direita ao chegar à tela; o título e o texto ficam acima, menores;
-// o antes e o depois em duas colunas com fios, sem caixas.
+// Manifesto, sobre areia (decisão do usuário, 2026-11-22): título e texto menores no alto, a citação
+// como protagonista (revela-se da esquerda para a direita ao chegar à tela) e o antes/depois como uma
+// transformação linha a linha: à esquerda, como é hoje (borda tracejada, ícone apagado); a seta azul;
+// à direita, como fica (cartão firme, ícone em azul). Os rótulos "Hoje"/"Depois" aparecem uma vez em
+// cima e vão escondidos em cada item, para o leitor de tela ouvir cada lado com o seu nome.
 import { Icon } from '@components/ui';
 import { BRAND, home } from '@data';
 import { quoted } from '@lib';
 
 const { problem } = home;
 ---
-<section class="section section--dark manifesto" aria-labelledby="problema-title">
+<section class="section section--muted manifesto" aria-labelledby="problema-title">
   <div class="shell manifesto__shell">
     <div class="manifesto__head">
       <h2 class="manifesto__title" id="problema-title">{problem.title}</h2>
@@ -23,22 +25,25 @@ const { problem } = home;
     </figure>
 
     <div class="manifesto__compare">
-      <div>
-        <h3 class="manifesto__label">{problem.before.label}</h3>
-        <ul role="list" class="manifesto__list">
-          {problem.before.items.map((item) => (
-            <li class="manifesto__row"><Icon name="minus" class="manifesto__mark" />{item}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <h3 class="manifesto__label manifesto__label--after">{problem.after.label}</h3>
-        <ul role="list" class="manifesto__list">
-          {problem.after.items.map((item) => (
-            <li class="manifesto__row manifesto__row--after"><Icon name="check" class="manifesto__mark manifesto__mark--after" />{item}</li>
-          ))}
-        </ul>
-      </div>
+      <p class="manifesto__labels" aria-hidden="true">
+        <span>{problem.before.label}</span>
+        <span>{problem.after.label}</span>
+      </p>
+      <ol role="list" class="manifesto__rows">
+        {problem.rows.map((row) => (
+          <li class="manifesto__row">
+            <p class="manifesto__before">
+              <Icon name={row.icons[0]} class="manifesto__icon" />
+              <span><span class="visually-hidden">{problem.before.label}: </span>{row.before}</span>
+            </p>
+            <Icon name="arrow-right" class="manifesto__arrow" />
+            <p class="manifesto__after">
+              <span class="manifesto__well"><Icon name={row.icons[1]} class="manifesto__icon" /></span>
+              <span><span class="visually-hidden">{problem.after.label}: </span>{row.after}</span>
+            </p>
+          </li>
+        ))}
+      </ol>
     </div>
   </div>
 </section>

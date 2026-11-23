@@ -224,6 +224,8 @@
   --grid-template-columns-index: minmax(0, 7fr) minmax(0, 4fr);
   /* Serviços na home: coluna dos discos | história */
   --grid-template-columns-picker: minmax(0, 16rem) minmax(0, 1fr);
+  /* Manifesto: hoje | seta | depois */
+  --grid-template-columns-transform: minmax(0, 1fr) auto minmax(0, 1fr);
   /* Linhas da coluna dos discos: cinco discos e um resto que absorve a altura da história,
      para os discos não se espalharem quando a história é mais alta que a coluna */
   --grid-template-rows-picker: repeat(5, auto) minmax(0, 1fr);
@@ -325,11 +327,6 @@
   --transition-duration-reveal: 500ms;
   --transition-duration-image: 700ms;
   --transition-delay-stagger: 60ms;
-  /* Flutuar, luzes à deriva (primitives/glass.css) e o foco que passa por cada passo do método (6 × 2s) */
-  --transition-duration-float: 7s;
-  --transition-duration-drift: 18s;
-  --transition-duration-spotlight: 12s;
-  --transition-delay-spotlight: 2s;
 
   --default-transition-duration: var(--transition-duration-fast);
   --default-transition-timing-function: var(--ease-standard);

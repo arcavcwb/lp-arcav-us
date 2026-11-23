@@ -1,13 +1,13 @@
 /* Vidro, luzes e flutuação (pedido do usuário, 2026-11-22): vidro no cabeçalho e nas superfícies
-   que guardam algo (a ficha dos serviços, os cartões do método, o fechamento) e elementos que
-   flutuam devagar. Peças compartilhadas, usadas pelo nome no marcado:
+   que guardam algo (os cartões do método, o fechamento). Peças compartilhadas, usadas pelo nome no
+   marcado:
    - .glass: superfície de vidro clara; .glass--dark, sobre azul profundo;
    - .has-orbs na seção + .orbs com .orbs__orb--blue e .orbs__orb--amber: as duas luzes desfocadas
      da marca atrás do conteúdo, para o vidro ter o que desfocar; .orbs--mirror troca os lados;
-   - .float: flutua devagar; --float (0, 1, 2…) desencontra o ritmo de elementos vizinhos;
    - paralaxe: as luzes e o conteúdo das seções (folhas, primitives/layout.css) se movem em
      velocidades diferentes ao rolar.
-   Com "reduzir movimento", nada flutua, deriva nem se desloca com a rolagem. */
+   Nada flutua nem deriva em loop (decisão de 2026-11-22: só a entrada de cada seção e o que
+   responde a uma ação). Com "reduzir movimento", nada se desloca com a rolagem. */
 
 .glass {
   background: var(--color-glass);
@@ -68,31 +68,13 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .orbs__orb--blue {
-    animation: drift var(--transition-duration-drift) ease-in-out infinite alternate;
-  }
-
-  .orbs__orb--amber {
-    animation: drift var(--transition-duration-drift) ease-in-out infinite alternate-reverse;
-  }
-
-  /* Paralaxe, ligada à rolagem (onde o navegador tem animation-timeline):
-     - as luzes atravessam a seção mais devagar que o conteúdo (profundidade);
-     - o conteúdo da seção que sai pela parte de cima desce um pouco e, no fim, esmaece, enquanto a
-       folha seguinte sobe por cima dela. */
+  /* Paralaxe, ligada à rolagem (onde o navegador tem animation-timeline): as luzes atravessam a seção
+     mais devagar que o conteúdo (profundidade), e o conteúdo da seção que sai pela parte de cima
+     desce um pouco e, no fim, esmaece, enquanto a folha seguinte sobe por cima dela. Nada em loop. */
   @supports (animation-timeline: view()) {
-    .orbs__orb--blue {
-      animation:
-        drift var(--transition-duration-drift) ease-in-out infinite alternate,
-        depth linear both;
-      animation-timeline: auto, view();
-    }
-
-    .orbs__orb--amber {
-      animation:
-        drift var(--transition-duration-drift) ease-in-out infinite alternate-reverse,
-        depth linear both;
-      animation-timeline: auto, view();
+    .orbs__orb {
+      animation: depth linear both;
+      animation-timeline: view();
     }
 
     section.section > .shell,
@@ -101,23 +83,6 @@
       animation-timeline: view();
       animation-range: exit 0% exit 100%;
     }
-  }
-
-  .float {
-    animation: float var(--transition-duration-float) ease-in-out infinite;
-    animation-delay: calc(var(--float, 0) * var(--transition-duration-float) / -5);
-  }
-}
-
-@keyframes float {
-  50% {
-    translate: 0 --spacing(-1.5);
-  }
-}
-
-@keyframes drift {
-  to {
-    translate: --spacing(16) --spacing(-8);
   }
 }
 

@@ -19,7 +19,7 @@ const url = href ? `${host}${href.split('#')[0]}` : host;
 const Window = href ? 'a' : 'div';
 const windowAttrs = href ? { href, 'aria-label': copy.openLabel(client) } : {};
 ---
-<figure class="example-frame float">
+<figure class="example-frame">
   <Window
     class:list={['example-frame__window', href ? 'example-frame__window--link' : 'example-frame__window--placeholder']}
     {...windowAttrs}
