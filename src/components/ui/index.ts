@@ -16,5 +16,8 @@ export { default as Logo } from './Logo.astro';
 export { default as OrderMessage } from './OrderMessage.astro';
 export { default as PhoneDemo } from './PhoneDemo.astro';
 export { default as Photo } from './Photo.astro';
+export { default as ProcessCards } from './ProcessCards.astro';
 export { default as RuledPoints } from './RuledPoints.astro';
+export { default as ServiceIcon } from './ServiceIcon.astro';
+export { default as ServicePreview } from './ServicePreview.astro';
 export type { IconName } from './icons';

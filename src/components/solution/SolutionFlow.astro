@@ -1,7 +1,9 @@
 ---
 // "O caminho do seu cliente" em três frases completas e numeradas:
 // de onde a pessoa vem → o que ela faz na sua página → onde você recebe.
-// Usado no hero das soluções sem exemplo e, sem moldura (`bare`), na ficha dos tipos de landing page.
+// Usado no hero das soluções sem exemplo, como faixa embaixo do texto e da cena (`row`: as três
+// frases lado a lado a partir de 960px, com os números das peças da cena), e, sem moldura (`bare`),
+// na ficha dos tipos de landing page.
 // "Como funciona" (mais abaixo nas soluções) é o processo de trabalho com a ARCAV, não este caminho.
 import { SOLUTION_PAGE, type Solution } from '@data';
 
@@ -9,12 +11,14 @@ interface Props {
   solution: Solution;
   /** Sem moldura própria, para quando o bloco já está dentro de um painel. */
   bare?: boolean;
+  /** Faixa a toda a largura do hero, com filete em cima e as três frases lado a lado. */
+  row?: boolean;
 }
 
-const { solution: s, bare = false } = Astro.props;
+const { solution: s, bare = false, row = false } = Astro.props;
 const steps = s.journey!;
 ---
-<figure class:list={['sflow', { 'sflow--framed': !bare }]}>
+<figure class:list={['sflow', { 'sflow--framed': !bare && !row, 'sflow--row': row }]}>
   <figcaption class="sflow__title">{s.journeyTitle ?? SOLUTION_PAGE.journeyTitle}</figcaption>
   <ol role="list" class="sflow__steps">
     {steps.map((text, i) => (

@@ -1,37 +1,94 @@
-/* Página de uma solução: para quem é e o que inclui, como funciona, outras soluções. */
+/* Página de uma solução ("o produto em cena", 2026-11-22): o serviço em cena no hero, para quem é e o
+   que inclui, outras soluções em discos. "Como funciona" usa ProcessCards (ui/process.css). */
 
 .solution-hero__grid {
   @apply xl:grid-cols-hero-wide;
 }
 
+/* ── Para quem é / O que está incluído ─────────────────────────────────────────────────────── */
+
+/* À esquerda, os três perfis; à direita, as peças em duas colunas (uma no celular). */
 .solution-fit__grid {
-  @apply grid gap-split lg:grid-cols-2;
+  @apply grid gap-split xl:grid-cols-aside;
 }
 
-.solution-fit__list {
+.solution-fit__profiles {
   @apply mt-6 grid border-t border-ink;
 }
 
-.solution-fit__item {
-  @apply flex gap-3 border-b border-line py-4 text-base font-medium;
+.solution-fit__profile {
+  @apply border-b border-line py-4 text-base font-medium text-ink;
 }
 
-.solution-fit__check {
-  @apply mt-optical-sm size-5 flex-none text-accent;
+/* Cada item é uma linha com filete em cima e o ícone que o explica num poço areia. */
+.solution-fit__pieces {
+  @apply mt-6 grid gap-x-8 border-t border-ink sm:grid-cols-2;
+}
+
+.solution-fit__piece {
+  @apply flex items-start gap-3.5 border-b border-line py-4;
+}
+
+.solution-fit__well {
+  @apply grid size-10 flex-none place-items-center rounded-control bg-surface text-ink;
+}
+
+.solution-fit__icon {
+  @apply size-5;
+}
+
+.solution-fit__text {
+  @apply self-center text-base leading-caption font-medium text-ink;
+}
+
+/* ── Outras soluções ───────────────────────────────────────────────────────────────────────── */
+
+/* O título à esquerda e os discos numa fila (os mesmos discos do catálogo da home, como links). */
+.solution-others__grid {
+  @apply grid gap-6 xl:grid-cols-aside xl:items-center;
 }
 
 .solution-others__list {
-  @apply grid gap-3 lg:grid-cols-2;
+  @apply grid auto-cols-fr grid-flow-col gap-3 md:gap-6;
 }
 
 .solution-others__link {
-  @apply flex items-center gap-4 rounded-card border border-line bg-paper px-5 py-4 font-semibold text-ink no-underline transition-colors hover:border-ink;
+  @apply grid min-w-0 content-start justify-items-center gap-2 text-center no-underline md:gap-3;
+}
+
+.solution-others__disc {
+  @apply relative grid size-14 place-items-center rounded-pill border border-line-strong bg-paper text-ink transition duration-control ease-out md:size-20;
+}
+
+.solution-others__icon {
+  @apply size-9 md:size-13;
+}
+
+.solution-others__go {
+  @apply absolute -right-0.5 -bottom-0.5 grid size-5 place-items-center rounded-pill border border-line-control bg-paper text-ink md:-right-1 md:-bottom-1 md:size-7;
+}
+
+.solution-others__go-icon {
+  @apply size-3 md:size-4;
 }
 
 .solution-others__name {
-  @apply flex-1;
+  @apply text-micro leading-tight font-semibold text-balance text-muted logo:text-caption md:text-sm;
 }
 
-.solution-others__arrow {
-  @apply size-4.5 text-muted;
+@media (hover: hover) {
+  .solution-others__link:hover .solution-others__disc {
+    @apply border-ink;
+  }
+
+  .solution-others__link:hover .solution-others__name {
+    @apply text-ink;
+  }
+}
+
+/* Ao apontar, o disco cresce um pouco (responde à ação; nada flutua em loop). */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .solution-others__link:hover .solution-others__disc {
+    @apply scale-105;
+  }
 }

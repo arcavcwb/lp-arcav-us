@@ -27,3 +27,17 @@
 .sflow__text {
   @apply pt-0.5 text-base leading-caption font-medium text-ink;
 }
+
+/* Faixa do hero das soluções: a toda a largura, embaixo do texto e da cena, com filete em cima; a
+   partir de 960px, as três frases lado a lado. */
+.sflow--row {
+  @apply col-span-full border-t border-line pt-6;
+}
+
+.sflow--row .sflow__steps {
+  @apply gap-5 xl:grid-cols-3 xl:gap-8;
+}
+
+.sflow--row .sflow__step {
+  @apply pb-0;
+}

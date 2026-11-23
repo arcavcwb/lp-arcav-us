@@ -187,6 +187,7 @@
   /* Larguras máximas (max-w-*) */
   --container-page: 1200px;
   --container-phone: 19.75rem;
+  --container-step: 15rem; /* cartão de um passo (ProcessCards) enquanto a fila desliza */
   --container-xs: 22rem;
   --container-sm: 26rem;
   --container-md: 30rem;
@@ -230,7 +231,6 @@
      para os discos não se espalharem quando a história é mais alta que a coluna */
   --grid-template-rows-picker: repeat(5, auto) minmax(0, 1fr);
   /* Método: seis cartões de 15rem numa faixa que desliza (até 1200px) */
-  --grid-template-columns-method: repeat(6, 15rem);
   /* Linha de um disco: disco | nome */
   --grid-template-columns-disc: auto minmax(0, 1fr);
   /* Passos do método: numeral | título e texto */

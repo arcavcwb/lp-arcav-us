@@ -42,7 +42,8 @@ export interface Solution {
   meta: { title: string; description: string };
   hero: { title: string; subtitle: string; cta: string };
   forWho: string[];
-  includes: string[];
+  /** O que está incluído: cada item com o ícone que o explica (SolutionPage). */
+  includes: Array<{ icon: IconName; text: string }>;
   /** Exemplo da solução. null nos campos = espaço reservado até existir um exemplo baseado em projeto real. */
   example: {
     path: string | null;
@@ -103,12 +104,12 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
       'Empresas que precisam mostrar serviços, equipe e localização',
     ],
     includes: [
-      'Páginas essenciais: início, quem somos, serviços e contato',
-      'Estrutura e textos organizados com você',
-      'Versão para celular revisada tela a tela',
-      'WhatsApp, formulário e mapa para o contato',
-      'Publicação no seu domínio, com carregamento rápido',
-      'Medição de visitas e cliques',
+      { icon: 'layout', text: 'Páginas essenciais: início, quem somos, serviços e contato' },
+      { icon: 'form', text: 'Estrutura e textos organizados com você' },
+      { icon: 'phone', text: 'Versão para celular revisada tela a tela' },
+      { icon: 'chat', text: 'WhatsApp, formulário e mapa para o contato' },
+      { icon: 'globe', text: 'Publicação no seu domínio, com carregamento rápido' },
+      { icon: 'chart', text: 'Medição de visitas e cliques' },
     ],
     example: { path: null, client: null, image: null },
     faq: [
@@ -156,12 +157,12 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
       'Dados espalhados em planilhas ou em sistemas antigos',
     ],
     includes: [
-      'Levantamento do que existe: páginas, conteúdo, domínio, e-mails e dados',
-      'Site novo a partir do conteúdo atual, com design e textos revisados',
-      'Endereços antigos redirecionados para os novos',
-      'Troca de hospedagem, domínio e e-mail planejada com você',
-      'Passagem de dados de planilhas ou sistemas antigos',
-      'Conferência de tudo depois da troca',
+      { icon: 'grid', text: 'Levantamento do que existe: páginas, conteúdo, domínio, e-mails e dados' },
+      { icon: 'layout', text: 'Site novo a partir do conteúdo atual, com design e textos revisados' },
+      { icon: 'link', text: 'Endereços antigos redirecionados para os novos' },
+      { icon: 'globe', text: 'Troca de hospedagem, domínio e e-mail planejada com você' },
+      { icon: 'table', text: 'Passagem de dados de planilhas ou sistemas antigos' },
+      { icon: 'check', text: 'Conferência de tudo depois da troca' },
     ],
     example: { path: null, client: null, image: null },
     faq: [
@@ -220,6 +221,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     slug: 'landing-page-alto-padrao',
     name: 'Landing page de alto padrão',
     label: 'Alto padrão',
+    journeyIcons: ['people', 'layout', 'chat'],
     journey: [
       'Alguém procura você no Google, vê seu Instagram ou recebe uma indicação.',
       'Abre a sua página, vê o seu trabalho e chama no WhatsApp ou deixa o contato.',
@@ -247,12 +249,12 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
       'Marcas que querem se apresentar com mais cuidado',
     ],
     includes: [
-      'Design sob medida, sem template',
-      'Estrutura e textos pensados com você',
-      'Versão para celular revisada tela a tela',
-      'Formulário ou WhatsApp para o primeiro contato',
-      'Publicação no seu domínio, com carregamento rápido',
-      'Medição de visitas e cliques',
+      { icon: 'gem', text: 'Design sob medida, sem template' },
+      { icon: 'form', text: 'Estrutura e textos pensados com você' },
+      { icon: 'phone', text: 'Versão para celular revisada tela a tela' },
+      { icon: 'chat', text: 'Formulário ou WhatsApp para o primeiro contato' },
+      { icon: 'globe', text: 'Publicação no seu domínio, com carregamento rápido' },
+      { icon: 'chart', text: 'Medição de visitas e cliques' },
     ],
     example: { path: null, client: null, image: null },
     faq: [
@@ -271,6 +273,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     slug: 'landing-page-campanhas',
     name: 'Landing page para campanhas',
     label: 'Campanhas',
+    journeyIcons: ['target', 'form', 'send'],
     journey: [
       'Alguém vê o seu anúncio no Instagram ou no Google e toca nele.',
       'Abre uma página com uma oferta só e preenche o formulário.',
@@ -298,12 +301,12 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
       'Equipes de marketing e agências que precisam de páginas rápidas',
     ],
     includes: [
-      'Página focada em uma única ação',
-      'Formulário ou WhatsApp com os dados certos',
-      'Medição de conversões para Google e Meta',
-      'Contatos enviados para planilha, CRM ou WhatsApp',
-      'Versões para testar título e oferta',
-      'Carregamento rápido no celular',
+      { icon: 'target', text: 'Página focada em uma única ação' },
+      { icon: 'form', text: 'Formulário ou WhatsApp com os dados certos' },
+      { icon: 'chart', text: 'Medição de conversões para Google e Meta' },
+      { icon: 'send', text: 'Contatos enviados para planilha, CRM ou WhatsApp' },
+      { icon: 'copy', text: 'Versões para testar título e oferta' },
+      { icon: 'phone', text: 'Carregamento rápido no celular' },
     ],
     example: { path: null, client: null, image: null },
     faq: [
@@ -322,6 +325,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     slug: 'landing-page-produto',
     name: 'Landing page de produto',
     label: 'Produto',
+    journeyIcons: ['target', 'box', 'card'],
     journey: [
       'Alguém conhece o seu produto por um anúncio, no Google ou no Instagram.',
       'Abre a página, entende como o produto funciona e compra ou começa a testar.',
@@ -349,12 +353,12 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
       'Cursos e produtos digitais',
     ],
     includes: [
-      'O produto mostrado funcionando, não só descrito',
-      'Benefícios, planos e perguntas frequentes',
-      'Botão de compra, teste ou contato',
-      'Conexão com checkout, agenda ou CRM',
-      'Versão para celular',
-      'Medição de visitas e cliques',
+      { icon: 'box', text: 'O produto mostrado funcionando, não só descrito' },
+      { icon: 'tag', text: 'Benefícios, planos e perguntas frequentes' },
+      { icon: 'cart', text: 'Botão de compra, teste ou contato' },
+      { icon: 'workflow', text: 'Conexão com checkout, agenda ou CRM' },
+      { icon: 'phone', text: 'Versão para celular' },
+      { icon: 'chart', text: 'Medição de visitas e cliques' },
     ],
     example: { path: null, client: null, image: null },
     faq: [
@@ -373,6 +377,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     slug: 'landing-page-palestras',
     name: 'Landing page para palestras e eventos',
     label: 'Palestras e eventos',
+    journeyIcons: ['chat', 'ticket', 'table'],
     journey: [
       'Alguém recebe o link no WhatsApp ou vê o evento no Instagram.',
       'Abre a página, confere a data e a programação e se inscreve.',
@@ -400,12 +405,12 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
       'Eventos de empresas e associações',
     ],
     includes: [
-      'Tema, programação e palestrante em uma página',
-      'Inscrição com confirmação automática',
-      'Lista de inscritos em planilha',
-      'Lembretes por e-mail ou WhatsApp',
-      'Prévia caprichada para compartilhar no WhatsApp',
-      'Botão para adicionar à agenda',
+      { icon: 'mic', text: 'Tema, programação e palestrante em uma página' },
+      { icon: 'ticket', text: 'Inscrição com confirmação automática' },
+      { icon: 'table', text: 'Lista de inscritos em planilha' },
+      { icon: 'mail', text: 'Lembretes por e-mail ou WhatsApp' },
+      { icon: 'chat', text: 'Prévia caprichada para compartilhar no WhatsApp' },
+      { icon: 'calendar', text: 'Botão para adicionar à agenda' },
     ],
     example: { path: null, client: null, image: null },
     faq: [
@@ -478,11 +483,11 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
       'Quem precisa de relatórios sem montar planilha toda semana',
     ],
     includes: [
-      'Mapeamento do processo antes de qualquer código',
-      'Automações entre formulários, planilhas, e-mail e WhatsApp',
-      'Sistemas pequenos sob medida: agenda, cadastro, pedidos',
-      'Painel com o que importa para a operação',
-      'Documentação e acompanhamento depois da entrega',
+      { icon: 'grid', text: 'Mapeamento do processo antes de qualquer código' },
+      { icon: 'workflow', text: 'Automações entre formulários, planilhas, e-mail e WhatsApp' },
+      { icon: 'calendar', text: 'Sistemas pequenos sob medida: agenda, cadastro, pedidos' },
+      { icon: 'chart', text: 'Painel com o que importa para a operação' },
+      { icon: 'form', text: 'Documentação e acompanhamento depois da entrega' },
     ],
     example: { path: null, client: null, image: null },
     faq: [
@@ -516,11 +521,11 @@ export const DEDICATED_PAGES = ['comercio-digital', 'landing-pages'];
 export const EXAMPLE_IMAGE = { width: 1440, height: 900 } as const;
 
 /** Passos comuns a todas as soluções. */
-export const SOLUTION_STEPS = [
-  'Conversa sobre o seu objetivo e o que já existe.',
-  'Se houver encaixe, uma prévia resumida do seu projeto.',
-  'Proposta por escrito: o que entra, o prazo e o valor.',
-  'Construção com a sua aprovação, publicação e acompanhamento.',
+export const SOLUTION_STEPS: Array<{ icon: IconName; title: string; text: string }> = [
+  { icon: 'chat', title: 'Conversa', text: 'Sobre o seu objetivo e o que já existe.' },
+  { icon: 'layout', title: 'Prévia', text: 'Se houver encaixe, uma prévia resumida do seu projeto.' },
+  { icon: 'form', title: 'Proposta', text: 'Por escrito: o que entra, o prazo e o valor.' },
+  { icon: 'send', title: 'Construção', text: 'Com a sua aprovação. Depois, publicação e acompanhamento.' },
 ];
 
 /** Textos fixos da página de uma solução (SolutionPage.astro). */

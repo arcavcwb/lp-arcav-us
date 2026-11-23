@@ -1,9 +1,13 @@
 ---
-// Página de uma solução da ARCAV: para quem é, o que inclui, o exemplo, como funciona, dúvidas e contato.
-// O slot `fit` substitui o bloco "Para quem é / O que está incluído" (usado em Landing pages).
+// Página de uma solução da ARCAV ("o produto em cena", 2026-11-22). Hero: o texto e a ação à esquerda;
+// à direita, o exemplo real quando existe ou, sem ele, o serviço em cena (a mesma cena da ficha da
+// home: o aparelho no escenário com as três peças numeradas) e, numa faixa embaixo dos dois,
+// "O caminho do seu cliente" com os mesmos números. Depois: para quem é (três perfis curtos) e o que está incluído (cada item com o
+// ícone que o explica), como funciona (os cartões do método), dúvidas, as outras soluções em discos
+// e o contato. O slot `fit` substitui "Para quem é / O que está incluído" (usado em Landing pages).
 // As ações de contato abrem a janela do formulário.
 import Layout from '@layouts/Layout.astro';
-import { ClosingContact, ExampleFrame, Faq, Footer, Header, Icon } from '@components/ui';
+import { ClosingContact, ExampleFrame, Faq, Footer, Header, Icon, ProcessCards, ServiceIcon, ServicePreview } from '@components/ui';
 import SolutionFlow from './SolutionFlow.astro';
 import { ANCHOR, SERVICES, SOLUTION_PAGE as copy, SOLUTION_STEPS, footerNav, ui, type Solution } from '@data';
 import { solutionTransition } from '@lib';
@@ -27,8 +31,8 @@ const others = SERVICES.filter((o) => o.slug !== s.slug);
           <p class="lead">{s.hero.subtitle}</p>
           <div class="page-hero__actions">
             <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
+              <Icon name="chat" />
               {s.hero.cta}
-              <Icon name="arrow-right" />
             </button>
             {s.example.path && <a class="btn btn--ghost" href={s.example.path}>{copy.exampleCta}</a>}
           </div>
@@ -37,7 +41,10 @@ const others = SERVICES.filter((o) => o.slug !== s.slug);
         {s.example.path || !s.journey ? (
           <ExampleFrame href={s.example.path} image={s.example.image} client={s.example.client} eager />
         ) : (
-          <SolutionFlow solution={s} />
+          <Fragment>
+            <ServicePreview solution={s} />
+            <SolutionFlow solution={s} row />
+          </Fragment>
         )}
       </div>
     </section>
@@ -47,14 +54,19 @@ const others = SERVICES.filter((o) => o.slug !== s.slug);
       <div class="shell solution-fit__grid">
         <div>
           <h2 class="h2">{copy.fit.forWho}</h2>
-          <ul role="list" class="solution-fit__list">
-            {s.forWho.map((item) => <li class="solution-fit__item">{item}</li>)}
+          <ul role="list" class="solution-fit__profiles">
+            {s.forWho.map((item) => <li class="solution-fit__profile">{item}</li>)}
           </ul>
         </div>
         <div>
           <h2 class="h2">{copy.fit.includes}</h2>
-          <ul role="list" class="solution-fit__list">
-            {s.includes.map((item) => <li class="solution-fit__item"><Icon name="check" class="solution-fit__check" />{item}</li>)}
+          <ul role="list" class="solution-fit__pieces">
+            {s.includes.map((item) => (
+              <li class="solution-fit__piece">
+                <span class="solution-fit__well"><Icon name={item.icon} class="solution-fit__icon" /></span>
+                <span class="solution-fit__text">{item.text}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -66,26 +78,24 @@ const others = SERVICES.filter((o) => o.slug !== s.slug);
         <div class="section-head">
           <h2 class="h2" id="como-title">{copy.how}</h2>
         </div>
-        <ol class="steps steps--4 steps--text">
-          {SOLUTION_STEPS.map((step) => <li><p>{step}</p></li>)}
-        </ol>
+        <ProcessCards steps={SOLUTION_STEPS} labelledby="como-title" fit="medium" />
       </div>
     </section>
 
     <Faq items={s.faq} muted={false} />
 
     <section class="section section--muted solution-others" aria-labelledby="outras-title">
-      <div class="shell">
-        <div class="section-head">
-          <h2 class="h2" id="outras-title">{copy.others}</h2>
-        </div>
+      <div class="shell solution-others__grid">
+        <h2 class="h2" id="outras-title">{copy.others}</h2>
         <ul role="list" class="solution-others__list">
           {others.map((o) => (
             <li>
               <a class="solution-others__link" href={o.path}>
-                <span class="icon-badge"><Icon name={o.icon} /></span>
-                <span class="solution-others__name">{o.name}</span>
-                <Icon name="arrow-right" class="solution-others__arrow" />
+                <span class="solution-others__disc">
+                  <ServiceIcon slug={o.slug} class="solution-others__icon" />
+                  <span class="solution-others__go" aria-hidden="true"><Icon name="arrow-right" class="solution-others__go-icon" /></span>
+                </span>
+                <span class="solution-others__name" style={solutionTransition(o.slug)}>{o.disc ?? o.label}</span>
               </a>
             </li>
           ))}

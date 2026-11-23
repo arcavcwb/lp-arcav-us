@@ -1,0 +1,41 @@
+---
+// Passos de um processo em cartões de vidro lado a lado, sobre uma linha do tempo: ícone num poço,
+// contador "01 / 06", título, texto e uma barra com o avanço no processo. Usado no método da home
+// (seis passos) e em "Como funciona" das soluções (quatro passos, mesmo desenho, mais compacto).
+// Enquanto os cartões não cabem na largura, a fila desliza de lado, com encaixe em cada cartão.
+// Movimento só na entrada, ligado à rolagem e uma vez (os cartões chegam um depois do outro e a
+// linha se desenha); nada em loop. Com "reduzir movimento" ou sem suporte, tudo aparece pronto.
+import Icon from './Icon.astro';
+import type { IconName } from './icons';
+import { ordinal } from '@lib';
+
+interface Props {
+  steps: Array<{ icon: IconName; title: string; text: string }>;
+  /** id do título da seção: a faixa que desliza é uma região com esse nome. */
+  labelledby: string;
+  /** A partir de quando os cartões cabem lado a lado: 'wide' (1200px, seis passos) ou 'medium' (1024px, quatro). */
+  fit?: 'wide' | 'medium';
+}
+
+const { steps, labelledby, fit = 'wide' } = Astro.props;
+const total = steps.length;
+---
+<div class:list={['process', `process--fit-${fit}`]}>
+  <div class="process__track" tabindex="0" role="region" aria-labelledby={labelledby}>
+    <ol role="list" class="process__steps" style={`--steps: ${total}`}>
+      {steps.map((step, i) => (
+        <li class="process__step" style={`--step: ${i}`}>
+          <div class="process__card glass">
+            <span class="process__top">
+              <span class="process__well"><Icon name={step.icon} class="process__icon" /></span>
+              <span class="process__count" aria-hidden="true">{ordinal(i)} / {ordinal(total - 1)}</span>
+            </span>
+            <strong class="process__step-title">{step.title}</strong>
+            <p class="process__step-text">{step.text}</p>
+            <span class="process__progress" aria-hidden="true"><span class="process__progress-bar"></span></span>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>

@@ -1,11 +1,15 @@
 ---
-// Cena de um serviço na ficha do catálogo da home ("o produto em cena", 2026-11-22): o produto
+// Cena de um serviço ("o produto em cena", 2026-11-22), na ficha do catálogo da home e no hero da
+// página da solução: o produto
 // sobre um escenário (.stage), dentro de um aparelho (DeviceFrame), com três peças de vidro
 // (IconTile) numeradas como os passos de "Como funciona" ao lado. Três esquemas de página (site,
 // migração, landing) e o painel de automação são ilustrações conceituais, com a legenda aprovada;
 // no comércio entra a captura real do celular de exemplo com o pedido pronto (a interface real vem
-// antes de qualquer ilustração).
-import { DeviceFrame, Icon, IconTile } from '@components/ui';
+// antes de qualquer ilustração). Os tipos de landing page usam a cena de landing pages, com as peças
+// do caminho deles.
+import DeviceFrame from './DeviceFrame.astro';
+import Icon from './Icon.astro';
+import IconTile from './IconTile.astro';
 import { commerceService, home, ui, type Solution } from '@data';
 
 interface Props {
@@ -13,16 +17,18 @@ interface Props {
 }
 
 const { solution } = Astro.props;
+/** Qual cena mostrar: a do próprio serviço; os tipos de landing page usam a de landing pages. */
+const scene = solution.group === 'landing' ? 'landing-pages' : solution.slug;
 const copy = home.services.catalog;
 const concept = commerceService.example.order.caption;
-const caption = solution.slug === 'comercio-digital' ? ui.exampleFrame.caption(solution.example.client) : concept;
+const caption = scene === 'comercio-digital' ? ui.exampleFrame.caption(solution.example.client) : concept;
 const done = copy.log.events.filter((e) => e.done);
 const scheduled = copy.log.events.filter((e) => !e.done);
 const logId = `registro-${solution.slug}`;
 ---
 <figure class="service-preview">
-  <div class:list={['service-preview__stage stage stage--inset', `service-preview__stage--${solution.slug}`]}>
-    {solution.slug === 'site-institucional' && (
+  <div class:list={['service-preview__stage stage stage--inset', `service-preview__stage--${scene}`]}>
+    {scene === 'site-institucional' && (
       <DeviceFrame class="service-preview__device" decorative>
         <div class="service-preview__body">
           <svg class="service-preview__sketch" viewBox="0 0 320 200">
@@ -52,7 +58,7 @@ const logId = `registro-${solution.slug}`;
       </DeviceFrame>
     )}
 
-    {solution.slug === 'migracao' && (
+    {scene === 'migracao' && (
       <DeviceFrame class="service-preview__device">
         <div class="service-preview__body">
           <svg class="service-preview__sketch" viewBox="0 0 320 200" aria-hidden="true">
@@ -83,7 +89,7 @@ const logId = `registro-${solution.slug}`;
       </DeviceFrame>
     )}
 
-    {solution.slug === 'landing-pages' && (
+    {scene === 'landing-pages' && (
       <DeviceFrame class="service-preview__device" decorative>
         <div class="service-preview__body">
           <svg class="service-preview__sketch" viewBox="0 0 320 200">
@@ -111,7 +117,7 @@ const logId = `registro-${solution.slug}`;
       </DeviceFrame>
     )}
 
-    {solution.slug === 'comercio-digital' && (
+    {scene === 'comercio-digital' && (
       <img
         class="service-preview__phone"
         src={copy.order.image}
@@ -123,7 +129,7 @@ const logId = `registro-${solution.slug}`;
       />
     )}
 
-    {solution.slug === 'sistemas-e-automacao' && (
+    {scene === 'sistemas-e-automacao' && (
       <DeviceFrame kind="panel" class="service-preview__device">
       <div class="service-preview__app">
         <p class="service-preview__group" id={`${logId}-feito`}>{copy.log.done}</p>

@@ -1,0 +1,152 @@
+/* ProcessCards — passos em cartões de vidro (.glass) lado a lado, sobre uma linha do tempo. Saiu do
+   método da home (2026-11-22) para servir também a "Como funciona" das soluções.
+   Enquanto não cabem, a fila desliza de lado (com encaixe em cada cartão); --steps (o total) e
+   --step (o índice) vêm do componente. `process--fit-wide`: cabem a partir de 1200px (seis passos);
+   `process--fit-medium`: a partir de 1024px (quatro).
+   Movimento, só com "reduzir movimento" desligado: os cartões entram um depois do outro conforme a
+   fila chega à tela e a linha do tempo se desenha (animações ligadas à rolagem; sem suporte, tudo
+   já aparece pronto). Nada em loop; ao apontar, o cartão sobe um pouco. */
+
+.process {
+  view-timeline-name: --process;
+}
+
+/* ── Fila ──────────────────────────────────────────────────────────────────────────────────── */
+
+/* A faixa vai até a borda da tela no celular e deixa espaço para a sombra dos cartões. */
+.process__track {
+  @apply -mx-gutter overflow-x-auto px-gutter pt-2 pb-6;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--spacing-gutter);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-control) transparent;
+}
+
+.process__track:focus-visible {
+  outline-offset: var(--outline-offset-inset);
+}
+
+/* Linha do tempo acima dos cartões, com um ponto por passo. */
+/* As colunas dependem de --steps (definido na lista), por isso ficam aqui e não num token. */
+.process__steps {
+  @apply relative m-0 grid gap-5 p-0 pt-7 pr-3;
+  grid-template-columns: repeat(var(--steps), var(--container-step));
+  list-style: none;
+}
+
+.process__steps::before {
+  @apply absolute top-2.25 right-0 left-0 h-0.5 origin-left bg-ink;
+  content: '';
+}
+
+.process--fit-wide .process__track {
+  @apply 3xl:mx-0 3xl:overflow-visible 3xl:px-0;
+}
+
+.process--fit-medium .process__track {
+  @apply 2xl:mx-0 2xl:overflow-visible 2xl:px-0;
+}
+
+@media (width >= theme(--breakpoint-3xl)) {
+  .process--fit-wide .process__steps {
+    @apply pr-0;
+    grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
+  }
+}
+
+@media (width >= theme(--breakpoint-2xl)) {
+  .process--fit-medium .process__steps {
+    @apply pr-0;
+    grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
+  }
+}
+
+.process__step {
+  @apply relative;
+  scroll-snap-align: start;
+}
+
+.process__step::before {
+  @apply absolute -top-6 left-5 size-3 rounded-pill border-2 border-ink bg-paper;
+  content: '';
+}
+
+/* ── Cartão ────────────────────────────────────────────────────────────────────────────────── */
+
+/* Acabamento de produto: vidro mais denso, filete cinza, ícone num poço quadrado, contador
+   discreto e uma barra com o avanço no processo (passo/total). */
+.process__card {
+  @apply relative grid h-full grid-rows-card gap-3 rounded-card border-line bg-glass-strong p-5 transition duration-control ease-out;
+  transition-property: transform, box-shadow;
+}
+
+@media (hover: hover) {
+  .process__card:hover {
+    @apply shadow-glass-lift;
+    transform: translateY(--spacing(-1));
+  }
+}
+
+.process__top {
+  @apply mb-1 flex items-center justify-between gap-3;
+}
+
+.process__well {
+  @apply grid size-10 place-items-center rounded-control bg-surface text-ink transition duration-control ease-out;
+}
+
+.process__icon {
+  @apply size-5;
+}
+
+.process__count {
+  @apply text-caption font-semibold text-muted tabular-nums;
+}
+
+.process__step-title {
+  @apply font-heading text-h3 leading-snug font-title tracking-title text-ink;
+}
+
+.process__step-text {
+  @apply text-sm leading-caption text-muted;
+}
+
+.process__progress {
+  @apply mt-2 block h-1 overflow-hidden rounded-pill bg-line;
+}
+
+.process__progress-bar {
+  @apply block h-full rounded-pill bg-ink transition duration-control ease-out;
+  width: calc((var(--step) + 1) / var(--steps) * 100%);
+}
+
+/* ── Movimento ─────────────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .process__step {
+      animation: process-in linear both;
+      animation-timeline: --process;
+      animation-range: cover calc(8% + var(--step) * 4%) cover calc(22% + var(--step) * 4%);
+    }
+
+    .process__steps::before {
+      animation: process-line linear both;
+      animation-timeline: --process;
+      animation-range: cover 10% cover 45%;
+    }
+  }
+}
+
+@keyframes process-in {
+  from {
+    opacity: 0;
+    transform: translateY(--spacing(6));
+  }
+}
+
+@keyframes process-line {
+  from {
+    transform: scaleX(0);
+  }
+}
