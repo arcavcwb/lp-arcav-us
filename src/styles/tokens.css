@@ -150,6 +150,7 @@
   /* Medidas de layout */
   --spacing-gutter: clamp(1rem, 0.4rem + 2.6vw, 2.5rem);
   --spacing-section: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  --spacing-sheet-gap: 1.25rem; /* espaço mínimo entre o fim de uma seção e a folha seguinte, que sobe sobre ela */
   /* Seção-respiro (manifesto): mais ar que as outras */
   --spacing-section-feature: clamp(3.5rem, 2rem + 5vw, 7.5rem);
   --spacing-header: 4.25rem;

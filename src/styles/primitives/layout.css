@@ -22,6 +22,19 @@ section.section {
   box-shadow: var(--shadow-sheet);
 }
 
+/* Quem vem antes de uma folha guarda espaço para ela: a folha sobe --radius-sheet sobre o fim da
+   seção anterior. No celular, --spacing-section (2rem) é igual ao raio e o conteúdo encostava na
+   folha seguinte; o fundo agora nunca fica com menos que o raio mais --spacing-sheet-gap. No
+   escritório, onde o espaçamento já passa disso, nada muda (2026-11-22). `~` e não `+`: entre duas
+   seções pode haver um <script> (o catálogo de serviços). */
+section.section:has(~ section.section) {
+  padding-bottom: max(var(--spacing-section), calc(var(--radius-sheet) + var(--spacing-sheet-gap)));
+}
+
+.page-hero:has(~ section.section) {
+  padding-bottom: max(var(--spacing-hero-bottom), calc(var(--radius-sheet) + var(--spacing-sheet-gap)));
+}
+
 /* Seção-respiro: azul profundo com mais ar, uma vez no meio da página (o manifesto). */
 .section--feature {
   padding-block: var(--spacing-section-feature);
