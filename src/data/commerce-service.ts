@@ -8,7 +8,7 @@ import { solutionPath } from './solutions';
 export const commerceService = {
   path: solutionPath('comercio-digital'),
   meta: {
-    title: 'Sites, Pedidos e Campanhas para Comércios em Curitiba | ARCAV',
+    title: 'Loja com Pedido no WhatsApp para Comércios em Curitiba | ARCAV',
     description:
       'Sites comerciais, pedidos organizados pelo WhatsApp e ofertas em destaque para comércios de Curitiba, com uma operação simples para você e seus clientes.',
   },
@@ -16,10 +16,10 @@ export const commerceService = {
     eyebrow: 'Soluções para comércios',
     title: 'Seus clientes escolhem no site e o pedido chega pronto no seu WhatsApp.',
     subtitle:
-      'Criamos sites comerciais, organizamos pedidos pelo WhatsApp e mantemos suas ofertas em destaque. Tudo simples de operar, para você e para seus clientes.',
+      'Crio sites comerciais, organizo pedidos pelo WhatsApp e mantenho suas ofertas em destaque. Tudo simples de operar, para você e para seus clientes.',
     cta: 'Quero uma loja assim',
     demoCta: 'Testar o exemplo',
-    note: 'Teste a loja de exemplo agora. Se houver encaixe depois da conversa, preparamos uma prévia resumida com alguns dos seus produtos.',
+    note: 'Teste a loja de exemplo agora. Se houver encaixe depois da conversa, preparo uma prévia resumida com alguns dos seus produtos.',
   },
   /** Loja de exemplo do celular interativo (home e esta página). Ilustrativa. */
   demo: {
@@ -35,7 +35,7 @@ export const commerceService = {
     next: { popover: ANCHOR.contactForm, label: 'Quero isso na minha loja' },
   },
   pillars: {
-    label: 'Como ajudamos',
+    label: 'Como eu ajudo',
     title: 'Três frentes para facilitar a compra.',
     items: [
       {
@@ -44,7 +44,7 @@ export const commerceService = {
       },
       {
         title: 'Ofertas que não ficam paradas',
-        text: 'Preparamos as peças das campanhas diárias, semanais ou mensais para o site e para as suas redes. Você aprova antes de publicar.',
+        text: 'Preparo as peças das campanhas diárias, semanais ou mensais para o site e para as suas redes. Você aprova antes de publicar.',
       },
       {
         title: 'Saiba quais produtos chamam atenção',
@@ -53,13 +53,13 @@ export const commerceService = {
     ],
   },
   process: {
-    label: 'Como trabalhamos',
+    label: 'Como eu trabalho',
     title: 'Um processo simples, com a sua aprovação.',
     steps: [
-      'Entendemos seu atendimento e seus produtos.',
-      'Preparamos uma solução prática para o seu negócio.',
+      'Entendo seu atendimento e seus produtos.',
+      'Preparo uma solução prática para o seu negócio.',
       'Você valida os conteúdos e as condições comerciais.',
-      'Colocamos no ar o que foi aprovado e acompanhamos o uso.',
+      'Coloco no ar o que foi aprovado e acompanho o uso.',
     ],
   },
   example: {
@@ -98,7 +98,7 @@ export const commerceService = {
       },
       {
         q: 'Posso ver como ficaria com os meus produtos?',
-        a: 'A loja de exemplo desta página pode ser testada agora. Depois da conversa, se houver encaixe, preparamos uma prévia resumida com alguns dos seus produtos para acompanhar a proposta.',
+        a: 'A loja de exemplo desta página pode ser testada agora. Depois da conversa, se houver encaixe, preparo uma prévia resumida com alguns dos seus produtos para acompanhar a proposta.',
       },
       {
         q: 'Quanto tempo leva para ficar pronto?',
@@ -106,7 +106,7 @@ export const commerceService = {
       },
       {
         q: 'Quem atualiza os produtos e os preços?',
-        a: 'Você nos passa as mudanças e nós atualizamos o site. Nas ofertas, você informa produtos, preços e validade e aprova cada peça antes de publicar. Um painel para você mesmo editar é uma etapa à parte, com escopo e orçamento próprios.',
+        a: 'Você me passa as mudanças e eu atualizo o site. Nas ofertas, você informa produtos, preços e validade e aprova cada peça antes de publicar. Um painel para você mesmo editar é uma etapa à parte, com escopo e orçamento próprios.',
       },
       {
         q: 'Preciso entender de tecnologia?',
@@ -118,7 +118,7 @@ export const commerceService = {
     label: 'Próximo passo',
     title: 'Quer uma loja assim para o seu comércio?',
     text:
-      'Mande o link do seu site, Instagram ou catálogo e conte como você atende hoje. Respondemos com os próximos passos e, se houver encaixe, preparamos uma prévia resumida com alguns dos seus produtos.',
+      'Mande o link do seu site, Instagram ou catálogo e conte como você atende hoje. Respondo com os próximos passos e, se houver encaixe, preparo uma prévia resumida com alguns dos seus produtos.',
     cta: 'Quero uma loja assim',
     emailHint: 'Se preferir, escreva para',
     contactSubject: 'Quero uma loja assim',

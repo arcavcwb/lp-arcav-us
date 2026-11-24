@@ -174,3 +174,63 @@
     width: 100%;
   }
 }
+
+/* "O que você precisa?": caixas de seleção em pílulas, duas por linha a partir de 480px. A caixa
+   nativa continua visível (teclado, leitores de tela e o estado marcado sem depender só da cor). */
+.contact-form .field--choices {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.contact-form .field__legend {
+  margin-bottom: --spacing(1.6);
+  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.contact-form .choices {
+  @apply grid gap-2 sm:grid-cols-2;
+}
+
+.contact-form .choice {
+  display: flex;
+  align-items: center;
+  gap: --spacing(2.5);
+  min-height: --spacing(11);
+  padding: --spacing(2) --spacing(3);
+  border: 1px solid var(--color-line-control);
+  border-radius: var(--radius-control);
+  background: var(--color-paper);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-duration-fast) var(--ease-standard),
+    background-color var(--transition-duration-fast) var(--ease-standard);
+}
+
+.contact-form .choice:hover {
+  border-color: var(--color-ink);
+}
+
+.contact-form .choice:has(:checked) {
+  border-color: var(--color-accent);
+  background: var(--color-accent-tint);
+}
+
+.contact-form .choice__input {
+  width: --spacing(4.5);
+  height: --spacing(4.5);
+  min-height: 0;
+  padding: 0;
+  flex: none;
+  accent-color: var(--color-accent);
+}
+
+.contact-form .choice__input:focus-visible {
+  outline: var(--focus-width) solid var(--color-focus);
+  outline-offset: var(--outline-offset-focus);
+  box-shadow: none;
+}

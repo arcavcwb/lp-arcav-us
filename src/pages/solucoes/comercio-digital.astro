@@ -2,14 +2,19 @@
 export const prerender = true;
 
 import Layout from '@layouts/Layout.astro';
-import { ClosingContact, Faq, Footer, Header, Icon, OrderMessage, PhoneDemo, RuledPoints } from '@components/ui';
-import { ANCHOR, commerceService as page, footerNav, toAnchor } from '@data';
-import { solutionTransition } from '@lib';
+import { ClosingContact, ContactAction, Faq, Footer, Header, OrderMessage, PhoneDemo, RuledPoints, WhatsAppBar } from '@components/ui';
+import { ANCHOR, commerceService as page, footerNav, solutionBySlug, toAnchor, ui } from '@data';
+import { solutionTransition, whatsappLink } from '@lib';
 
 const canonical = new URL(page.path, Astro.site).href;
+// WhatsApp como ação principal (2026-11-24, como na home); o formulário fica no fechamento.
+const waMessage = page.closing.contactMessage;
+// Depois de "Enviar", o próximo passo abre o WhatsApp dizendo qual demonstração a pessoa testou (como na home).
+const demoWa = whatsappLink(ui.demoStage.wantMessage(solutionBySlug('comercio-digital').label));
+const next = demoWa ? { label: page.demo.next.label, href: demoWa, whatsapp: true } : page.demo.next;
 ---
 <Layout title={page.meta.title} description={page.meta.description} canonical={canonical}>
-  <Header cta={{ label: page.hero.cta, popover: ANCHOR.contactForm }} />
+  <Header cta={{ label: page.hero.cta, popover: ANCHOR.contactForm }} waMessage={waMessage} />
 
   <main id={ANCHOR.content}>
     <section class="page-hero" aria-labelledby="hero-title">
@@ -17,11 +22,8 @@ const canonical = new URL(page.path, Astro.site).href;
         <div>
           <h1 class="h1" id="hero-title" style={solutionTransition('comercio-digital')}>{page.hero.title}</h1>
           <p class="lead">{page.hero.subtitle}</p>
-          <div class="page-hero__actions">
-            <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
-              {page.hero.cta}
-              <Icon name="arrow-right" />
-            </button>
+          <div class="page-hero__actions" data-wa-bar-hide>
+            <ContactAction label={page.hero.cta} message={waMessage} />
             <a class="btn btn--ghost" href={toAnchor(ANCHOR.demo)}>{page.hero.demoCta}</a>
           </div>
           <p class="small hero-note">{page.hero.note}</p>
@@ -30,7 +32,7 @@ const canonical = new URL(page.path, Astro.site).href;
             id={ANCHOR.demo}
             products={page.demo.products}
             caption={page.demo.caption}
-            next={page.demo.next}
+            next={next}
             guide
           />
       </div>
@@ -50,10 +52,7 @@ const canonical = new URL(page.path, Astro.site).href;
         <div>
           <h2 class="h2" id="exemplo-title">{page.example.title}</h2>
           <p class="lead commerce-example__lead">{page.example.text}</p>
-          <button class="btn btn--primary commerce-example__cta" type="button" popovertarget={ANCHOR.contactForm}>
-            {page.hero.cta}
-            <Icon name="arrow-right" />
-          </button>
+          <ContactAction label={page.hero.cta} message={waMessage} class="commerce-example__cta" />
         </div>
         <OrderMessage order={page.example.order} live={page.example.live} />
       </div>
@@ -79,9 +78,18 @@ const canonical = new URL(page.path, Astro.site).href;
       text={page.closing.text}
       subject={page.closing.contactSubject}
       variant="store"
-      waMessage={page.closing.contactMessage}
+      waMessage={waMessage}
     />
   </main>
 
   <Footer links={footerNav()} />
+  <WhatsAppBar message={waMessage} />
 </Layout>
+
+<script>
+  import { initPhoneDemos } from '@scripts/phone-demo';
+  import { initOrderMessages } from '@scripts/order-message';
+
+  initPhoneDemos();
+  initOrderMessages();
+</script>

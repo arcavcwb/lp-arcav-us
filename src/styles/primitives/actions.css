@@ -80,8 +80,9 @@
   border-color: var(--color-on-dark);
 }
 
+/* Menor na largura e na letra, mas com os 44px de altura de um alvo de toque. */
 .btn--sm {
-  min-height: --spacing(10);
+  min-height: --spacing(11);
   padding: 0 --spacing(4);
   font-size: var(--text-sm);
 }

@@ -1,4 +1,5 @@
-// Formulário de contato no navegador: valida os campos obrigatórios e, sem envio direto,
+// Formulário de contato no navegador: valida os campos obrigatórios (e os grupos de opções, como
+// "O que você precisa?") e, sem envio direto,
 // monta a mensagem e abre o WhatsApp (ou o e-mail). Com DIRECT_SEND, tenta /api/contato antes.
 // A redação da mensagem é a mesma do servidor (lib/contact-message).
 import {
@@ -13,10 +14,12 @@ import { ui } from '@data/ui';
 
 const copy = ui.contactForm;
 
-/** Valores dos campos (`data-field`) no formato da mensagem. */
-const toContactData = (d: Record<string, string>): ContactData => ({
+/** Valores dos campos (`data-field`) e das opções marcadas no formato da mensagem. */
+const toContactData = (d: Record<string, string>, needs: string[]): ContactData => ({
   name: d.name ?? '',
   reply: d.reply ?? '',
+  needs,
+  demo: d.demo,
   business: d.business,
   link: d.link,
   message: d.message,
@@ -40,6 +43,21 @@ export function initContactForms(): void {
     const copyButton = form.querySelector<HTMLButtonElement>('[data-composed-copy]')!;
     const copyLabel = form.querySelector<HTMLElement>('[data-copy-label]')!;
     const defaultLabel = submitLabel.textContent;
+    const groups = [...form.querySelectorAll<HTMLFieldSetElement>('[data-choices]')];
+    const checkedIn = (group: HTMLElement) =>
+      [...group.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')].map((box) => box.value);
+    const setGroupError = (group: HTMLFieldSetElement, message: string) => {
+      const slot = group.querySelector<HTMLElement>('[data-error-slot]');
+      if (slot) slot.textContent = message;
+      group.querySelectorAll('input').forEach((box) =>
+        message ? box.setAttribute('aria-invalid', 'true') : box.removeAttribute('aria-invalid'),
+      );
+    };
+    groups.forEach((group) =>
+      group.addEventListener('change', () => {
+        if (checkedIn(group).length) setGroupError(group, '');
+      }),
+    );
 
     const slotFor = (input: HTMLElement) => input.closest('.field')?.querySelector<HTMLElement>('[data-error-slot]');
     const setError = (input: HTMLInputElement | HTMLTextAreaElement, message: string) => {
@@ -56,8 +74,8 @@ export function initContactForms(): void {
       }),
     );
 
-    const fallback = (d: Record<string, string>) => {
-      const message = composeContactMessage(variant, subject, toContactData(d));
+    const fallback = (d: Record<string, string>, needs: string[]) => {
+      const message = composeContactMessage(variant, subject, toContactData(d, needs));
       const href = composedMessageHref(message, whatsapp, email);
       text.textContent = message.body;
       openLink.href = href;
@@ -81,6 +99,11 @@ export function initContactForms(): void {
         setError(input, empty ? input.dataset.errorMessage ?? copy.required : '');
         if (empty && !firstInvalid) firstInvalid = input;
       }
+      for (const group of groups.filter((g) => g.dataset.required === 'true')) {
+        const empty = checkedIn(group).length === 0;
+        setGroupError(group, empty ? group.dataset.errorMessage ?? copy.required : '');
+        if (empty && !firstInvalid) firstInvalid = group.querySelector('input');
+      }
       if (firstInvalid) {
         firstInvalid.focus();
         return;
@@ -88,10 +111,13 @@ export function initContactForms(): void {
 
       const d: Record<string, string> = { variant, topic: subject };
       inputs.forEach((input) => (d[input.dataset.field!] = input.value.trim()));
+      // Demonstração testada antes de abrir o formulário ("Quero isso no meu negócio", demo-stage.ts).
+      if (form.dataset.demo) d.demo = form.dataset.demo;
+      const needs = groups.flatMap(checkedIn);
 
       if (!direct) {
         if (d.website) return; // armadilha anti-spam preenchida
-        fallback(d);
+        fallback(d, needs);
         return;
       }
 
@@ -104,7 +130,7 @@ export function initContactForms(): void {
         const response = await fetch(CONTACT_ENDPOINT, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: JSON.stringify(d),
+          body: JSON.stringify({ ...d, needs }),
           signal: controller.signal,
         });
         clearTimeout(timer);
@@ -113,7 +139,7 @@ export function initContactForms(): void {
         sent.hidden = false;
         sent.focus({ preventScroll: true });
       } catch {
-        fallback(d);
+        fallback(d, needs);
       } finally {
         submit.disabled = false;
         submitLabel.textContent = defaultLabel;

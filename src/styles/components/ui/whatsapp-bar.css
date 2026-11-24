@@ -1,0 +1,30 @@
+/* Barra fixa do WhatsApp no celular (WhatsAppBar.astro): vidro claro como o cabeçalho, fio em cima e
+   o botão na largura toda. Fora da tela (e fora da ordem de tabulação) até o script mostrar; sobe com
+   a curva de saída. Com "reduzir movimento", aparece sem deslizar. A partir de 720px, não existe. */
+
+.wa-bar {
+  @apply fixed inset-x-0 bottom-0 z-header border-t border-line bg-glass-strong px-gutter pt-3 backdrop-blur-glass backdrop-saturate-150 md:hidden;
+  padding-bottom: calc(--spacing(3) + env(safe-area-inset-bottom));
+  translate: 0 100%;
+  visibility: hidden;
+  transition:
+    translate var(--transition-duration-enter) var(--ease-out),
+    visibility 0s linear var(--transition-duration-enter);
+}
+
+.wa-bar.is-shown {
+  translate: 0 0;
+  visibility: visible;
+  transition: translate var(--transition-duration-enter) var(--ease-out);
+}
+
+.wa-bar__btn {
+  @apply w-full;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-bar,
+  .wa-bar.is-shown {
+    transition: none;
+  }
+}

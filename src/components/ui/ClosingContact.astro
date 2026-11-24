@@ -4,8 +4,13 @@
 // O cabeçalho e o hero apontam para a mesma janela (ANCHOR.contactForm).
 // `channels` troca a frase "Se preferir…" pela lista de canais (WhatsApp, e-mail, cidade).
 // `feature` (home) usa o título maior.
+// Com o número da ARCAV (2026-11-24), a ação principal abre o WhatsApp com a mensagem pronta e o
+// formulário vira a segunda opção ("Prefiro escrever aqui"); a linha de apoio oferece o e-mail.
+// Sem número, o botão principal abre o formulário.
+// `data-wa-bar-hide`: com a seção à vista, a barra fixa do WhatsApp (WhatsAppBar.astro) se esconde.
 import ContactForm from './ContactForm.astro';
 import Avatar from './Avatar.astro';
+import BrandIcon from './BrandIcon.astro';
 import Icon from './Icon.astro';
 import { ANCHOR, BRAND, ui } from '@data';
 import { EXTERNAL_LINK, ARCAV_WHATSAPP_DISPLAY, RESPONSE_TIME, whatsappLink } from '@lib';
@@ -22,6 +27,8 @@ interface Props {
   waMessage?: string;
   channels?: boolean;
   feature?: boolean;
+  /** Serviço já marcado no formulário (slug de solutions.ts). */
+  need?: string;
 }
 
 const {
@@ -35,6 +42,7 @@ const {
   waMessage,
   channels = false,
   feature = false,
+  need,
 } = Astro.props;
 const wa = whatsappLink(waMessage);
 const copy = ui.closingContact;
@@ -43,7 +51,7 @@ const dialogId = ANCHOR.contactForm;
 /** O botão que abre a janela diz o mesmo que o envio da página (ex.: "Quero uma loja assim"). */
 const openLabel = submit ?? (variant === 'store' ? ui.contactForm.submit.store : dialog.open);
 ---
-<section class="section section--dark closing has-orbs" id={ANCHOR.contact} aria-labelledby="contato-title">
+<section class="section section--dark closing has-orbs" id={ANCHOR.contact} aria-labelledby="contato-title" data-wa-bar-hide>
   <div class="orbs" aria-hidden="true">
     <span class="orbs__orb orbs__orb--blue"></span>
     <span class="orbs__orb orbs__orb--amber"></span>
@@ -82,28 +90,29 @@ const openLabel = submit ?? (variant === 'store' ? ui.contactForm.submit.store :
         </ul>
       ) : (
         <p class="small">
-          {wa ? (
-            <Fragment>
-              {copy.whatsappLead}{' '}
-              <a href={wa} {...EXTERNAL_LINK}>{ARCAV_WHATSAPP_DISPLAY}</a>{' '}
-              {copy.emailOr}{' '}
-              <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
-            </Fragment>
-          ) : (
-            <Fragment>
-              {copy.emailLead}{' '}
-              <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
-            </Fragment>
-          )}
+          {copy.emailLead}{' '}
+          <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
         </p>
       )}
 
-      <div>
-        <button class="btn btn--primary closing__open" type="button" popovertarget={dialogId}>
-          {openLabel}
-          <Icon name="arrow-right" />
-        </button>
-      </div>
+      {wa ? (
+        <div class="closing__actions">
+          <a class="btn btn--primary closing__open" href={wa} {...EXTERNAL_LINK}>
+            <BrandIcon name="whatsapp" mono />
+            {ui.whatsappCta}
+          </a>
+          <button class="btn btn--ghost closing__open" type="button" popovertarget={dialogId}>
+            {dialog.alt}
+          </button>
+        </div>
+      ) : (
+        <div>
+          <button class="btn btn--primary closing__open" type="button" popovertarget={dialogId}>
+            {openLabel}
+            <Icon name="arrow-right" />
+          </button>
+        </div>
+      )}
     </div>
   </div>
 
@@ -121,6 +130,7 @@ const openLabel = submit ?? (variant === 'store' ? ui.contactForm.submit.store :
         messageLabel={messageLabel}
         messagePlaceholder={messagePlaceholder}
         submit={submit}
+        need={need}
       />
     </div>
   </div>

@@ -24,13 +24,13 @@ colors:
 typography:
   display:
     fontFamily: "Manrope, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
-    fontSize: "clamp(2rem, 1.4rem + 2.4vw, 3.25rem)"
+    fontSize: "clamp(1.75rem, 1.2rem + 2.4vw, 3.25rem)"
     fontWeight: 700
     lineHeight: 1.08
     letterSpacing: "-0.028em"
   headline:
     fontFamily: "Manrope, Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
-    fontSize: "clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem)"
+    fontSize: "clamp(1.5rem, 1.1rem + 1.5vw, 2.5rem)"
     fontWeight: 700
     lineHeight: 1.12
     letterSpacing: "-0.024em"
@@ -193,11 +193,11 @@ The identity comes from the ARCAV Brand Kit V3 (`docs/brand/v3/`, approved 2026-
 - White and sand grounds, deep-navy ink, sober blue actions and one amber accent; neither accent fills a surface.
 - Two self-hosted families: Manrope for headings and editorial lines, Inter for text and interface.
 - The logo is a drawing (`Logo.astro`): a slanted bar, an amber triangle and the ARCAV letters in curves. Below 420px the header shows the symbol alone.
-- Glass surfaces (2026-11-22): the header, the menu, the services card, the method cards, the closing contact card and the buttons are translucent glass over two blurred brand lights (blue and amber); see "Vidro, folhas e movimento" below.
-- Editorial scale: a display H1, feature H2s and a large manifesto quote against precise 13–15px data.
-- Sequences are ruled lists with `01`–`0n` numerals, except the home method, which is six glass cards with a timeline (user request, 2026-11-22).
-- One deep-navy band mid-page (the manifesto) and a deep-navy close (contact and footer). Every section is a sheet with rounded top corners that rests on the previous one.
-- Motion: an entrance on load, staggered reveals, a wiped quote, slow floating (service discs, method cards, the example frame), drifting lights and scroll parallax; all of it off with reduced motion.
+- Glass surfaces (2026-11-22): the header, the menu, the demo panels, the closing contact card and the buttons are translucent glass over two blurred brand lights (blue and amber); see "Vidro, folhas e movimento" below. Below 720px the lights are off and the cards are opaque (2026-11-24); only the header, the menu and the WhatsApp bar stay glass.
+- Scale: a display H1 one clear step above the feature H2s (28 → 25px on a 390px phone, 52 → 44px on desktop), against precise 13–15px data.
+- Sequences are ruled lists with `01`–`0n` numerals; the home "Como funciona" uses the same four steps as the solution pages (2026-11-24, replacing the six glass method cards).
+- A deep-navy close (contact and footer); the mid-page navy manifesto was removed from the home (2026-11-24). Every section is a sheet with rounded top corners that rests on the previous one.
+- Motion: an entrance on load, staggered reveals, slow floating (the example frame), drifting lights and scroll parallax; all of it off with reduced motion.
 - Authored line icons on a 24-unit grid with a 1.75 stroke.
 - A working phone demo (an order assembled and composed into a WhatsApp message) is the signature object.
 - Light theme only.
@@ -210,7 +210,7 @@ The palette is cool slate and deep navy, with a sober blue for action and one wa
 - **Action Blue** (#2a5598): fills primary buttons (white label, 7.37:1), draws the 2px focus outline and the input focus border on light grounds, sets the caret, strokes check marks on light grounds ("O que entra", "Para quem é", the inbox note, the sent confirmation), the services arrow on hover and the icon well of the selected landing option. It is never a section, band or card fill. On navy it drops to 2.24:1, so it never sets text, marks or focus there. It is the kit's electric blue (#2563eb) toned down at the user's request (2026-11-22): same role and hue family, half the chroma (OKLCH C 0.12 against 0.215).
 - **Deep Blue** (#1f4380): the hover state of primary buttons and the colour of text links with an arrow and of the service names (9.66:1 on white, 8.72:1 on sand). Text-sized blue always uses this darker shade.
 - **Blue Wash** (rgb(42 85 152 / 0.1)): the 3px focus halo on inputs. Text selection uses the same hue at 0.2 alpha.
-- **Amber** (#f59e0b): the secondary accent. The triangle of the logo, the check marks in the manifesto "after" column, text links on navy and the keyboard focus on navy (7.68:1 on navy), and the progress of the demo guide (current and done step badges, with the number or check in deep navy, 7.68:1). It never sets text on white or sand (2.15:1).
+- **Amber** (#f59e0b): the secondary accent. The triangle of the logo, text links on navy and the keyboard focus on navy (7.68:1 on navy), and the progress of the demo guide (current and done step badges, with the number or check in deep navy, 7.68:1). It never sets text on white or sand (2.15:1).
 
 ### Neutral
 - **Paper White** (#ffffff): page ground, card faces, input faces, the phone screen and the ghost button face. It is also the browser theme colour.
@@ -221,7 +221,7 @@ The palette is cool slate and deep navy, with a sober blue for action and one wa
 - **Hairline** (#e2e8f0): card borders, row dividers, the scrolled header border and the divider inside cards.
 - **Firm Hairline** (#cbd5e1): decorative dividers only: the rule that opens each section, the rows of services, method and FAQ, the demo guide pills and the scrollbar.
 - **Control Line** (#7c8ca2): the border that identifies a control: ghost buttons, inputs, the menu toggle, the window's close button, the demo steppers and the landing options (3.43:1 on white, 3.09:1 on sand).
-- **Deep Navy** (#0b1f3b, the fill role of the ink): the footer, the closing sections, the manifesto and the phone body.
+- **Deep Navy** (#0b1f3b, the fill role of the ink): the footer, the closing sections and the phone body.
 - **Raised Navy** (#13294b): wells sitting on a navy panel (amber on it: 6.76:1).
 - **White on Navy** (#ffffff): text on navy.
 - **Muted on Navy** (#cbd5e1): secondary text on navy (11.11:1).
@@ -234,7 +234,7 @@ The palette is cool slate and deep navy, with a sober blue for action and one wa
 ### Named Rules
 **The Blue Acts, Never Fills Rule.** The action blue appears as a filled button, a text link, a check mark on a light ground, a focus ring or a 10% tint. It never becomes the background of a section, band, panel or card. When a block needs emphasis, it goes navy.
 
-**The Navy Is the Second Voice Rule.** Emphasis that isn't an action is carried by a navy fill (the manifesto, closing sections and the footer), not by a new colour.
+**The Navy Is the Second Voice Rule.** Emphasis that isn't an action is carried by a navy fill (the closing sections and the footer), not by a new colour.
 
 **The Amber Stays Small Rule.** Amber is a mark, never a surface and never text on a light ground: the logo triangle, marks, links and focus on navy, and the demo's progress badges with a navy glyph. On white or sand a mark that must be read goes blue instead.
 
@@ -252,15 +252,11 @@ The palette is cool slate and deep navy, with a sober blue for action and one wa
 **Loading:** both latin subsets are preloaded (Inter 48 KB, Manrope 25 KB). Without Inter preloaded, text swapped fonts after the first frame and the solution pages jumped (CLS up to 0.035). The latin-ext subsets load only when a page uses one of their characters.
 
 ### Hierarchy
-- **Display** (Manrope 700, clamp 2rem→3.25rem, line-height 1.08, −0.028em): the H1 of the other page heroes, capped at about 17em wide so it wraps to three or four lines on desktop.
-- **Feature headline** (Manrope 700, clamp 2rem→3.5rem, 1.08, `.h2--feature`): the H2 of the home's key sections (services, method, contact).
-- **Quote** (Manrope 600, clamp 1.75rem→3.5rem, 1.12, −0.024em): the manifesto quote, in 9 of 12 columns.
-- **Index phrase** (Manrope 600, clamp 1.375rem→2.25rem, 1.25, −0.015em): the client's sentence in each services row.
-- **Numeral** (Manrope 400, clamp 1.5rem→3rem, line-height 1, Slate, tabular): method step numbers.
-- **Headline** (Manrope 700, clamp 1.75rem→2.5rem, 1.12, −0.024em): section H2s. They are often hand-broken into two balanced lines, and `text-wrap: balance` is on for all headings.
+- **Display** (Manrope 700, clamp 1.75rem→3.25rem, line-height 1.08, −0.028em): the H1 of the other page heroes, capped at about 17em wide so it wraps to three or four lines on desktop.
+- **Feature headline** (Manrope 700, clamp 1.5rem→2.75rem, 1.12, `.h2--feature`): the H2 of every home section (cases, Experimente, Como funciona, contact), always one step below the H1.
+- **Headline** (Manrope 700, clamp 1.5rem→2.5rem, 1.12, −0.024em): section H2s. They are often hand-broken into two balanced lines, and `text-wrap: balance` is on for all headings.
 - **Title** (Manrope 650, 1.25rem, 1.3, −0.012em): card and plan H3s.
-- **Subhead** (Manrope 600–650, clamp 1.25rem→1.5rem, −0.015 to −0.02em): case titles and the About statement.
-- **Title small** (Manrope 650, 1.125rem): step titles, the pricing suggestion line and the Problem quote (500).
+- **Title small** (Manrope 650, 1.125rem): step titles and the pricing suggestion line.
 - **Lead** (Inter 400, clamp 1.0625rem→1.25rem, 1.55, Slate, max 38em): the paragraph under a heading.
 - **Body** (Inter 400, 1.0625rem, 1.6): running text, with `text-wrap: pretty` on paragraphs and list items.
 - **Body small** (400, 0.9375rem): notes, hints, plan inclusions and step descriptions.
@@ -271,10 +267,10 @@ The palette is cool slate and deep navy, with a sober blue for action and one wa
 
 Everything not named Manrope above (body small, label, meta, caption, buttons, nav, forms, the phone demo) is Inter.
 
-Big numbers (plan prices) are set at 700, clamp 2rem→2.5rem, −0.03em. Quantities, counters and step numerals use tabular figures.
+Quantities, counters and step numerals use tabular figures. No big display numbers: the site publishes no figures.
 
 ### Named Rules
-**The Two Families Rule.** Manrope sets headings and editorial lines (h1–h3, the manifesto quote, the services phrases, the method titles and numerals, the About statement); Inter sets everything else. There is no third family and no system display face.
+**The Two Families Rule.** Manrope sets the headings (h1–h3 and the demo side titles); Inter sets everything else, including the client's sentence in each case row. There is no third family and no system display face.
 
 **The Heading Stands Alone Rule.** No kicker, eyebrow or small label sits above a section heading. The H2 opens the section by itself, and an optional lead follows beneath it.
 
@@ -299,9 +295,9 @@ Breakpoints in use are 420 (logo), 480, 560, 640, 720, 800, 880, 900, 960 and 10
 
 **The Peek Rule.** The first section after a hero uses the reduced top padding so that the next content is visible on first load.
 
-**The Home Rhythm Rule.** The home alternates kinds of moment: hero (text and the approved laptop art), services (discs and a glass card), examples (sand, image), manifesto (navy, one quote), method (glass cards), contact (navy, glass card), footer (navy). The About section was removed (2026-11-22: "para o cliente comum é desnecessário"). Each section fits one screen at 1440×900 and on a 390px phone.
+**The Home Rhythm Rule.** The home alternates kinds of moment (2026-11-24): hero (text; the approved laptop art from 960px), the case list (ruled rows), Experimente (sand, the working demo), Como funciona (who answers and four ruled steps), contact (navy, glass card), footer (navy). About 4.8 screens on a 390px phone and 3.2 at 1440×900; only the demo is taller than one phone screen.
 
-**The 12 Columns Rule.** Asymmetric splits come from a 12-column grid (8/4 hero, 4/8 method, 5/6 manifesto head, 9 for the quote) inside the 1200px container, so every left edge stays aligned with the header.
+**The 12 Columns Rule.** Asymmetric splits come from a 12-column grid (8/4 hero, 5/7 cases and Como funciona) inside the 1200px container, so every left edge stays aligned with the header.
 
 ## Elevation & Depth
 
@@ -384,9 +380,9 @@ A tokenização preservou o visual aprovado ao pixel, por isso a escala ainda te
 ### Fase A da direção editorial (2026-11-21)
 
 - **Hero:** H1 na escala normal dos heros (o título gigante foi rejeitado em 2026-11-21), subtítulo e ações ("Contar como funciona hoje" com o ícone de conversa; "Ver as soluções" com grade e seta). À direita, a arte aprovada em 2026-11-22 (`public/hero/`, laptop com o logo, três ícones e curvas azul e âmbar), decorativa: a partir de 960px ela se encosta no canto de cima, à direita, do hero, atrás do texto; no celular vem depois das ações, com 256px. `<picture>` baixa só o enquadramento da tela.
-- **Serviços (2026-11-22):** cinco discos com uma ilustração própria de cada serviço (`ServiceIcon.astro`, grade de 64, cores dos tokens), botões de opção nativos que flutuam devagar; o escolhido fica azul profundo com um selo âmbar apontando para a ficha. A partir de 960px os discos ficam numa coluna à esquerda, com o nome ao lado, e a ficha à direita; antes disso, numa fila com a ficha embaixo. A ficha é vidro: nome, frase do cliente e o botão no alto; embaixo, a ilustração do serviço (`ServicePreview.astro`) e "Como funciona" desenhado (três nós com ícone, número âmbar e a frase de `journey`). No celular a ilustração sai para a seção caber numa tela. Funciona sem JavaScript.
-- **Manifesto (antigo Problema):** seção azul profundo com mais ar (`section--feature`); título e texto menores no alto, a citação em `text-quote` em 9 colunas com a assinatura, e Hoje/Depois em duas colunas com filetes (Hoje apagado, Depois claro com checks âmbar). Sem cartões.
-- **Método (2026-11-22):** seis cartões de vidro lado a lado (até 1200px a fila desliza de lado), com uma linha do tempo acima e um ponto por passo. Cada cartão: ícone num poço quadrado, contador "01 / 06", título, texto e uma barra com o avanço no processo. Entram um depois do outro com a rolagem, flutuam e um foco passa por cada passo (o cartão sobe, o ícone fica azul profundo, barra e ponto acendem em âmbar).
+- **Serviços (2026-11-22; substituído pela lista "Qual é o seu caso?" em 2026-11-24):** cinco discos com uma ilustração própria de cada serviço (`ServiceIcon.astro`, grade de 64, cores dos tokens), botões de opção nativos que flutuam devagar; o escolhido fica azul profundo com um selo âmbar apontando para a ficha. A partir de 960px os discos ficam numa coluna à esquerda, com o nome ao lado, e a ficha à direita; antes disso, numa fila com a ficha embaixo. A ficha é vidro: nome, frase do cliente e o botão no alto; embaixo, a ilustração do serviço (`ServicePreview.astro`) e "Como funciona" desenhado (três nós com ícone, número âmbar e a frase de `journey`). No celular a ilustração sai para a seção caber numa tela. Funciona sem JavaScript.
+- **Manifesto (antigo Problema; saiu da home em 2026-11-24):** seção azul profundo com mais ar (`section--feature`); título e texto menores no alto, a citação em `text-quote` em 9 colunas com a assinatura, e Hoje/Depois em duas colunas com filetes (Hoje apagado, Depois claro com checks âmbar). Sem cartões.
+- **Método (2026-11-22; substituído por "Como funciona" em 2026-11-24):** seis cartões de vidro lado a lado (até 1200px a fila desliza de lado), com uma linha do tempo acima e um ponto por passo. Cada cartão: ícone num poço quadrado, contador "01 / 06", título, texto e uma barra com o avanço no processo. Entram um depois do outro com a rolagem, flutuam e um foco passa por cada passo (o cartão sobe, o ícone fica azul profundo, barra e ponto acendem em âmbar).
 - **Contato:** o mesmo fechamento azul profundo das outras páginas (`ClosingContact` com `channels` e `feature`): título maior, quem responde, canais e um botão. O formulário não ocupa a página: abre numa janela (`popover`) clara sobre fundo escurecido, que no celular ocupa a tela inteira. "Fale comigo", a ação do hero e "Quero isso na minha loja" abrem a mesma janela.
 - **Rodapé:** quatro colunas (marca, navegação numa coluna só, contato e localização, trajetória), com um filete em cima, separando do fechamento escuro.
 
@@ -403,7 +399,7 @@ Pedidos do usuário no mesmo dia, depois de ver o resultado no navegador: "usa e
 - **Peças compartilhadas** (`src/styles/primitives/glass.css`): `.glass` (branco a 62% com desfoque, filete claro e sombra suave) e `.glass--dark` (sobre azul profundo); `.has-orbs` + `.orbs` com as duas luzes desfocadas da marca (azul e âmbar) atrás do conteúdo, `.orbs--mirror` troca os lados; `.float` (flutua 6px em 7s; `--float` desencontra o ritmo). Tokens em `tokens.css` (`--color-glass*`, `--color-orb-*`, `--blur-*`, `--shadow-glass*`, `--shadow-bevel*`, `--gradient-sheen`, `--radius-button`, `--radius-sheet`, `--shadow-sheet`).
 - **Seções como folhas** (`primitives/layout.css`): toda `<section class="section">` sobe 2rem sobre a anterior, com os cantos de cima arredondados e uma sombra suave para cima, para a divisão ficar clara mesmo entre fundos parecidos.
 - **Paralaxe**: as luzes atravessam a seção mais devagar que o conteúdo, e o conteúdo da seção que sai pela parte de cima desce um pouco e esmaece enquanto a folha seguinte sobe (animações ligadas à rolagem; sem suporte, nada muda).
-- **Uma tela por seção**: na home, cada seção cabe em 1440×900 e num celular de 390px (o texto de apoio de serviços e exemplos só aparece a partir de 720px; no celular, a ficha de serviços mostra o processo sem a ilustração). Em 1280×800 a seção de serviços passa 13px (só o respiro de baixo). Abaixo de 390px, o hero e o manifesto pedem rolagem.
+- **Uma tela por seção**: na home, cada seção cabe em 1440×900 e num celular de 390px (o texto de apoio de serviços e exemplos só aparece a partir de 720px; no celular, a ficha de serviços mostra o processo sem a ilustração). Em 1280×800 a seção de serviços passa 13px (só o respiro de baixo). Abaixo de 390px, o hero pede rolagem. (Substituído em 2026-11-24: ver "Home no celular".)
 - **Desempenho**: o vidro e as luzes custam pintura; com 4G lenta e CPU 4× a home mostra o conteúdo principal em cerca de 2,0s (antes 1,65s), dentro dos 2,5s considerados bons. CLS 0.
 
 ### Fotos (2026-11-21)
@@ -415,15 +411,28 @@ Pedidos do usuário no mesmo dia, depois de ver o resultado no navegador: "usa e
 
 ### Soluções e exemplos (2026-11-21)
 
-- **Solution page** (`src/components/solution/SolutionPage.astro`, rota `src/pages/solucoes/[slug].astro`, dados em `src/data/solutions.ts`): hero com a captura do exemplo à direita, "Para quem é" e "O que está incluído" como listas com filete (sem cartões), "Como funciona" como sequência numerada com filetes, perguntas frequentes, "Outras soluções" e o bloco de contato escuro. Cabeçalho mínimo (marca + "Fale comigo"), rodapé com todas as soluções.
+- **Solution page** (`src/components/solution/SolutionPage.astro`, rota `src/pages/solucoes/[slug].astro`, dados em `src/data/solutions.ts`): hero com a captura do exemplo à direita, "Para quem é" e "O que está incluído" como listas com filete (sem cartões), "Como funciona" como sequência numerada com filetes, perguntas frequentes, "Outras soluções" e o bloco de contato escuro. Cabeçalho mínimo (marca + "Chamar no WhatsApp" desde 2026-11-24), rodapé com todas as soluções.
 - **Example frame** (`ExampleFrame.astro`): captura 16:10 de um exemplo dentro de uma janela de navegador (barra `surface`, três pontos `line-strong`, URL em pílula), raio de cartão, sombra elevada; sobe 3px no hover. Legenda: "Exemplo · <nome do exemplo>".
 - **Serviços por situação** (`home/Services.astro`): os cinco serviços com o mesmo peso (site institucional, migração, landing pages, comércio, automação) como catálogo editorial (ver "Fase A"): a frase do cliente entre aspas, o serviço e a frase curta; a frase escolhida abre a ficha com a ilustração (`home/ServicePreview.astro`) e o botão para a página da solução. Antes da lista: "Qual destas frases parece com o seu momento?". Os tipos de landing page vivem em `/solucoes/landing-pages/`. A mesma lista (`SERVICES`) alimenta o rodapé e "Outras soluções".
 - **Landing flow** (`solution/LandingFlow.astro`, só em `/solucoes/landing-pages/`): ficha para leigos. A pessoa escolhe o objetivo em linguagem simples ("Quero passar confiança", "Quero contatos de um anúncio", "Quero vender um produto", "Quero inscrições para um evento"), em botões de opção nativos (as setas do teclado trocam a opção, sem JavaScript); embaixo aparece a ficha só daquela página: o nome e a frase curta, "O caminho do seu cliente" (`SolutionFlow` sem moldura) e, ao lado, "Para quem é", "O que entra" (4 itens) e o link. Não se mostra o mapa com todas as opções apagadas: os visitantes se perdiam nele (feedback de 2026-11-21).
 - **Transição entre páginas**: `@view-transition { navigation: auto; }` (navegadores compatíveis). O nome curto do bloco tem `view-transition-name: sol-<slug>` e viaja até o H1 da página da solução; o cabeçalho fica fixo durante a troca. Tudo desligado com `prefers-reduced-motion`.
 - **Exemplos** (`home/Examples.astro` + `home/ExampleShowcase.astro`): seção própria com a captura grande do exemplo que funciona e, ao lado, o nome, uma linha, "Abrir o exemplo" e "Ver a solução". Hoje há um só (comércio); o portfólio "Trabalhos" a substitui quando houver três ou mais projetos externos (`docs/CASES.md`).
-- **FAQ** (`Faq.astro`) e **Closing contact** (`ClosingContact.astro`): componentes compartilhados entre home, comércio e soluções; o bloco final mostra "Quem responde é o Armando Castro", os canais e o botão que abre a janela do formulário.
+- **FAQ** (`Faq.astro`) e **Closing contact** (`ClosingContact.astro`): componentes compartilhados entre home, comércio e soluções; o bloco final mostra "Quem responde é o Armando Castro", os canais, "Chamar no WhatsApp" e "Prefiro escrever aqui", que abre a janela do formulário (2026-11-24).
 - **Exemplos reservados** (decisão do usuário, 2026-11-21): os exemplos serão projetos reais ou exemplos feitos pela ARCAV, cada um no seu próprio repositório. Enquanto não existem, `ExampleFrame` mostra um espaço reservado ("Exemplo real em preparação") e os botões "Ver/Abrir o exemplo" somem. Só o de comércio (o celular interativo) está ativo, até existir o exemplo externo de loja. As demos fictícias antigas saíram do repositório (histórico do git).
 - **Hero de solução sem exemplo** (fase 1 de conversão, 2026-11-21): no lugar do espaço reservado, o hero mostra `SolutionFlow` ("O caminho do seu cliente"): três frases completas e numeradas, de onde a pessoa vem → o que ela faz na sua página → onde você recebe (`journey` em `solutions.ts`). Sem rótulos soltos nem botõezinhos de canais: essa versão não se entendia (feedback de 2026-11-21).
+
+### Home no celular (2026-11-24)
+
+Crítica de 2026-11-24 (`.impeccable/critique/`): a home media 7,2 telas num celular de 390px, os títulos tinham todos 32px e o botão com o ícone do WhatsApp abria um formulário. Mudanças aprovadas pelo usuário:
+
+- **Ordem**: Hero → "Qual é o seu caso?" → Experimente → "Como funciona" → Contato. Sem o manifesto "Hoje / Depois" (repetia os serviços) e sem o método de seis cartões. Cerca de 4,8 telas a 390px e 3,2 a 1440×900. Isto substitui "The Home Rhythm Rule" e "Uma tela por seção" acima: a demonstração passa de uma tela no celular.
+- **Escala**: H1 `clamp(1.75rem, 1.2rem + 2.4vw, 3.25rem)`; H2 `clamp(1.5rem, 1.1rem + 1.5vw, 2.5rem)`; H2 de destaque `clamp(1.5rem, 0.9rem + 2.8vw, 2.75rem)`, entrelinha 1.12. Todo H2 da home é de destaque e fica abaixo do H1 em todas as larguras; cada título cabe em 2 linhas a 390px (o H1 em 3 a 360px).
+- **Hero**: só texto e ações abaixo de 960px; a arte do laptop só aparece (e só é baixada) a partir de 960px.
+- **"Qual é o seu caso?"**: lista com filete escuro em cima e fio entre as linhas, como os passos numerados. Cada linha inteira é um link (mínimo 64px): ícone num poço de 40px, a frase do cliente em tinta (17px, 500), o nome do serviço em azul de ação (14px, 600) e a seta. A partir de 960px, título à esquerda (fixo ao rolar) e lista à direita.
+- **WhatsApp é a ação principal** (decisão de 2026-11-18, aplicada na home, nas páginas de solução e na de comércio): o cabeçalho, o hero, o fechamento, "Quero isso no meu negócio" e a barra fixa abrem `wa.me` com a mensagem pronta. O cabeçalho, o fechamento e a barra dizem "Chamar no WhatsApp" (só "WhatsApp" no cabeçalho abaixo de 420px); o hero das soluções mantém a frase da página ("Quero uma loja assim") com o logo do WhatsApp (`ContactAction.astro`). O formulário é a segunda opção: "Prefiro escrever aqui". Sem número de WhatsApp, tudo volta ao formulário.
+- **Barra fixa do WhatsApp** (abaixo de 720px): vidro claro com fio em cima e o botão na largura toda. Aparece quando as ações do hero, o fechamento e o rodapé saem da tela, e se esconde enquanto o celular das demonstrações passa por baixo dela, para não cobrir os botões dele.
+- **Demonstração**: sem abas quando só há uma demonstração publicada; no celular, sem o cartão em volta de cada lado (o celular e a conversa já têm moldura); "Quero isso no meu negócio" e "Recomeçar" só aparecem depois do resultado. Os botões + e − e o "voltar" medem 36px no desenho e 44px de área de toque.
+- **Alvos de toque**: `.btn--sm` tem 44px de altura; os canais do fechamento também.
 
 ## Do's and Don'ts
 
@@ -439,8 +448,8 @@ Pedidos do usuário no mesmo dia, depois de ver o resultado no navegador: "usa e
 - **Do** caption every illustrative demo or mock as an example or illustration.
 - **Do** keep touch targets at 44px or more, keep focus visible (2px outline, 3px offset, blue on light and amber on navy), meet WCAG AA contrast, and honour `prefers-reduced-motion` (the build collapses all transitions and animations).
 - **Do** use the house ease-out `cubic-bezier(0.16, 1, 0.3, 1)` for movement, with state colour changes at 0.15 to 0.2s.
-- **Do** keep motion slow and purposeful: the home opening enters on load (text 500ms, 60ms apart; the hero art uncovers bottom-up), reveals and the manifesto wipe are scroll-driven, floating elements bob 6px over 7s out of phase, the lights drift, and section content recedes with parallax as the next sheet covers it. Everything is CSS and stops with reduced motion; content is visible without JavaScript or scroll-timeline support (`styles/primitives/motion.css`, `primitives/glass.css`).
-- **Do** number only real sequences (the method). The one exception is the services catalog: its small `01`–`05` (caption size, Slate, ink when selected) are discreet index marks the client asked for (2026-11-22), never display numerals.
+- **Do** keep motion slow and purposeful: the home opening enters on load (text 500ms, 60ms apart; the hero art uncovers bottom-up), reveals are scroll-driven, floating elements bob 6px over 7s out of phase, the lights drift, and section content recedes with parallax as the next sheet covers it. Everything is CSS and stops with reduced motion; content is visible without JavaScript or scroll-timeline support (`styles/primitives/motion.css`, `primitives/glass.css`).
+- **Do** number only real sequences (the four steps of Como funciona and of each solution page). The case list is not numbered.
 
 ### Don't:
 - **Don't** fill a section, band, card or panel with blue or amber.

@@ -141,3 +141,21 @@
     opacity: 0.4;
   }
 }
+
+/* Celular (2026-11-24): sem as luzes desfocadas e com o vidro opaco. Atrás do texto as luzes baixavam
+   o contraste pela metade, e o desfoque em cada cartão pesa nos Android mais simples. O cabeçalho e a
+   barra fixa do WhatsApp continuam de vidro: o conteúdo passa por baixo deles. */
+@media (width < theme(--breakpoint-md)) {
+  .orbs {
+    display: none;
+  }
+
+  .glass {
+    background: var(--color-paper);
+    backdrop-filter: none;
+  }
+
+  .glass--dark {
+    background: var(--color-dark-raised);
+  }
+}

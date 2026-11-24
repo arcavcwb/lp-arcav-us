@@ -2,21 +2,25 @@
 export const prerender = true;
 
 import Layout from '@layouts/Layout.astro';
-import { Footer, Header } from '@components/ui';
-import { Contact, Examples, Hero, Method, Problem, Services } from '@components/home';
+import { Footer, Header, WhatsAppBar } from '@components/ui';
+import { Contact, Experiment, Hero, Method, Services } from '@components/home';
 import { ANCHOR, footerNav, home, mainNav, ui } from '@data';
 
+// Ordem (2026-11-24): Hero → Qual é o seu caso? → Experimente → Como funciona → Contato. Sem a seção
+// escura "Hoje / Depois" (repetia os serviços) e sem "Perguntas frequentes": as perguntas previstas
+// dependem de preço, prazos e suporte, que não são publicados.
+// O WhatsApp é a ação principal: no cabeçalho, no hero, no fechamento e na barra fixa do celular.
 const canonical = new URL('/', Astro.site).href;
 ---
 <Layout title={home.meta.title} description={home.meta.description} canonical={canonical}>
-  <Header links={mainNav()} cta={{ label: ui.header.cta, popover: ANCHOR.contactForm }} />
+  <Header links={mainNav()} cta={{ label: ui.header.cta, popover: ANCHOR.contactForm }} waMessage={home.contact.waMessage} />
   <main id={ANCHOR.content}>
     <Hero />
     <Services />
-    <Examples />
-    <Problem />
+    <Experiment />
     <Method />
     <Contact />
   </main>
   <Footer links={footerNav({ fromHome: true })} />
+  <WhatsAppBar message={home.contact.waMessage} />
 </Layout>

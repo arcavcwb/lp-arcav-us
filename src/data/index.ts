@@ -8,5 +8,6 @@ export * from './ui';
 export * from './navigation';
 export * from './solutions';
 export * from './commerce-service';
+export * from './demos';
 export * from './photos';
 export * from './types';

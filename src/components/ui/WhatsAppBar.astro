@@ -1,0 +1,31 @@
+---
+// Barra fixa no pé da tela, só no celular (abaixo de 720px): um botão "Chamar no WhatsApp" ao alcance do
+// polegar (2026-11-24). Aparece quando nenhum outro botão do WhatsApp está à vista (`data-wa-bar-hide`:
+// ações do hero, fechamento, rodapé) e se esconde enquanto o celular das demonstrações passa por baixo
+// dela (`data-wa-bar-avoid`); regras em scripts/whatsapp-bar.ts. Sem JavaScript ou sem número de
+// WhatsApp, a barra não aparece.
+import BrandIcon from './BrandIcon.astro';
+import { ui } from '@data';
+import { EXTERNAL_LINK, whatsappLink } from '@lib';
+
+interface Props {
+  /** Mensagem pronta do WhatsApp. */
+  message: string;
+}
+
+const wa = whatsappLink(Astro.props.message);
+---
+{wa && (
+  <div class="wa-bar" data-wa-bar>
+    <a class="btn btn--primary wa-bar__btn" href={wa} {...EXTERNAL_LINK}>
+      <BrandIcon name="whatsapp" mono />
+      {ui.whatsappCta}
+    </a>
+  </div>
+)}
+
+<script>
+  import { initWhatsAppBar } from '@scripts/whatsapp-bar';
+
+  initWhatsAppBar();
+</script>

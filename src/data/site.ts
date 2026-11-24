@@ -2,8 +2,6 @@
 // Fonte: o antigo src/i18n/translations.ts (versão PT) e docs/BRAND.md.
 // Não adicionar depoimentos, métricas ou logos de clientes sem evidência.
 
-import type { IconName } from '@components/ui/icons';
-
 const CITY = 'Curitiba';
 
 export const BRAND = {
@@ -19,7 +17,7 @@ export const BRAND = {
   ],
   trajectory: ['Venezuela', 'México', 'San Diego / EUA', 'Curitiba / Brasil'],
   message: 'Transformo processos de negócio em produtos digitais simples, automatizados e fáceis de operar.',
-  statement: 'Focados em escopo. Sérios em engenharia.',
+  statement: 'Focado em escopo. Sério em engenharia.',
 } as const;
 
 /** Documento: idioma, cor do navegador, ícones e as fontes pré-carregadas (Layout.astro). */
@@ -31,102 +29,70 @@ export const SITE = {
   /** O recorte latin das duas famílias: sem Inter aqui, o texto troca de fonte depois do primeiro quadro e a página pula. */
   fontPreloads: ['/fonts/inter-latin.woff2', '/fonts/manrope-latin.woff2'],
   icons: { ico: '/favicon.ico', svg: '/favicon.svg', apple: '/apple-touch-icon.png' },
+  /**
+   * Imagem ao compartilhar o link (WhatsApp, redes): o celular com o pedido, o título e o logo.
+   * Gerada a partir de public/exemplos/comercio-pedido.webp; proveniência em public/og-image.png.json.
+   */
+  ogImage: {
+    src: '/og-image.png',
+    width: 1200,
+    height: 630,
+    alt: 'Celular com um pedido pronto para o WhatsApp, ao lado do título “Sites, lojas com pedido pelo WhatsApp e automações” e do logo da ARCAV.',
+  },
 } as const;
 
 export const home = {
   meta: {
-    title: 'ARCAV — Produtos digitais e evolução de processos | Curitiba',
+    title: 'Criação de sites e lojas com pedido pelo WhatsApp em Curitiba | ARCAV',
     description:
-      'Transformo processos de negócio em produtos digitais simples, automatizados e fáceis de operar. Sites institucionais, migrações, landing pages, lojas com pedido pelo WhatsApp e automações em Curitiba, por Armando Castro.',
+      'Sites, lojas com pedido pelo WhatsApp e automações simples de operar, para negócios de Curitiba. Teste cada solução no site.',
   },
   hero: {
-    title: BRAND.message,
-    subtitle:
-      'Sites institucionais, migração de sites e sistemas, landing pages, lojas com pedido pelo WhatsApp e automações para a operação.',
-    primaryCta: 'Contar como funciona hoje',
-    secondaryCta: 'Ver as soluções',
+    /** Concreto e na língua do dono do negócio (2026-11-24); a frase da marca (BRAND.message) fica fora do hero. */
+    title: 'Sites, lojas e automações para negócios de Curitiba.',
+    subtitle: 'Do site da sua empresa ao pedido que chega organizado no WhatsApp. Teste um exemplo aqui mesmo.',
+    /** A ação principal abre o WhatsApp da ARCAV com a mensagem pronta (contact.waMessage); sem número, abre o formulário. */
+    primaryCta: 'Chamar no WhatsApp',
+    secondaryCta: 'Testar um pedido',
+    /** Linha embaixo dos botões. O prazo de resposta só entra quando RESPONSE_TIME (lib/contact.ts) existir. */
+    note: {
+      response: (time: string) => `Respondo ${time}`,
+      place: `Atendimento direto comigo, em ${CITY}.`,
+    },
     /**
      * Arte do hero aprovada pelo usuário (2026-11-22), decorativa: laptop com o logo, ícones e curvas.
-     * Uma imagem por enquadramento; `<picture>` baixa só uma. `desktopMedia` acompanha
-     * --breakpoint-xl (60rem) dos tokens. Proveniência no .json ao lado de cada arquivo.
+     * Só a partir de `desktopMedia` (--breakpoint-xl, 60rem): no celular ela não aparece nem é baixada
+     * (2026-11-24), para a lista de casos começar já na primeira tela. Proveniência no .json ao lado.
      */
     art: {
       desktopMedia: '(min-width: 60rem)',
       desktop: { src: '/hero/hero-arte-desktop.webp', width: 762, height: 696 },
-      mobile: { src: '/hero/hero-arte-mobile.webp', width: 697, height: 654 },
     },
   },
+  /** "Qual é o seu caso?": os cinco serviços como uma lista; cada linha é a frase do cliente e leva à página do serviço. */
   services: {
-    title: 'O que eu construo para o seu negócio.',
-    subtitle:
-      'Começo pelo que já funciona no seu negócio e entrego algo que você e sua equipe conseguem operar no dia a dia.',
-    /** Acima dos discos: diz o que fazer, já que a frase do cliente agora abre a história de cada serviço. */
-    intro: 'Escolha um serviço e veja como ele funciona.',
-    /**
-     * Ficha de cada serviço: nome, frase do cliente e botão no alto; embaixo, a ilustração do serviço
-     * e "Como funciona" desenhado (as três frases de `journey`, cada uma com o seu ícone,
-     * `journeyIcons` em solutions.ts). A legenda das ilustrações conceituais é a da página de comércio.
-     */
-    catalog: {
-      cta: (name: string) => `Ver a solução: ${name}`,
-      how: 'Como funciona',
-      before: 'Antes',
-      after: 'Depois',
-      /** Captura real do celular de exemplo no passo "Pedido pronto" (proveniência no .json ao lado). */
-      order: {
-        image: '/exemplos/comercio-pedido.webp',
-        width: 640,
-        height: 989,
-        alt: 'Celular da loja de exemplo com o pedido pronto: “Olá! Quero fazer um pedido: 1 × Café 500 g, 1 × Leite 1 L”.',
-      },
-      /** Painel de automação com dados fictícios: o estado vem no título do grupo e no ícone, não só na cor. */
-      log: {
-        done: 'Feito hoje',
-        scheduled: 'Agendado',
-        events: [
-          { text: 'Orçamento recebido pelo formulário', when: '09:12', done: true },
-          { text: 'Cliente adicionado à planilha', when: '09:12', done: true },
-          { text: 'Confirmação enviada no WhatsApp', when: '09:13', done: true },
-          { text: 'Lembrete da visita', when: 'Amanhã, 8h', done: false },
-          { text: 'Relatório da semana por e-mail', when: 'Sexta, 18h', done: false },
-        ],
-      },
-    },
+    title: 'Qual é o seu caso?',
+    subtitle: 'Escolha a frase mais parecida com a sua situação.',
   },
-  examples: {
-    title: 'Veja um exemplo funcionando.',
-    lead: 'Monte um pedido na loja de exemplo e veja a mensagem chegar pronta no WhatsApp. Os exemplos das outras soluções estão sendo preparados a partir de projetos reais.',
+  experiment: {
+    title: 'Experimente antes de contratar.',
+    /** Fala da loja porque é a única demonstração publicada; trocar quando entrar a segunda (data/demos.ts). */
+    lead: 'Faça o papel do seu cliente: monte um pedido e veja como ele chega no WhatsApp da loja.',
+    notice: 'Demonstrações com negócios e dados fictícios.',
   },
-  problem: {
-    title: 'Quando o negócio cresce, o processo também precisa evoluir.',
-    text: 'Planilhas e WhatsApp funcionam bem por um tempo. O problema aparece quando a operação passa a depender de dados espalhados e tarefas manuais.',
-    before: {
-      label: 'Hoje',
-      items: ['Pedido anotado no caderno', 'Informação espalhada entre WhatsApp e planilha', 'Difícil saber o que já foi feito'],
-    },
-    after: {
-      label: 'Depois',
-      items: ['Pedido que chega completo', 'Tudo em um só lugar', 'Você vê o que está acontecendo'],
-    },
-    quote: 'Não modernizo por modernizar. Primeiro entendo o que funciona e o que realmente precisa mudar.',
-  },
-  method: {
-    title: 'Do problema ao produto.',
-    /** Cada passo com o ícone de linha do cartão (Method.astro). */
-    steps: [
-      { title: 'Entender', text: 'O que o seu negócio precisa de verdade.', icon: 'chat' as IconName },
-      { title: 'Mapear', text: 'Quem atende, quem compra e onde as coisas travam.', icon: 'people' as IconName },
-      { title: 'Simplificar', text: 'Um escopo claro, com um objetivo principal.', icon: 'target' as IconName },
-      { title: 'Construir', text: 'A ferramenta e a ligação com o que você já usa.', icon: 'workflow' as IconName },
-      { title: 'Observar', text: 'Como ela é usada no dia a dia.', icon: 'chart' as IconName },
-      { title: 'Melhorar', text: 'Ajustes com base no que o uso mostrou.', icon: 'refresh' as IconName },
-    ],
+  /**
+   * "Como funciona": os mesmos quatro passos das páginas de solução (SOLUTION_STEPS, solutions.ts) e quem
+   * atende. Substitui o método de seis cartões e a seção escura "Hoje / Depois" (2026-11-24).
+   */
+  how: {
+    title: 'Como funciona',
+    about: `Quem conversa com você, constrói e dá suporte sou eu, ${BRAND.author}.`,
+    linkedin: 'Meu perfil no LinkedIn',
   },
 
   contact: {
-    title: 'Tem um processo que pode evoluir?',
-    subtitle:
-      'Conte como funciona hoje. Eu respondo com os próximos passos e, se houver encaixe, preparo uma prévia resumida do seu projeto para acompanhar a proposta.',
+    title: 'Vamos conversar sobre o seu negócio?',
+    subtitle: 'Conte como funciona hoje e eu respondo com os próximos passos.',
     subject: 'Contato pelo site da ARCAV',
     waMessage: 'Olá, Armando! Vi o site da ARCAV e quero conversar sobre o meu negócio.',
   },

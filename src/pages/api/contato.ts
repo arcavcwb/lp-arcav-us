@@ -19,7 +19,7 @@ interface SendEmailBinding {
   send(message: EmailMessage): Promise<void>;
 }
 
-const LIMITS: Record<string, number> = { name: 120, business: 120, link: 300, reply: 160, message: 4000, topic: 120 };
+const LIMITS: Record<string, number> = { name: 120, business: 120, link: 300, reply: 160, message: 4000, topic: 120, demo: 60 };
 
 const json = (status: number, body: Record<string, unknown>) =>
   new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
@@ -54,12 +54,18 @@ export const POST: APIRoute = async ({ request }) => {
 
   const variant = data.variant === 'store' ? 'store' : 'general';
   const d = Object.fromEntries(Object.entries(LIMITS).map(([key, max]) => [key, clean(data[key], max)]));
-  const missing = ['name', 'reply', variant === 'store' ? 'link' : 'message'].filter((key) => !d[key]);
+  // "O que você precisa?" (variante geral): até seis nomes curtos.
+  const needs = Array.isArray(data.needs) ? data.needs.map((item) => clean(item, 60)).filter(Boolean).slice(0, 6) : [];
+  // Pelo site, sem o WhatsApp do visitante, o contato para a resposta é obrigatório nas duas variantes.
+  const missing = ['name', 'reply', ...(variant === 'store' ? ['link'] : [])].filter((key) => !d[key]);
+  if (variant === 'general' && !needs.length) missing.push('needs');
   if (missing.length) return json(400, { ok: false, reason: 'missing', fields: missing });
 
   const { subject, body } = composeContactMessage(variant, d.topic, {
     name: d.name,
     reply: d.reply,
+    needs,
+    demo: d.demo,
     business: d.business,
     link: d.link,
     message: d.message,
@@ -84,6 +90,8 @@ export const POST: APIRoute = async ({ request }) => {
           business: d.business,
           link: d.link,
           reply: d.reply,
+          needs,
+          demo: d.demo,
           message: d.message,
           subject,
           text: body,

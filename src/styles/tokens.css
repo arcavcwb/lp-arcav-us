@@ -81,7 +81,6 @@
   /* Entrelinha. Os tamanhos de texto que fixam a sua apontam para cá. */
   --leading-none: 1;
   --leading-display: 1.08;
-  --leading-figure: 1.1;
   --leading-heading: 1.12;
   --leading-control: 1.2;
   --leading-tight: 1.25;
@@ -104,26 +103,20 @@
   --text-lg: 1.125rem;
   --text-h3: 1.25rem;
   --text-h3--line-height: var(--leading-snug);
-  --text-statement: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
   --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
   --text-lead--line-height: var(--leading-lead);
-  --text-h2: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem);
+  /* Celular (2026-11-24): H1 ~28px e H2 ~24–25px a 360–390px, para os títulos caberem em 2–3 linhas
+     e o H1 ficar um degrau acima dos H2. No desktop, os mesmos tetos de antes. */
+  --text-h2: clamp(1.5rem, 1.1rem + 1.5vw, 2.5rem);
   --text-h2--line-height: var(--leading-heading);
-  --text-figure: clamp(2rem, 1.7rem + 1vw, 2.5rem);
-  --text-h1: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --text-h1: clamp(1.75rem, 1.2rem + 2.4vw, 3.25rem);
   --text-h1--line-height: var(--leading-display);
 
-  /* Escala editorial da home: o grande muito grande, o pequeno preciso */
-  --text-index: clamp(1.375rem, 1rem + 1.25vw, 2.25rem);
-  --text-index--line-height: var(--leading-tight);
-  --text-h2-feature: clamp(2rem, 1.2rem + 2.6vw, 3.5rem);
-  --text-h2-feature--line-height: var(--leading-display);
-  --text-quote: clamp(1.75rem, 1rem + 2.8vw, 3.5rem);
-  --text-quote--line-height: var(--leading-heading);
-  --text-numeral: clamp(1.5rem, 0.6rem + 2.8vw, 3rem);
-  --text-numeral--line-height: var(--leading-none);
+  /* Títulos de destaque da home */
+  /* Teto de 44px (2026-11-24): os H2 de destaque ficam um degrau abaixo do H1 (52px) também no desktop. */
+  --text-h2-feature: clamp(1.5rem, 0.9rem + 2.8vw, 2.75rem);
+  --text-h2-feature--line-height: var(--leading-heading);
 
-  --tracking-figure: -0.03em;
   --tracking-display: -0.028em;
   --tracking-heading: -0.024em;
   --tracking-title: -0.015em;
@@ -140,8 +133,6 @@
   /* Medidas de layout */
   --spacing-gutter: clamp(1rem, 0.4rem + 2.6vw, 2.5rem);
   --spacing-section: clamp(2rem, 1.4rem + 2vw, 3.25rem);
-  /* Seção-respiro (manifesto): mais ar que as outras */
-  --spacing-section-feature: clamp(3.5rem, 2rem + 5vw, 7.5rem);
   --spacing-header: 4.25rem;
   /* Altura do logo (Logo.astro): 161px de largura no logotipo, 31px de altura no símbolo. */
   --spacing-logo: 2.125rem;
@@ -195,8 +186,6 @@
   /* ── Grades ───────────────────────────────────────────────────────────── */
   --grid-template-columns-hero: minmax(0, 1fr) 20rem;
   --grid-template-columns-hero-wide: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  /* Home: texto em 8 de 12 colunas, retrato nas 4 últimas */
-  --grid-template-columns-hero-portrait: minmax(0, 2fr) minmax(0, 1fr);
   /* Hero da home: texto | arte aprovada (laptop) */
   --grid-template-columns-hero-art: minmax(0, 1.1fr) minmax(0, 0.9fr);
   --grid-template-columns-split: minmax(0, 1fr) minmax(0, 0.9fr);
@@ -204,33 +193,12 @@
   --grid-template-columns-row: minmax(0, 1.1fr) minmax(0, 1fr);
   --grid-template-columns-form: minmax(0, 0.9fr) minmax(0, 1.1fr);
   --grid-template-columns-aside: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  --grid-template-columns-facts: minmax(0, 1.6fr) minmax(0, 1fr);
   --grid-template-columns-ruled: minmax(0, 17rem) minmax(0, 1fr);
-  --grid-template-columns-showcase: minmax(0, 1.35fr) minmax(0, 1fr);
-  --grid-template-columns-fill-auto: minmax(0, 1fr) auto;
   /* Rodapé numa faixa: marca | links | contato */
   --grid-template-columns-footer: auto minmax(0, 1fr) auto;
-  /* Índice de serviços: frase do cliente | serviço */
-  --grid-template-columns-index: minmax(0, 7fr) minmax(0, 4fr);
-  /* Serviços na home: coluna dos discos | história */
-  --grid-template-columns-picker: minmax(0, 16rem) minmax(0, 1fr);
-  /* Linhas da coluna dos discos: cinco discos e um resto que absorve a altura da história,
-     para os discos não se espalharem quando a história é mais alta que a coluna */
-  --grid-template-rows-picker: repeat(5, auto) minmax(0, 1fr);
-  /* Método: seis cartões de 15rem numa faixa que desliza (até 1200px) */
-  --grid-template-columns-method: repeat(6, 15rem);
-  /* Linha de um disco: disco | nome */
-  --grid-template-columns-disc: auto minmax(0, 1fr);
-  /* Passos do método: numeral | título e texto */
-  --grid-template-columns-step: 2.75rem minmax(0, 1fr);
-  --grid-template-columns-step-lg: 5rem minmax(0, 1fr);
-  /* Dentro do passo, no desktop: título | texto */
-  --grid-template-columns-step-text: minmax(0, 0.7fr) minmax(0, 1.3fr);
   --grid-template-columns-numbered: 1.75rem minmax(0, 1fr);
   --grid-template-columns-steps: 2.25rem minmax(0, 1fr);
   --grid-template-rows-head-body: auto 1fr;
-  /* Cartão do método: topo | título | texto (cresce) | barra de avanço */
-  --grid-template-rows-card: auto auto 1fr auto;
 
   --aspect-screen: 16 / 10;
   --aspect-portrait: 4 / 5;
@@ -260,9 +228,8 @@
   --shadow-phone: 0 2px 6px rgb(11 31 59 / 0.1), 0 40px 70px -30px rgb(11 31 59 / 0.45);
   --shadow-focus: 0 0 0 3px var(--color-accent-tint);
   --shadow-dialog: 0 2px 6px rgb(11 31 59 / 0.1), 0 40px 70px -30px rgb(11 31 59 / 0.45);
-  /* Vidro: sombra suave em repouso e ao flutuar mais alto (foco do método, passar o mouse) */
+  /* Vidro: sombra suave em repouso */
   --shadow-glass: 0 1px 2px rgb(11 31 59 / 0.06), 0 18px 40px -22px rgb(11 31 59 / 0.32);
-  --shadow-glass-lift: 0 2px 4px rgb(11 31 59 / 0.08), 0 30px 56px -24px rgb(11 31 59 / 0.4);
   --shadow-glass-dark: 0 28px 56px -28px rgb(0 0 0 / 0.55);
   /* Sombra para cima, na borda de cada seção-folha: marca onde uma seção começa */
   --shadow-sheet: 0 -22px 44px -30px rgb(11 31 59 / 0.32);
@@ -307,17 +274,14 @@
   --transition-duration-reveal: 500ms;
   --transition-duration-image: 700ms;
   --transition-delay-stagger: 60ms;
-  /* Flutuar, luzes à deriva (primitives/glass.css) e o foco que passa por cada passo do método (6 × 2s) */
+  /* Flutuar e luzes à deriva (primitives/glass.css) */
   --transition-duration-float: 7s;
   --transition-duration-drift: 18s;
-  --transition-duration-spotlight: 12s;
-  --transition-delay-spotlight: 2s;
 
   --default-transition-duration: var(--transition-duration-fast);
   --default-transition-timing-function: var(--ease-standard);
 
   --transition-property-lift: translate, box-shadow;
-  --transition-property-nudge: translate, color;
 
   /* Entrada de um painel que acabou de aparecer (abas). */
   --animate-fade-up: fade-up var(--transition-duration-enter) var(--ease-out);

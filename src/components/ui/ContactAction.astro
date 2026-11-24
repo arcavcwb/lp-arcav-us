@@ -1,0 +1,33 @@
+---
+// Ação principal de contato (2026-11-24): com o número de WhatsApp, um link que abre a conversa com a
+// mensagem pronta (nova aba, com o logo do WhatsApp). Sem número, o botão que abre a janela do
+// formulário. Usada no hero da home, nos heros das soluções e no exemplo de comércio. Com o link à
+// vista, a barra fixa do WhatsApp se esconde (`data-wa-bar-hide`).
+import BrandIcon from './BrandIcon.astro';
+import Icon from './Icon.astro';
+import { ANCHOR } from '@data';
+import { EXTERNAL_LINK, whatsappLink } from '@lib';
+
+interface Props {
+  label: string;
+  /** Mensagem pronta do WhatsApp. */
+  message: string;
+  /** Rótulo quando não há número e o botão abre o formulário. Padrão: `label`. */
+  fallbackLabel?: string;
+  class?: string;
+}
+
+const { label, message, fallbackLabel = label, class: className } = Astro.props;
+const wa = whatsappLink(message);
+---
+{wa ? (
+  <a class:list={['btn btn--primary', className]} href={wa} {...EXTERNAL_LINK} data-wa-bar-hide>
+    <BrandIcon name="whatsapp" mono />
+    {label}
+  </a>
+) : (
+  <button class:list={['btn btn--primary', className]} type="button" popovertarget={ANCHOR.contactForm}>
+    {fallbackLabel}
+    <Icon name="arrow-right" />
+  </button>
+)}

@@ -1,0 +1,97 @@
+---
+// Seção "Experimente": um só palco com o seletor das demonstrações publicadas (data/demos.ts) em
+// abas acessíveis e um painel por demonstração, com "O seu cliente" (o visitante faz o papel do
+// cliente) e "Você recebe" (o que chega para o dono). No celular, um embaixo do outro.
+// Com uma demonstração só, não há abas (2026-11-24): uma aba sozinha parece um botão que não faz nada.
+// Cada painel tem o id do endereço direto (#experimente-loja…). Embaixo, "Quero isso no meu negócio",
+// que abre o WhatsApp da ARCAV com a mensagem dizendo qual demonstração a pessoa testou (sem número,
+// abre o formulário com o serviço marcado), e "Recomeçar". Os dois só aparecem depois do resultado.
+// Sem JavaScript, os painéis aparecem um embaixo do outro e as abas ficam escondidas; o script
+// (scripts/demo-stage.ts) mostra as abas, esconde os outros painéis e carrega o script de cada
+// demonstração só quando ela é escolhida. Tudo é simulado no navegador: nada é enviado nem guardado.
+// A barra fixa do WhatsApp se esconde quando o celular passa por baixo dela e quando "Quero isso no meu
+// negócio" está à vista (`data-wa-bar-hide`).
+import LojaDemo from './LojaDemo.astro';
+import { BrandIcon } from '@components/ui';
+import { ANCHOR, DEMO_IDS, PUBLISHED_DEMOS, demoAnchor, solutionBySlug, ui } from '@data';
+import { EXTERNAL_LINK, whatsappLink } from '@lib';
+
+const copy = ui.demoStage;
+/** Componente de cada demonstração, pelo slug da solução. */
+const COMPONENTS: Record<string, typeof LojaDemo> = {
+  'comercio-digital': LojaDemo,
+};
+const demos = PUBLISHED_DEMOS.filter((slug) => COMPONENTS[slug]).map((slug) => ({
+  slug,
+  id: DEMO_IDS[slug],
+  anchor: demoAnchor(slug),
+  label: solutionBySlug(slug).label,
+  Demo: COMPONENTS[slug],
+}));
+const tabbed = demos.length > 1;
+---
+<div class="demo-stage" data-demo-stage>
+  {tabbed && (
+  <div class="demo-stage__tabs" role="tablist" aria-label={copy.tabs}>
+    {demos.map((d, i) => (
+      <button
+        class="demo-stage__tab"
+        type="button"
+        role="tab"
+        id={`${d.anchor}-aba`}
+        aria-controls={d.anchor}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        tabindex={i === 0 ? 0 : -1}
+        data-demo-tab={d.id}
+      >
+        {d.label}
+      </button>
+    ))}
+  </div>
+  )}
+
+  {demos.map((d) => {
+    const wa = whatsappLink(copy.wantMessage(d.label));
+    return (
+    <div
+      class="demo-stage__panel"
+      id={d.anchor}
+      data-demo-panel={d.id}
+      {...(tabbed ? { role: 'tabpanel', 'aria-labelledby': `${d.anchor}-aba` } : {})}
+    >
+      <div class="demo-stage__grid">
+        <div class="demo-stage__side glass" data-demo-client>
+          <h3 class="demo-stage__side-title">{copy.client}</h3>
+          <d.Demo part="client" />
+        </div>
+        <div class="demo-stage__side glass" data-demo-owner>
+          <h3 class="demo-stage__side-title">{copy.owner}</h3>
+          <d.Demo part="owner" />
+          <p class="visually-hidden" role="status" data-demo-status></p>
+        </div>
+      </div>
+      <div class="demo-stage__actions">
+        {wa ? (
+          <a class="btn btn--primary" href={wa} {...EXTERNAL_LINK} data-demo-want={d.label} data-wa-bar-hide>
+            <BrandIcon name="whatsapp" mono />
+            {copy.want}
+          </a>
+        ) : (
+          <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm} data-demo-want={d.label}>
+            {copy.want}
+          </button>
+        )}
+        <button class="btn btn--ghost" type="button" data-demo-restart>
+          {copy.restart}
+        </button>
+      </div>
+    </div>
+    );
+  })}
+</div>
+
+<script>
+  import { initDemoStage } from '@scripts/demo-stage';
+
+  initDemoStage();
+</script>

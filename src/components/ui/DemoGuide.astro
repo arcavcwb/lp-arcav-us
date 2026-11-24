@@ -1,0 +1,28 @@
+---
+// Guia de uma demonstração: o título e três passos em pílulas ("Toque em + · Revise · Envie").
+// O passo atual leva aria-current="step" e os feitos, data-done (o script de cada demonstração
+// os marca; ver setGuideStep em scripts/demos/guide.ts e o celular em scripts/phone-demo.ts).
+import Icon from './Icon.astro';
+import { ui } from '@data';
+
+interface Props {
+  title: string;
+  steps: readonly string[];
+}
+
+const { title, steps } = Astro.props;
+---
+<div class="demo-guide">
+  <p class="demo-guide__title">{title}</p>
+  <ol role="list" class="demo-guide__steps" aria-label={ui.phoneDemo.guideLabel}>
+    {steps.map((label, i) => (
+      <li data-guide-step={i + 1} aria-current={i === 0 ? 'step' : undefined}>
+        <span class="demo-guide__n" aria-hidden="true">
+          <span class="demo-guide__num">{i + 1}</span>
+          <Icon name="check" class="demo-guide__check" />
+        </span>
+        {label}
+      </li>
+    ))}
+  </ol>
+</div>

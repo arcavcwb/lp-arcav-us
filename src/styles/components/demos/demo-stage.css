@@ -1,0 +1,57 @@
+/* Palco das demonstrações (seção Experimente): as abas em pílulas, como o guia das demonstrações;
+   embaixo, o painel escolhido com "O seu cliente" e "Você recebe" lado a lado a partir de 880px
+   (um embaixo do outro antes disso), cada lado numa superfície de vidro; por fim, as ações.
+   No celular, sem o cartão em volta de cada lado: o celular e a conversa já têm a sua moldura, e o
+   cartão a mais estreitava a tela e somava altura (2026-11-24).
+   Sem JavaScript, as abas ficam escondidas e os painéis aparecem um embaixo do outro. */
+
+.demo-stage {
+  @apply grid gap-5;
+}
+
+.demo-stage:not(.is-ready) .demo-stage__tabs {
+  @apply hidden;
+}
+
+.demo-stage__tabs {
+  @apply flex flex-wrap gap-2;
+}
+
+.demo-stage__tab {
+  @apply inline-flex min-h-11 cursor-pointer items-center rounded-pill border border-line-control bg-paper px-4 text-sm font-semibold text-ink transition duration-control ease-out;
+  transition-property: background-color, border-color, color;
+}
+
+.demo-stage__tab:hover {
+  @apply border-ink;
+}
+
+.demo-stage__tab[aria-selected='true'] {
+  @apply border-ink bg-ink text-on-dark;
+}
+
+.demo-stage__panel {
+  @apply grid gap-5;
+}
+
+.demo-stage__grid {
+  @apply grid gap-8 md:gap-4 lg:grid-cols-2 lg:items-start lg:gap-5;
+}
+
+.demo-stage__side {
+  @apply grid content-start gap-4 rounded-card p-panel;
+}
+
+@media (width < theme(--breakpoint-md)) {
+  .demo-stage__side {
+    @apply rounded-none border-0 bg-transparent p-0 shadow-none;
+  }
+}
+
+.demo-stage__side-title {
+  @apply font-heading text-h3 leading-snug font-title tracking-title text-ink;
+}
+
+.demo-stage__actions {
+  @apply flex flex-wrap items-center gap-3;
+}

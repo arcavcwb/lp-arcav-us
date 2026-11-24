@@ -1,11 +1,13 @@
 ---
 // Formulário de contato. Com DIRECT_SEND, envia pelo próprio site (/api/contato: n8n ou
 // Cloudflare Email) e, se falhar, monta a mensagem e abre o WhatsApp (ou o e-mail).
-// Sem DIRECT_SEND, o botão diz "Enviar pelo WhatsApp" e vai direto para lá: não prometemos
-// um envio que o site ainda não faz.
+// Sem DIRECT_SEND, o botão diz "Enviar pelo WhatsApp" e vai direto para lá: o site não promete
+// um envio que ainda não faz.
+// Na variante geral, "O que você precisa?" lista os nomes curtos dos cinco serviços e "Ainda não sei";
+// `need` (slug do serviço) já chega marcado, e a escolha entra na mensagem.
 import Icon from './Icon.astro';
 import BrandIcon from './BrandIcon.astro';
-import { BRAND, ui, type FormField } from '@data';
+import { BRAND, SERVICES, ui, type FormField } from '@data';
 import { EXTERNAL_LINK, ARCAV_WHATSAPP, ARCAV_WHATSAPP_DISPLAY, DIRECT_SEND, RESPONSE_TIME, whatsappLink } from '@lib';
 
 type Variant = 'general' | 'store';
@@ -18,25 +20,30 @@ interface Props {
   messageLabel?: string;
   messagePlaceholder?: string;
   submit?: string;
+  /** Serviço já marcado em "O que você precisa?" (slug de solutions.ts). */
+  need?: string;
 }
 
-const { subject, variant = 'general', messageLabel, messagePlaceholder, submit } = Astro.props;
+const { subject, variant = 'general', messageLabel, messagePlaceholder, submit, need } = Astro.props;
 const copy = ui.contactForm;
 const uid = variant === 'store' ? 'sf' : 'cf';
+
+const wa = whatsappLink();
+/** Sem envio direto e com WhatsApp: o formulário só prepara a mensagem para o WhatsApp. */
+const viaWhatsapp = !DIRECT_SEND && Boolean(wa);
 
 /** Campos da variante; na geral, a pergunta da mensagem pode vir da página. */
 const fields: FormField[] =
   variant === 'store'
     ? copy.store
-    : copy.general.map((field) =>
-        field.id === 'message'
-          ? { ...field, label: messageLabel ?? field.label, placeholder: messagePlaceholder ?? field.placeholder }
-          : field,
-      );
+    : copy.general.map((field): FormField => {
+        if (field.id === 'message') return { ...field, label: messageLabel ?? field.label, placeholder: messagePlaceholder ?? field.placeholder };
+        if (field.id === 'reply' && !viaWhatsapp) return copy.replyDirect;
+        return field;
+      });
 
-const wa = whatsappLink();
-/** Sem envio direto e com WhatsApp: o formulário só prepara a mensagem para o WhatsApp. */
-const viaWhatsapp = !DIRECT_SEND && Boolean(wa);
+/** Opções de "O que você precisa?": os nomes curtos dos serviços e "Ainda não sei". */
+const choices = [...SERVICES.map((s) => ({ value: s.label, slug: s.slug })), { value: copy.unsure, slug: '' }];
 const submitLabel = viaWhatsapp ? copy.submit.whatsapp : (submit ?? copy.submit[variant]);
 const response = RESPONSE_TIME ? ui.responseTime(RESPONSE_TIME) : null;
 ---
@@ -58,11 +65,27 @@ const response = RESPONSE_TIME ? ui.responseTime(RESPONSE_TIME) : null;
     /** O formulário vive numa janela: ao abrir, o cursor já está no primeiro campo. */
     const autofocus = index === 0;
     const describedBy = [field.hint && `${id}-hint`, field.required && `${id}-error`].filter(Boolean).join(' ') || undefined;
+    if (field.type === 'choices') {
+      return (
+        <fieldset class="field field--choices" aria-describedby={describedBy} data-choices={field.id} data-required={field.required ? 'true' : undefined} data-error-message={field.error}>
+          <legend class="field__legend">{field.label}</legend>
+          <div class="choices">
+            {choices.map((choice, n) => (
+              <label class="choice">
+                <input class="choice__input" type="checkbox" name={field.id} value={choice.value} checked={Boolean(need) && choice.slug === need} autofocus={autofocus && n === 0} data-choice={choice.slug} />
+                <span class="choice__label">{choice.value}</span>
+              </label>
+            ))}
+          </div>
+          {field.required && <p class="field__error" id={`${id}-error`} data-error-slot></p>}
+        </fieldset>
+      );
+    }
     return (
       <div class="field">
         <label for={id}>
           {field.label}
-          {!field.required && <span class="field__optional">{` ${copy.optional}`}</span>}
+          {!field.required && !field.bare && <span class="field__optional">{` ${copy.optional}`}</span>}
         </label>
         {field.type === 'textarea' ? (
           <textarea

@@ -1,18 +1,21 @@
 ---
-// Hero da home: título, subtítulo e ações à esquerda; à direita, a arte aprovada (2026-11-22): laptop
-// com o logo da ARCAV, três ícones e curvas azul e âmbar. A arte é decorativa (os textos e as ações
-// são HTML; o logo acessível é o do cabeçalho) e não flutua nem se mexe em loop. A partir de 960px
-// ela se encosta no canto de cima, à direita, do hero (as bordas de cima e da direita da arte são
-// duras; as da esquerda e de baixo se desfazem no fundo), atrás do texto. No celular, a arte vem
-// depois das ações, menor, para o hero caber numa tela; `<picture>` baixa só o enquadramento da
-// tela. O título fica na escala normal dos heros (feedback de 2026-11-21). Ao carregar, o texto
-// entra em sequência e a arte se descobre de baixo para cima. A ação principal abre a janela do
-// formulário.
-import { Icon } from '@components/ui';
-import { ANCHOR, home, toAnchor } from '@data';
+// Hero da home: título, subtítulo e ações. A partir de 960px, a arte aprovada (2026-11-22: laptop com
+// o logo da ARCAV, três ícones e curvas azul e âmbar) se encosta no canto de cima, à direita, atrás
+// do texto. No celular a arte não aparece nem é baixada (2026-11-24): só o `<source>` do desktop tem a
+// arte; o `<img>` é uma imagem vazia de 1px. A lista de casos começa já na primeira tela. A arte é decorativa.
+// A ação principal abre o WhatsApp da ARCAV com a mensagem pronta (sem número, abre a janela do
+// formulário); a secundária leva à demonstração. Embaixo, uma linha com quem atende (e o prazo de
+// resposta, quando RESPONSE_TIME existir). `data-wa-bar-hide`: enquanto as ações estão à vista, a
+// barra fixa do WhatsApp (WhatsAppBar.astro) fica escondida.
+import { ContactAction, Icon } from '@components/ui';
+import { ANCHOR, home, toAnchor, ui } from '@data';
+import { RESPONSE_TIME } from '@lib';
 
 const { hero } = home;
 const { art } = hero;
+const note = [RESPONSE_TIME && hero.note.response(RESPONSE_TIME), hero.note.place].filter(Boolean).join(' · ');
+/** GIF transparente de 1px: abaixo de `art.desktopMedia`, o navegador fica com ele e não baixa a arte. */
+const BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 ---
 <section class="page-hero hero has-orbs" aria-labelledby="hero-title">
   <div class="orbs" aria-hidden="true">
@@ -23,17 +26,14 @@ const { art } = hero;
     <div class="enter-group">
       <h1 class="h1" id="hero-title">{hero.title}</h1>
       <p class="lead">{hero.subtitle}</p>
-      <div class="page-hero__actions">
-        <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
-          <Icon name="chat" />
-          {hero.primaryCta}
-        </button>
-        <a class="btn btn--ghost" href={toAnchor(ANCHOR.solutions)}>
-          <Icon name="grid" />
+      <div class="page-hero__actions" data-wa-bar-hide>
+        <ContactAction label={hero.primaryCta} message={home.contact.waMessage} fallbackLabel={ui.header.cta} />
+        <a class="btn btn--ghost" href={toAnchor(ANCHOR.experiment)}>
           {hero.secondaryCta}
           <Icon name="arrow-right" />
         </a>
       </div>
+      <p class="small hero-note">{note}</p>
     </div>
   </div>
 
@@ -42,9 +42,9 @@ const { art } = hero;
       <source media={art.desktopMedia} srcset={art.desktop.src} width={art.desktop.width} height={art.desktop.height} />
       <img
         class="hero__art-image"
-        src={art.mobile.src}
-        width={art.mobile.width}
-        height={art.mobile.height}
+        src={BLANK}
+        width={art.desktop.width}
+        height={art.desktop.height}
         alt=""
         loading="eager"
         fetchpriority="high"
