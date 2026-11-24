@@ -1,193 +1,67 @@
-/* Serviços: cinco discos com a ilustração de cada serviço e a ficha do serviço escolhido num
-   cartão: nome, frase do cliente e botão no alto; embaixo, a ilustração do serviço e "Como
-   funciona" desenhado. O disco escolhido fica azul profundo, com o selo âmbar apontando para a ficha.
-   - Até 960px: os discos numa fila (nome embaixo) e a ficha embaixo, a toda a largura.
-   - A partir de 960px: duas colunas, como o catálogo de antes: os discos numa coluna à esquerda,
-     com o nome ao lado, e a ficha à direita.
-   A troca é feita por botões de opção nativos, sem JavaScript. Cada ficha vem logo depois do seu
-   disco na marcação; a grade é que põe os discos numa fila (ou coluna) e a ficha aberta embaixo
-   (ou ao lado). A opção escolhida é reconhecida com :has(); onde o navegador ainda não tem :has(),
-   todas as fichas aparecem abertas, uma embaixo da outra. */
+/* "Qual é o seu caso?": a lista dos cinco serviços (2026-11-24). Filete escuro em cima e um fio entre
+   as linhas, como os passos numerados; cada linha inteira é um link (no mínimo 64px de altura):
+   ícone num poço, a frase do cliente em tinta e o nome do serviço em azul de ação, e a seta à direita.
+   No hover, o nome ganha sublinhado e a seta anda. A partir de 960px, título à esquerda e a
+   lista à direita. */
 
-.services__intro {
-  @apply mb-3 text-sm font-title md:mb-4 md:text-base xl:mb-3;
+.services__layout {
+  @apply grid gap-6 xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] xl:items-start xl:gap-12;
 }
 
-.services__catalog {
-  @apply m-0 grid min-w-0 grid-cols-5 gap-x-0 gap-y-4 p-0 logo:gap-x-1 md:gap-x-4 md:gap-y-5;
-  border: 0;
+.services__head {
+  @apply grid gap-3;
 }
 
-/* ── Disco ─────────────────────────────────────────────────────────────────────────────────── */
-
-.services__option {
-  @apply row-start-1 grid min-w-0 cursor-pointer content-start justify-items-center gap-2 text-center md:gap-3;
-}
-
-.services__disc {
-  @apply relative grid size-14 place-items-center rounded-pill border border-line-strong bg-surface text-ink transition duration-control ease-out md:size-20;
-}
-
-.services__icon {
-  @apply size-9 md:size-13;
-}
-
-/* Selo no canto do disco: seta em repouso; no escolhido, âmbar e apontando para a história
-   (para baixo com a fila, para a direita com a coluna). */
-.services__go {
-  @apply absolute -right-0.5 -bottom-0.5 grid size-5 place-items-center rounded-pill border border-line-control bg-paper text-ink transition duration-control ease-out md:-right-1 md:-bottom-1 md:size-7;
-}
-
-.services__go-icon {
-  @apply size-3 transition-transform duration-control ease-out md:size-4;
-}
-
-.services__name {
-  @apply text-micro leading-tight font-semibold text-balance text-muted logo:text-caption md:text-sm;
-}
-
-@media (hover: hover) {
-  .services__option:hover .services__disc {
-    @apply border-ink;
-  }
-
-  .services__option:hover .services__name {
-    @apply text-ink;
+@media (width >= theme(--breakpoint-xl)) {
+  .services__head {
+    position: sticky;
+    top: calc(var(--spacing-header) + --spacing(8));
   }
 }
 
-/* O disco já flutua (.float, que move `translate`); ao apontar, ele cresce um pouco. */
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .services__option:hover .services__disc {
-    @apply scale-105;
-  }
-}
-
-.services__option:has(.services__input:checked) .services__disc {
-  @apply border-ink bg-ink text-white;
-}
-
-.services__option:has(.services__input:checked) .services__go {
-  @apply border-highlight bg-highlight;
-}
-
-.services__option:has(.services__input:checked) .services__go-icon {
-  @apply rotate-90;
-}
-
-.services__option:has(.services__input:checked) .services__name {
-  @apply text-ink;
-}
-
-.services__option:has(.services__input:focus-visible) .services__disc {
-  outline: var(--focus-width) solid var(--color-focus);
-  outline-offset: var(--outline-offset-focus);
-}
-
-/* ── Ficha ─────────────────────────────────────────────────────────────────────────────────── */
-
-/* No alto: nome, frase do cliente e o botão (à direita a partir de 720px). Embaixo, a ilustração
-   e "Como funciona" lado a lado (empilhados entre 960 e 1200px, quando a ficha fica estreita). */
-.services__panel {
-  @apply col-span-full grid content-start gap-5 rounded-card p-panel xl:p-card;
-}
-
-.services__top {
-  @apply grid gap-x-6 gap-y-1 md:grid-cols-fill-auto md:items-start;
-}
-
-.services__service {
-  @apply font-heading text-statement leading-snug font-semibold tracking-title text-balance text-ink md:col-start-1;
-}
-
-.services__situation {
-  @apply text-sm text-muted md:col-start-1;
-}
-
-.services__cta {
-  @apply mt-3 justify-self-start max-sm:w-full md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0;
-}
-
-.services__body {
-  @apply grid gap-6 md:grid-cols-2 md:items-center md:gap-8 xl:grid-cols-1 3xl:grid-cols-2;
-}
-
-/* No celular a ilustração sai e o processo desenhado conta o serviço: a seção cabe numa tela. */
-.services__panel .service-preview {
-  @apply max-md:hidden xl:max-w-80 3xl:max-w-none;
-}
-
-/* "Como funciona" desenhado: três nós com ícone e número, ligados por uma linha. */
-.services__process {
-  @apply grid content-start gap-4;
-}
-
-.services__process-title {
-  @apply text-caption font-semibold text-muted;
-}
-
-.services__steps {
-  @apply m-0 grid gap-4 p-0;
+.cases {
+  @apply m-0 border-t border-ink p-0;
   list-style: none;
 }
 
-.services__step {
-  @apply relative grid grid-cols-disc items-start gap-x-3;
+.cases > li {
+  @apply border-b border-line-strong;
 }
 
-.services__step:not(:last-child)::after {
-  @apply absolute top-10 -bottom-4 left-5 w-0.5 -translate-x-1/2 bg-line-strong;
-  content: '';
+.case {
+  @apply grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3.5 py-3.5 text-ink no-underline;
 }
 
-.services__node {
-  @apply relative grid size-10 place-items-center rounded-pill border border-line-strong bg-surface text-ink;
+.case__icon {
+  @apply size-10;
 }
 
-.services__node-icon {
+.case__icon svg {
   @apply size-5;
 }
 
-.services__node-number {
-  @apply absolute -top-1 -right-1 grid size-4.5 place-items-center rounded-pill bg-highlight text-micro leading-none font-bold text-ink;
+.case__text {
+  @apply grid gap-0.5;
 }
 
-.services__step-text {
-  @apply pt-2 text-sm leading-caption text-ink;
+.case__quote {
+  @apply text-base leading-snug font-medium text-ink;
+  text-wrap: pretty;
 }
 
-@supports selector(:has(*)) {
-  .services__option:not(:has(.services__input:checked)) + .services__panel {
-    display: none;
-  }
+.case__name {
+  @apply text-meta font-semibold text-accent-strong;
+}
 
-  /* Ao trocar de serviço, a ficha nova aparece com um esmaecer curto (nada com "reduzir movimento"). */
-  .services__option:has(.services__input:checked) + .services__panel :is(.services__top, .service-preview__plate, .services__process) {
-    @apply motion-safe:animate-fade-up;
-  }
+.case__arrow {
+  @apply size-5 flex-none text-accent-strong;
+  transition: translate var(--transition-duration-quick) var(--ease-out);
+}
 
-  /* Duas colunas: discos à esquerda, com o nome ao lado; a ficha à direita. */
-  @media (width >= theme(--breakpoint-xl)) {
-    .services__catalog {
-      @apply grid-cols-picker grid-rows-picker gap-x-12 gap-y-1;
-    }
+.case:hover .case__arrow {
+  translate: --spacing(0.75) 0;
+}
 
-    .services__option {
-      @apply col-start-1 row-start-auto grid-cols-disc items-center justify-items-start gap-x-4 text-left;
-    }
-
-    .services__name {
-      @apply font-heading text-lg font-semibold tracking-title;
-    }
-
-    .services__option:has(.services__input:checked) .services__go-icon {
-      @apply rotate-0;
-    }
-
-    .services__panel {
-      @apply self-start;
-      grid-column: 2;
-      grid-row: 1 / -1;
-    }
-  }
+.case:hover .case__name {
+  @apply underline underline-offset-2;
 }

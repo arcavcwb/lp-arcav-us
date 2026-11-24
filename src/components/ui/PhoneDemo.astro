@@ -3,22 +3,27 @@
 // do WhatsApp ficar pronta. Sem JavaScript, mostra o pedido inicial estático.
 // Com `guide`, um guia de três passos acompanha o uso e o "+" se destaca uma vez ao entrar na tela
 // (ou ao tocar num link para o id da demo). A cada mudança, dispara `demo:order` com os itens,
-// que um OrderMessage `live` pode espelhar.
+// que um OrderMessage `live` pode espelhar. `data-wa-bar-avoid`: quando o celular passa por baixo da
+// barra fixa do WhatsApp (WhatsAppBar.astro), ela se esconde para não cobrir os botões dele.
+import BrandIcon from './BrandIcon.astro';
 import Icon from './Icon.astro';
+import DemoGuide from './DemoGuide.astro';
 import { ui, type DemoProduct } from '@data';
-import { formatOrderLine, orderSummary, totalQty } from '@lib';
+import { EXTERNAL_LINK, formatOrderLine, orderSummary, totalQty } from '@lib';
 
 interface Props {
   products: DemoProduct[];
   storeName?: string;
   storeNote?: string;
   greeting?: string;
-  caption: string;
+  /** Legenda embaixo do celular; sem ela (ex.: na seção Experimente, que já tem o aviso), nada. */
+  caption?: string;
   class?: string;
   id?: string;
   /** Próximo passo que aparece abaixo do celular depois de "Enviar pelo WhatsApp". */
-  /** `popover`: id da janela que o botão abre (ex.: o formulário); sem ele, `href` vira um link. */
-  next?: { label: string; href?: string; popover?: string };
+  /** `popover`: id da janela que o botão abre (ex.: o formulário); sem ele, `href` vira um link.
+   *  `whatsapp`: o link abre o WhatsApp numa nova aba, com o logo do WhatsApp. */
+  next?: { label: string; href?: string; popover?: string; whatsapp?: boolean };
   /** Mostra o guia "Experimente" com os três passos e o destaque no primeiro "+". */
   guide?: boolean;
 }
@@ -43,26 +48,12 @@ const total = totalQty(initial);
   id={id}
   class:list={['phone-demo', className]}
   data-phone-demo
+  data-wa-bar-avoid
   data-state="store"
   data-guide={guide ? '' : undefined}
   style={{ '--rows': initial.length }}
 >
-  {guide && (
-    <div class="demo-guide">
-      <p class="demo-guide__title">{copy.guideTitle}</p>
-      <ol role="list" class="demo-guide__steps" aria-label={copy.guideLabel}>
-        {copy.guideSteps.map((label, i) => (
-          <li data-guide-step={i + 1} aria-current={i === 0 ? 'step' : undefined}>
-            <span class="demo-guide__n" aria-hidden="true">
-              <span class="demo-guide__num">{i + 1}</span>
-              <Icon name="check" class="demo-guide__check" />
-            </span>
-            {label}
-          </li>
-        ))}
-      </ol>
-    </div>
-  )}
+  {guide && <DemoGuide title={copy.guideTitle} steps={copy.guideSteps} />}
   <div class="phone">
     <div class="phone__screen" role="group" aria-label={copy.screen}>
       <span class="phone__notch" aria-hidden="true"></span>
@@ -140,6 +131,11 @@ const total = totalQty(initial);
           {next.label}
           <Icon name="arrow-right" />
         </button>
+      ) : next.whatsapp ? (
+        <a class="btn btn--primary" href={next.href} {...EXTERNAL_LINK} data-analytics-event="demo_next_click" data-wa-bar-hide>
+          <BrandIcon name="whatsapp" mono />
+          {next.label}
+        </a>
       ) : (
         <a class="btn btn--primary" href={next.href} data-analytics-event="demo_next_click">
           {next.label}
@@ -148,11 +144,7 @@ const total = totalQty(initial);
       )}
     </div>
   )}
-  <figcaption>{caption}</figcaption>
+  {caption && <figcaption>{caption}</figcaption>}
 </figure>
-
-<script>
-  import { initPhoneDemos } from '@scripts/phone-demo';
-
-  initPhoneDemos();
-</script>
+<!-- O script (initPhoneDemos) é ligado por quem usa o celular: a página de comércio, ao carregar;
+     a seção Experimente, só quando a demonstração da loja é escolhida. -->

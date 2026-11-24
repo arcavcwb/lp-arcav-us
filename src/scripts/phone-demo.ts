@@ -1,10 +1,13 @@
 // Celular de demonstração: o visitante ajusta as quantidades, revisa o pedido e vê a mensagem do
 // WhatsApp pronta. Com o guia "Experimente", marca os passos e destaca o primeiro "+" uma vez.
-// A cada mudança dispara ORDER_EVENT com os itens, para a ilustração do WhatsApp espelhar.
+// A cada mudança dispara ORDER_EVENT com os itens, para a ilustração do WhatsApp espelhar; ao enviar,
+// ORDER_SENT_EVENT. Com DEMO_RESET_EVENT no celular, tudo volta ao começo (carrinho vazio).
 import { ui } from '@data/ui';
 import {
+  DEMO_RESET_EVENT,
   GUIDE,
   ORDER_EVENT,
+  ORDER_SENT_EVENT,
   clampQty,
   formatOrderLine,
   guideStep,
@@ -149,17 +152,34 @@ function initPhoneDemo(root: HTMLElement, reduceMotion: MediaQueryList): void {
   root.querySelector('[data-send]')?.addEventListener('click', () => {
     sendStatus.textContent = ui.phoneDemo.sent;
     setStep(GUIDE.done);
+    root.dispatchEvent(new CustomEvent<OrderEventDetail>(ORDER_SENT_EVENT, { bubbles: true, detail: { items: items() } }));
     if (nextStep) {
       nextStep.hidden = false;
       nextStep.querySelector<HTMLElement>('a, button')?.focus({ preventScroll: true });
     }
   });
 
+  root.addEventListener(DEMO_RESET_EVENT, () => {
+    products.forEach((el) => {
+      el.dataset.qty = '0';
+      el.querySelector<HTMLElement>('[data-qty-label]')!.textContent = '0';
+    });
+    if (nextStep) nextStep.hidden = true;
+    render();
+    show('store');
+    sendStatus.textContent = defaultHint;
+    firstPlus?.focus({ preventScroll: true });
+  });
+
   render();
   setStep(guideStep('store', total()));
 }
 
-export function initPhoneDemos(): void {
+/** Liga os celulares de `scope` (a página inteira, ou só o painel de uma demonstração), uma vez cada. */
+export function initPhoneDemos(scope: ParentNode = document): void {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  document.querySelectorAll<HTMLElement>('[data-phone-demo]').forEach((root) => initPhoneDemo(root, reduceMotion));
+  scope.querySelectorAll<HTMLElement>('[data-phone-demo]:not([data-ready])').forEach((root) => {
+    root.dataset.ready = '';
+    initPhoneDemo(root, reduceMotion);
+  });
 }

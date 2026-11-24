@@ -2,7 +2,8 @@
    - A partir de 960px, a arte se encosta no canto de cima, à direita, do hero, na altura dele e
      atrás do texto (as bordas de cima e da direita da arte são duras; as da esquerda e de baixo se
      desfazem no fundo). A coluna da direita da grade fica vazia, reservando o lugar dela.
-   - No celular, a arte vem depois das ações, centrada e menor, para o hero caber numa tela.
+   - No celular e no tablet, sem arte (2026-11-24): o hero é só texto e ações, e a lista de casos
+     começa logo abaixo, ainda na primeira tela.
    `object-fit: contain`: o logo na tela do laptop, os ícones e o aparelho nunca são cortados. */
 
 .hero__grid {
@@ -10,13 +11,13 @@
 }
 
 .hero__art {
-  @apply mx-auto mt-6 w-full max-w-64 md:max-w-sm xl:absolute xl:inset-y-0 xl:right-0 xl:-z-1 xl:mx-0 xl:mt-0 xl:w-1/2 xl:max-w-none;
+  @apply hidden xl:absolute xl:inset-y-0 xl:right-0 xl:-z-1 xl:block xl:w-1/2;
 }
 
 .hero__art picture {
-  @apply block xl:h-full;
+  @apply block h-full;
 }
 
 .hero__art-image {
-  @apply block h-auto w-full object-contain xl:size-full xl:object-right-top;
+  @apply block size-full object-contain object-right-top;
 }

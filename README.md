@@ -48,7 +48,7 @@ Los componentes no usan utilidades de Tailwind en el marcado. Cada elemento llev
   - forma y movimiento: `rounded-card`, `shadow-raised`, `shadow-dialog`, `duration-fast` … `duration-pulse`, `ease-out`, `transition-lift`, `animate-fade-up`;
   - puntos de quiebre: `sm` 480, `pair` 560, `inline` 640, `md` 720, `columns` 800, `lg` 880, `split` 900, `xl` 960, `2xl` 1024 px.
 - **Fuera de `@apply`:** `var(--…)` para tokens, `--spacing(n)` para medidas de la unidad base y `theme(--breakpoint-…)` en las media queries.
-- **Piezas compartidas** (`src/styles/primitives/`): `shell`, `section`, `section-head`, `page-hero`, `hero-note`, `h1`, `h2`, `h2--feature`, `lead`, `small`, `btn`, `link-arrow`, `card`, `icon-badge`, `steps`, `flow` y el movimiento (`enter-group`, `reveal-rows`, `reveal-wipe`).
+- **Piezas compartidas** (`src/styles/primitives/`): `shell`, `section`, `section-head`, `page-hero`, `hero-note`, `h1`, `h2`, `h2--feature`, `lead`, `small`, `btn`, `link-arrow`, `card`, `icon-badge`, `steps`, `flow` y el movimiento (`enter-group`, `reveal-rows`).
 
 ### Menos JavaScript: lo que hace HTML y CSS
 
@@ -90,7 +90,7 @@ Las rutas antiguas `/pt/…`, `/es` y `/en` redirigen con 301, y también `/prop
 
 Os formulários (home e página de comércios) enviam o contato pelo próprio site em `POST /api/contato` (`src/pages/api/contato.ts`). A API tenta, nesta ordem:
 
-1. **n8n**: se existir a variável `N8N_WEBHOOK_URL`, envia o contato em JSON para esse webhook (com `Authorization: Bearer <N8N_WEBHOOK_TOKEN>` se o token existir). Campos: `source`, `variant` (`general` ou `store`), `page`, `receivedAt`, `name`, `business`, `link`, `reply`, `message`, `subject`, `text`. É aqui que o fluxo com Evolution API pode avisar o Armando e responder o cliente no WhatsApp. O site não promete prazo de resposta enquanto `RESPONSE_TIME` (`src/lib/contact.ts`) for `null`; reative-o só quando a automação garantir o prazo.
+1. **n8n**: se existir a variável `N8N_WEBHOOK_URL`, envia o contato em JSON para esse webhook (com `Authorization: Bearer <N8N_WEBHOOK_TOKEN>` se o token existir). Campos: `source`, `variant` (`general` ou `store`), `page`, `receivedAt`, `name`, `business`, `link`, `reply`, `needs` (lista de serviços de "O que você precisa?"), `message`, `subject`, `text`. É aqui que o fluxo com Evolution API pode avisar o Armando e responder o cliente no WhatsApp. O site não promete prazo de resposta enquanto `RESPONSE_TIME` (`src/lib/contact.ts`) for `null`; reative-o só quando a automação garantir o prazo.
 2. **E-mail da Cloudflare**: se o binding `SEND_EMAIL` existir, envia um e-mail para `hola@arcav.us`.
 3. **Plano B**: sem nenhum dos dois (ou se ambos falharem), a API responde 503/502 e o formulário monta a mensagem e abre o WhatsApp da ARCAV no aparelho do visitante.
 

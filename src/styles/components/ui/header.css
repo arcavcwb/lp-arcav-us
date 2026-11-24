@@ -97,3 +97,22 @@
 .site-nav__link {
   @apply block rounded-control px-3 py-2 text-sm font-medium text-muted no-underline transition-colors hover:bg-surface hover:text-ink max-split:rounded-none max-split:px-1 max-split:py-3.5 max-split:text-base max-split:text-ink;
 }
+
+/* CTA do WhatsApp: abaixo de 420px, só "WhatsApp", para caber numa linha ao lado da marca e do menu. */
+.site-header__cta {
+  @apply whitespace-nowrap;
+}
+
+.site-header__cta-short {
+  @apply hidden;
+}
+
+@media (width < theme(--breakpoint-logo)) {
+  .site-header__cta-full {
+    @apply hidden;
+  }
+
+  .site-header__cta-short {
+    @apply inline;
+  }
+}

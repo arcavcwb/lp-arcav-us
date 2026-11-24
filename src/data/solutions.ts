@@ -65,7 +65,7 @@ const PRICE_FAQ = {
  */
 const PREVIEW_FAQ = {
   q: 'Posso ver algo antes de contratar?',
-  a: 'Sim. Os exemplos publicados no site podem ser testados a qualquer momento. Depois da conversa, se houver encaixe, preparamos uma prévia resumida do seu projeto para acompanhar a proposta. A prévia não substitui o projeto completo.',
+  a: 'Sim. Os exemplos publicados no site podem ser testados a qualquer momento. Depois da conversa, se houver encaixe, preparo uma prévia resumida do seu projeto para acompanhar a proposta. A prévia não substitui o projeto completo.',
 };
 
 const ENTRIES: Omit<Solution, 'path'>[] = [
@@ -112,15 +112,15 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     ],
     example: { path: null, client: null, image: null },
     faq: [
-      { q: 'Quantas páginas o site vai ter?', a: 'Depende do que a sua empresa precisa mostrar. Definimos as páginas juntos na conversa, e tudo fica por escrito na proposta.' },
-      { q: 'Preciso ter fotos e textos prontos?', a: 'Ajuda, mas não é obrigatório. Partimos do que você já tem e organizamos juntos o que falta.' },
+      { q: 'Quantas páginas o site vai ter?', a: 'Depende do que a sua empresa precisa mostrar. Defino as páginas com você na conversa, e tudo fica por escrito na proposta.' },
+      { q: 'Preciso ter fotos e textos prontos?', a: 'Ajuda, mas não é obrigatório. Parto do que você já tem e organizo com você o que falta.' },
       PREVIEW_FAQ,
       PRICE_FAQ,
     ],
     contact: {
       subject: 'Quero um site institucional',
       label: 'Conte sobre a sua empresa e o que o site precisa mostrar',
-      placeholder: 'Ex.: somos uma distribuidora, hoje só temos Instagram e queremos um site com os serviços e o contato.',
+      placeholder: 'Ex.: tenho uma distribuidora, hoje só tenho Instagram e quero um site com os serviços e o contato.',
     },
   },
   {
@@ -131,9 +131,9 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     journeyTitle: 'Como é uma migração',
     journeyIcons: ['grid', 'refresh', 'check'],
     journey: [
-      'Levantamos o que existe hoje: páginas, conteúdo, domínio, e-mails e dados.',
-      'Montamos a base nova e levamos o conteúdo, com o site atual funcionando até a troca.',
-      'Na data combinada, a troca acontece e conferimos tudo com você.',
+      'Levanto o que existe hoje: páginas, conteúdo, domínio, e-mails e dados.',
+      'Monto a base nova e levo o conteúdo, com o site atual funcionando até a troca.',
+      'Na data combinada, a troca acontece e confiro tudo com você.',
     ],
     tagline: 'O que você já tem, levado para uma base nova.',
     group: 'main',
@@ -173,7 +173,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     contact: {
       subject: 'Quero migrar meu site ou sistema',
       label: 'O que você tem hoje e o que quer mudar?',
-      placeholder: 'Ex.: nosso site está no Wix, está lento e queremos levar para um lugar nosso, junto com o e-mail.',
+      placeholder: 'Ex.: meu site está no Wix, está lento e quero levar para um lugar meu, junto com o e-mail.',
     },
   },
   {
@@ -206,7 +206,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     includes: [],
     example: { path: null, client: null, image: null },
     faq: [
-      { q: 'Qual tipo de landing page é o meu?', a: 'Se você não tiver certeza, conte o seu objetivo na conversa. A gente indica o tipo de página que faz sentido.' },
+      { q: 'Qual tipo de landing page é o meu?', a: 'Se você não tiver certeza, conte o seu objetivo na conversa. Eu indico o tipo de página que faz sentido.' },
       PREVIEW_FAQ,
       PRICE_FAQ,
     ],
@@ -256,8 +256,8 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     ],
     example: { path: null, client: null, image: null },
     faq: [
-      { q: 'Vocês usam template?', a: 'Não. O layout é desenhado para o seu negócio, a partir do que você quer que o visitante sinta e faça.' },
-      { q: 'Preciso ter fotos e textos prontos?', a: 'Ajuda, mas não é obrigatório. Partimos do que você já tem e organizamos juntos o que falta.' },
+      { q: 'Você usa template?', a: 'Não. O layout é desenhado para o seu negócio, a partir do que você quer que o visitante sinta e faça.' },
+      { q: 'Preciso ter fotos e textos prontos?', a: 'Ajuda, mas não é obrigatório. Parto do que você já tem e organizo com você o que falta.' },
       PREVIEW_FAQ,
       PRICE_FAQ,
     ],
@@ -315,7 +315,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     contact: {
       subject: 'Quero uma landing page para campanha',
       label: 'Conte sobre a campanha',
-      placeholder: 'Ex.: vamos anunciar matrículas em janeiro e queremos receber os contatos no WhatsApp.',
+      placeholder: 'Ex.: vou anunciar matrículas em janeiro e quero receber os contatos no WhatsApp.',
     },
   },
   {
@@ -340,7 +340,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     hero: {
       title: 'Uma página que explica o seu produto e leva até a compra.',
       subtitle:
-        'Para lançamentos, apps, cursos e serviços novos. Mostramos o produto funcionando, respondemos as dúvidas antes que virem objeção e deixamos o próximo passo claro.',
+        'Para lançamentos, apps, cursos e serviços novos. Mostro o produto funcionando, respondo as dúvidas antes que virem objeção e deixo o próximo passo claro.',
       cta: 'Quero uma página para meu produto',
     },
     forWho: [
@@ -366,7 +366,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     contact: {
       subject: 'Quero uma landing page de produto',
       label: 'Conte sobre o produto e o lançamento',
-      placeholder: 'Ex.: estamos lançando um app para salões e queremos uma página para testes grátis.',
+      placeholder: 'Ex.: estou lançando um app para salões e quero uma página para testes grátis.',
     },
   },
   {
@@ -409,7 +409,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     ],
     example: { path: null, client: null, image: null },
     faq: [
-      { q: 'Dá para cobrar a inscrição?', a: 'Sim. Conectamos a página a um meio de pagamento, ou mantemos a inscrição gratuita com confirmação.' },
+      { q: 'Dá para cobrar a inscrição?', a: 'Sim. Conecto a página a um meio de pagamento ou mantenho a inscrição gratuita com confirmação.' },
       { q: 'Serve para vários eventos?', a: 'Sim. A estrutura pode ser reaproveitada para as próximas datas e turmas.' },
       PREVIEW_FAQ,
       PRICE_FAQ,
@@ -423,9 +423,8 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
   {
     slug: 'comercio-digital',
     situation: 'Vendo pelo WhatsApp e quero receber pedidos organizados.',
-    name: 'Site para comércio com pedido no WhatsApp',
-    label: 'Comércio com pedido no WhatsApp',
-    disc: 'Comércio',
+    name: 'Loja com pedido no WhatsApp',
+    label: 'Pedido no WhatsApp',
     tagline: 'O pedido chega pronto no WhatsApp da loja.',
     group: 'main',
     // As três frases saem do texto aprovado do exemplo da página de comércio (commerce-service.ts).
@@ -449,7 +448,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     slug: 'sistemas-e-automacao',
     situation: 'Faço tudo à mão, entre planilha, e-mail e WhatsApp.',
     name: 'Sistemas e automação',
-    label: 'Sistemas e automação',
+    label: 'Automação',
     disc: 'Auto\u00ADmação',
     tagline: 'O trabalho repetido acontece sozinho.',
     group: 'main',
@@ -469,7 +468,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     hero: {
       title: 'O trabalho repetido acontece sozinho. Sua equipe cuida do resto.',
       subtitle:
-        'Conectamos os formulários, as planilhas e o WhatsApp que você já usa, e criamos sistemas pequenos para o que falta: agenda, cadastro, pedidos e relatórios.',
+        'Conecto os formulários, as planilhas e o WhatsApp que você já usa e crio sistemas pequenos para o que falta: agenda, cadastro, pedidos e relatórios.',
       cta: 'Quero automatizar um processo',
     },
     forWho: [
@@ -486,7 +485,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     ],
     example: { path: null, client: null, image: null },
     faq: [
-      { q: 'Preciso trocar as ferramentas que já uso?', a: 'Não. Primeiro conectamos o que já funciona; só criamos algo novo onde falta.' },
+      { q: 'Preciso trocar as ferramentas que já uso?', a: 'Não. Primeiro conecto o que já funciona; só crio algo novo onde falta.' },
       { q: 'E se a automação parar?', a: 'Cada automação é documentada e acompanhada depois da entrega, e você sabe o que fazer se algo falhar.' },
       PREVIEW_FAQ,
       PRICE_FAQ,
@@ -494,7 +493,7 @@ const ENTRIES: Omit<Solution, 'path'>[] = [
     contact: {
       subject: 'Quero automatizar um processo',
       label: 'Qual processo você quer automatizar?',
-      placeholder: 'Ex.: confirmamos agendamentos um por um pelo WhatsApp e anotamos tudo numa planilha.',
+      placeholder: 'Ex.: confirmo agendamentos um por um pelo WhatsApp e anoto tudo numa planilha.',
     },
   },
 ];
@@ -513,7 +512,7 @@ export const SERVICES: Solution[] = ['site-institucional', 'migracao', 'landing-
 export const DEDICATED_PAGES = ['comercio-digital', 'landing-pages'];
 
 /** Tamanho das capturas de exemplo em public/exemplos/ (a moldura reserva o espaço antes de carregar). */
-export const EXAMPLE_IMAGE = { width: 1440, height: 900 } as const;
+export const EXAMPLE_IMAGE = { width: 1264, height: 790 } as const;
 
 /** Passos comuns a todas as soluções. */
 export const SOLUTION_STEPS = [
@@ -537,8 +536,8 @@ export const SOLUTION_PAGE = {
   how: 'Como funciona',
   others: 'Outras soluções',
   closing: {
-    title: 'Vamos conversar sobre o seu projeto?',
-    text: 'Conte o que você precisa. Respondemos com os próximos passos, sem compromisso e sem jargão técnico.',
+    title: 'Quer conversar sobre o seu projeto?',
+    text: 'Conte o que você precisa. Respondo com os próximos passos, sem compromisso e sem jargão técnico.',
     waMessage: (name: string) => `Olá! Vi a página "${name}" da ARCAV e quero conversar sobre o meu projeto.`,
   },
 };

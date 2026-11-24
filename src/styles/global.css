@@ -47,14 +47,13 @@
 @import './components/ui/phone-demo.css' layer(components);
 @import './components/ui/contact-form.css' layer(components);
 @import './components/ui/closing-contact.css' layer(components);
+@import './components/ui/whatsapp-bar.css' layer(components);
 
 /* Home (depois de ui: o recorte das fotos da home vence o recorte padrão de .photo) */
 @import './components/home/hero.css' layer(components);
 @import './components/home/services.css' layer(components);
-@import './components/home/service-preview.css' layer(components);
-@import './components/home/service-icon.css' layer(components);
-@import './components/home/examples.css' layer(components);
-@import './components/home/manifesto.css' layer(components);
+@import './components/home/experiment.css' layer(components);
+@import './components/demos/demo-stage.css' layer(components);
 @import './components/home/method.css' layer(components);
 
 /* Soluções e páginas soltas */

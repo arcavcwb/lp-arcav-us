@@ -1,18 +1,25 @@
 ---
 // Cabeçalho fixo. Abaixo de 900px a navegação vira um painel (popover): o botão abre e fecha,
 // Esc e um toque fora também fecham, sem JavaScript. Um script de três linhas só fecha o painel
-// depois de escolher um link. A CTA abre a janela do formulário (popover) quando a página tem uma.
+// depois de escolher um link. Com `waMessage` e o número da ARCAV, a CTA é "Chamar no WhatsApp" (nova
+// aba, com o logo do WhatsApp); abaixo de 420px o rótulo encurta para "WhatsApp" (o nome acessível
+// continua completo). Sem número, vale `cta`: abre a janela do formulário (popover) ou é um link comum.
 import Brand from './Brand.astro';
+import BrandIcon from './BrandIcon.astro';
 import Icon from './Icon.astro';
 import { HOME_PATH, ui, type NavLink } from '@data';
+import { EXTERNAL_LINK, whatsappLink } from '@lib';
 
 interface Props {
   links?: NavLink[];
   /** `popover`: id da janela que o botão abre; sem ele, `href` vira um link comum. */
   cta?: { label: string; href?: string; popover?: string };
+  /** Mensagem pronta do WhatsApp: com o número da ARCAV, a CTA vira o link do WhatsApp. */
+  waMessage?: string;
 }
 
-const { links = [], cta } = Astro.props;
+const { links = [], cta, waMessage } = Astro.props;
+const wa = waMessage ? whatsappLink(waMessage) : null;
 const hasNav = links.length > 0;
 const NAV_ID = 'site-nav';
 ---
@@ -35,7 +42,13 @@ const NAV_ID = 'site-nav';
     )}
 
     <div class:list={['site-header__actions', { 'site-header__actions--after-nav': hasNav }]}>
-      {cta && (cta.popover ? (
+      {wa ? (
+        <a class="btn btn--primary btn--sm site-header__cta" href={wa} {...EXTERNAL_LINK} aria-label={ui.whatsappCta}>
+          <BrandIcon name="whatsapp" mono />
+          <span class="site-header__cta-full">{ui.whatsappCta}</span>
+          <span class="site-header__cta-short" aria-hidden="true">{ui.labels.whatsapp}</span>
+        </a>
+      ) : cta && (cta.popover ? (
         <button class="btn btn--primary btn--sm" type="button" popovertarget={cta.popover}>{cta.label}</button>
       ) : (
         <a class="btn btn--primary btn--sm" href={cta.href}>{cta.label}</a>

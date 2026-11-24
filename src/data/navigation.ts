@@ -11,8 +11,9 @@ export interface NavLink {
 export function mainNav(base = ''): NavLink[] {
   return [
     { href: toAnchor(ANCHOR.solutions, base), label: 'Soluções' },
-    { href: toAnchor(ANCHOR.examples, base), label: 'Exemplos' },
-    { href: toAnchor(ANCHOR.method, base), label: 'Método' },
+    { href: toAnchor(ANCHOR.experiment, base), label: 'Experimente' },
+    { href: toAnchor(ANCHOR.method, base), label: 'Como funciona' },
+    { href: toAnchor(ANCHOR.contact, base), label: 'Contato' },
   ];
 }
 

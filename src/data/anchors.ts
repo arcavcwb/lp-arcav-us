@@ -4,7 +4,8 @@
 export const ANCHOR = {
   content: 'conteudo',
   solutions: 'solucoes',
-  examples: 'exemplos',
+  /** "Experimente antes de contratar"; cada demonstração tem o seu: experimente-loja, experimente-automacao… (data/demos.ts). */
+  experiment: 'experimente',
   method: 'metodo',
   contact: 'contato',
   /** Janela com o formulário de contato (popover): os botões "Fale comigo" e as CTAs a abrem. */

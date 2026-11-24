@@ -1,7 +1,8 @@
 ---
 // O lado da loja: o pedido chega pronto ao WhatsApp e o atendimento continua com o comerciante.
 // Ilustração, não captura de tela. Com `live`, espelha o pedido montado no PhoneDemo da página
-// (evento `demo:order`); sem pedido, convida a montar um. Sem `live`, mostra o pedido fixo.
+// (evento `demo:order`, ou só ao enviar com `trigger="send"`); sem pedido, convida a montar um.
+// Sem `live`, mostra o pedido fixo. O script (initOrderMessages) é ligado por quem usa a ilustração.
 import Icon from './Icon.astro';
 import { ui, type IllustrativeOrder } from '@data';
 import { formatOrderLine, initials } from '@lib';
@@ -12,13 +13,16 @@ interface Props {
   reply?: string;
   note?: string;
   /** Espelha a demo da página: texto e link enquanto não há pedido, e a legenda do modo ao vivo. */
-  live?: { empty: string; cta: { href: string; label: string }; caption: string };
+  live?: { empty: string; cta?: { href: string; label: string }; caption?: string };
+  /** Com `live`: acompanhar cada mudança do carrinho (padrão) ou só o pedido enviado. */
+  trigger?: 'change' | 'send';
 }
 
 const copy = ui.orderMessage;
-const { order, greeting = copy.greeting, reply = copy.reply, note = copy.note, live } = Astro.props;
+const { order, greeting = copy.greeting, reply = copy.reply, note = copy.note, live, trigger = 'change' } = Astro.props;
+const caption = live ? live.caption : order.caption;
 ---
-<figure class="order-message" data-order-message={live ? '' : undefined}>
+<figure class="order-message" data-order-message={live ? trigger : undefined}>
   <div class="order-message__card">
     <div class="order-message__head">
       <span class="order-message__avatar" aria-hidden="true">{initials(copy.customer).charAt(0)}</span>
@@ -31,10 +35,12 @@ const { order, greeting = copy.greeting, reply = copy.reply, note = copy.note, l
     {live && (
       <div class="order-message__empty" data-order-empty>
         <p>{live.empty}</p>
-        <a class="btn btn--ghost btn--sm" href={live.cta.href}>
-          {live.cta.label}
-          <Icon name="arrow-right" />
-        </a>
+        {live.cta && (
+          <a class="btn btn--ghost btn--sm" href={live.cta.href}>
+            {live.cta.label}
+            <Icon name="arrow-right" />
+          </a>
+        )}
       </div>
     )}
 
@@ -55,11 +61,5 @@ const { order, greeting = copy.greeting, reply = copy.reply, note = copy.note, l
       {note}
     </p>
   </div>
-  <figcaption class="order-message__caption">{live ? live.caption : order.caption}</figcaption>
+  {caption && <figcaption class="order-message__caption">{caption}</figcaption>}
 </figure>
-
-<script>
-  import { initOrderMessages } from '@scripts/order-message';
-
-  initOrderMessages();
-</script>

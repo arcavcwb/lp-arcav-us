@@ -3,12 +3,12 @@ export const prerender = true;
 
 import Layout from '@layouts/Layout.astro';
 import { Footer, Header, Icon } from '@components/ui';
-import { ANCHOR, HOME_PATH, mainNav, notFound as page, toAnchor, ui } from '@data';
+import { ANCHOR, HOME_PATH, home, mainNav, notFound as page, toAnchor, ui } from '@data';
 
 const nav = mainNav(HOME_PATH);
 ---
 <Layout title={page.meta.title} description={page.meta.description} noindex>
-  <Header links={nav} cta={{ label: ui.header.cta, href: toAnchor(ANCHOR.contact, HOME_PATH) }} />
+  <Header links={nav} cta={{ label: ui.header.cta, href: toAnchor(ANCHOR.contact, HOME_PATH) }} waMessage={home.contact.waMessage} />
   <main id={ANCHOR.content} class="section">
     <div class="shell not-found__shell">
       <h1 class="h1">{page.title}</h1>

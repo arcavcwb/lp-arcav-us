@@ -14,6 +14,12 @@ export interface OrderEventDetail {
   items: OrderItem[];
 }
 
+/** Evento que o celular dispara quando o visitante toca em "Enviar" (mesmo detalhe de ORDER_EVENT). */
+export const ORDER_SENT_EVENT = 'demo:sent';
+
+/** Evento que volta uma demonstração ao começo ("Recomeçar"), disparado no elemento dela. */
+export const DEMO_RESET_EVENT = 'demo:reset';
+
 /** Quantidade máxima de cada produto na demonstração. */
 export const MAX_QTY = 9;
 

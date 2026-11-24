@@ -1,0 +1,6 @@
+/* Experimente: o palco das demonstrações (components/demos/DemoStage.astro, estilos em
+   components/demos/demo-stage.css) e, embaixo, o aviso único de que negócios e dados são fictícios. */
+
+.experiment__notice {
+  @apply mt-6 text-muted;
+}

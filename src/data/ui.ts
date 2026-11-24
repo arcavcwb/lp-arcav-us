@@ -5,10 +5,13 @@ import { BRAND, home } from './site';
 import { firstName } from '@lib/text';
 
 export interface FormField {
-  id: 'name' | 'business' | 'link' | 'reply' | 'message';
+  id: 'name' | 'business' | 'link' | 'reply' | 'message' | 'needs';
   label: string;
-  type: 'text' | 'textarea';
+  /** choices: caixas de seleção (as opções vêm do componente; ex.: os cinco serviços). */
+  type: 'text' | 'textarea' | 'choices';
   required: boolean;
+  /** O rótulo já diz que o campo é opcional: não acrescenta "(opcional)". */
+  bare?: boolean;
   autocomplete?: string;
   inputmode?: 'url' | 'email';
   rows?: number;
@@ -41,6 +44,9 @@ export const ui = {
   brand: {
     byline: `por ${BRAND.author}`,
   },
+
+  /** Ação que abre o WhatsApp da ARCAV com a mensagem pronta: o mesmo rótulo em todos os lugares da home. */
+  whatsappCta: `Chamar no ${WHATSAPP}`,
 
   header: {
     nav: 'Principal',
@@ -82,6 +88,8 @@ export const ui = {
   /** Janela com o formulário de contato. */
   contactDialog: {
     open: 'Escrever minha mensagem',
+    /** Botão secundário do fechamento quando o WhatsApp é a ação principal. */
+    alt: 'Prefiro escrever aqui',
     title: 'Conte o que você precisa',
     close: 'Fechar',
   },
@@ -89,8 +97,6 @@ export const ui = {
   closingContact: {
     responder: `Quem responde é o ${BRAND.author}`,
     place: `Aqui de ${BRAND.city}.`,
-    whatsappLead: 'Se preferir, chame no WhatsApp',
-    emailOr: 'ou escreva para',
     emailLead: 'Se preferir, escreva para',
   },
 
@@ -106,12 +112,12 @@ export const ui = {
     },
     sent: {
       title: 'Mensagem enviada.',
-      text: 'Vamos responder pelo contato que você informou.',
+      text: 'Vou responder pelo contato que você informou.',
     },
     composed: {
-      readyWhatsapp: 'Mensagem pronta. Estamos abrindo o WhatsApp com ela escrita; é só enviar.',
+      readyWhatsapp: 'Mensagem pronta. O WhatsApp está abrindo com ela escrita; é só enviar.',
       readyEmail: (email: string) =>
-        `Mensagem pronta. Abrimos seu aplicativo de e-mail para ${email}. Se ele não abriu, copie a mensagem abaixo.`,
+        `Mensagem pronta. Abri seu aplicativo de e-mail para ${email}. Se ele não abriu, copie a mensagem abaixo.`,
       reopen: 'Abrir de novo',
       copy: 'Copiar mensagem',
       copied: 'Copiada',
@@ -119,7 +125,7 @@ export const ui = {
     },
     note: {
       whatsappOpens: 'O WhatsApp abre com a sua mensagem pronta; é só tocar em enviar.',
-      privacy: 'Usamos seus dados só para responder.',
+      privacy: 'Uso seus dados só para responder.',
       emailLead: 'Se preferir, escreva para',
       emailDirectLead: 'Se preferir, escreva direto para',
       whatsappLead: 'Se preferir, chame no WhatsApp',
@@ -127,18 +133,29 @@ export const ui = {
     },
     /** Comércios: conversa sobre um site de pedidos. */
     store: [
-      { id: 'name', label: 'Seu nome', type: 'text', autocomplete: 'name', required: true, error: 'Escreva seu nome para sabermos com quem estamos falando.' },
-      { id: 'link', label: 'Link do seu site, Instagram ou catálogo', type: 'text', autocomplete: 'url', inputmode: 'url', required: true, placeholder: 'Ex.: instagram.com/sualoja', error: 'Cole o link para podermos ver os seus produtos.' },
-      { id: 'reply', label: REPLY_LABEL, type: 'text', autocomplete: 'email', inputmode: 'email', required: true, error: 'Informe um e-mail ou WhatsApp para podermos responder.' },
-      { id: 'message', label: 'Algo mais que devemos saber?', type: 'textarea', rows: 3, required: false, placeholder: 'Ex.: vendemos gás e água e recebemos pedidos pelo WhatsApp.' },
+      { id: 'name', label: 'Seu nome', type: 'text', autocomplete: 'name', required: true, error: 'Escreva seu nome para eu saber com quem estou falando.' },
+      { id: 'link', label: 'Link do seu site, Instagram ou catálogo', type: 'text', autocomplete: 'url', inputmode: 'url', required: true, placeholder: 'Ex.: instagram.com/sualoja', error: 'Cole o link para eu poder ver os seus produtos.' },
+      { id: 'reply', label: REPLY_LABEL, type: 'text', autocomplete: 'email', inputmode: 'email', required: true, error: 'Informe um e-mail ou WhatsApp para eu poder responder.' },
+      { id: 'message', label: 'Algo mais que eu deva saber?', type: 'textarea', rows: 3, required: false, placeholder: 'Ex.: vendo gás e água e recebo pedidos pelo WhatsApp.' },
     ] satisfies FormField[],
-    /** Home e soluções. A pergunta da mensagem pode ser trocada por página. */
+    /**
+     * Home e soluções. A conversa continua no WhatsApp do visitante, então o e-mail é opcional.
+     * A pergunta da mensagem pode ser trocada por página. As opções de "O que você precisa?" são os
+     * nomes curtos dos cinco serviços e `unsure` (ContactForm.astro).
+     */
     general: [
       { id: 'name', label: 'Seu nome', type: 'text', autocomplete: 'name', required: true, error: 'Escreva seu nome para eu saber com quem estou falando.' },
-      { id: 'business', label: 'Empresa ou negócio', type: 'text', autocomplete: 'organization', required: false },
-      { id: 'reply', label: REPLY_LABEL, type: 'text', autocomplete: 'email', inputmode: 'email', required: true, hint: 'Respondo por onde for mais prático para você.', error: 'Informe um e-mail ou WhatsApp para eu poder responder.' },
-      { id: 'message', label: 'Como funciona hoje e o que você quer melhorar?', type: 'textarea', rows: 5, required: true, placeholder: 'Ex.: recebo pedidos pelo WhatsApp e anoto tudo no caderno.', error: 'Conte em poucas linhas o que você precisa.' },
+      { id: 'needs', label: 'O que você precisa?', type: 'choices', required: true, error: 'Marque pelo menos uma opção.' },
+      { id: 'message', label: 'Quer contar mais?', type: 'textarea', rows: 4, required: false, placeholder: 'Ex.: recebo pedidos pelo WhatsApp e anoto tudo no caderno.' },
+      { id: 'reply', label: 'E-mail (só se preferir a resposta por e-mail)', type: 'text', autocomplete: 'email', inputmode: 'email', required: false, bare: true },
     ] satisfies FormField[],
+    /**
+     * Com DIRECT_SEND (envio pelo próprio site), o WhatsApp do visitante não entra na conversa: o campo
+     * do e-mail volta a ser o contato obrigatório para a resposta.
+     */
+    replyDirect: { id: 'reply', label: REPLY_LABEL, type: 'text', autocomplete: 'email', inputmode: 'email', required: true, hint: 'Respondo por onde for mais prático para você.', error: 'Informe um e-mail ou WhatsApp para eu poder responder.' } satisfies FormField,
+    /** Última opção de "O que você precisa?". */
+    unsure: 'Ainda não sei',
   },
 
   /** Mensagem que o formulário monta (navegador e /api/contato). */
@@ -149,7 +166,20 @@ export const ui = {
     link: 'Site, Instagram ou catálogo',
     name: 'Nome',
     business: 'Negócio',
+    needs: 'Preciso de',
+    demo: 'Testei a demonstração de',
     reply: 'Resposta por',
+  },
+
+  /** Seção "Experimente": seletor e painéis das demonstrações (DemoStage.astro). */
+  demoStage: {
+    tabs: 'Escolha uma solução para testar',
+    client: 'O seu cliente',
+    owner: 'Você recebe',
+    restart: 'Recomeçar',
+    want: 'Quero isso no meu negócio',
+    /** Mensagem do WhatsApp de "Quero isso no meu negócio": diz qual demonstração a pessoa testou. */
+    wantMessage: (demo: string) => `Olá, ${firstName(BRAND.author)}! Testei a demonstração "${demo}" no site da ARCAV e quero isso no meu negócio.`,
   },
 
   phoneDemo: {
@@ -177,7 +207,7 @@ export const ui = {
 
   orderMessage: {
     greeting: ORDER_GREETING,
-    reply: 'Recebido! Já vamos separar seu pedido.',
+    reply: 'Recebido! Já vou separar seu pedido.',
     note: 'O atendimento continua com você, no WhatsApp de sempre.',
     customer: 'Cliente pelo site',
     channel: 'WhatsApp da loja · agora',

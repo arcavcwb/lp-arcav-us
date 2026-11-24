@@ -1,9 +1,8 @@
-/* Movimento que acontece uma vez e nunca decora. Três momentos, cada um com a sua forma, só com CSS:
+/* Movimento que acontece uma vez e nunca decora. Dois momentos, cada um com a sua forma, só com CSS:
    1. a abertura da home se apresenta ao carregar (.enter-group, .enter-image);
-   2. as linhas de uma lista entram conforme chegam à tela (.reveal-rows > *);
-   3. a citação do manifesto se revela da esquerda para a direita (.reveal-wipe).
-   2 e 3 são animações ligadas à rolagem (animation-timeline: view()). Onde o navegador ainda não
-   as tem, ou com "reduzir movimento", o conteúdo simplesmente aparece, sem nada escondido. */
+   2. as linhas de uma lista entram conforme chegam à tela (.reveal-rows > *), uma animação ligada à
+   rolagem (animation-timeline: view()). Onde o navegador ainda não a tem, ou com "reduzir
+   movimento", o conteúdo simplesmente aparece, sem nada escondido. */
 
 @media (prefers-reduced-motion: no-preference) {
   .enter-group > * {
@@ -28,12 +27,6 @@
       animation-timeline: view();
       animation-range: entry 10% entry 90%;
     }
-
-    .reveal-wipe {
-      animation: wipe linear both;
-      animation-timeline: view();
-      animation-range: entry 20% cover 40%;
-    }
   }
 }
 
@@ -53,11 +46,3 @@
   }
 }
 
-@keyframes wipe {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}

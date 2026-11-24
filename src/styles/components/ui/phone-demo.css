@@ -10,7 +10,7 @@
   /* Altura da tela: a parte fixa (barra, resumo, botão) mais uma linha por produto (--rows). */
   --phone-screen-min: --spacing(104);
   --phone-screen-chrome: --spacing(62);
-  --phone-row: --spacing(16.5);
+  --phone-row: --spacing(17.5);
   /* Passagem da loja para a mensagem */
   --phone-store-exit: -24%;
   --phone-bubble-width: 88%;
@@ -24,27 +24,27 @@
 }
 
 /* Guia "Experimente" (opcional) */
-.phone-demo .demo-guide {
+.demo-guide {
   display: grid;
   gap: --spacing(2);
   width: min(100%, var(--container-phone));
 }
 
-.phone-demo .demo-guide__title {
+.demo-guide__title {
   font-size: var(--text-sm);
   font-weight: var(--font-weight-title);
   color: var(--color-ink);
   text-align: center;
 }
 
-.phone-demo .demo-guide__steps {
+.demo-guide__steps {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: --spacing(1.5);
 }
 
-.phone-demo .demo-guide__steps li {
+.demo-guide__steps li {
   display: inline-flex;
   align-items: center;
   gap: --spacing(1.5);
@@ -61,17 +61,17 @@
     color var(--transition-duration-base) var(--ease-out);
 }
 
-.phone-demo .demo-guide__steps li[aria-current='step'] {
+.demo-guide__steps li[aria-current='step'] {
   border-color: var(--color-ink);
   background: var(--color-ink);
   color: var(--color-on-dark);
 }
 
-.phone-demo .demo-guide__steps li[data-done] {
+.demo-guide__steps li[data-done] {
   color: var(--color-ink);
 }
 
-.phone-demo .demo-guide__n {
+.demo-guide__n {
   display: grid;
   place-items: center;
   width: --spacing(5);
@@ -86,23 +86,23 @@
 
 /* Progresso em âmbar (Brand Kit V3): o passo atual e os feitos. O número e o ✓ ficam em
    azul profundo sobre o âmbar (7,68:1); o azul continua só para o que se toca. */
-.phone-demo li[aria-current='step'] .demo-guide__n,
-.phone-demo li[data-done] .demo-guide__n {
+.demo-guide li[aria-current='step'] .demo-guide__n,
+.demo-guide li[data-done] .demo-guide__n {
   background: var(--color-highlight);
   color: var(--color-ink);
 }
 
-.phone-demo .demo-guide__n .demo-guide__check {
+.demo-guide__n .demo-guide__check {
   display: none;
   width: --spacing(3.5);
   height: --spacing(3.5);
 }
 
-.phone-demo li[data-done] .demo-guide__num {
+.demo-guide li[data-done] .demo-guide__num {
   display: none;
 }
 
-.phone-demo li[data-done] .demo-guide__n .demo-guide__check {
+.demo-guide li[data-done] .demo-guide__n .demo-guide__check {
   display: block;
 }
 
@@ -255,10 +255,11 @@
 }
 
 .phone-demo .stepper button {
+  position: relative;
   display: grid;
   place-items: center;
-  width: --spacing(7.5);
-  height: --spacing(7.5);
+  width: --spacing(9);
+  height: --spacing(9);
   padding: 0;
   border: 0;
   border-radius: var(--radius-pill);
@@ -266,6 +267,15 @@
   color: var(--color-ink);
   cursor: pointer;
   transition: background-color var(--transition-duration-fast) var(--ease-standard);
+}
+
+/* Área de toque de 44px sem aumentar o desenho do botão (o + e o − ficam separados pela quantidade;
+   o "voltar" fica sozinho no topo da tela). */
+.phone-demo .stepper button::after,
+.phone-demo .back::after {
+  content: '';
+  position: absolute;
+  inset: --spacing(-1);
 }
 
 .phone-demo .stepper button:hover {
@@ -306,6 +316,7 @@
 }
 
 .phone-demo .back {
+  position: relative;
   display: grid;
   place-items: center;
   width: --spacing(9);

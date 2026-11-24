@@ -1,0 +1,20 @@
+---
+// Demonstração da loja com pedido no WhatsApp. `client`: o celular da loja de exemplo, com o guia
+// "Toque em + · Revise · Envie". `owner`: a conversa do WhatsApp da loja, que mostra o pedido só
+// quando o visitante toca em "Enviar" (sem abrir o WhatsApp). O catálogo é o da página de comércio.
+// O script (scripts/demos/loja.ts) é carregado só quando esta demonstração é escolhida.
+import { OrderMessage, PhoneDemo } from '@components/ui';
+import { DEMO_COPY, commerceService } from '@data';
+
+interface Props {
+  part: 'client' | 'owner';
+}
+
+const { part } = Astro.props;
+const { demo, example } = commerceService;
+---
+{part === 'client' ? (
+  <PhoneDemo products={demo.products} guide />
+) : (
+  <OrderMessage order={example.order} live={{ empty: DEMO_COPY.loja.empty }} trigger="send" />
+)}

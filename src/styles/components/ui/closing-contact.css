@@ -32,23 +32,28 @@
 }
 
 .closing__channels {
-  @apply grid gap-3.5;
+  @apply grid gap-1;
 }
 
 .closing__channel {
-  @apply flex items-center gap-3 font-medium;
+  @apply flex min-h-11 items-center gap-3 font-medium;
 }
 
 .closing__channel-icon {
   @apply size-5 flex-none text-on-dark-muted;
 }
 
+/* 44px de altura: alvo de toque no celular. */
 .closing__channel-link {
-  @apply text-on-dark;
+  @apply inline-flex min-h-11 items-center text-on-dark;
 }
 
 .closing__open {
   @apply max-sm:w-full;
+}
+
+.closing__actions {
+  @apply flex flex-wrap gap-3;
 }
 
 /* Janela do formulário */

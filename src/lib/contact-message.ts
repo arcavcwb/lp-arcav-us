@@ -6,7 +6,12 @@ export type ContactVariant = 'general' | 'store';
 
 export interface ContactData {
   name: string;
+  /** Vazio quando o visitante não quis informar (a conversa continua no WhatsApp dele). */
   reply: string;
+  /** "O que você precisa?": os serviços marcados (nomes curtos). */
+  needs?: string[];
+  /** Nome curto do serviço cuja demonstração o visitante testou antes de escrever. */
+  demo?: string;
   business?: string;
   link?: string;
   message?: string;
@@ -45,14 +50,17 @@ export function composeContactMessage(variant: ContactVariant, topic: string, d:
   const body = [
     copy.generalGreeting,
     '',
+    d.needs?.length ? `${copy.needs}: ${d.needs.join(', ')}` : '',
+    d.demo ? `${copy.demo}: ${d.demo}` : '',
     d.message ?? '',
     '',
     `${copy.name}: ${d.name}`,
     d.business ? `${copy.business}: ${d.business}` : '',
-    `${copy.reply}: ${d.reply}`,
+    d.reply ? `${copy.reply}: ${d.reply}` : '',
   ]
-    .filter((line, i, all) => !(line === '' && all[i - 1] === ''))
-    .join('\n');
+    .filter((line, i, all) => !(line === '' && (all[i - 1] === '' || i === all.length - 1)))
+    .join('\n')
+    .trimEnd();
   return { subject: `${head} — ${d.business || d.name}`, body };
 }
 

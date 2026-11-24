@@ -1,0 +1,22 @@
+---
+// "Experimente antes de contratar": o visitante faz o papel do cliente e vê o que chega para o dono
+// (DemoStage; com mais de uma demonstração publicada, escolhe qual testar). Um único aviso, pequeno, diz que negócios e dados são fictícios.
+import { DemoStage } from '@components/demos';
+import { ANCHOR, home } from '@data';
+
+const { experiment } = home;
+---
+<section class="section section--muted has-orbs" id={ANCHOR.experiment} aria-labelledby="experimente-title">
+  <div class="orbs" aria-hidden="true">
+    <span class="orbs__orb orbs__orb--blue"></span>
+    <span class="orbs__orb orbs__orb--amber"></span>
+  </div>
+  <div class="shell">
+    <div class="section-head section-head--split">
+      <h2 class="h2 h2--feature" id="experimente-title">{experiment.title}</h2>
+      <p class="lead">{experiment.lead}</p>
+    </div>
+    <DemoStage />
+    <p class="small experiment__notice">{experiment.notice}</p>
+  </div>
+</section>

@@ -22,11 +22,6 @@ section.section {
   box-shadow: var(--shadow-sheet);
 }
 
-/* Seção-respiro: azul profundo com mais ar, uma vez no meio da página (o manifesto). */
-.section--feature {
-  padding-block: var(--spacing-section-feature);
-}
-
 .section.section--muted {
   background: var(--color-surface);
 }

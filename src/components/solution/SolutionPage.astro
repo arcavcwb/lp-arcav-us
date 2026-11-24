@@ -1,9 +1,10 @@
 ---
 // Página de uma solução da ARCAV: para quem é, o que inclui, o exemplo, como funciona, dúvidas e contato.
 // O slot `fit` substitui o bloco "Para quem é / O que está incluído" (usado em Landing pages).
-// As ações de contato abrem a janela do formulário.
+// A ação principal abre o WhatsApp com a mensagem pronta (cabeçalho, hero, fechamento e a barra fixa
+// do celular); o formulário fica como segunda opção no fechamento (2026-11-24, como na home).
 import Layout from '@layouts/Layout.astro';
-import { ClosingContact, ExampleFrame, Faq, Footer, Header, Icon } from '@components/ui';
+import { ClosingContact, ContactAction, ExampleFrame, Faq, Footer, Header, Icon, WhatsAppBar } from '@components/ui';
 import SolutionFlow from './SolutionFlow.astro';
 import { ANCHOR, SERVICES, SOLUTION_PAGE as copy, SOLUTION_STEPS, footerNav, ui, type Solution } from '@data';
 import { solutionTransition } from '@lib';
@@ -15,9 +16,10 @@ interface Props {
 const { solution: s } = Astro.props;
 const canonical = new URL(s.path, Astro.site).href;
 const others = SERVICES.filter((o) => o.slug !== s.slug);
+const waMessage = copy.closing.waMessage(s.name);
 ---
 <Layout title={s.meta.title} description={s.meta.description} canonical={canonical}>
-  <Header cta={{ label: ui.header.cta, popover: ANCHOR.contactForm }} />
+  <Header cta={{ label: ui.header.cta, popover: ANCHOR.contactForm }} waMessage={waMessage} />
 
   <main id={ANCHOR.content}>
     <section class="page-hero" aria-labelledby="hero-title">
@@ -25,11 +27,8 @@ const others = SERVICES.filter((o) => o.slug !== s.slug);
         <div>
           <h1 class="h1" id="hero-title" style={solutionTransition(s.slug)}>{s.hero.title}</h1>
           <p class="lead">{s.hero.subtitle}</p>
-          <div class="page-hero__actions">
-            <button class="btn btn--primary" type="button" popovertarget={ANCHOR.contactForm}>
-              {s.hero.cta}
-              <Icon name="arrow-right" />
-            </button>
+          <div class="page-hero__actions" data-wa-bar-hide>
+            <ContactAction label={s.hero.cta} message={waMessage} />
             {s.example.path && <a class="btn btn--ghost" href={s.example.path}>{copy.exampleCta}</a>}
           </div>
           <p class="small hero-note">{copy.heroNote}</p>
@@ -100,9 +99,11 @@ const others = SERVICES.filter((o) => o.slug !== s.slug);
       messageLabel={s.contact.label}
       messagePlaceholder={s.contact.placeholder}
       submit={s.hero.cta}
-      waMessage={copy.closing.waMessage(s.name)}
+      waMessage={waMessage}
+      need={s.group === 'landing' ? 'landing-pages' : s.slug}
     />
   </main>
 
   <Footer links={footerNav()} />
+  <WhatsAppBar message={waMessage} />
 </Layout>
